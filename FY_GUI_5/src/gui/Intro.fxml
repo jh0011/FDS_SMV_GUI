@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.IntroController">
+   <children>
+      <Button fx:id="introNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToBasic" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="254.0" layoutY="45.0" text="Welcome to FDS-SMV GUI">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Fire1.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="64.0" layoutY="241.0" prefHeight="71.0" prefWidth="434.0" text="This desktop application will bring you through the creation of the .fds input file for the FDS-SMV simulator to run." textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="64.0" layoutY="336.0" prefHeight="40.0" prefWidth="434.0" text="Click on &quot;Next&quot; to start the creation of the input file." textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
