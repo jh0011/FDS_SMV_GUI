@@ -1,33 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TimeController">
    <children>
-      <Text fill="RED" layoutX="362.0" layoutY="81.0" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="Time">
-         <font>
-            <Font size="39.0" />
-         </font>
-      </Text>
       <Button fx:id="timeBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToBasic" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="basicNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
+      <Button fx:id="timeNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToCatf" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="cancelBtn" layoutX="550.0" layoutY="640.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #bd2900;" text="Cancel">
+      <Button fx:id="cancelBtn" layoutX="550.0" layoutY="640.0" mnemonicParsing="false" onAction="#cancelOption" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #bd2900;" text="Cancel">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <TextField fx:id="endTimeText" layoutX="309.0" layoutY="234.0" prefHeight="69.0" prefWidth="238.0" />
+      <TextField fx:id="endTimeText" layoutX="121.0" layoutY="154.0" prefHeight="15.0" prefWidth="96.0" promptText="Required" />
+      <Label layoutX="36.0" layoutY="154.0" text="End Time" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="45.0" layoutY="36.0" text="TIME">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="34.0" layoutY="203.0" text="Start Time" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="beginTimeText" layoutX="121.0" layoutY="204.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="57.0" layoutY="252.0" text="DT" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="dtText" layoutX="120.0" layoutY="252.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../Downloads/Fire1.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

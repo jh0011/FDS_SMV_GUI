@@ -32,7 +32,7 @@
       </Label>
       <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Downloads/Fire1.jpg" />
+            <Image url="@../../../../../Downloads/Fire1.jpg" />
          </image>
       </ImageView>
       <Label layoutX="64.0" layoutY="241.0" prefHeight="71.0" prefWidth="434.0" text="This desktop application will bring you through the creation of the .fds input file for the FDS-SMV simulator to run." textFill="WHITE" wrapText="true">

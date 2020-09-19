@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -13,10 +14,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import gui.Values;
 
 
 public class BasicController implements Initializable{
@@ -37,7 +38,7 @@ public class BasicController implements Initializable{
 	}
 	
 	@FXML
-	private void goToTime(ActionEvent event) throws IOException{
+	private void goToTime(ActionEvent event) throws IOException{ //NEXT SCENE
 		if (checkChid(chidText.getText())){
 			Values.chid = chidText.getText();
 			Values.title = titleText.getText();
@@ -55,28 +56,30 @@ public class BasicController implements Initializable{
 			Parent root = loader.load();
 			
 			TimeController timeCont = loader.getController(); //Get the next page's controller
-			timeCont.showInfo(Values.T_END); //Set the values of the page
+			timeCont.showInfo(Values.T_END, Values.T_BEGIN, Values.DT); //Set the values of the page
 			Scene timeScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 			mainWindow.setScene(timeScene);
 			mainWindow.show();
-			
-			System.out.println("CHID: "+ Values.chid);
-			System.out.println("Title: " + Values.title);
 		}
 		
 		
 	}
 	
 	@FXML
-	private void cancelOption(ActionEvent event) throws IOException{
-		Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
-		Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
+	private void cancelOption(ActionEvent event) throws IOException{ //CANCEL
+		if (Values.cancelWarning()){
+			Values.cancelForm();
+			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
+			Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
+			
+			
+			mainWindow.setScene(introScene);
+			mainWindow.show();
+		}
 		
 		
-		mainWindow.setScene(introScene);
-		mainWindow.show();
 	}
 	
 	@FXML
@@ -106,6 +109,7 @@ public class BasicController implements Initializable{
 		return true;
 	}
 	
+
 	
 	protected void showInfo(String chid, String title){
 		chidText.setText(chid);

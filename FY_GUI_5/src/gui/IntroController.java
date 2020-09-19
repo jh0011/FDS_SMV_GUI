@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
@@ -26,7 +27,7 @@ public class IntroController implements Initializable{
 	}
 	
 	@FXML
-	private void goToBasic(ActionEvent event) throws IOException{
+	private void goToBasic(ActionEvent event) throws IOException{ //NEXT SCENE
 		/*Parent introLayout = FXMLLoader.load(getClass().getResource("Basic.fxml")); //Get the next layout
 		Scene basicScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
