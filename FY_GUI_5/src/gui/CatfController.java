@@ -56,8 +56,6 @@ public class CatfController implements Initializable{
 	
 
 	public void showInfo(String files) {
-		// TODO Auto-generated method stub
-		//catf values
 		filesText.setText(files);
 	}
 	
