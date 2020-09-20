@@ -20,16 +20,20 @@ import javafx.stage.Stage;
 
 public class TimeController implements Initializable{
 	
-	private final int ARRAY_SIZE = 3;
+	private final int ARRAY_SIZE = 5;
+	TextField[] allTextFields = new TextField[ARRAY_SIZE];
 	
 	@FXML TextField endTimeText;
 	@FXML TextField beginTimeText;
 	@FXML TextField dtText;
+	@FXML TextField dtEndText;
+	@FXML TextField dtEndMinText;
+	
 	@FXML Button timeBackBtn;
 	@FXML Button timeNextBtn;
 	@FXML Button cancelBtn;
 	
-	TextField[] allTextFields = new TextField[ARRAY_SIZE];
+	
 	
 
 	@Override
@@ -38,9 +42,9 @@ public class TimeController implements Initializable{
 		allTextFields[0] = endTimeText;
 		allTextFields[1] = beginTimeText;
 		allTextFields[2] = dtText;
+		allTextFields[3] = dtEndText;
+		allTextFields[4] = dtEndMinText;
 		/*allTextFields[0] = endTimeText;
-		allTextFields[0] = endTimeText;
-		allTextFields[0] = endTimeText;
 		allTextFields[0] = endTimeText;*/
 		
 	}
@@ -61,19 +65,21 @@ public class TimeController implements Initializable{
 	
 	@FXML
 	private void goToCatf(ActionEvent event) throws IOException{ //NEXT SCENE
+		storeValues();
 		
-		Values.DT = dtText.getText();
-		Values.T_BEGIN = beginTimeText.getText();
-		//check the endTimeVal
+		//check if time is numeric
 		boolean checkAllTime = false;
 		for (int i=0; i<ARRAY_SIZE; i++){
 			if (!allTextFields[i].getText().equals("")){
+				System.out.println("ENTERED HERE");
 				checkAllTime = checkTimeValue(allTextFields[i].getText());
 				if (!checkAllTime){
 					break;
 				}
 			}
 		}
+		
+		//check if time is filled
 		boolean checkEndTime = checkTimeEnd(allTextFields[0].getText());
 		
 		if (checkEndTime && checkAllTime){
@@ -88,6 +94,9 @@ public class TimeController implements Initializable{
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 			mainWindow.setScene(catfScene);
 			mainWindow.show(); 
+		}
+		else{
+			System.out.println("Unable to proceed to the next page");
 		}
 	}
 	
@@ -150,12 +159,18 @@ public class TimeController implements Initializable{
 		}
 	}
 	
+	private void storeValues(){
+		for (int i=0; i<ARRAY_SIZE; i++){
+			Values.allStrings[i+2] = allTextFields[i].getText();
+		}
+	}
+	
 	
 	protected void showInfo(String endTime, String beginTime, String dt){
 		endTimeText.setText(endTime);
 		beginTimeText.setText(beginTime);
 		dtText.setText(dt);
 	}
-	
+
 
 }
