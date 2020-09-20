@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 
 public class TimeController implements Initializable{
 	
+	private final int ARRAY_SIZE = 3;
+	
 	@FXML TextField endTimeText;
 	@FXML TextField beginTimeText;
 	@FXML TextField dtText;
@@ -27,10 +29,19 @@ public class TimeController implements Initializable{
 	@FXML Button timeNextBtn;
 	@FXML Button cancelBtn;
 	
+	TextField[] allTextFields = new TextField[ARRAY_SIZE];
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		allTextFields[0] = endTimeText;
+		allTextFields[1] = beginTimeText;
+		allTextFields[2] = dtText;
+		/*allTextFields[0] = endTimeText;
+		allTextFields[0] = endTimeText;
+		allTextFields[0] = endTimeText;
+		allTextFields[0] = endTimeText;*/
 		
 	}
 	
@@ -54,9 +65,19 @@ public class TimeController implements Initializable{
 		Values.DT = dtText.getText();
 		Values.T_BEGIN = beginTimeText.getText();
 		//check the endTimeVal
-		if (checkTimeEnd(endTimeText.getText())){
+		boolean checkAllTime = false;
+		for (int i=0; i<ARRAY_SIZE; i++){
+			if (!allTextFields[i].getText().equals("")){
+				checkAllTime = checkTimeValue(allTextFields[i].getText());
+				if (!checkAllTime){
+					break;
+				}
+			}
+		}
+		boolean checkEndTime = checkTimeEnd(allTextFields[0].getText());
+		
+		if (checkEndTime && checkAllTime){
 			Values.T_END = endTimeText.getText();
-			
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Catf.fxml"));
 			Parent root = loader.load();
@@ -85,7 +106,7 @@ public class TimeController implements Initializable{
 	}
 	
 	private boolean checkTimeEnd(String timeStart){
-		if (timeStart.equals("")){
+		if (timeStart.equals("")){ //Check if time is empty
 			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
 			timeAlert.setTitle("Empty time value");
 			timeAlert.setContentText("The End Time value is required.");
@@ -93,7 +114,7 @@ public class TimeController implements Initializable{
 			timeAlert.show();
 			return false;
 		}
-		else if (Integer.parseInt(timeStart) < 0){
+		else if (Integer.parseInt(timeStart) < 0){ //Check if time is an integer
 			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
 			timeAlert.setTitle("Invalid time value");
 			timeAlert.setContentText("The End Time value should be a real value. No negative numbers.");
@@ -102,6 +123,31 @@ public class TimeController implements Initializable{
 			return false;
 		}
 		return true;
+	}
+	
+	private boolean checkTimeValue(String time){ //Check if all time values are numbers
+		try{
+			float timeValue = Float.valueOf(time);
+			System.out.println("timeValue: "+timeValue);
+			if (timeValue > 0){ //Check if time is a positive float
+				return true;
+			}
+			else{ //Check if time is a negative float
+				Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
+				timeAlert.setTitle("Invalid time value");
+				timeAlert.setContentText("The time values should not have negative numbers. Please check again.");
+				timeAlert.setHeaderText(null);
+				timeAlert.show();
+				return false;
+			}
+		}catch(Exception e){ //Check if time is not a number
+			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
+			timeAlert.setTitle("Invalid time value");
+			timeAlert.setContentText("The time values should be numerical. Please check again.");
+			timeAlert.setHeaderText(null);
+			timeAlert.show();
+			return false;
+		}
 	}
 	
 	
