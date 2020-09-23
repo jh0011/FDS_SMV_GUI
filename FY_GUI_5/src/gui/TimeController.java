@@ -55,7 +55,7 @@ public class TimeController implements Initializable{
 		Parent root = loader.load();
 		BasicController newBasic = loader.getController(); //Get the previous page's controller
 		
-		newBasic.showInfo(Values.chid, Values.title); //Set the values of the page
+		newBasic.showInfo(); //Set the values of the page //Values.chid, Values.title
 		Scene basicScene = new Scene(root);
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 		mainWindow.setScene(basicScene);
@@ -70,7 +70,7 @@ public class TimeController implements Initializable{
 		//check if time is numeric
 		boolean checkAllTime = false;
 		for (int i=0; i<ARRAY_SIZE; i++){
-			if (!allTextFields[i].getText().equals("")){
+			if (!(allTextFields[i].getText().equals(""))){
 				System.out.println("ENTERED HERE");
 				checkAllTime = checkTimeValue(allTextFields[i].getText());
 				if (!checkAllTime){
@@ -83,7 +83,7 @@ public class TimeController implements Initializable{
 		boolean checkEndTime = checkTimeEnd(allTextFields[0].getText());
 		
 		if (checkEndTime && checkAllTime){
-			Values.T_END = endTimeText.getText();
+			//Values.T_END = endTimeText.getText();
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Catf.fxml"));
 			Parent root = loader.load();
@@ -161,15 +161,17 @@ public class TimeController implements Initializable{
 	
 	private void storeValues(){
 		for (int i=0; i<ARRAY_SIZE; i++){
-			Values.allStrings[i+2] = allTextFields[i].getText();
+			Values.allStrings[i+2][0] = allTextFields[i].getText();
 		}
 	}
 	
-	
-	protected void showInfo(String endTime, String beginTime, String dt){
-		endTimeText.setText(endTime);
-		beginTimeText.setText(beginTime);
-		dtText.setText(dt);
+	//To take values from Values and display them for the Time page
+	protected void showInfo(){ //String endTime, String beginTime, String dt
+		endTimeText.setText(Values.allStrings[2][0]);
+		beginTimeText.setText(Values.allStrings[3][0]);
+		dtText.setText(Values.allStrings[4][0]);
+		dtEndText.setText(Values.allStrings[5][0]);
+		dtEndMinText.setText(Values.allStrings[6][0]);
 	}
 
 

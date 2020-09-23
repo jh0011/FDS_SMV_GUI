@@ -40,7 +40,7 @@ public class IntroController implements Initializable{
 		Parent root = loader.load();
 		BasicController basicCont = loader.getController(); //Get the next page's controller
 		
-		basicCont.showInfo(Values.chid, Values.title); //Set the values of the page
+		basicCont.showInfo(); //Set the values of the page //Values.chid, Values.title
 		Scene basicScene = new Scene(root);
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 		mainWindow.setScene(basicScene);

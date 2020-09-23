@@ -52,5 +52,10 @@
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
+      <Button fx:id="printBtn" layoutX="311.0" layoutY="453.0" mnemonicParsing="false" onAction="#printFile" prefHeight="37.0" prefWidth="139.0" style="-fx-background-color: #EC6400;" text="Print Testing">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

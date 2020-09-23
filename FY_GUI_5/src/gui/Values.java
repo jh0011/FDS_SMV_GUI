@@ -2,13 +2,13 @@ package gui;
 
 import java.util.Optional;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Values {
 	
@@ -16,11 +16,15 @@ public class Values {
 	//ALl are static variables.
 	
 	protected static final int ARRAY = 7;
-	protected static String[] allStrings = new String[ARRAY];
+	protected static String[] paramName = new String[ARRAY];
+	protected static String[][] allStrings = new String[ARRAY][2];
+	protected static FileWriter fw;
+	protected static BufferedWriter bw = null;
+	
 	
 	//HEAD 
-	protected static String chid = "";
-	protected static String title = "";
+	protected static String CHID = "";
+	protected static String TITLE = "";
 	
 	//TIME
 	protected static String T_END = "";
@@ -44,20 +48,36 @@ public class Values {
 	
 	protected static void initValues(){
 		
-		allStrings[0] = chid;
-		allStrings[1] = title;
+		//HEAD
+		allStrings[0][0] = CHID;
+		allStrings[0][1] = "HEAD";
+		paramName[0] = "CHID";
+		allStrings[1][0] = TITLE;
+		allStrings[1][1] = "HEAD";
+		paramName[1] = "TITLE";
 		
-		allStrings[2] = T_END;
-		allStrings[3] = T_BEGIN;
-		allStrings[4] = DT;
-		allStrings[5] = DT_END_FILL;
-		allStrings[6] = DT_END_MINIMUM;
-		/*allStrings[7] = T_END;
-		allStrings[8] = T_END;
-		allStrings[9] = T_END;
-		allStrings[10] = T_END;
-		allStrings[11] = T_END;
-		allStrings[12] = T_END;*/
+		//TIME
+		allStrings[2][0] = T_END;
+		allStrings[2][1] = "TIME";
+		paramName[2] = "T_END";
+		allStrings[3][0] = T_BEGIN;
+		allStrings[3][1] = "TIME";
+		paramName[3] = "T_BEGIN";
+		allStrings[4][0] = DT;
+		allStrings[4][1] = "TIME";
+		paramName[4] = "DT";
+		allStrings[5][0] = DT_END_FILL;
+		allStrings[5][1] = "TIME";
+		paramName[5] = "DT_END_FILL";
+		allStrings[6][0] = DT_END_MINIMUM;
+		allStrings[6][1] = "TIME";
+		paramName[6] = "DT_END_MINIMUM";
+		/*allStrings[7][0] = T_END;
+		allStrings[8][0] = T_END;
+		allStrings[9][0] = T_END;
+		allStrings[10][0] = T_END;
+		allStrings[11][0] = T_END;
+		allStrings[12][0] = T_END;*/
 	}
 	
 	protected static void cancelForm(){
@@ -78,7 +98,7 @@ public class Values {
 		WALL_INCREMENT_HT3D = "";
 		files = "";*/
 		for (int i=0; i<ARRAY; i++){
-			allStrings[i] = "";
+			allStrings[i][0] = "";
 		}
 	}
 	
@@ -94,6 +114,78 @@ public class Values {
 		else{
 			return false;
 		}
+	}
+	
+	protected static void printFile() throws IOException{
+		try{
+			File outputFile = new File("C:\\Users\\dell\\Desktop\\" + allStrings[0][0] + ".fds");
+			if (!outputFile.exists()){
+				outputFile.createNewFile();
+			}
+			fw = new FileWriter(outputFile);
+			bw = new BufferedWriter(fw);
+		} catch(Exception e){
+			System.out.println("Error creating the file");
+		}
+		int headCount = 0;
+		int timeCount = 0;
+		for (int i=0; i<ARRAY; i++){
+			for (int j=0; j<2; j++){
+				if (allStrings[i][j].equals("")){
+					break;
+				}
+				else if (allStrings[i][1].equals("HEAD")){
+					headCount++;
+					if (headCount==1){
+						bw.write("&" + allStrings[i][1]);
+						printFileValues(0, 2);
+					}
+					
+				}
+				else if (allStrings[i][1].equals("TIME")){
+					timeCount++;
+					if (timeCount == 1){
+						bw.write("&" + allStrings[i][1]);
+						printFileValues(2, 7);
+					}
+				}
+			}
+		}
+		
+		bw.close();
+		
+		
+	}
+	
+	protected static void printFileValues(int startIndex, int endIndex) throws IOException{
+		for (int i=startIndex; i<endIndex; i++){
+			if (!allStrings[i][0].equals("")){
+				if (isNumber(allStrings[i][0])){
+					bw.newLine();
+					bw.write("\t" + paramName[i] + "=" + allStrings[i][0] + ". ");
+				}
+				else{
+					bw.newLine();
+					bw.write("\t" + paramName[i] + "='" + allStrings[i][0] + "' ");
+				}
+				
+			}
+		}
+		bw.write(" /");
+		bw.newLine();
+	}
+
+	
+
+	protected static boolean isNumber(String value){
+		try{
+			Float.valueOf(value);
+			return true;
+		}catch(Exception e){
+			return false;
+		}
+		
+		
 	}
 	
 }

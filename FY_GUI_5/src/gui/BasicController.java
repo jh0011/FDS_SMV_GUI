@@ -40,8 +40,10 @@ public class BasicController implements Initializable{
 	@FXML
 	private void goToTime(ActionEvent event) throws IOException{ //NEXT SCENE
 		if (checkChid(chidText.getText())){
-			Values.chid = chidText.getText();
-			Values.title = titleText.getText();
+			/*Values.chid = chidText.getText();
+			Values.title = titleText.getText();*/
+			Values.allStrings[0][0] = chidText.getText();
+			Values.allStrings[1][0] = titleText.getText();
 			
 			/*Parent timeLayout = FXMLLoader.load(getClass().getResource("Time.fxml")); //Get the next layout
 			Scene timeScene = new Scene(timeLayout, 870, 710); //Pass the layout to the next scene
@@ -56,7 +58,7 @@ public class BasicController implements Initializable{
 			Parent root = loader.load();
 			
 			TimeController timeCont = loader.getController(); //Get the next page's controller
-			timeCont.showInfo(Values.T_END, Values.T_BEGIN, Values.DT); //Set the values of the page
+			timeCont.showInfo(); //Set the values of the page //Values.T_END, Values.T_BEGIN, Values.DT
 			Scene timeScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 			mainWindow.setScene(timeScene);
@@ -111,9 +113,9 @@ public class BasicController implements Initializable{
 	
 
 	
-	protected void showInfo(String chid, String title){
-		chidText.setText(chid);
-		titleText.setText(title);
+	protected void showInfo(){ //String chid, String title
+		chidText.setText(Values.allStrings[0][0]);
+		titleText.setText(Values.allStrings[1][0]);
 	}
 	
 

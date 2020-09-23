@@ -20,6 +20,7 @@ public class CatfController implements Initializable{
 	@FXML Button cancelBtn;
 	@FXML Button catfBackBtn;
 	@FXML TextArea filesText;
+	@FXML Button printBtn;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -33,7 +34,7 @@ public class CatfController implements Initializable{
 		Parent root = loader.load();
 		
 		TimeController timeCont = loader.getController(); //Get the next page's controller
-		timeCont.showInfo(Values.T_END, Values.T_BEGIN, Values.DT); //Set the values of the page
+		timeCont.showInfo(); //Set the values of the page //Values.T_END, Values.T_BEGIN, Values.DT
 		Scene timeScene = new Scene(root);
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 		mainWindow.setScene(timeScene);
@@ -52,6 +53,11 @@ public class CatfController implements Initializable{
 			mainWindow.setScene(introScene);
 			mainWindow.show();
 		}
+	}
+	
+	@FXML 
+	private void printFile(ActionEvent event) throws IOException{
+		Values.printFile();
 	}
 	
 

@@ -11,7 +11,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
+			Values.initValues();
 			Parent root = FXMLLoader.load(getClass().getResource("Intro.fxml"));
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
