@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 
 public class TimeController implements Initializable{
 	
-	private final int ARRAY_SIZE = 5;
+	private final int ARRAY_SIZE = 13; //13 parameters [2-14]
 	TextField[] allTextFields = new TextField[ARRAY_SIZE];
 	
 	@FXML TextField endTimeText;
@@ -28,6 +28,14 @@ public class TimeController implements Initializable{
 	@FXML TextField dtText;
 	@FXML TextField dtEndText;
 	@FXML TextField dtEndMinText;
+	@FXML TextField dtSteadyText;
+	@FXML TextField dtFlowText;
+	@FXML TextField dtRatioText;
+	@FXML TextField lockTimeText;
+	@FXML TextField restrictTimeText;
+	@FXML TextField timeShrinkText;
+	@FXML TextField wallIncText;
+	@FXML TextField wallIncHt3dText;
 	
 	@FXML Button timeBackBtn;
 	@FXML Button timeNextBtn;
@@ -44,6 +52,14 @@ public class TimeController implements Initializable{
 		allTextFields[2] = dtText;
 		allTextFields[3] = dtEndText;
 		allTextFields[4] = dtEndMinText;
+		allTextFields[5] = dtSteadyText;
+		allTextFields[6] = dtFlowText;
+		allTextFields[7] = dtRatioText;
+		allTextFields[8] = lockTimeText;
+		allTextFields[9] = restrictTimeText;
+		allTextFields[10] = timeShrinkText;
+		allTextFields[11] = wallIncText;
+		allTextFields[12] = wallIncHt3dText;
 		/*allTextFields[0] = endTimeText;
 		allTextFields[0] = endTimeText;*/
 		
@@ -69,20 +85,27 @@ public class TimeController implements Initializable{
 		
 		//check if time is numeric
 		boolean checkAllTime = false;
+		boolean checkBoolean = true;
 		for (int i=0; i<ARRAY_SIZE; i++){
+			
 			if (!(allTextFields[i].getText().equals(""))){
-				System.out.println("ENTERED HERE");
-				checkAllTime = checkTimeValue(allTextFields[i].getText());
-				if (!checkAllTime){
-					break;
+				if (i==8 || i==9){
+					//Check whether the values are boolean
+					checkBoolean = checkBoolean(allTextFields[i].getText());
 				}
+				else{
+					checkAllTime = checkTimeValue(allTextFields[i].getText());
+				}
+			}
+			if (!checkAllTime || !checkBoolean){ //if either are false, break
+				break;
 			}
 		}
 		
-		//check if time is filled
+		//check if Required time is filled
 		boolean checkEndTime = checkTimeEnd(allTextFields[0].getText());
 		
-		if (checkEndTime && checkAllTime){
+		if (checkEndTime && checkAllTime && checkBoolean){
 			//Values.T_END = endTimeText.getText();
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Catf.fxml"));
@@ -137,7 +160,6 @@ public class TimeController implements Initializable{
 	private boolean checkTimeValue(String time){ //Check if all time values are numbers
 		try{
 			float timeValue = Float.valueOf(time);
-			System.out.println("timeValue: "+timeValue);
 			if (timeValue > 0){ //Check if time is a positive float
 				return true;
 			}
@@ -159,6 +181,20 @@ public class TimeController implements Initializable{
 		}
 	}
 	
+	private boolean checkBoolean(String value){
+		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
+			return true;
+		}
+		else{
+			Alert boolAlert = new Alert(Alert.AlertType.INFORMATION);
+			boolAlert.setTitle("Invalid boolean value");
+			boolAlert.setContentText("Both 'Lock Time Step' and 'Restrict Time Step' should be logical values of True/False. Please check again.");
+			boolAlert.setHeaderText(null);
+			boolAlert.show();
+			return false;
+		}
+	}
+	
 	private void storeValues(){
 		for (int i=0; i<ARRAY_SIZE; i++){
 			Values.allStrings[i+2][0] = allTextFields[i].getText();
@@ -172,6 +208,14 @@ public class TimeController implements Initializable{
 		dtText.setText(Values.allStrings[4][0]);
 		dtEndText.setText(Values.allStrings[5][0]);
 		dtEndMinText.setText(Values.allStrings[6][0]);
+		dtSteadyText.setText(Values.allStrings[7][0]);
+		dtFlowText.setText(Values.allStrings[8][0]);
+		dtRatioText.setText(Values.allStrings[9][0]);
+		lockTimeText.setText(Values.allStrings[10][0]);
+		restrictTimeText.setText(Values.allStrings[11][0]);
+		timeShrinkText.setText(Values.allStrings[12][0]);
+		wallIncText.setText(Values.allStrings[13][0]);
+		wallIncHt3dText.setText(Values.allStrings[14][0]);
 	}
 
 

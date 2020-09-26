@@ -15,7 +15,8 @@ public class Values {
 	//Store all the values that the user has initialised
 	//ALl are static variables.
 	
-	protected static final int ARRAY = 7;
+	protected static final int ARRAY = 15;
+	protected static final String PATH = "C:\\Users\\dell\\Desktop\\";
 	protected static String[] paramName = new String[ARRAY];
 	protected static String[][] allStrings = new String[ARRAY][2];
 	protected static FileWriter fw;
@@ -23,11 +24,11 @@ public class Values {
 	
 	
 	//HEAD 
-	protected static String CHID = "";
+	protected static String CHID = ""; //0
 	protected static String TITLE = "";
 	
 	//TIME
-	protected static String T_END = "";
+	protected static String T_END = ""; //2
 	protected static String T_BEGIN = "";
 	protected static String DT = "";
 	protected static String DT_END_FILL = "";
@@ -72,31 +73,34 @@ public class Values {
 		allStrings[6][0] = DT_END_MINIMUM;
 		allStrings[6][1] = "TIME";
 		paramName[6] = "DT_END_MINIMUM";
-		/*allStrings[7][0] = T_END;
-		allStrings[8][0] = T_END;
-		allStrings[9][0] = T_END;
-		allStrings[10][0] = T_END;
-		allStrings[11][0] = T_END;
-		allStrings[12][0] = T_END;*/
+		allStrings[7][0] = EVAC_DT_FLOWFIELD;
+		allStrings[7][1] = "TIME";
+		paramName[7] = "EVAC_DT_FLOWFIELD";
+		allStrings[8][0] = EVAC_DT_STEADY_STATE;
+		allStrings[8][1] = "TIME";
+		paramName[8] = "EVAC_DT_STEADY_STATE";
+		allStrings[9][0] = LIMITING_DT_RATIO;
+		allStrings[9][1] = "TIME";
+		paramName[9] = "LIMITING_DT_RATIO";
+		allStrings[10][0] = LOCK_TIME_STEP;
+		allStrings[10][1] = "TIME";
+		paramName[10] = "LOCK_TIME_STEP";
+		allStrings[11][0] = RESTRICT_TIME_STEP;
+		allStrings[11][1] = "TIME";
+		paramName[11] = "RESTRICT_TIME_STEP";
+		allStrings[12][0] = TIME_SHRINK_FACTOR;
+		allStrings[12][1] = "TIME";
+		paramName[12] = "TIME_SHRINK_FACTOR";
+		allStrings[13][0] = WALL_INCREMENT;
+		allStrings[13][1] = "TIME";
+		paramName[13] = "WALL_INCREMENT";
+		allStrings[14][0] = WALL_INCREMENT_HT3D;
+		allStrings[14][1] = "TIME";
+		paramName[14] = "WALL_INCREMENT_HT3D";
+		
 	}
 	
 	protected static void cancelForm(){
-		/*chid = "";
-		title = "";
-		T_END = "";
-		DT = "";
-		DT_END_FILL = "";
-		DT_END_MINIMUM = "";
-		EVAC_DT_FLOWFIELD = "";
-		EVAC_DT_STEADY_STATE = "";
-		LIMITING_DT_RATIO = "";
-		LOCK_TIME_STEP = "";
-		RESTRICT_TIME_STEP = "";
-		T_BEGIN = "";
-		TIME_SHRINK_FACTOR = "";
-		WALL_INCREMENT = "";
-		WALL_INCREMENT_HT3D = "";
-		files = "";*/
 		for (int i=0; i<ARRAY; i++){
 			allStrings[i][0] = "";
 		}
@@ -118,7 +122,7 @@ public class Values {
 	
 	protected static void printFile() throws IOException{
 		try{
-			File outputFile = new File("C:\\Users\\dell\\Desktop\\" + allStrings[0][0] + ".fds");
+			File outputFile = new File(PATH + allStrings[0][0] + ".fds");
 			if (!outputFile.exists()){
 				outputFile.createNewFile();
 			}
@@ -138,7 +142,7 @@ public class Values {
 					headCount++;
 					if (headCount==1){
 						bw.write("&" + allStrings[i][1]);
-						printFileValues(0, 2);
+						printFileValues(0, 2); //Pass in the index values
 					}
 					
 				}
@@ -146,15 +150,13 @@ public class Values {
 					timeCount++;
 					if (timeCount == 1){
 						bw.write("&" + allStrings[i][1]);
-						printFileValues(2, 7);
+						printFileValues(2, 14); //Pass in the index values
 					}
 				}
 			}
 		}
-		
+		bw.write("&TAIL /");
 		bw.close();
-		
-		
 	}
 	
 	protected static void printFileValues(int startIndex, int endIndex) throws IOException{
@@ -163,6 +165,10 @@ public class Values {
 				if (isNumber(allStrings[i][0])){
 					bw.newLine();
 					bw.write("\t" + paramName[i] + "=" + allStrings[i][0] + ". ");
+				}
+				else if (isBoolean(allStrings[i][0])){
+					bw.newLine();
+					bw.write("\t" + paramName[i] + "=" + "." + allStrings[i][0].toUpperCase() + ". ");
 				}
 				else{
 					bw.newLine();
@@ -175,8 +181,6 @@ public class Values {
 		bw.newLine();
 	}
 
-	
-
 	protected static boolean isNumber(String value){
 		try{
 			Float.valueOf(value);
@@ -184,8 +188,12 @@ public class Values {
 		}catch(Exception e){
 			return false;
 		}
-		
-		
 	}
 	
+	protected static boolean isBoolean(String value){
+		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
+			return true;
+		}
+		return false;
+	}
 }
