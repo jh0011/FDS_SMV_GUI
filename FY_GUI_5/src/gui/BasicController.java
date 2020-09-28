@@ -108,6 +108,14 @@ public class BasicController implements Initializable{
 				return false;
 			}
 		}
+		if (chid.contains(".fds")){
+			Alert extAlert = new Alert(Alert.AlertType.INFORMATION);
+			extAlert.setTitle("Invalid CHID");
+			extAlert.setContentText("The extension .fds does not need to be specified.");
+			extAlert.setHeaderText(null);
+			extAlert.show();
+			return false;
+		}
 		return true;
 	}
 	

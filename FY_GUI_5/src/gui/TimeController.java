@@ -160,7 +160,7 @@ public class TimeController implements Initializable{
 	private boolean checkTimeValue(String time){ //Check if all time values are numbers
 		try{
 			float timeValue = Float.valueOf(time);
-			if (timeValue > 0){ //Check if time is a positive float
+			if (timeValue >= 0){ //Check if time is a positive float
 				return true;
 			}
 			else{ //Check if time is a negative float
