@@ -160,17 +160,20 @@ public class Values {
 	}
 	
 	protected static void printFileValues(int startIndex, int endIndex) throws IOException{
-		for (int i=startIndex; i<endIndex; i++){
+		for (int i=startIndex; i<endIndex + 1; i++){
 			if (!allStrings[i][0].equals("")){
 				if (isNumber(allStrings[i][0])){
+					//System.out.println("PRINTING NUMBER");
 					bw.newLine();
-					bw.write("\t" + paramName[i] + "=" + allStrings[i][0] + ". ");
+					bw.write("\t" + paramName[i] + "=" + allStrings[i][0]);
 				}
 				else if (isBoolean(allStrings[i][0])){
+					//System.out.println("PRINTING BOOLEAN");
 					bw.newLine();
 					bw.write("\t" + paramName[i] + "=" + "." + allStrings[i][0].toUpperCase() + ". ");
 				}
 				else{
+					//System.out.println("PRINTING STRING");
 					bw.newLine();
 					bw.write("\t" + paramName[i] + "='" + allStrings[i][0] + "' ");
 				}
@@ -180,10 +183,19 @@ public class Values {
 		bw.write(" /");
 		bw.newLine();
 	}
-
+	
 	protected static boolean isNumber(String value){
 		try{
 			Float.valueOf(value);
+			return true;
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
+	protected static boolean isInteger(String value){
+		try{
+			int intValue = Integer.parseInt(value);
 			return true;
 		}catch(Exception e){
 			return false;

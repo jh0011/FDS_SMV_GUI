@@ -55,13 +55,11 @@ public class TimeController implements Initializable{
 		allTextFields[5] = dtSteadyText;
 		allTextFields[6] = dtFlowText;
 		allTextFields[7] = dtRatioText;
-		allTextFields[8] = lockTimeText;
-		allTextFields[9] = restrictTimeText;
+		allTextFields[8] = lockTimeText; //boolean
+		allTextFields[9] = restrictTimeText; //boolean
 		allTextFields[10] = timeShrinkText;
-		allTextFields[11] = wallIncText;
-		allTextFields[12] = wallIncHt3dText;
-		/*allTextFields[0] = endTimeText;
-		allTextFields[0] = endTimeText;*/
+		allTextFields[11] = wallIncText; //integer
+		allTextFields[12] = wallIncHt3dText; //integer
 		
 	}
 	
@@ -81,38 +79,39 @@ public class TimeController implements Initializable{
 	
 	@FXML
 	private void goToCatf(ActionEvent event) throws IOException{ //NEXT SCENE
-		storeValues();
 		
-		//check if time is numeric
-		boolean checkAllTime = false;
+		//check if time is numeric or boolean
+		boolean checkFloat = true;
 		boolean checkBoolean = true;
+		boolean checkInteger = true;
+		
+		//check if the required time field is filled
+		boolean checkEndTime = checkTimeEnd(allTextFields[0].getText());
+		
+		//check the type values and store them
 		for (int i=0; i<ARRAY_SIZE; i++){
-			
 			if (!(allTextFields[i].getText().equals(""))){
-				if (i==8 || i==9){
-					//Check whether the values are boolean
-					checkBoolean = checkBoolean(allTextFields[i].getText());
+				if (i==0 || i==1 || i==2 || i==3 || i==4 || i==5 || i==6 || i==7 || i==10){
+					checkFloat = checkTimeFloat(allTextFields[i].getText(), i);
+				}
+				else if(i==8 || i==9){
+					checkBoolean = checkTimeBoolean(allTextFields[i].getText(), i);
 				}
 				else{
-					checkAllTime = checkTimeValue(allTextFields[i].getText());
+					checkInteger = checkTimeInteger(allTextFields[i].getText(), i);
 				}
 			}
-			if (!checkAllTime || !checkBoolean){ //if either are false, break
+			if (!checkFloat || !checkBoolean || !checkInteger){ //if either are false, break
 				break;
 			}
 		}
 		
-		//check if Required time is filled
-		boolean checkEndTime = checkTimeEnd(allTextFields[0].getText());
-		
-		if (checkEndTime && checkAllTime && checkBoolean){
-			//Values.T_END = endTimeText.getText();
-			
+		if (checkEndTime && checkFloat && checkBoolean && checkInteger){
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Catf.fxml"));
 			Parent root = loader.load();
 			
 			CatfController catfCont = loader.getController(); //Get the next page's controller
-			catfCont.showInfo(Values.files); //Set the values of the page
+			catfCont.showInfo(Values.files); //Set the values of the page NEED TO CHANGE
 			Scene catfScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 			mainWindow.setScene(catfScene);
@@ -146,7 +145,7 @@ public class TimeController implements Initializable{
 			timeAlert.show();
 			return false;
 		}
-		else if (Integer.parseInt(timeStart) < 0){ //Check if time is an integer
+		else if (Float.valueOf(timeStart) < 0){ //Check if time is an integer
 			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
 			timeAlert.setTitle("Invalid time value");
 			timeAlert.setContentText("The End Time value should be a real value. No negative numbers.");
@@ -157,13 +156,10 @@ public class TimeController implements Initializable{
 		return true;
 	}
 	
-	private boolean checkTimeValue(String time){ //Check if all time values are numbers
+	private boolean checkTimeFloat(String value, int i){
 		try{
-			float timeValue = Float.valueOf(time);
-			if (timeValue >= 0){ //Check if time is a positive float
-				return true;
-			}
-			else{ //Check if time is a negative float
+			float timeFloat = Float.valueOf(value);
+			if (timeFloat < 0){ //check negative float values
 				Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
 				timeAlert.setTitle("Invalid time value");
 				timeAlert.setContentText("The time values should not have negative numbers. Please check again.");
@@ -171,7 +167,11 @@ public class TimeController implements Initializable{
 				timeAlert.show();
 				return false;
 			}
-		}catch(Exception e){ //Check if time is not a number
+			else{
+				Values.allStrings[i+2][0] = Float.toString(timeFloat);
+				return true;
+			}
+		}catch(Exception e){
 			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
 			timeAlert.setTitle("Invalid time value");
 			timeAlert.setContentText("The time values should be numerical. Please check again.");
@@ -181,8 +181,9 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	private boolean checkBoolean(String value){
+	private boolean checkTimeBoolean(String value, int i){
 		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
+			Values.allStrings[i+2][0] = value;
 			return true;
 		}
 		else{
@@ -195,9 +196,28 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	private void storeValues(){
-		for (int i=0; i<ARRAY_SIZE; i++){
-			Values.allStrings[i+2][0] = allTextFields[i].getText();
+	private boolean checkTimeInteger(String value, int i){
+		try{
+			int timeInt = Integer.parseInt(value);
+			if (timeInt < 0){ //check negative integer values
+				Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
+				timeAlert.setTitle("Invalid time value");
+				timeAlert.setContentText("The time values should not have negative numbers. Please check again.");
+				timeAlert.setHeaderText(null);
+				timeAlert.show();
+				return false;
+			}
+			else{
+				Values.allStrings[i+2][0] = value;
+				return true;
+			}
+		}catch(Exception e){
+			Alert intAlert = new Alert(Alert.AlertType.INFORMATION);
+			intAlert.setTitle("Invalid integer value");
+			intAlert.setContentText("Both 'Wall Increment' and 'Wall Increment HT3D' should be integer values. Please check again.");
+			intAlert.setHeaderText(null);
+			intAlert.show();
+			return false;
 		}
 	}
 	
