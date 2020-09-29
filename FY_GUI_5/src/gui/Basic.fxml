@@ -27,11 +27,6 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../Downloads/Fire1.jpg" />
-         </image>
-      </ImageView>
       <Label layoutX="54.0" layoutY="143.0" text="CHID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
@@ -61,7 +56,7 @@
       </Button>
       <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../Downloads/Fire1.jpg" />
+            <Image url="@../../Fire1.jpg" />
          </image>
       </ImageView>
    </children>

@@ -41,11 +41,6 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="701.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../Downloads/Fire1.jpg" />
-         </image>
-      </ImageView>
       <TextArea fx:id="filesText" layoutX="152.0" layoutY="164.0" prefHeight="148.0" prefWidth="368.0" promptText="Type in the other file names with new line as a delimiter" />
       <Label layoutX="46.0" layoutY="164.0" text="Other files" textFill="WHITE">
          <font>
@@ -57,5 +52,10 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
+      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Fire1.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

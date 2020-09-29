@@ -60,11 +60,6 @@
          </font>
       </Label>
       <TextField fx:id="dtText" layoutX="170.0" layoutY="237.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../Downloads/Fire1.jpg" />
-         </image>
-      </ImageView>
       <Label layoutX="89.0" layoutY="289.0" text="DT End" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
@@ -126,5 +121,10 @@
          </font>
       </Label>
       <TextField fx:id="wallIncHt3dText" layoutX="615.0" layoutY="408.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Fire1.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
