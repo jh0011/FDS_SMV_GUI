@@ -111,7 +111,7 @@ public class TimeController implements Initializable{
 			Parent root = loader.load();
 			
 			CatfController catfCont = loader.getController(); //Get the next page's controller
-			catfCont.showInfo(Values.files); //Set the values of the page NEED TO CHANGE
+			catfCont.showInfo(); //Set the values of the page
 			Scene catfScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 			mainWindow.setScene(catfScene);
@@ -222,7 +222,7 @@ public class TimeController implements Initializable{
 	}
 	
 	//To take values from Values and display them for the Time page
-	protected void showInfo(){ //String endTime, String beginTime, String dt
+	protected void showInfo(){ 
 		endTimeText.setText(Values.allStrings[2][0]);
 		beginTimeText.setText(Values.allStrings[3][0]);
 		dtText.setText(Values.allStrings[4][0]);

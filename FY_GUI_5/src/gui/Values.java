@@ -15,7 +15,7 @@ public class Values {
 	//Store all the values that the user has initialised
 	//ALl are static variables.
 	
-	protected static final int ARRAY = 15;
+	protected static final int ARRAY = 16;
 	protected static final String PATH = "C:\\Users\\dell\\Desktop\\";
 	protected static String[] paramName = new String[ARRAY];
 	protected static String[][] allStrings = new String[ARRAY][2];
@@ -43,7 +43,7 @@ public class Values {
 	protected static String WALL_INCREMENT_HT3D = "";
 	
 	//CATF
-	protected static String files = "";
+	protected static String OTHER_FILES = ""; //15
 	
 	
 	
@@ -98,6 +98,11 @@ public class Values {
 		allStrings[14][1] = "TIME";
 		paramName[14] = "WALL_INCREMENT_HT3D";
 		
+		//CATF
+		allStrings[15][0] = OTHER_FILES;
+		allStrings[15][1] = "CATF";
+		paramName[15] = "OTHER_FILES";
+		
 	}
 	
 	protected static void cancelForm(){
@@ -133,6 +138,7 @@ public class Values {
 		}
 		int headCount = 0;
 		int timeCount = 0;
+		int catfCount = 0;
 		for (int i=0; i<ARRAY; i++){
 			for (int j=0; j<2; j++){
 				if (allStrings[i][j].equals("")){
@@ -151,6 +157,13 @@ public class Values {
 					if (timeCount == 1){
 						bw.write("&" + allStrings[i][1]);
 						printFileValues(2, 14); //Pass in the index values
+					}
+				}
+				else if(allStrings[i][1].equals("CATF")){
+					catfCount++;
+					if (catfCount == 1){
+						bw.write("&" + allStrings[i][1]);
+						printFileValues(15, 15); //Pass in the index values
 					}
 				}
 			}
