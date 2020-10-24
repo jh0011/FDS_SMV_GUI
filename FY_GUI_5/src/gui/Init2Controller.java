@@ -10,7 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class InitController {
+public class Init2Controller {
 	
 	
 	@FXML 
@@ -29,7 +29,7 @@ public class InitController {
 	
 	@FXML
 	private void goToCatf(ActionEvent event) throws IOException{ //PREVIOUS SCENE
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Catf.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
 		Parent root = loader.load();
 		
 		CatfController catfCont = loader.getController(); //Get the next page's controller

@@ -50,14 +50,15 @@ public class CatfController implements Initializable{
 		if (!filesText.getText().equals("")){
 			isCorrectFormat = formatText(filesText.getText());
 		}
-		
+
 		//go to the next page
 		if (isCorrectFormat){
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
+			Values.allStrings[13][0] = filesText.getText();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init2.fxml"));
 			Parent root = loader.load();
 			
-			InitController initCont = loader.getController(); //Get the next page's controller
-			//timeCont.showInfo(); //Set the values of the page 
+			Init2Controller initCont = loader.getController(); //Get the next page's controller
+			//initCont.showInfo(); //Set the values of the page 
 			Scene initScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 			mainWindow.setScene(initScene);
@@ -96,23 +97,26 @@ public class CatfController implements Initializable{
 				filesAlert.show();
 				return false;
 			}
-			if (i == 0){
+			if (files.length == 1){
+				concatFiles = concatFiles + files[i];
+			}
+			else if (i == 0){
 				concatFiles = concatFiles + files[i] + "', ";
 			}
-			if (i <= files.length - 2){
+			else if (i <= files.length - 2){
 				concatFiles = concatFiles + "'" + files[i] + "', ";
 			}
 			else{
 				concatFiles = concatFiles + "'" + files[i];
 			}
 		}
-		Values.allStrings[15][0] = concatFiles;
+		filesText.setText(concatFiles);
 		return true;
 	}
 
 	//To take values from Values and display them for the Catf page
 	public void showInfo() {
-		filesText.setText(Values.allStrings[15][0]);
+		filesText.setText(Values.allStrings[13][0]);
 	}
 	
 	

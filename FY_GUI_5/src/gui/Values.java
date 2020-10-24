@@ -15,7 +15,7 @@ public class Values {
 	//Store all the values that the user has initialised
 	//ALl are static variables.
 	
-	protected static final int ARRAY = 16;
+	protected static final int ARRAY = 14;
 	protected static final String PATH = "C:\\Users\\dell\\Desktop\\";
 	protected static String[] paramName = new String[ARRAY];
 	protected static String[][] allStrings = new String[ARRAY][2];
@@ -25,25 +25,27 @@ public class Values {
 	
 	//HEAD 
 	protected static String CHID = ""; //0
-	protected static String TITLE = "";
+	protected static String TITLE = ""; //1
 	
 	//TIME
 	protected static String T_END = ""; //2
 	protected static String T_BEGIN = "";
-	protected static String DT = "";
-	protected static String DT_END_FILL = "";
-	protected static String DT_END_MINIMUM = "";
-	protected static String EVAC_DT_FLOWFIELD = "";
-	protected static String EVAC_DT_STEADY_STATE = "";
-	protected static String LIMITING_DT_RATIO = "";
-	protected static String LOCK_TIME_STEP = "";
-	protected static String RESTRICT_TIME_STEP = "";
-	protected static String TIME_SHRINK_FACTOR = "";
-	protected static String WALL_INCREMENT = "";
-	protected static String WALL_INCREMENT_HT3D = "";
+	protected static String DT = ""; //4
 	
+	
+	//INIT
+	protected static String PART_ID= ""; //5
+	protected static String SPEC_ID = ""; 
+	protected static String N_PARTICLES= "";
+	protected static String N_PARTICLES_PER_CELL= ""; 
+	protected static String MASS_FRACTION = "";
+	protected static String MASS_PER_TIME= "";
+	protected static String MASS_PER_VOLUME= "";
+	protected static String XB = ""; //12
+		
 	//CATF
-	protected static String OTHER_FILES = ""; //15
+	protected static String OTHER_FILES = ""; //13
+	
 	
 	
 	
@@ -67,41 +69,40 @@ public class Values {
 		allStrings[4][0] = DT;
 		allStrings[4][1] = "TIME";
 		paramName[4] = "DT";
-		allStrings[5][0] = DT_END_FILL;
-		allStrings[5][1] = "TIME";
-		paramName[5] = "DT_END_FILL";
-		allStrings[6][0] = DT_END_MINIMUM;
-		allStrings[6][1] = "TIME";
-		paramName[6] = "DT_END_MINIMUM";
-		allStrings[7][0] = EVAC_DT_FLOWFIELD;
-		allStrings[7][1] = "TIME";
-		paramName[7] = "EVAC_DT_FLOWFIELD";
-		allStrings[8][0] = EVAC_DT_STEADY_STATE;
-		allStrings[8][1] = "TIME";
-		paramName[8] = "EVAC_DT_STEADY_STATE";
-		allStrings[9][0] = LIMITING_DT_RATIO;
-		allStrings[9][1] = "TIME";
-		paramName[9] = "LIMITING_DT_RATIO";
-		allStrings[10][0] = LOCK_TIME_STEP;
-		allStrings[10][1] = "TIME";
-		paramName[10] = "LOCK_TIME_STEP";
-		allStrings[11][0] = RESTRICT_TIME_STEP;
-		allStrings[11][1] = "TIME";
-		paramName[11] = "RESTRICT_TIME_STEP";
-		allStrings[12][0] = TIME_SHRINK_FACTOR;
-		allStrings[12][1] = "TIME";
-		paramName[12] = "TIME_SHRINK_FACTOR";
-		allStrings[13][0] = WALL_INCREMENT;
-		allStrings[13][1] = "TIME";
-		paramName[13] = "WALL_INCREMENT";
-		allStrings[14][0] = WALL_INCREMENT_HT3D;
-		allStrings[14][1] = "TIME";
-		paramName[14] = "WALL_INCREMENT_HT3D";
+		
+		//INIT
+		allStrings[5][0] = PART_ID;
+		allStrings[5][1] = "INIT";
+		paramName[5] = "PART_ID";
+		allStrings[6][0] = SPEC_ID;
+		allStrings[6][1] = "INIT";
+		paramName[6] = "SPEC_ID";
+		allStrings[7][0] = N_PARTICLES;
+		allStrings[7][1] = "INIT";
+		paramName[7] = "N_PARTICLES";
+		allStrings[8][0] = N_PARTICLES_PER_CELL;
+		allStrings[8][1] = "INIT";
+		paramName[8] = "N_PARTICLES_PER_CELL";
+		allStrings[9][0] = MASS_FRACTION;
+		allStrings[9][1] = "INIT";
+		paramName[9] = "MASS_FRACTION";
+		allStrings[10][0] = MASS_PER_TIME;
+		allStrings[10][1] = "INIT";
+		paramName[10] = "MASS_PER_TIME";
+		allStrings[11][0] = MASS_PER_VOLUME;
+		allStrings[11][1] = "INIT";
+		paramName[11] = "MASS_PER_VOLUME";
+		allStrings[12][0] = XB;
+		allStrings[12][1] = "INIT";
+		paramName[12] = "XB";
+		
 		
 		//CATF
-		allStrings[15][0] = OTHER_FILES;
-		allStrings[15][1] = "CATF";
-		paramName[15] = "OTHER_FILES";
+		allStrings[13][0] = OTHER_FILES;
+		allStrings[13][1] = "CATF";
+		paramName[13] = "OTHER_FILES";
+		
+		
 		
 	}
 	
@@ -148,7 +149,7 @@ public class Values {
 					headCount++;
 					if (headCount==1){
 						bw.write("&" + allStrings[i][1]);
-						printFileValues(0, 2); //Pass in the index values
+						printFileValues(0, 1); //Pass in the index values
 					}
 					
 				}
@@ -156,14 +157,14 @@ public class Values {
 					timeCount++;
 					if (timeCount == 1){
 						bw.write("&" + allStrings[i][1]);
-						printFileValues(2, 14); //Pass in the index values
+						printFileValues(2, 4); //Pass in the index values
 					}
 				}
 				else if(allStrings[i][1].equals("CATF")){
 					catfCount++;
 					if (catfCount == 1){
 						bw.write("&" + allStrings[i][1]);
-						printFileValues(15, 15); //Pass in the index values
+						printFileValues(13, 13); //Pass in the index values
 					}
 				}
 			}

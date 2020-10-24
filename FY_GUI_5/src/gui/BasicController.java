@@ -39,20 +39,11 @@ public class BasicController implements Initializable{
 	
 	@FXML
 	private void goToTime(ActionEvent event) throws IOException{ //NEXT SCENE
+		//store values
+		Values.allStrings[0][0] = chidText.getText();
+		Values.allStrings[1][0] = titleText.getText();
+		
 		if (checkChid(chidText.getText())){
-			/*Values.chid = chidText.getText();
-			Values.title = titleText.getText();*/
-			Values.allStrings[0][0] = chidText.getText();
-			Values.allStrings[1][0] = titleText.getText();
-			
-			/*Parent timeLayout = FXMLLoader.load(getClass().getResource("Time.fxml")); //Get the next layout
-			Scene timeScene = new Scene(timeLayout, 870, 710); //Pass the layout to the next scene
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
-			
-			mainWindow.setScene(timeScene);
-			mainWindow.show();
-			
-			*/
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
 			Parent root = loader.load();
@@ -98,7 +89,15 @@ public class BasicController implements Initializable{
 	
 	
 	private boolean checkChid(String chid){
-		for (int i=0; i<chid.length(); i++){
+		if (chid.equals("")){ //check whether CHID is filled
+			Alert chidAlert = new Alert(Alert.AlertType.INFORMATION);
+			chidAlert.setTitle("Empty CHID");
+			chidAlert.setContentText("CHID is required.");
+			chidAlert.setHeaderText(null);
+			chidAlert.show();
+			return false;
+		}
+		for (int i=0; i<chid.length(); i++){ //check for white spaces
 			if (chid.charAt(i) == ' '){
 				Alert chidAlert = new Alert(Alert.AlertType.INFORMATION);
 				chidAlert.setTitle("Invalid CHID");
@@ -108,7 +107,7 @@ public class BasicController implements Initializable{
 				return false;
 			}
 		}
-		if (chid.contains(".fds")){
+		if (chid.contains(".fds")){ //check for .fds extension
 			Alert extAlert = new Alert(Alert.AlertType.INFORMATION);
 			extAlert.setTitle("Invalid CHID");
 			extAlert.setContentText("The extension .fds does not need to be specified.");
@@ -116,6 +115,7 @@ public class BasicController implements Initializable{
 			extAlert.show();
 			return false;
 		}
+		Values.allStrings[0][0] = chidText.getText();
 		return true;
 	}
 	
