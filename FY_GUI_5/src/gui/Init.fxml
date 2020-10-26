@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.InitController">
+   <children>
+      <Button fx:id="cancelBtn" layoutX="550.0" layoutY="640.0" mnemonicParsing="false" onAction="#cancelOption" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #bd2900;" text="Cancel">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="catfBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToTime" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="catfNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToInit" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="45.0" layoutY="36.0" text="INIT">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Button fx:id="printBtn" layoutX="311.0" layoutY="453.0" mnemonicParsing="false" onAction="#printFile" prefHeight="37.0" prefWidth="139.0" style="-fx-background-color: #EC6400;" text="Print Testing">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Fire1.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="445.0" layoutY="112.0" text="Mass Fraction" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="massFracText" layoutX="564.0" layoutY="112.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="443.0" layoutY="164.0" text="Mass per time" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="420.0" layoutY="216.0" text="Mass per volume" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="massVolText" layoutX="564.0" layoutY="218.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="massTimeText" layoutX="564.0" layoutY="165.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="106.0" layoutY="223.0" text="N Particles" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="npartText" layoutX="200.0" layoutY="224.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="45.0" layoutY="276.0" text="N Particles per cell" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="npartCellText" layoutX="199.0" layoutY="277.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="114.0" layoutY="162.0" text="Spec ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="122.0" layoutY="109.0" text="Part ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="massTimeText1" layoutX="200.0" layoutY="110.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="massTimeText11" layoutX="199.0" layoutY="163.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="417.0" layoutY="276.0" text="XB" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="massVolText1" layoutX="468.0" layoutY="277.0" prefHeight="25.0" prefWidth="196.0" promptText="Optional (comma-separated)" />
+   </children>
+</AnchorPane>

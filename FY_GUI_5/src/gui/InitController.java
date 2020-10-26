@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -17,21 +18,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class CatfController implements Initializable{
+public class InitController implements Initializable{
 	
 	@FXML Button cancelBtn;
 	@FXML Button catfBackBtn;
-	@FXML TextArea filesText;
 	@FXML Button printBtn;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	@FXML
-	private void goToTime(ActionEvent event) throws IOException{ //PREVIOUS SCENE
+	private void goToTime(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
 		Parent root = loader.load();
 		
@@ -47,13 +46,10 @@ public class CatfController implements Initializable{
 	private void goToInit(ActionEvent event) throws IOException{ //NEXT SCENE
 		//re-format the text
 		boolean isCorrectFormat = true;
-		if (!filesText.getText().equals("")){
-			isCorrectFormat = formatText(filesText.getText());
-		}
 
 		//go to the next page
 		if (isCorrectFormat){
-			Values.allStrings[13][0] = filesText.getText();
+			//Values.allStrings[13][0] = filesText.getText();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init2.fxml"));
 			Parent root = loader.load();
 			
@@ -83,40 +79,10 @@ public class CatfController implements Initializable{
 	private void printFile(ActionEvent event) throws IOException{ //SAMPLE TESTING
 		Values.printFile();
 	}
-	
-	private boolean formatText(String text){
-		String[] files = text.split("\\n");
-		String concatFiles = "";
-		for (int i=0; i<files.length; i++){
-			//check for file extension
-			if (!files[i].contains(".")){
-				Alert filesAlert = new Alert(Alert.AlertType.INFORMATION);
-				filesAlert.setTitle("Files title format");
-				filesAlert.setContentText("The files require a file extension.");
-				filesAlert.setHeaderText(null);
-				filesAlert.show();
-				return false;
-			}
-			if (files.length == 1){
-				concatFiles = concatFiles + files[i];
-			}
-			else if (i == 0){
-				concatFiles = concatFiles + files[i] + "', ";
-			}
-			else if (i <= files.length - 2){
-				concatFiles = concatFiles + "'" + files[i] + "', ";
-			}
-			else{
-				concatFiles = concatFiles + "'" + files[i];
-			}
-		}
-		filesText.setText(concatFiles);
-		return true;
-	}
 
 	//To take values from Values and display them for the Catf page
 	public void showInfo() {
-		filesText.setText(Values.allStrings[13][0]);
+		//filesText.setText(Values.allStrings[13][0]);
 	}
 	
 	

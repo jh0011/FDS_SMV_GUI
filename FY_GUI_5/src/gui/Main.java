@@ -34,13 +34,18 @@ public class Main extends Application {
 		try {
 			ConnectionClass connectionClass = new ConnectionClass();
 			Connection connection = connectionClass.getConnection();
-			String sql = "DELETE FROM head;";
-			String init = "INSERT INTO head(CHID, TITLE) VALUES (' ', ' ');";
+			String sqlHead = "DELETE FROM head;";
+			String sqlTime = "DELETE FROM time;";
+			String initHead = "INSERT INTO head(CHID, TITLE) VALUES (' ', ' ');";
+			String initTime = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('', '', '');";
 			Statement statement;
 			statement = connection.createStatement();
-			statement.executeUpdate(sql);
-			statement.executeUpdate(init);
+			statement.executeUpdate(sqlHead);
+			statement.executeUpdate(sqlTime);
+			statement.executeUpdate(initHead);
+			statement.executeUpdate(initTime);
 		} catch (Exception e){
+			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
 		}
 	}

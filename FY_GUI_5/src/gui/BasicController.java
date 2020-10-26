@@ -47,9 +47,10 @@ public class BasicController implements Initializable{
 //		Values.allStrings[1][0] = titleText.getText();
 		
 		if (checkChid(chidText.getText())){
+			String sql = "INSERT INTO head (CHID, TITLE) VALUES ('" + chidText.getText() + "', '" + titleText.getText() + "');";
+			
 			ConnectionClass connectionClass = new ConnectionClass();
 			Connection connection = connectionClass.getConnection();
-			String sql = "INSERT INTO head (CHID, TITLE) VALUES ('" + chidText.getText() + "', '" + titleText.getText() + "');";
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
 			

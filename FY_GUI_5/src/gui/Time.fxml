@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -66,49 +67,7 @@
          </image>
       </ImageView>
       <Separator layoutX="45.0" layoutY="265.0" prefHeight="8.0" prefWidth="737.0" />
-      <Label layoutX="431.0" layoutY="375.0" text="Mass Fraction" textFill="WHITE">
-         <font>
-            <Font name="Leelawadee UI" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="massFracText" layoutX="550.0" layoutY="375.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="429.0" layoutY="427.0" text="Mass per time" textFill="WHITE">
-         <font>
-            <Font name="Leelawadee UI" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="406.0" layoutY="479.0" text="Mass per volume" textFill="WHITE">
-         <font>
-            <Font name="Leelawadee UI" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="massVolText" layoutX="550.0" layoutY="481.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <TextField fx:id="massTimeText" layoutX="550.0" layoutY="428.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="92.0" layoutY="486.0" text="N Particles" textFill="WHITE">
-         <font>
-            <Font name="Leelawadee UI" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="npartText" layoutX="186.0" layoutY="487.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="31.0" layoutY="539.0" text="N Particles per cell" textFill="WHITE">
-         <font>
-            <Font name="Leelawadee UI" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="npartCellText" layoutX="185.0" layoutY="540.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="100.0" layoutY="425.0" text="Spec ID" textFill="WHITE">
-         <font>
-            <Font name="Leelawadee UI" size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="108.0" layoutY="372.0" text="Part ID" textFill="WHITE">
-         <font>
-            <Font name="Leelawadee UI" size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="massTimeText1" layoutX="186.0" layoutY="373.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <TextField fx:id="massTimeText11" layoutX="185.0" layoutY="426.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="45.0" layoutY="294.0" text="INIT">
+      <Label layoutX="45.0" layoutY="294.0" text="CATF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -122,11 +81,11 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label layoutX="403.0" layoutY="539.0" text="XB" textFill="WHITE">
+      <TextArea fx:id="filesText" layoutX="181.0" layoutY="383.0" prefHeight="148.0" prefWidth="368.0" promptText="Type in the other file names with new line as a delimiter (Optional)" />
+      <Label layoutX="75.0" layoutY="383.0" text="Other files" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="massVolText1" layoutX="454.0" layoutY="540.0" prefHeight="25.0" prefWidth="196.0" promptText="Optional (comma-separated)" />
    </children>
 </AnchorPane>

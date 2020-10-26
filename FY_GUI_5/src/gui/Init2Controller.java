@@ -32,7 +32,7 @@ public class Init2Controller {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
 		Parent root = loader.load();
 		
-		CatfController catfCont = loader.getController(); //Get the next page's controller
+		InitController catfCont = loader.getController(); //Get the next page's controller
 		catfCont.showInfo(); //Set the values of the page 
 		Scene catfScene = new Scene(root);
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -2,9 +2,13 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -24,9 +29,13 @@ public class TimeController implements Initializable{
 	private final int ARRAY_SIZE = 3; //3 parameters [2-4]
 	TextField[] allTextFields = new TextField[ARRAY_SIZE];
 	
+	//time
 	@FXML TextField endTimeText;
 	@FXML TextField beginTimeText;
 	@FXML TextField dtText;
+	
+	//catf
+	@FXML TextArea filesText;
 	
 	@FXML Button timeBackBtn;
 	@FXML Button timeNextBtn;
@@ -59,7 +68,7 @@ public class TimeController implements Initializable{
 	}
 	
 	@FXML
-	private void goToCatf(ActionEvent event) throws IOException{ //NEXT SCENE
+	private void goToCatf(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		
 		//check if time is numeric
 		boolean checkFloat = true;
@@ -67,10 +76,12 @@ public class TimeController implements Initializable{
 		//check if the required time field is filled
 		boolean checkEndTime = checkTimeEnd(allTextFields[0].getText());
 		
-		//store values
-		storeValues();
+		//check if catf file format is correct
+		boolean isCorrectFormat = true;
+		
 		
 		//check the type values and store them
+		//TIME
 		for (int i=0; i<ARRAY_SIZE; i++){
 			if (!(allTextFields[i].getText().equals(""))){
 				checkFloat = checkTimeFloat(allTextFields[i].getText(), i);
@@ -80,16 +91,22 @@ public class TimeController implements Initializable{
 			}
 		}
 		
-		if (checkEndTime && checkFloat){
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Catf.fxml"));
+		//CATF
+		if (!filesText.getText().equals("")){
+			isCorrectFormat = formatText(filesText.getText());
+		}
+		
+		if (checkEndTime && checkFloat && isCorrectFormat){
+			//store values
+			storeValues();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
 			Parent root = loader.load();
 			
-			CatfController catfCont = loader.getController(); //Get the next page's controller
-			catfCont.showInfo(); //Set the values of the page
-			Scene catfScene = new Scene(root);
+			InitController initCont = loader.getController(); //Get the next page's controller
+			initCont.showInfo(); //Set the values of the page
+			Scene initScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(catfScene);
+			mainWindow.setScene(initScene);
 			mainWindow.show(); 
 		}
 		else{
@@ -137,6 +154,7 @@ public class TimeController implements Initializable{
 				timeAlert.show();
 				return false;
 			}
+		allTextFields[0].setText(timeStart);
 		return true;
 	}
 	
@@ -152,7 +170,8 @@ public class TimeController implements Initializable{
 				return false;
 			}
 			else{
-				Values.allStrings[i+2][0] = Float.toString(timeFloat);
+				//Values.allStrings[i+2][0] = Float.toString(timeFloat);
+				allTextFields[i].setText(Float.toString(timeFloat));
 				return true;
 			}
 		}catch(Exception e){
@@ -165,17 +184,58 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	protected void storeValues(){
-		Values.allStrings[2][0] = endTimeText.getText();
-		Values.allStrings[3][0] = beginTimeText.getText();
-		Values.allStrings[4][0] = dtText.getText();
+	private boolean formatText(String text){
+		String[] files = text.split("\\n");
+		String concatFiles = "";
+		for (int i=0; i<files.length; i++){
+			//check for file extension
+			if (!files[i].contains(".")){
+				Alert filesAlert = new Alert(Alert.AlertType.INFORMATION);
+				filesAlert.setTitle("Files title format");
+				filesAlert.setContentText("The files require a file extension.");
+				filesAlert.setHeaderText(null);
+				filesAlert.show();
+				return false;
+			}
+			if (files.length == 1){
+				concatFiles = concatFiles + files[i];
+			}
+			else if (i == 0){
+				concatFiles = concatFiles + files[i] + "', ";
+			}
+			else if (i <= files.length - 2){
+				concatFiles = concatFiles + "'" + files[i] + "', ";
+			}
+			else{
+				concatFiles = concatFiles + "'" + files[i];
+			}
+		}
+		filesText.setText(concatFiles);
+		return true;
+	}
+	
+	protected void storeValues() throws SQLException{
+		String sql = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('" + allTextFields[0].getText() + "', '" + 
+		allTextFields[1].getText() + "', '" + allTextFields[2].getText() + "');";
+		
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sql);
 	}
 	
 	//To take values from Values and display them for the Time page
-	protected void showInfo(){ 
-		endTimeText.setText(Values.allStrings[2][0]);
-		beginTimeText.setText(Values.allStrings[3][0]);
-		dtText.setText(Values.allStrings[4][0]);
+	protected void showInfo() throws SQLException{ 
+		String sql = "SELECT * FROM time";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sql);
+		while (rs.next()){
+			endTimeText.setText(rs.getString(2));
+			beginTimeText.setText(rs.getString(3));
+			dtText.setText(rs.getString(4));
+		}
 	}
 
 
