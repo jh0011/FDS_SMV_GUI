@@ -2,9 +2,14 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,17 +38,20 @@ public class BasicController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@FXML
-	private void goToTime(ActionEvent event) throws IOException{ //NEXT SCENE
+	private void goToTime(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		//store values
-		Values.allStrings[0][0] = chidText.getText();
-		Values.allStrings[1][0] = titleText.getText();
+//		Values.allStrings[0][0] = chidText.getText();
+//		Values.allStrings[1][0] = titleText.getText();
 		
 		if (checkChid(chidText.getText())){
+			ConnectionClass connectionClass = new ConnectionClass();
+			Connection connection = connectionClass.getConnection();
+			String sql = "INSERT INTO head (CHID, TITLE) VALUES ('" + chidText.getText() + "', '" + titleText.getText() + "');";
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(sql);
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
 			Parent root = loader.load();
@@ -115,15 +123,23 @@ public class BasicController implements Initializable{
 			extAlert.show();
 			return false;
 		}
-		Values.allStrings[0][0] = chidText.getText();
+		//Values.allStrings[0][0] = chidText.getText();
 		return true;
 	}
 	
 
 	
-	protected void showInfo(){ //String chid, String title
-		chidText.setText(Values.allStrings[0][0]);
-		titleText.setText(Values.allStrings[1][0]);
+	protected void showInfo() throws SQLException{ //String chid, String title
+		String sql = "SELECT * FROM head";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sql);
+		while (rs.next()){
+			System.out.println("chidDISPLAY: " + rs.getString(1));
+			chidText.setText(rs.getString(2));
+			titleText.setText(rs.getString(3));
+		}
 	}
 	
 

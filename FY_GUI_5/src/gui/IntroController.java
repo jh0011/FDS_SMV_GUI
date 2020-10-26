@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -27,7 +28,7 @@ public class IntroController implements Initializable{
 	}
 	
 	@FXML
-	private void goToBasic(ActionEvent event) throws IOException{ //NEXT SCENE
+	private void goToBasic(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		/*Parent introLayout = FXMLLoader.load(getClass().getResource("Basic.fxml")); //Get the next layout
 		Scene basicScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window

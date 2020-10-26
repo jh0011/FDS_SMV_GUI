@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -44,7 +45,7 @@ public class TimeController implements Initializable{
 	}
 	
 	@FXML
-	private void goToBasic(ActionEvent event) throws IOException{ //PREVIOUS SCENE
+	private void goToBasic(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Basic.fxml"));
 		Parent root = loader.load();
 		BasicController newBasic = loader.getController(); //Get the previous page's controller
