@@ -45,6 +45,7 @@ public class Values {
 		
 	//CATF
 	protected static String OTHER_FILES = ""; //13
+	protected static String concatFiles = ""; //formatted already
 	
 	
 	

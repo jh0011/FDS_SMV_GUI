@@ -99,6 +99,7 @@ public class TimeController implements Initializable{
 		if (checkEndTime && checkFloat && isCorrectFormat){
 			//store values
 			storeValues();
+			System.out.println("VALUES CATF: " + Values.concatFiles);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
 			Parent root = loader.load();
 			
@@ -129,31 +130,14 @@ public class TimeController implements Initializable{
 	}
 	
 	private boolean checkTimeEnd(String timeStart){
-		try{
-			if (timeStart.equals("")){ //Check if time is empty
-				Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
-				timeAlert.setTitle("Empty time value");
-				timeAlert.setContentText("The End Time value is required.");
-				timeAlert.setHeaderText(null);
-				timeAlert.show();
-				return false;
-			}
-			else if (Float.valueOf(timeStart) < 0){ //Check if time is an integer
-				Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
-				timeAlert.setTitle("Invalid time value");
-				timeAlert.setContentText("The End Time value should be a real value. No negative numbers.");
-				timeAlert.setHeaderText(null);
-				timeAlert.show();
-				return false;
-			}
-		}catch (Exception e){
-				Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
-				timeAlert.setTitle("Invalid time value");
-				timeAlert.setContentText("The time values should be numerical. Please check again.");
-				timeAlert.setHeaderText(null);
-				timeAlert.show();
-				return false;
-			}
+		if (timeStart.equals("")){ //Check if time is empty
+			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
+			timeAlert.setTitle("Empty time value");
+			timeAlert.setContentText("The End Time value is required.");
+			timeAlert.setHeaderText(null);
+			timeAlert.show();
+			return false;
+		}
 		allTextFields[0].setText(timeStart);
 		return true;
 	}
@@ -185,8 +169,9 @@ public class TimeController implements Initializable{
 	}
 	
 	private boolean formatText(String text){
+		System.out.println("TEXT: " + text);
 		String[] files = text.split("\\n");
-		String concatFiles = "";
+		Values.concatFiles = "";
 		for (int i=0; i<files.length; i++){
 			//check for file extension
 			if (!files[i].contains(".")){
@@ -197,44 +182,62 @@ public class TimeController implements Initializable{
 				filesAlert.show();
 				return false;
 			}
-			if (files.length == 1){
-				concatFiles = concatFiles + files[i];
-			}
-			else if (i == 0){
-				concatFiles = concatFiles + files[i] + "', ";
-			}
-			else if (i <= files.length - 2){
-				concatFiles = concatFiles + "'" + files[i] + "', ";
+			
+			if (i <= files.length - 2){
+				Values.concatFiles = Values.concatFiles + "'" + files[i] + "', ";
 			}
 			else{
-				concatFiles = concatFiles + "'" + files[i];
+				Values.concatFiles = Values.concatFiles + "'" + files[i] + "'";
 			}
+					
+			
+			///////////////////DO NOT DELETE///////////////////////////////////
+//			if (files.length == 1){
+//				concatFiles = concatFiles + files[i];
+//			}
+//			else if (i == 0){
+//				concatFiles = concatFiles + files[i] + "', ";
+//			}
+//			else if (i <= files.length - 2){
+//				concatFiles = concatFiles + "'" + files[i] + "', ";
+//			}
+//			else{
+//				concatFiles = concatFiles + "'" + files[i];
+//			}
+			//////////////////////////////////////////////////////////////////////
 		}
-		filesText.setText(concatFiles);
+		filesText.setText(text);
 		return true;
 	}
 	
 	protected void storeValues() throws SQLException{
-		String sql = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('" + allTextFields[0].getText() + "', '" + 
+		String sqlTime = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('" + allTextFields[0].getText() + "', '" + 
 		allTextFields[1].getText() + "', '" + allTextFields[2].getText() + "');";
+		String sqlCatf = "INSERT INTO catf VALUES ('" + filesText.getText() + "');";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
-		statement.executeUpdate(sql);
+		statement.executeUpdate(sqlTime);
+		statement.executeUpdate(sqlCatf);
 	}
 	
-	//To take values from Values and display them for the Time page
+	//To take values from database and display them for the Time page
 	protected void showInfo() throws SQLException{ 
-		String sql = "SELECT * FROM time";
+		String sqlTime = "SELECT * FROM time;";
+		String sqlCatf = "SELECT * FROM catf;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
-		ResultSet rs = statement.executeQuery(sql);
+		ResultSet rs = statement.executeQuery(sqlTime);
 		while (rs.next()){
 			endTimeText.setText(rs.getString(2));
 			beginTimeText.setText(rs.getString(3));
 			dtText.setText(rs.getString(4));
+		}
+		ResultSet rs2 = statement.executeQuery(sqlCatf);
+		while (rs2.next()){
+			filesText.setText(rs2.getString(1));
 		}
 	}
 

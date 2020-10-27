@@ -36,14 +36,18 @@ public class Main extends Application {
 			Connection connection = connectionClass.getConnection();
 			String sqlHead = "DELETE FROM head;";
 			String sqlTime = "DELETE FROM time;";
-			String initHead = "INSERT INTO head(CHID, TITLE) VALUES (' ', ' ');";
+			String sqlCatf = "DELETE FROM catf;";
+			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
 			String initTime = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('', '', '');";
+			String initCatf = "INSERT INTO catf(OTHER_FILES) VALUES ('');";
 			Statement statement;
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlHead);
 			statement.executeUpdate(sqlTime);
+			statement.executeUpdate(sqlCatf);
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
+			statement.executeUpdate(initCatf);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
