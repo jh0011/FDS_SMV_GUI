@@ -17,12 +17,12 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="catfBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToTime" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
+      <Button fx:id="initBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToTime" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="catfNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToInit" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
+      <Button fx:id="initNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToInit" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
@@ -41,7 +41,7 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Button fx:id="printBtn" layoutX="311.0" layoutY="453.0" mnemonicParsing="false" onAction="#printFile" prefHeight="37.0" prefWidth="139.0" style="-fx-background-color: #EC6400;" text="Print Testing">
+      <Button fx:id="printBtn" layoutX="145.0" layoutY="511.0" mnemonicParsing="false" onAction="#printFile" prefHeight="37.0" prefWidth="139.0" style="-fx-background-color: #EC6400;" text="Print Testing">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
@@ -69,35 +69,46 @@
       </Label>
       <TextField fx:id="massVolText" layoutX="564.0" layoutY="218.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
       <TextField fx:id="massTimeText" layoutX="564.0" layoutY="165.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="106.0" layoutY="223.0" text="N Particles" textFill="WHITE">
+      <Label layoutX="106.0" layoutY="279.0" text="N Particles" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="npartText" layoutX="200.0" layoutY="224.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="45.0" layoutY="276.0" text="N Particles per cell" textFill="WHITE">
+      <TextField fx:id="npartText" layoutX="200.0" layoutY="280.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="45.0" layoutY="332.0" text="N Particles per cell" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="npartCellText" layoutX="199.0" layoutY="277.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="114.0" layoutY="162.0" text="Spec ID" textFill="WHITE">
+      <TextField fx:id="npartCellText" layoutX="199.0" layoutY="333.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="114.0" layoutY="218.0" text="Spec ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="122.0" layoutY="109.0" text="Part ID" textFill="WHITE">
+      <Label layoutX="122.0" layoutY="165.0" text="Part_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="massTimeText1" layoutX="200.0" layoutY="110.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <TextField fx:id="massTimeText11" layoutX="199.0" layoutY="163.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="partIdText" layoutX="200.0" layoutY="166.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="specIdText" layoutX="199.0" layoutY="219.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
       <Label layoutX="417.0" layoutY="276.0" text="XB" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="massVolText1" layoutX="468.0" layoutY="277.0" prefHeight="25.0" prefWidth="196.0" promptText="Optional (comma-separated)" />
+      <TextField layoutX="468.0" layoutY="277.0" prefHeight="25.0" prefWidth="196.0" promptText="Optional (comma-separated)" fx:id="xbText" />
+      <Button fx:id="addInitBtn" layoutX="405.0" layoutY="321.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="259.0" style="-fx-background-color: #EC6400;" text="Add another INIT field?" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="160.0" layoutY="111.0" text="ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="idText" layoutX="199.0" layoutY="113.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
    </children>
 </AnchorPane>
