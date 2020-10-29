@@ -35,6 +35,9 @@ public class InitController implements Initializable{
 	@FXML TextField massFracText; //float
 	@FXML TextField xbText; //array
 	
+	@FXML TextField ijkText; //integer array
+	@FXML TextField xbMeshText; //float array
+	
 	
 	//button
 	@FXML Button cancelBtn;
@@ -46,6 +49,8 @@ public class InitController implements Initializable{
 	boolean checkFloat = true;
 	boolean checkInteger = true;
 	boolean realArray = true;
+	boolean checkIJK = true;
+	boolean checkMeshXBformat = true;
 	
 	static int mainId = 1;
 
@@ -71,7 +76,7 @@ public class InitController implements Initializable{
 	private void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
-		if (xbFormat && checkFloat && checkInteger && realArray){
+		if (xbFormat && checkFloat && checkInteger && realArray && checkIJK && checkMeshXBformat){
 			//store values
 			storeValues();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init2.fxml"));
@@ -89,6 +94,7 @@ public class InitController implements Initializable{
 			System.out.println("check float: "+ checkFloat);
 			System.out.println("check integer: "+ checkInteger);
 			System.out.println("real array: "+ realArray);
+			System.out.println("ijk format: "+ checkIJK);
 		}
 		
 	}
@@ -139,6 +145,8 @@ public class InitController implements Initializable{
 		checkFloat = true;
 		checkInteger = true;
 		realArray = true;
+		checkIJK = true;
+		checkMeshXBformat = true;
 		if (!massTimeText.getText().equals("")){
 			checkFloat = checkFloat && checkFloatValues(massTimeText);
 		}
@@ -155,16 +163,25 @@ public class InitController implements Initializable{
 			checkInteger = checkInteger && checkIntValues(npartCellText);
 		}
 		if (!xbText.getText().equals("")){
-			xbFormat = checkXbFormat(xbText);
+			xbFormat = xbFormat && checkXbFormat(xbText);
 		}
+		
+		checkMeshXBformat = checkMeshXB(xbMeshText);
+		checkIJK = checkIJKformat(ijkText);
 	}
 	
 	private boolean checkXbFormat(TextField valueTF){
+		if (valueTF.getText().contains(" ")){ //check if there are any white spaces
+			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+			initAlert.setTitle("Incorrect XB format");
+			initAlert.setContentText("There should not be any whitespaces.");
+			initAlert.setHeaderText(null);
+			initAlert.show();
+			return false;
+		}
 		String[] xbValues = valueTF.getText().split(",");
 		float[] xbFloatValues = new float[6];
 		String concatXB = "";
-		boolean checkXBfloat = false;
-		TextField tmpTF = new TextField();
 		
 		if (xbValues.length != 6){
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -176,13 +193,15 @@ public class InitController implements Initializable{
 		}
 		
 		for (int i=0; i<6; i++){ 
-			tmpTF.setText(xbValues[i]);
-			checkXBfloat = checkFloatValues(tmpTF);
-			if (checkXBfloat == false){ //check if each value is real
+			try{
+				Float.valueOf(xbValues[i]);
+			}
+			catch(Exception e){//check if each value is real
+			
 				Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 				initAlert.setTitle("Incorrect XB format");
 				initAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
-						+ "values delimited by comma. Please check again.");
+						+ "values, comma-separated. Please check again.");
 				initAlert.setHeaderText(null);
 				initAlert.show();
 				return false;
@@ -193,7 +212,7 @@ public class InitController implements Initializable{
 				concatXB = concatXB + Float.toString(xbFloatValues[i]);
 			}
 			else{
-				concatXB = concatXB + Float.toString(xbFloatValues[i]) + ", "; //convert to string
+				concatXB = concatXB + Float.toString(xbFloatValues[i]) + ","; //convert to string
 			}
 		}
 		valueTF.setText(concatXB);
@@ -205,7 +224,6 @@ public class InitController implements Initializable{
 		try{
 			String value = valueTF.getText();
 			int valueInt = Integer.parseInt(value);
-			System.out.println("VALUE INT: " + valueInt);
 			if (valueInt < 0){ //check if it is negative
 				Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 				initAlert.setTitle("Invalid init value");
@@ -252,6 +270,81 @@ public class InitController implements Initializable{
 			initAlert.setContentText("The mass per time, mass per volume and XB values should be numerical. Please check again.");
 			initAlert.setHeaderText(null);
 			initAlert.show();
+			return false;
+		}
+	}
+	
+	private boolean checkMeshXB(TextField valueTF){
+		if (valueTF.getText().equals("")){
+			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
+			meshAlert.setTitle("Empty MESH XB values");
+			meshAlert.setContentText("MESH XB is a required value.");
+			meshAlert.setHeaderText(null);
+			meshAlert.show();
+			return false;
+		}
+		return checkXbFormat(valueTF);
+		
+	}
+	
+	private boolean checkIJKformat(TextField valueTF){ 
+		if (valueTF.getText().equals("")){ //check if ijk is empty
+			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
+			meshAlert.setTitle("Empty MESH IJK values");
+			meshAlert.setContentText("MESH IJK is a required value.");
+			meshAlert.setHeaderText(null);
+			meshAlert.show();
+			return false;
+		}
+		if (valueTF.getText().contains(" ")){ //check if there are any white spaces
+			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+			initAlert.setTitle("Incorrect IJK format");
+			initAlert.setContentText("There should not be any whitespaces.");
+			initAlert.setHeaderText(null);
+			initAlert.show();
+			return false;
+		}
+		
+		String[] ijkValues = valueTF.getText().split(",");
+		String concatIJK = "";
+		if (ijkValues.length != 3){ //check if ijk is the correct length
+			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
+			meshAlert.setTitle("Incorrect IJK format");
+			meshAlert.setContentText("There should be 3 integer values, comma-separated.");
+			meshAlert.setHeaderText(null);
+			meshAlert.show();
+			return false;
+		}
+		
+		try{
+			for (int i=0; i<3; i++){
+				System.out.println("ijk value individual: " + ijkValues[i]);
+				int ijkInt = Integer.parseInt(ijkValues[i]);
+				if (ijkInt <= 0){ //check if ijk is negative or zero
+					Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
+					meshAlert.setTitle("Incorrect IJK format");
+					meshAlert.setContentText("The IJK values should be more than zero.");
+					meshAlert.setHeaderText(null);
+					meshAlert.show();
+					return false;
+				}
+				if (i==0 || i==1){ //concatenate to format the ijk string
+					concatIJK = concatIJK + String.valueOf(ijkInt) + ",";
+				}
+				else{
+					concatIJK = concatIJK + String.valueOf(ijkInt);
+				}
+			}
+			valueTF.setText(concatIJK);
+			return true;
+		}
+		catch(Exception e){ //check if ijk is an integer
+			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
+			meshAlert.setTitle("Incorrect IJK format");
+			meshAlert.setContentText("There should be 3 integer values.");
+			meshAlert.setHeaderText(null);
+			meshAlert.show();
+			e.printStackTrace();
 			return false;
 		}
 	}
