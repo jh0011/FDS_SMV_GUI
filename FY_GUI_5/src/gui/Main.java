@@ -37,17 +37,23 @@ public class Main extends Application {
 			String sqlHead = "DELETE FROM head;";
 			String sqlTime = "DELETE FROM time;";
 			String sqlCatf = "DELETE FROM catf;";
+			String sqlInit = "DELETE FROM init;";
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
 			String initTime = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('', '', '');";
 			String initCatf = "INSERT INTO catf(OTHER_FILES) VALUES ('');";
+			String initInit = "INSERT INTO init(mainId, idText, partIdText, specIdText, npartText, "
+					+ "npartCellText, massTimeText, massVolText, massFracText, xbText) "
+					+ "VALUES ('1', '', '', '', '', '', '', '', '', '')";
 			Statement statement;
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlHead);
 			statement.executeUpdate(sqlTime);
 			statement.executeUpdate(sqlCatf);
+			statement.executeUpdate(sqlInit);
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
 			statement.executeUpdate(initCatf);
+			statement.executeUpdate(initInit);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

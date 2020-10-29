@@ -3,9 +3,13 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +46,8 @@ public class InitController implements Initializable{
 	boolean checkFloat = true;
 	boolean checkInteger = true;
 	boolean realArray = true;
+	
+	static int mainId = 1;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -62,10 +68,12 @@ public class InitController implements Initializable{
 	}
 	
 	@FXML
-	private void goToInit(ActionEvent event) throws IOException{ //NEXT SCENE
+	private void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
 		if (xbFormat && checkFloat && checkInteger && realArray){
+			//store values
+			storeValues();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init2.fxml"));
 			Parent root = loader.load();
 			
@@ -95,6 +103,34 @@ public class InitController implements Initializable{
 			
 			mainWindow.setScene(introScene);
 			mainWindow.show();
+		}
+	}
+	
+	@FXML
+	private void newInitLine(ActionEvent event) throws IOException, SQLException{
+		mainId++;
+		String mainIdString = Integer.toString(mainId);
+		String sqlInit = "INSERT INTO init(mainId, idText, partIdText, specIdText, npartText, "
+				+ "npartCellText, massTimeText, massVolText, massFracText, xbText) "
+				+ "VALUES (" + mainIdString + ", '', '', '', '', '', '', '', '', '')";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement = connection.createStatement();
+		statement.executeUpdate(sqlInit);
+		
+		String sqlShowInit = "SELECT * FROM init";
+		ResultSet rs = statement.executeQuery(sqlShowInit);
+		while (rs.next()){
+			idText.setText(rs.getString(2));
+			partIdText.setText(rs.getString(3));
+			specIdText.setText(rs.getString(4));
+			npartText.setText(rs.getString(5));
+			npartCellText.setText(rs.getString(6));
+			massTimeText.setText(rs.getString(7));
+			massVolText.setText(rs.getString(8));
+			massFracText.setText(rs.getString(9));
+			xbText.setText(rs.getString(10));
 		}
 	}
 	
@@ -139,7 +175,7 @@ public class InitController implements Initializable{
 			return false;
 		}
 		
-		for (int i=0; i<6; i++){ //if less than 6, it will get throw the exception
+		for (int i=0; i<6; i++){ 
 			tmpTF.setText(xbValues[i]);
 			checkXBfloat = checkFloatValues(tmpTF);
 			if (checkXBfloat == false){ //check if each value is real
@@ -151,10 +187,13 @@ public class InitController implements Initializable{
 				initAlert.show();
 				return false;
 			}
+			
 			xbFloatValues[i] = Float.valueOf(xbValues[i]); //convert to float
-			concatXB = concatXB + Float.toString(xbFloatValues[i]) + ", "; //convert to string
 			if (i==5){
 				concatXB = concatXB + Float.toString(xbFloatValues[i]);
+			}
+			else{
+				concatXB = concatXB + Float.toString(xbFloatValues[i]) + ", "; //convert to string
 			}
 		}
 		valueTF.setText(concatXB);
@@ -217,14 +256,41 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	private void storeValues() throws SQLException{
+		String sqlInit = "INSERT INTO init VALUES('" + mainId + "', '" + idText.getText() +
+				"', '" + partIdText.getText() + "', '" + specIdText.getText() + "', '" +
+				npartText.getText() + "', '" + npartCellText.getText() + "', '" +
+				massTimeText.getText() + "', '" + massVolText.getText() + "', '" + 
+				massFracText.getText() + "', '" + xbText.getText() + "');";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlInit);
+	}
+	
 	@FXML 
 	private void printFile(ActionEvent event) throws IOException{ //SAMPLE TESTING
 		Values.printFile();
 	}
 
 	//To take values from database and display them for the init page
-	public void showInfo() {
-		//filesText.setText(Values.allStrings[13][0]);
+	public void showInfo() throws SQLException {
+		String sqlInit = "SELECT * FROM init;";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlInit);
+		while (rs.next()){
+			idText.setText(rs.getString(2));
+			partIdText.setText(rs.getString(3));
+			specIdText.setText(rs.getString(4));
+			npartText.setText(rs.getString(5));
+			npartCellText.setText(rs.getString(6));
+			massTimeText.setText(rs.getString(7));
+			massVolText.setText(rs.getString(8));
+			massFracText.setText(rs.getString(9));
+			xbText.setText(rs.getString(10));
+		}
 	}
 	
 	

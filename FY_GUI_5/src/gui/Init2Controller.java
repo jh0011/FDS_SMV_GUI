@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +29,7 @@ public class Init2Controller {
 	}
 	
 	@FXML
-	private void goToCatf(ActionEvent event) throws IOException{ //PREVIOUS SCENE
+	private void goToCatf(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
 		Parent root = loader.load();
 		
