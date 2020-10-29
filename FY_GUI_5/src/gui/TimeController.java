@@ -116,7 +116,7 @@ public class TimeController implements Initializable{
 	}
 	
 	@FXML
-	private void cancelOption(ActionEvent event) throws IOException{ //CANCEL
+	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout

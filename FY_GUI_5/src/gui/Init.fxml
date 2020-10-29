@@ -100,7 +100,7 @@
          </font>
       </Label>
       <TextField layoutX="468.0" layoutY="277.0" prefHeight="25.0" prefWidth="196.0" promptText="Optional (comma-separated)" fx:id="xbText" />
-      <Button fx:id="addInitBtn" layoutX="124.0" layoutY="36.0" mnemonicParsing="false" onAction="#newInitLine" prefHeight="49.0" prefWidth="196.0" style="-fx-background-color: eb9f65;" text="Add another INIT field" textOverrun="CLIP" wrapText="true">
+      <Button fx:id="addInitBtn" layoutX="152.0" layoutY="36.0" mnemonicParsing="false" onAction="#newInitLine" prefHeight="49.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
@@ -138,7 +138,7 @@
          </font>
       </Label>
       <TextField layoutX="114.0" layoutY="571.0" prefHeight="25.0" prefWidth="196.0" promptText="Required (comma-separated)" fx:id="xbMeshText" />
-      <Button fx:id="addInitBtn1" layoutX="149.0" layoutY="428.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="217.0" style="-fx-background-color: eb9f65;" text="Add another MESH field" textOverrun="CLIP">
+      <Button fx:id="addMeshBtn" layoutX="153.0" layoutY="431.0" mnemonicParsing="false" onAction="#addMeshLine" prefHeight="49.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>

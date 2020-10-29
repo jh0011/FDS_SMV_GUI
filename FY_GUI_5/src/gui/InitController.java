@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import javax.xml.datatype.Duration;
+
 import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class InitController implements Initializable{
@@ -43,6 +46,8 @@ public class InitController implements Initializable{
 	@FXML Button cancelBtn;
 	@FXML Button initBackBtn;
 	@FXML Button initNextBtn;
+	@FXML Button addInitBtn;
+	@FXML Button addMeshBtn;
 	@FXML Button printBtn;
 	
 	boolean xbFormat = true;
@@ -52,11 +57,16 @@ public class InitController implements Initializable{
 	boolean checkIJK = true;
 	boolean checkMeshXBformat = true;
 	
-	static int mainId = 1;
+	static int mainInitId = 1;
+	static int mainMeshId = 1;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		Tooltip initTooltip = new Tooltip("Click to add another INIT field.");
+		addInitBtn.setTooltip(initTooltip);
+		Tooltip meshTooltip = new Tooltip("Click to add another MESH field.");
+		addMeshBtn.setTooltip(meshTooltip);
 	}
 	
 	@FXML
@@ -99,7 +109,7 @@ public class InitController implements Initializable{
 		
 	}
 	@FXML 
-	private void cancelOption(ActionEvent event) throws IOException{ //CANCEL
+	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -114,11 +124,11 @@ public class InitController implements Initializable{
 	
 	@FXML
 	private void newInitLine(ActionEvent event) throws IOException, SQLException{
-		mainId++;
-		String mainIdString = Integer.toString(mainId);
-		String sqlInit = "INSERT INTO init(mainId, idText, partIdText, specIdText, npartText, "
+		mainInitId++;
+		String mainInitIdString = Integer.toString(mainInitId);
+		String sqlInit = "INSERT INTO init(mainID, idText, partIdText, specIdText, npartText, "
 				+ "npartCellText, massTimeText, massVolText, massFracText, xbText) "
-				+ "VALUES (" + mainIdString + ", '', '', '', '', '', '', '', '', '')";
+				+ "VALUES ('" + mainInitIdString + "', '', '', '', '', '', '', '', '', '')";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
@@ -139,6 +149,28 @@ public class InitController implements Initializable{
 			xbText.setText(rs.getString(10));
 		}
 	}
+	
+	@FXML
+	private void addMeshLine(ActionEvent event) throws IOException, SQLException{
+		mainMeshId++;
+		String mainMeshIdString = Integer.toString(mainMeshId);
+		String sqlMesh = "INSERT INTO mesh (mainID, ijkText, xbText) VALUES ('"
+				+ mainMeshIdString + "', '', '');";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement = connection.createStatement();
+		statement.executeUpdate(sqlMesh);
+		
+		String sqlShowMesh = "SELECT * FROM init";
+		ResultSet rs = statement.executeQuery(sqlShowMesh);
+		while (rs.next()){
+			ijkText.setText(rs.getString(2));
+			xbMeshText.setText(rs.getString(3));
+		}
+	}
+	
+	
 	
 	private void doChecking(){
 		xbFormat = true;
@@ -318,7 +350,6 @@ public class InitController implements Initializable{
 		
 		try{
 			for (int i=0; i<3; i++){
-				System.out.println("ijk value individual: " + ijkValues[i]);
 				int ijkInt = Integer.parseInt(ijkValues[i]);
 				if (ijkInt <= 0){ //check if ijk is negative or zero
 					Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -350,15 +381,20 @@ public class InitController implements Initializable{
 	}
 	
 	private void storeValues() throws SQLException{
-		String sqlInit = "INSERT INTO init VALUES('" + mainId + "', '" + idText.getText() +
+		String mainInitIdString = Integer.toString(mainInitId);
+		String sqlInit = "INSERT INTO init VALUES('" + mainInitIdString + "', '" + idText.getText() +
 				"', '" + partIdText.getText() + "', '" + specIdText.getText() + "', '" +
 				npartText.getText() + "', '" + npartCellText.getText() + "', '" +
 				massTimeText.getText() + "', '" + massVolText.getText() + "', '" + 
 				massFracText.getText() + "', '" + xbText.getText() + "');";
+		String mainMeshIdString = Integer.toString(mainMeshId);
+		String sqlMesh = "INSERT INTO mesh VALUES('" + mainMeshIdString + "', '" + ijkText.getText() +
+				"', '" + xbMeshText.getText() + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlInit);
+		statement.executeUpdate(sqlMesh);
 	}
 	
 	@FXML 
@@ -369,6 +405,7 @@ public class InitController implements Initializable{
 	//To take values from database and display them for the init page
 	public void showInfo() throws SQLException {
 		String sqlInit = "SELECT * FROM init;";
+		String sqlMesh = "SELECT * FROM mesh;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
@@ -383,6 +420,12 @@ public class InitController implements Initializable{
 			massVolText.setText(rs.getString(8));
 			massFracText.setText(rs.getString(9));
 			xbText.setText(rs.getString(10));
+		}
+		
+		ResultSet rs2 = statement.executeQuery(sqlMesh);
+		while (rs2.next()){
+			ijkText.setText(rs2.getString(2));
+			xbMeshText.setText(rs2.getString(3));
 		}
 	}
 	

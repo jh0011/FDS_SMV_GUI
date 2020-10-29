@@ -2,13 +2,16 @@ package gui;
 
 import java.util.Optional;
 
-
+import connectivity.ConnectionClass;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Values {
 	
@@ -107,10 +110,27 @@ public class Values {
 		
 	}
 	
-	protected static void cancelForm(){
-		for (int i=0; i<ARRAY; i++){
-			allStrings[i][0] = "";
-		}
+	protected static void cancelForm() throws SQLException{
+//		for (int i=0; i<ARRAY; i++){
+//			allStrings[i][0] = "";
+//		}
+		
+		//delete the table
+		String sqlHead = "DELETE FROM head;";
+		String sqlTime = "DELETE FROM time;";
+		String sqlCatf = "DELETE FROM catf;";
+		String sqlInit = "DELETE FROM init;";
+		String sqlMesh = "DELETE FROM mesh;";
+		
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement;
+		statement = connection.createStatement();
+		statement.executeUpdate(sqlHead);
+		statement.executeUpdate(sqlTime);
+		statement.executeUpdate(sqlCatf);
+		statement.executeUpdate(sqlInit);
+		statement.executeUpdate(sqlMesh);
 	}
 	
 	protected static boolean cancelWarning(){
