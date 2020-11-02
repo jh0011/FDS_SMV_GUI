@@ -92,7 +92,7 @@ public class InitController implements Initializable{
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init2.fxml"));
 			Parent root = loader.load();
 			
-			Init2Controller initCont = loader.getController(); //Get the next page's controller
+			PartController initCont = loader.getController(); //Get the next page's controller
 			//initCont.showInfo(); //Set the values of the page 
 			Scene initScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -137,8 +137,8 @@ public class BasicController implements Initializable{
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
 		while (rs.next()){
-			chidText.setText(rs.getString(2));
-			titleText.setText(rs.getString(3));
+			chidText.setText(rs.getString(1));
+			titleText.setText(rs.getString(2));
 		}
 	}
 	

@@ -231,9 +231,9 @@ public class TimeController implements Initializable{
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sqlTime);
 		while (rs.next()){
-			endTimeText.setText(rs.getString(2));
-			beginTimeText.setText(rs.getString(3));
-			dtText.setText(rs.getString(4));
+			endTimeText.setText(rs.getString(1));
+			beginTimeText.setText(rs.getString(2));
+			dtText.setText(rs.getString(3));
 		}
 		ResultSet rs2 = statement.executeQuery(sqlCatf);
 		while (rs2.next()){
