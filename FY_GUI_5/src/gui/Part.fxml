@@ -122,5 +122,10 @@
          </font>
       </Label>
       <TextField fx:id="qtyBndfText" layoutX="203.0" layoutY="484.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Button fx:id="addPartBtn" layoutX="160.0" layoutY="36.0" mnemonicParsing="false" onAction="#newPartLine" prefHeight="49.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

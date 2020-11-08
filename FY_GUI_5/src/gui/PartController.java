@@ -86,6 +86,35 @@ public class PartController {
 		
 	}
 	
+	@FXML
+	private void newPartLine(ActionEvent event) throws IOException, SQLException{
+		mainPartId++;
+		String mainPartIdString = Integer.toString(mainPartId);
+		String sqlPart = "INSERT INTO part (mainID, SURF_ID, SPEC_ID, PROP_ID, QUANTITIES, STATIC" + 
+				", MASSLESS, SAMPLING_FACTOR, DIAMETER, ID) VALUES ('" + mainPartIdString + "', '', '', '', '', '', '', '', '', '');";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement = connection.createStatement();
+		statement.executeUpdate(sqlPart);
+		
+		showInfo();
+		
+//		String sqlShowPart = "SELECT * FROM init";
+//		ResultSet rs = statement.executeQuery(sqlShowPart);
+//		while (rs.next()){
+//			surfIdText.setText(rs.getString(2));
+//			specIdText.setText(rs.getString(3));
+//			propIdText.setText(rs.getString(4));
+//			qtyPartText.setText(rs.getString(5));
+//			staticText.setText(rs.getString(6));
+//			masslessText.setText(rs.getString(7));
+//			sampleText.setText(rs.getString(8));
+//			diameterText.setText(rs.getString(9));
+//			idText.setText(rs.getString(10));
+//		}
+	}
+	
 	private void doChecking(){
 		booleanCheck = true;
 		intCheck = true;
