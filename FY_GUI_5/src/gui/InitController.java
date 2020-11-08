@@ -83,28 +83,29 @@ public class InitController implements Initializable{
 	}
 	
 	@FXML
-	private void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
+	private void goToPart(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
 		if (xbFormat && checkFloat && checkInteger && realArray && checkIJK && checkMeshXBformat){
 			//store values
 			storeValues();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init2.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Part.fxml"));
 			Parent root = loader.load();
 			
-			PartController initCont = loader.getController(); //Get the next page's controller
-			//initCont.showInfo(); //Set the values of the page 
-			Scene initScene = new Scene(root);
+			PartController partCont = loader.getController(); //Get the next page's controller
+			partCont.showInfo(); //Set the values of the page 
+			Scene partScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(initScene);
+			mainWindow.setScene(partScene);
 			mainWindow.show();
 		}
 		else{
-			System.out.println("XB FORMAT: "+ xbFormat);
-			System.out.println("check float: "+ checkFloat);
-			System.out.println("check integer: "+ checkInteger);
-			System.out.println("real array: "+ realArray);
-			System.out.println("ijk format: "+ checkIJK);
+//			System.out.println("XB FORMAT: "+ xbFormat);
+//			System.out.println("check float: "+ checkFloat);
+//			System.out.println("check integer: "+ checkInteger);
+//			System.out.println("real array: "+ realArray);
+//			System.out.println("ijk format: "+ checkIJK);
+			System.out.println("Unable to proceed to the PART page");
 		}
 		
 	}

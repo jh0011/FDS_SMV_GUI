@@ -64,6 +64,9 @@ public class BasicController implements Initializable{
 			mainWindow.setScene(timeScene);
 			mainWindow.show();
 		}
+		else{
+			System.out.println("Unable to proceed to the TIME page.");
+		}
 		
 		
 	}

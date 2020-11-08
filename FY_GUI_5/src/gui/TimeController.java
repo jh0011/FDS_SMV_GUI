@@ -68,7 +68,7 @@ public class TimeController implements Initializable{
 	}
 	
 	@FXML
-	private void goToCatf(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
+	private void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		
 		//check if time is numeric
 		boolean checkFloat = true;
@@ -99,7 +99,7 @@ public class TimeController implements Initializable{
 		if (checkEndTime && checkFloat && isCorrectFormat){
 			//store values
 			storeValues();
-			System.out.println("VALUES CATF: " + Values.concatFiles);
+			//System.out.println("VALUES CATF: " + Values.concatFiles);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
 			Parent root = loader.load();
 			
@@ -111,7 +111,7 @@ public class TimeController implements Initializable{
 			mainWindow.show(); 
 		}
 		else{
-			System.out.println("Unable to proceed to the next page");
+			System.out.println("Unable to proceed to the INIT page");
 		}
 	}
 	
@@ -169,7 +169,7 @@ public class TimeController implements Initializable{
 	}
 	
 	private boolean formatText(String text){
-		System.out.println("TEXT: " + text);
+		//System.out.println("TEXT: " + text);
 		String[] files = text.split("\\n");
 		Values.concatFiles = "";
 		for (int i=0; i<files.length; i++){
