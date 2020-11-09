@@ -121,6 +121,8 @@ public class Values {
 		String sqlCatf = "DELETE FROM catf;";
 		String sqlInit = "DELETE FROM init;";
 		String sqlMesh = "DELETE FROM mesh;";
+		String sqlPart = "DELETE FROM part;";
+		String sqlBndf = "DELETE FROM bndf;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -131,6 +133,8 @@ public class Values {
 		statement.executeUpdate(sqlCatf);
 		statement.executeUpdate(sqlInit);
 		statement.executeUpdate(sqlMesh);
+		statement.executeUpdate(sqlPart);
+		statement.executeUpdate(sqlBndf);
 	}
 	
 	protected static boolean cancelWarning(){

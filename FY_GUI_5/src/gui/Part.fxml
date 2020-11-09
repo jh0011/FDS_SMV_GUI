@@ -127,5 +127,10 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
+      <Button fx:id="addBndfBtn" layoutX="160.0" layoutY="410.0" mnemonicParsing="false" onAction="#newBndfLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

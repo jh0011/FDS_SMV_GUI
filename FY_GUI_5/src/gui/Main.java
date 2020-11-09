@@ -41,6 +41,7 @@ public class Main extends Application {
 			String sqlInit = "DELETE FROM init;";
 			String sqlMesh = "DELETE FROM mesh;";
 			String sqlPart = "DELETE FROM part;";
+			String sqlBndf = "DELETE FROM bndf;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -52,6 +53,7 @@ public class Main extends Application {
 			String initMesh = "INSERT INTO mesh (mainID, ijkText, xbText) VALUES ('', '', '');";
 			String initPart = "INSERT INTO part (mainID, SURF_ID, SPEC_ID, PROP_ID, QUANTITIES, STATIC" + 
 					", MASSLESS, SAMPLING_FACTOR, DIAMETER, ID) VALUES ('1', '', '', '', '', '', '', '', '', '');";
+			String initBndf = "INSERT INTO bndf (mainID, QUANTITY) VALUES ('1', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -61,6 +63,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlInit);
 			statement.executeUpdate(sqlMesh);
 			statement.executeUpdate(sqlPart);
+			statement.executeUpdate(sqlBndf);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -68,6 +71,7 @@ public class Main extends Application {
 			statement.executeUpdate(initInit);
 			statement.executeUpdate(initMesh);
 			statement.executeUpdate(initPart);
+			statement.executeUpdate(initBndf);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

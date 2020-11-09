@@ -26,13 +26,15 @@ public class PartController {
 	@FXML TextField masslessText; //boolean
 	@FXML TextField sampleText; //integer
 	@FXML TextField diameterText; //float
-	@FXML TextField idText; //String
+	@FXML TextField idText; //string
+	@FXML TextField qtyBndfText; //string
 	
 	boolean booleanCheck;
 	boolean intCheck;
 	boolean floatCheck;
 	
 	static int mainPartId = 1;
+	static int mainBndfId = 1;
 	
 	
 	@FXML 
@@ -113,6 +115,19 @@ public class PartController {
 //			diameterText.setText(rs.getString(9));
 //			idText.setText(rs.getString(10));
 //		}
+	}
+	
+	@FXML
+	private void newBndfLine(ActionEvent event) throws IOException, SQLException{
+		mainBndfId++;
+		String mainBndfIdString = Integer.toString(mainBndfId);
+		String sqlBndf = "INSERT INTO bndf (mainID, QUANTITY) VALUES ('" + mainBndfIdString + "', '');";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement = connection.createStatement();
+		statement.executeUpdate(sqlBndf);
+		showInfo();
 	}
 	
 	private void doChecking(){
@@ -211,18 +226,22 @@ public class PartController {
 	
 	private void storeValues() throws SQLException{
 		String mainPartIdString = Integer.toString(mainPartId);
+		String mainBndfIdString = Integer.toString(mainBndfId);
 		String sqlPart = "INSERT INTO part VALUES('" + mainPartIdString + "', '" + surfIdText.getText() + "', '" 
 				+ specIdText.getText() + "', '" + propIdText.getText() + "', '" + qtyPartText.getText() + "', '"
 				+ staticText.getText() + "', '" + masslessText.getText() + "', '" + sampleText.getText() +
 				"', '" + diameterText.getText() + "', '" + idText.getText() + "');";
+		String sqlBndf = "INSERT INTO bndf VALUES('" + mainBndfIdString + "', '" + qtyBndfText.getText() + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlPart);
+		statement.executeUpdate(sqlBndf);
 	}
 	
 	public void showInfo() throws SQLException{
 		String sqlPart = "SELECT * FROM part;";
+		String sqlBndf = "SELECT * FROM bndf;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
@@ -239,6 +258,10 @@ public class PartController {
 			idText.setText(rs.getString(10));
 		}
 		
+		ResultSet rs2 = statement.executeQuery(sqlBndf);
+		while (rs2.next()){
+			qtyBndfText.setText(rs2.getString(2));
+		}
 	}
 
 }
