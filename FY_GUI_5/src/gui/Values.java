@@ -5,6 +5,8 @@ import java.util.Optional;
 import connectivity.ConnectionClass;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -246,5 +248,9 @@ public class Values {
 			return true;
 		}
 		return false;
+	}
+	
+	protected static void checkPositiveFloatValue(TextField tempField) {
+		
 	}
 }

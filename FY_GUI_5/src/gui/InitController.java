@@ -71,15 +71,21 @@ public class InitController implements Initializable{
 	
 	@FXML
 	private void goToTime(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
-		Parent root = loader.load();
+		doChecking();
 		
-		TimeController timeCont = loader.getController(); //Get the next page's controller
-		timeCont.showInfo(); //Set the values of the page 
-		Scene timeScene = new Scene(root);
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-		mainWindow.setScene(timeScene);
-		mainWindow.show();
+		if (xbFormat && checkFloat && checkInteger && realArray && checkIJK && checkMeshXBformat){
+			//store values
+			storeValues();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
+			Parent root = loader.load();
+			
+			TimeController timeCont = loader.getController(); //Get the next page's controller
+			timeCont.showInfo(); //Set the values of the page 
+			Scene timeScene = new Scene(root);
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+			mainWindow.setScene(timeScene);
+			mainWindow.show();
+		}
 	}
 	
 	@FXML

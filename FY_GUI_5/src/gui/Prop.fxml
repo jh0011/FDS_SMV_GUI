@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PropController">
+   <children>
+      <Button fx:id="cancelBtn" layoutX="550.0" layoutY="640.0" mnemonicParsing="false" onAction="#cancelOption" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #bd2900;" text="Cancel">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="partBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToPart" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="partNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToDevc" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Fire1.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="45.0" layoutY="36.0" text="PROP">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="421.0" layoutY="112.0" text="Pdpa_integrate" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="integrateText" layoutX="561.0" layoutY="113.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="415.0" layoutY="165.0" text="Pdpa_normalize" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="389.0" layoutY="218.0" text="Operating Pressure" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="pressureText" layoutX="561.0" layoutY="219.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="normaliseText" layoutX="561.0" layoutY="166.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="67.0" layoutY="280.0" text="Smokeview_ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="smvIdText" layoutX="197.0" layoutY="281.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="129.0" layoutY="333.0" text="Offset" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="offsetText" layoutX="196.0" layoutY="334.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="111.0" layoutY="219.0" text="Quantity" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="119.0" layoutY="166.0" text="Part_ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="partIdText" layoutX="197.0" layoutY="167.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="qtyText" layoutX="196.0" layoutY="220.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="383.0" layoutY="277.0" text="Particles per second" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="partSecText" layoutX="562.0" layoutY="278.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="157.0" layoutY="112.0" text="ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="idText" layoutX="196.0" layoutY="114.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="416.0" layoutY="330.0" text="Particle Velocity" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="partVelText" layoutX="562.0" layoutY="331.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Button fx:id="addPropBtn" layoutX="151.0" layoutY="42.0" mnemonicParsing="false" onAction="#newPropLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Separator layoutX="66.0" layoutY="384.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="428.0" text="SPEC">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="159.0" layoutY="508.0" text="ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="specIdText" layoutX="196.0" layoutY="508.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Button fx:id="addSpecBtn" layoutX="142.0" layoutY="434.0" mnemonicParsing="false" onAction="#newSpecLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="446.0" layoutY="507.0" text="Background" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="backgroundText" layoutX="562.0" layoutY="508.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+   </children>
+</AnchorPane>

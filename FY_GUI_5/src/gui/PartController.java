@@ -1,23 +1,28 @@
 package gui;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ResourceBundle;
 
 import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
-public class PartController {
+public class PartController implements Initializable{
 	@FXML TextField surfIdText; //string
 	@FXML TextField specIdText; //string
 	@FXML TextField propIdText; //string
@@ -29,6 +34,9 @@ public class PartController {
 	@FXML TextField idText; //string
 	@FXML TextField qtyBndfText; //string
 	
+	@FXML Button addPartBtn;
+	@FXML Button addBndfBtn;
+	
 	boolean booleanCheck;
 	boolean intCheck;
 	boolean floatCheck;
@@ -36,6 +44,15 @@ public class PartController {
 	static int mainPartId = 1;
 	static int mainBndfId = 1;
 	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		Tooltip partTooltip = new Tooltip("Click to add another PART field.");
+		addPartBtn.setTooltip(partTooltip);
+		Tooltip bndfTooltip = new Tooltip("Click to add another BNDF field.");
+		addBndfBtn.setTooltip(bndfTooltip);
+		
+	}
 	
 	@FXML 
 	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
@@ -53,15 +70,21 @@ public class PartController {
 	
 	@FXML
 	private void goToInit(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
-		Parent root = loader.load();
+		doChecking();
 		
-		InitController initCont = loader.getController(); //Get the next page's controller
-		initCont.showInfo(); //Set the values of the page 
-		Scene initScene = new Scene(root);
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-		mainWindow.setScene(initScene);
-		mainWindow.show();
+		if (booleanCheck && intCheck && floatCheck){
+			//store the values
+			storeValues();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
+			Parent root = loader.load();
+			
+			InitController initCont = loader.getController(); //Get the next page's controller
+			initCont.showInfo(); //Set the values of the page 
+			Scene initScene = new Scene(root);
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+			mainWindow.setScene(initScene);
+			mainWindow.show();
+		}
 	}
 	
 	@FXML
@@ -72,18 +95,18 @@ public class PartController {
 			//store the values
 			storeValues();
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("temp.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Prop.fxml"));
 			Parent root = loader.load();
 			
-			tempController tempCont = loader.getController(); //Get the next page's controller
-			//initCont.showInfo(); //Set the values of the page 
-			Scene tempScene = new Scene(root);
+			PropController propCont = loader.getController(); //Get the next page's controller
+			propCont.showInfo(); //Set the values of the page 
+			Scene propScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(tempScene);
+			mainWindow.setScene(propScene);
 			mainWindow.show();
 		}
 		else{
-			System.out.println("Unable to load the temp page");
+			System.out.println("Unable to load the PROP page");
 		}
 		
 	}
@@ -239,7 +262,7 @@ public class PartController {
 		statement.executeUpdate(sqlBndf);
 	}
 	
-	public void showInfo() throws SQLException{
+	public void showInfo() throws SQLException{ //to show the info when the page is loaded
 		String sqlPart = "SELECT * FROM part;";
 		String sqlBndf = "SELECT * FROM bndf;";
 		ConnectionClass connectionClass = new ConnectionClass();

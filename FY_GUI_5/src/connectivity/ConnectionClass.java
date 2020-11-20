@@ -8,16 +8,12 @@ public class ConnectionClass {
 	public Connection connection;
 	
 	public Connection getConnection(){
-		String dbName = "FDS_SMV";
-		String url = "jdbc:mysql://freedb.tech:3306/freedbtech_FDS_SMV";
-		String userName = "freedbtech_jashini";
+		String url = "jdbc:mysql://127.0.0.1:3306/fds_db?useTimezone=true&serverTimezone=UTC";
+		String userName = "root";
 		String password = "root";
-		
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); 
-			//connection = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + "?useTimezone=true&serverTimezone=UTC", userName, password); //WORKS
-			//connection = DriverManager.getConnection("jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12374026", "sql12374026", "1YTc52bNUt"); //WORKS
 			
 			connection = DriverManager.getConnection(url, userName, password); //WORKS
 		} catch (Exception e) {

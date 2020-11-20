@@ -42,67 +42,67 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Label layoutX="496.0" layoutY="100.0" text="Static" textFill="WHITE">
+      <Label layoutX="489.0" layoutY="104.0" text="Static" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="staticText" layoutX="564.0" layoutY="101.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="467.0" layoutY="153.0" text="Massless" textFill="WHITE">
+      <TextField fx:id="staticText" layoutX="557.0" layoutY="105.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="460.0" layoutY="157.0" text="Massless" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="408.0" layoutY="206.0" text="Sampling Factor" textFill="WHITE">
+      <Label layoutX="401.0" layoutY="210.0" text="Sampling Factor" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="sampleText" layoutX="564.0" layoutY="207.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <TextField fx:id="masslessText" layoutX="564.0" layoutY="154.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="114.0" layoutY="268.0" text="Prop_ID" textFill="WHITE">
+      <TextField fx:id="sampleText" layoutX="557.0" layoutY="211.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="masslessText" layoutX="557.0" layoutY="158.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="107.0" layoutY="272.0" text="Prop_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="propIdText" layoutX="200.0" layoutY="269.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="95.0" layoutY="321.0" text="Quantities" textFill="WHITE">
+      <TextField fx:id="propIdText" layoutX="193.0" layoutY="273.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="88.0" layoutY="325.0" text="Quantities" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="qtyPartText" layoutX="199.0" layoutY="322.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="114.0" layoutY="207.0" text="Spec_ID" textFill="WHITE">
+      <TextField fx:id="qtyPartText" layoutX="192.0" layoutY="326.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="107.0" layoutY="211.0" text="Spec_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="122.0" layoutY="154.0" text="Surf_ID" textFill="WHITE">
+      <Label layoutX="115.0" layoutY="158.0" text="Surf_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="surfIdText" layoutX="200.0" layoutY="155.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <TextField fx:id="specIdText" layoutX="199.0" layoutY="208.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="466.0" layoutY="265.0" text="Diameter" textFill="WHITE">
+      <TextField fx:id="surfIdText" layoutX="193.0" layoutY="159.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="specIdText" layoutX="192.0" layoutY="212.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="459.0" layoutY="269.0" text="Diameter" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="diameterText" layoutX="565.0" layoutY="266.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="160.0" layoutY="100.0" text="ID" textFill="WHITE">
+      <TextField fx:id="diameterText" layoutX="558.0" layoutY="270.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="153.0" layoutY="104.0" text="ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="idText" layoutX="199.0" layoutY="102.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="idText" layoutX="192.0" layoutY="106.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
       <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../Fire1.jpg" />
          </image>
       </ImageView>
-      <Separator layoutX="75.0" layoutY="374.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="56.0" layoutY="404.0" text="BNDF">
+      <Separator layoutX="75.0" layoutY="381.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="437.0" text="BNDF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -116,18 +116,18 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label layoutX="99.0" layoutY="483.0" text="Quantity" textFill="WHITE">
+      <Label layoutX="99.0" layoutY="516.0" text="Quantity" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="qtyBndfText" layoutX="203.0" layoutY="484.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <Button fx:id="addPartBtn" layoutX="160.0" layoutY="36.0" mnemonicParsing="false" onAction="#newPartLine" prefHeight="49.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+      <TextField fx:id="qtyBndfText" layoutX="203.0" layoutY="517.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Button fx:id="addPartBtn" layoutX="160.0" layoutY="44.0" mnemonicParsing="false" onAction="#newPartLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="addBndfBtn" layoutX="160.0" layoutY="410.0" mnemonicParsing="false" onAction="#newBndfLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+      <Button fx:id="addBndfBtn" layoutX="147.0" layoutY="443.0" mnemonicParsing="false" onAction="#newBndfLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
