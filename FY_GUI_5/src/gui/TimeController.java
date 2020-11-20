@@ -26,9 +26,6 @@ import javafx.stage.Stage;
 
 public class TimeController implements Initializable{
 	
-	private final int ARRAY_SIZE = 3; //3 parameters [2-4]
-	TextField[] allTextFields = new TextField[ARRAY_SIZE];
-	
 	//time
 	@FXML TextField endTimeText;
 	@FXML TextField beginTimeText;
@@ -41,60 +38,41 @@ public class TimeController implements Initializable{
 	@FXML Button timeNextBtn;
 	@FXML Button cancelBtn;
 	
-	
+	boolean checkFloat;;
+	boolean checkEndTime;
+	boolean isCorrectFormat;
 	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		allTextFields[0] = endTimeText;
-		allTextFields[1] = beginTimeText;
-		allTextFields[2] = dtText;
 		
 	}
 	
 	@FXML
 	private void goToBasic(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Basic.fxml"));
-		Parent root = loader.load();
-		BasicController newBasic = loader.getController(); //Get the previous page's controller
+		doChecking();
 		
-		newBasic.showInfo(); //Set the values of the page //Values.chid, Values.title
-		Scene basicScene = new Scene(root);
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-		mainWindow.setScene(basicScene);
-		mainWindow.show();
+		if (checkEndTime && checkFloat && isCorrectFormat){
+			//store values
+			storeValues();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Basic.fxml"));
+			Parent root = loader.load();
+			BasicController newBasic = loader.getController(); //Get the previous page's controller
+			
+			newBasic.showInfo(); //Set the values of the page //Values.chid, Values.title
+			Scene basicScene = new Scene(root);
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+			mainWindow.setScene(basicScene);
+			mainWindow.show();
+		}
 		
 	}
 	
 	@FXML
 	private void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		
-		//check if time is numeric
-		boolean checkFloat = true;
-		
-		//check if the required time field is filled
-		boolean checkEndTime = checkTimeEnd(allTextFields[0].getText());
-		
-		//check if catf file format is correct
-		boolean isCorrectFormat = true;
-		
-		
-		//check the type values and store them
-		//TIME
-		for (int i=0; i<ARRAY_SIZE; i++){
-			if (!(allTextFields[i].getText().equals(""))){
-				checkFloat = checkTimeFloat(allTextFields[i].getText(), i);
-			}
-			if (!checkFloat){ //if either are false, break
-				break;
-			}
-		}
-		
-		//CATF
-		if (!filesText.getText().equals("")){
-			isCorrectFormat = formatText(filesText.getText());
-		}
+		doChecking();
 		
 		if (checkEndTime && checkFloat && isCorrectFormat){
 			//store values
@@ -129,8 +107,28 @@ public class TimeController implements Initializable{
 		}
 	}
 	
+	private void doChecking() {
+		checkFloat = true;
+		checkEndTime = true;
+		isCorrectFormat = true;
+		
+		checkEndTime = checkTimeEnd(endTimeText.getText());
+		if (!(endTimeText.getText().equals(""))){
+			checkFloat = checkFloat && checkTimeFloat(endTimeText);
+		}
+		if (!(beginTimeText.getText().equals(""))){
+			checkFloat = checkFloat && checkTimeFloat(beginTimeText);
+		}
+		if (!(dtText.getText().equals(""))){
+			checkFloat = checkFloat && checkTimeFloat(dtText);
+		}
+		if (!filesText.getText().equals("")){
+			isCorrectFormat = formatText(filesText.getText());
+		}
+	}
+	
 	private boolean checkTimeEnd(String timeStart){
-		if (timeStart.equals("")){ //Check if time is empty
+		if (timeStart.equals("")){ //Check if end time is empty
 			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
 			timeAlert.setTitle("Empty time value");
 			timeAlert.setContentText("The End Time value is required.");
@@ -138,12 +136,13 @@ public class TimeController implements Initializable{
 			timeAlert.show();
 			return false;
 		}
-		allTextFields[0].setText(timeStart);
+		endTimeText.setText(timeStart);
 		return true;
 	}
 	
-	private boolean checkTimeFloat(String value, int i){
+	private boolean checkTimeFloat(TextField tempField){
 		try{
+			String value = tempField.getText();
 			float timeFloat = Float.valueOf(value);
 			if (timeFloat < 0){ //check negative float values
 				Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -154,11 +153,10 @@ public class TimeController implements Initializable{
 				return false;
 			}
 			else{
-				//Values.allStrings[i+2][0] = Float.toString(timeFloat);
-				allTextFields[i].setText(Float.toString(timeFloat));
+				tempField.setText(Float.toString(timeFloat));
 				return true;
 			}
-		}catch(Exception e){
+		}catch(Exception e){ //check if values are numerical
 			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
 			timeAlert.setTitle("Invalid time value");
 			timeAlert.setContentText("The time values should be numerical. Please check again.");
@@ -169,12 +167,10 @@ public class TimeController implements Initializable{
 	}
 	
 	private boolean formatText(String text){
-		//System.out.println("TEXT: " + text);
 		String[] files = text.split("\\n");
 		Values.concatFiles = "";
 		for (int i=0; i<files.length; i++){
-			//check for file extension
-			if (!files[i].contains(".")){
+			if (!files[i].contains(".")){ //check for file extension
 				Alert filesAlert = new Alert(Alert.AlertType.INFORMATION);
 				filesAlert.setTitle("Files title format");
 				filesAlert.setContentText("The files require a file extension.");
@@ -210,9 +206,10 @@ public class TimeController implements Initializable{
 		return true;
 	}
 	
-	protected void storeValues() throws SQLException{
-		String sqlTime = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('" + allTextFields[0].getText() + "', '" + 
-		allTextFields[1].getText() + "', '" + allTextFields[2].getText() + "');";
+	
+	protected void storeValues() throws SQLException{ //store values into the database
+		String sqlTime = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('" + endTimeText.getText() + "', '" + 
+				beginTimeText.getText() + "', '" + dtText.getText() + "');";
 		String sqlCatf = "INSERT INTO catf VALUES ('" + filesText.getText() + "');";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -222,8 +219,7 @@ public class TimeController implements Initializable{
 		statement.executeUpdate(sqlCatf);
 	}
 	
-	//To take values from database and display them for the Time page
-	protected void showInfo() throws SQLException{ 
+	protected void showInfo() throws SQLException{ //to show the info when the page is loaded
 		String sqlTime = "SELECT * FROM time;";
 		String sqlCatf = "SELECT * FROM catf;";
 		ConnectionClass connectionClass = new ConnectionClass();

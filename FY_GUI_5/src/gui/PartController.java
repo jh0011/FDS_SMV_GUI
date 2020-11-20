@@ -247,7 +247,7 @@ public class PartController implements Initializable{
 		
 	}
 	
-	private void storeValues() throws SQLException{
+	private void storeValues() throws SQLException{ //store values into the database
 		String mainPartIdString = Integer.toString(mainPartId);
 		String mainBndfIdString = Integer.toString(mainBndfId);
 		String sqlPart = "INSERT INTO part VALUES('" + mainPartIdString + "', '" + surfIdText.getText() + "', '" 

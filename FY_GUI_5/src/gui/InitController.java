@@ -387,7 +387,7 @@ public class InitController implements Initializable{
 		}
 	}
 	
-	private void storeValues() throws SQLException{
+	private void storeValues() throws SQLException{ //store values into the database
 		String mainInitIdString = Integer.toString(mainInitId);
 		String sqlInit = "INSERT INTO init VALUES('" + mainInitIdString + "', '" + idText.getText() +
 				"', '" + partIdText.getText() + "', '" + specIdText.getText() + "', '" +
@@ -409,8 +409,7 @@ public class InitController implements Initializable{
 		Values.printFile();
 	}
 
-	//To take values from database and display them for the init page
-	public void showInfo() throws SQLException {
+	public void showInfo() throws SQLException { //to show the info when the page is loaded
 		String sqlInit = "SELECT * FROM init;";
 		String sqlMesh = "SELECT * FROM mesh;";
 		ConnectionClass connectionClass = new ConnectionClass();

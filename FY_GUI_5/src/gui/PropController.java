@@ -241,7 +241,7 @@ public class PropController implements Initializable{
 		}
 	}
 	
-	private void storeValues() throws SQLException {
+	private void storeValues() throws SQLException { //store values into the database
 		String mainPropIdString = Integer.toString(mainPropId);
 		String mainSpecIdString = Integer.toString(mainSpecId);
 		String sqlProp = "INSERT INTO prop VALUES('" + mainPropIdString + "', '" + idText.getText() + "', '" + partIdText.getText() + "', '" +
