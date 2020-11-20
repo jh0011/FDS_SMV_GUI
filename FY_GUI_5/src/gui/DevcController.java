@@ -221,7 +221,7 @@ public class DevcController implements Initializable{
 	}
 	
 	
-	private void storeValues() throws SQLException {
+	private void storeValues() throws SQLException { //store values into the database
 		String mainDevcIdString = Integer.toString(mainDevcId);
 		String sqlDevc = "INSERT INTO devc VALUES('" + mainDevcIdString + "', '" + devcIdText.getText() + "', '" + propIdText.getText() + "', '" +
 				specIdText.getText() + "', '" + xyzText.getText() + "', '" + quantityText.getText() + "', '" + iorSelection + "', '" + xbText.getText() + "');";

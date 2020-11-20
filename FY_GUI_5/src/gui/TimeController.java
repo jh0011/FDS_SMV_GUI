@@ -54,8 +54,9 @@ public class TimeController implements Initializable{
 		doChecking();
 		
 		if (checkEndTime && checkFloat && isCorrectFormat){
-			//store values
+			//store the values
 			storeValues();
+			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Basic.fxml"));
 			Parent root = loader.load();
 			BasicController newBasic = loader.getController(); //Get the previous page's controller
@@ -75,9 +76,9 @@ public class TimeController implements Initializable{
 		doChecking();
 		
 		if (checkEndTime && checkFloat && isCorrectFormat){
-			//store values
+			//store the values
 			storeValues();
-			//System.out.println("VALUES CATF: " + Values.concatFiles);
+			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
 			Parent root = loader.load();
 			

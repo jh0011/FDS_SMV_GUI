@@ -314,7 +314,7 @@ public class InitController implements Initializable{
 	}
 	
 	private boolean checkMeshXB(TextField valueTF){
-		if (valueTF.getText().equals("")){
+		if (valueTF.getText().equals("")){ //check if it is empty
 			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
 			meshAlert.setTitle("Empty MESH XB values");
 			meshAlert.setContentText("MESH XB is a required value.");
@@ -322,7 +322,7 @@ public class InitController implements Initializable{
 			meshAlert.show();
 			return false;
 		}
-		return checkXbFormat(valueTF);
+		return checkXbFormat(valueTF); //check if there are 6 values comma-separated
 		
 	}
 	
