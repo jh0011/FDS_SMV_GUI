@@ -9,7 +9,9 @@ This GUI is a Java Desktop Application to simplify the process of creating the .
 The .fxml file is used to design the page. Each .fxml is linked to a Controller Java file, which implements the functionalities. The .fxml file is designed using SceneBuilder. The user inputs are stored in the database.
 
 Download Eclipse IDE: https://www.eclipse.org/downloads/ 
+
 Download SceneBuilder: https://gluonhq.com/products/scene-builder/  
+
 Download MySQL Workbench: https://dev.mysql.com/downloads/workbench/ 
 
 ## Before running
