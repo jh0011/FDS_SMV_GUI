@@ -16,6 +16,7 @@ Download MySQL Workbench: https://dev.mysql.com/downloads/workbench/
 
 ## Before running
 Before running the program, we need to change the PATH static final int in Values.java. This is the directory in which the .fds file would be created in. The path should be written in this format: "C:\\\Users\\\dell\\\Desktop\\\\".
+
 The connection to the database on localhost would also need to be established.
 
 ## Features
