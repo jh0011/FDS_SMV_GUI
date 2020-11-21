@@ -20,7 +20,7 @@ public class Main extends Application {
 			Values.initValues();
 			Parent root;
 			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			//root = FXMLLoader.load(getClass().getResource("Time.fxml")); //For testing a certain page
+			//root = FXMLLoader.load(getClass().getResource("Devc.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -46,6 +46,7 @@ public class Main extends Application {
 			String sqlProp = "DELETE FROM prop;";
 			String sqlSpec = "DELETE FROM spec;";
 			String sqlDevc = "DELETE FROM devc;";
+			String sqlSlcf = "DELETE FROM slcf;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -63,6 +64,7 @@ public class Main extends Application {
 			String initSpec = "INSERT INTO spec (mainID, ID, BACKGROUND) VALUES ('1', '', '');";
 //			//String initDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('1', '', '', '', '', '', 'Select one (optional)', '');";
 			String initDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('1', '', '', '', '', '', '', '');";
+			String initSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR) VALUES ('1', '', '', '', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -76,6 +78,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlProp);
 			statement.executeUpdate(sqlSpec);
 			statement.executeUpdate(sqlDevc);
+			statement.executeUpdate(sqlSlcf);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -87,6 +90,7 @@ public class Main extends Application {
 			statement.executeUpdate(initProp);
 			statement.executeUpdate(initSpec);
 			statement.executeUpdate(initDevc);
+			statement.executeUpdate(initSlcf);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

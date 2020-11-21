@@ -34,19 +34,34 @@ public class DevcController implements Initializable{
 	@FXML ComboBox iorCombo;
 	@FXML TextField xbText; //float (6)
 	
+	@FXML TextField slcfQtyText; //string
+    @FXML TextField slcfSpecIdText; //string
+    @FXML TextField pbyText; //float
+    @FXML TextField pbzText; //float
+    @FXML TextField pbxText; //float
+    @FXML ComboBox vectorCombo; //boolean
+    
 	@FXML Button addDevcBtn;
+	@FXML Button addSlcfBtn;
 	
 	boolean checkXb;
 	boolean checkXyz;
+	boolean checkFloat;
 	
 	static String iorSelection = "";
+	static String vectorSelection = "";
+	
 	static int mainDevcId = 1;
+	static int mainSlcfId = 1;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		ObservableList<String> iorList = FXCollections.observableArrayList("1", "-1", "2", "-2", "3", "-3");
 		iorCombo.setItems(iorList);
+		
+		ObservableList<String> vectorList = FXCollections.observableArrayList("TRUE", "FALSE");
+		vectorCombo.setItems(vectorList);
 	}
 	
 	@FXML 
@@ -67,7 +82,7 @@ public class DevcController implements Initializable{
 	private void goToProp(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
-		if (checkXyz && checkXb) {
+		if (checkXyz && checkXb && checkFloat) {
 			//store the values
 			storeValues();
 			
@@ -90,9 +105,64 @@ public class DevcController implements Initializable{
 		iorCombo.setValue(iorSelection);
     }
 	
-	private void doChecking() {
+	@FXML
+	private void newDevcLine(ActionEvent event) throws IOException, SQLException{
+		doChecking();
+		if (checkXyz && checkXb && checkFloat) {
+			//store the values
+			storeValues();
+			
+			mainDevcId++;
+			String mainDevcIdString = Integer.toString(mainDevcId);
+			//iorSelection = "Select one (optional)"; //set the combo box when a new DEVC line is added
+			//String sqlDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('" + mainDevcIdString + "', '', '', '', '', '', '" + iorSelection + "', '');";
+			String sqlDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('" + mainDevcIdString + "', '', '', '', '', '', '', '');";
+			ConnectionClass connectionClass = new ConnectionClass();
+			Connection connection = connectionClass.getConnection();
+			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
+			statement.executeUpdate(sqlDevc);
+			
+			showInfo();
+		}
+	}
+	
+	@FXML
+    private void newSlcfLine(ActionEvent event) throws SQLException {
+		doChecking();
+		
+		if (checkXyz && checkXb && checkFloat) {
+			//store the values
+			storeValues();
+			
+			mainSlcfId++;
+			vectorSelection = "Select one (optional)";
+			String mainSlcfIdString = Integer.toString(mainSlcfId);
+//			String sqlSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR) VALUES ('" + mainSlcfIdString + 
+//					"', '', '', '', '', '', '" + vectorSelection + "');";
+			String sqlSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR) VALUES ('" + mainSlcfIdString + 
+					"', '', '', '', '', '', '');";
+			
+			ConnectionClass connectionClass = new ConnectionClass();
+			Connection connection = connectionClass.getConnection();
+			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
+			statement.executeUpdate(sqlSlcf);
+			
+			showInfo();
+		}
+    }
+
+    @FXML
+    private void vectorSelect(ActionEvent event) {
+    	vectorSelection = vectorCombo.getSelectionModel().getSelectedItem().toString();
+    	vectorCombo.setValue(vectorSelection);
+    }
+    
+    private void doChecking() {
 		checkXb = true;
 		checkXyz = true;
+		checkFloat = true;
 	
 		if(!xbText.getText().equals("")) {
 			checkXb = checkXb && checkXbFormat(xbText);
@@ -100,22 +170,15 @@ public class DevcController implements Initializable{
 		if(!xyzText.getText().equals("")) {
 			checkXyz = checkXyz && checkXyzFormat(xyzText);
 		}
-	}
-	
-	@FXML
-	private void newDevcLine(ActionEvent event) throws IOException, SQLException{
-		mainDevcId++;
-		String mainDevcIdString = Integer.toString(mainDevcId);
-		iorSelection = "Select one (optional)"; //set the combo box when a new DEVC line is added
-		String sqlDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('" + mainDevcIdString + "', '', '', '', '', '', '" + iorSelection + "', '');";
-		//String sqlDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('" + mainDevcIdString + "', '', '', '', '', '', '', '');";
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
-		Statement statement = connection.createStatement();
-		statement = connection.createStatement();
-		statement.executeUpdate(sqlDevc);
-		
-		showInfo();
+		if(!pbxText.getText().equals("")) {
+			checkFloat = checkFloat && checkFloatValues(pbxText);
+		}
+		if(!pbyText.getText().equals("")) {
+			checkFloat = checkFloat && checkFloatValues(pbyText);
+		}
+		if(!pbzText.getText().equals("")) {
+			checkFloat = checkFloat && checkFloatValues(pbzText);
+		}
 	}
 	
 	private boolean checkXbFormat(TextField tempField) {
@@ -220,19 +283,50 @@ public class DevcController implements Initializable{
 		}
 	}
 	
+	private boolean checkFloatValues(TextField tempField) {
+		try {
+			String stringVal = tempField.getText();
+			float floatVal = Float.valueOf(stringVal);
+			if (floatVal < 0){ //if it is not a positive float
+				Alert slcfAlert = new Alert(Alert.AlertType.INFORMATION);
+				slcfAlert.setTitle("Invalid value");
+				slcfAlert.setContentText("PBX, PBY and PBZ should not be negative values. Please check again.");
+				slcfAlert.setHeaderText(null);
+				slcfAlert.show();
+				return false;
+			}
+			tempField.setText(Float.toString(floatVal));
+			return true;
+		}
+		catch (Exception e) { //if it is not a float
+			Alert slcfAlert = new Alert(Alert.AlertType.INFORMATION);
+			slcfAlert.setTitle("Invalid value");
+			slcfAlert.setContentText("PBX, PBY and PBZ should be numerical values. Please check again.");
+			slcfAlert.setHeaderText(null);
+			slcfAlert.show();
+			return false;
+		}
+	}
+	
 	
 	private void storeValues() throws SQLException { //store values into the database
 		String mainDevcIdString = Integer.toString(mainDevcId);
+		String mainSlcfIdString = Integer.toString(mainSlcfId);
 		String sqlDevc = "INSERT INTO devc VALUES('" + mainDevcIdString + "', '" + devcIdText.getText() + "', '" + propIdText.getText() + "', '" +
 				specIdText.getText() + "', '" + xyzText.getText() + "', '" + quantityText.getText() + "', '" + iorSelection + "', '" + xbText.getText() + "');";
+		String sqlSlcf = "INSERT INTO slcf VALUES('" + mainSlcfIdString + "', '" + slcfQtyText.getText() + "', '" + slcfSpecIdText.getText() + "', '" +
+				pbyText.getText() + "', '" + pbzText.getText() + "', '" + pbxText.getText() + "', '" + vectorSelection + "');";
+		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlDevc);
+		statement.executeUpdate(sqlSlcf);
 	}
 	
 	protected void showInfo() throws SQLException { //to show the info when the page is loaded
 		String sqlDevc = "SELECT * FROM devc;";
+		String sqlSlcf = "SELECT * FROM slcf;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
@@ -247,6 +341,16 @@ public class DevcController implements Initializable{
 			//System.out.println("IOR SELECTION: " + iorSelection);
 			iorCombo.setValue(iorSelection);
 			xbText.setText(rs.getString(8));
+		}
+		ResultSet rs2 = statement.executeQuery(sqlSlcf);
+		while (rs2.next()) {
+			slcfQtyText.setText(rs2.getString(2));
+			slcfSpecIdText.setText(rs2.getString(3));
+			pbyText.setText(rs2.getString(4));
+			pbzText.setText(rs2.getString(5));
+			pbxText.setText(rs2.getString(6));
+			vectorSelection = rs2.getString(7);
+			vectorCombo.setValue(vectorSelection);
 		}
 	}
 
