@@ -22,10 +22,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class DevcController implements Initializable{
-	
+	//devc
 	@FXML TextField devcIdText; //string
 	@FXML TextField propIdText; //string
 	@FXML TextField specIdText; //string
@@ -34,6 +35,7 @@ public class DevcController implements Initializable{
 	@FXML ComboBox iorCombo;
 	@FXML TextField xbText; //float (6)
 	
+	//slcf
 	@FXML TextField slcfQtyText; //string
     @FXML TextField slcfSpecIdText; //string
     @FXML TextField pbyText; //float
@@ -56,11 +58,15 @@ public class DevcController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		ObservableList<String> iorList = FXCollections.observableArrayList("1", "-1", "2", "-2", "3", "-3");
+		Tooltip devcTooltip = new Tooltip("Click to add another DEVC field.");
+		addDevcBtn.setTooltip(devcTooltip);
+		Tooltip slcfTooltip = new Tooltip("Click to add another SLCF field.");
+		addSlcfBtn.setTooltip(slcfTooltip);
+		
+		ObservableList<String> iorList = FXCollections.observableArrayList("", "1", "-1", "2", "-2", "3", "-3");
 		iorCombo.setItems(iorList);
 		
-		ObservableList<String> vectorList = FXCollections.observableArrayList("TRUE", "FALSE");
+		ObservableList<String> vectorList = FXCollections.observableArrayList("", "TRUE", "FALSE");
 		vectorCombo.setItems(vectorList);
 	}
 	
@@ -100,15 +106,37 @@ public class DevcController implements Initializable{
 	}
 	
 	@FXML
+    private void goToSurf(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+		doChecking();
+		if (checkXyz && checkXb && checkFloat) {
+			//store the values
+			storeValues();
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Surf.fxml"));
+			Parent root = loader.load();
+			
+			SurfController surfCont = loader.getController(); //Get the next page's controller
+			//surfCont.showInfo(); //Set the values of the page 
+			Scene surfScene = new Scene(root);
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+			mainWindow.setScene(surfScene);
+			mainWindow.show();
+		}
+		else {
+			System.out.println("Unable to proceed to SURF page");
+		}
+    }
+	
+	@FXML
     private void iorSelect(ActionEvent event) {
 		iorSelection = iorCombo.getSelectionModel().getSelectedItem().toString();
 		iorCombo.setValue(iorSelection);
     }
 	
 	@FXML
-	private void newDevcLine(ActionEvent event) throws IOException, SQLException{
-		doChecking();
-		if (checkXyz && checkXb && checkFloat) {
+	private void newDevcLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW DEVC LINE
+		doCheckingDevc();
+		if (checkXyz && checkXb) {
 			//store the values
 			storeValues();
 			
@@ -125,13 +153,16 @@ public class DevcController implements Initializable{
 			
 			showInfo();
 		}
+		else {
+			System.out.println("Unable to add new DEVC line");
+		}
 	}
 	
 	@FXML
-    private void newSlcfLine(ActionEvent event) throws SQLException {
-		doChecking();
+    private void newSlcfLine(ActionEvent event) throws SQLException { //ADD NEW SLCF LINE
+		doCheckingSlcf();
 		
-		if (checkXyz && checkXb && checkFloat) {
+		if (checkFloat) {
 			//store the values
 			storeValues();
 			
@@ -151,6 +182,9 @@ public class DevcController implements Initializable{
 			
 			showInfo();
 		}
+		else {
+			System.out.println("Unable to add new SLCF line");
+		}
     }
 
     @FXML
@@ -160,9 +194,13 @@ public class DevcController implements Initializable{
     }
     
     private void doChecking() {
-		checkXb = true;
+		doCheckingDevc();
+		doCheckingSlcf();
+	}
+    
+    private void doCheckingDevc() {
+    	checkXb = true;
 		checkXyz = true;
-		checkFloat = true;
 	
 		if(!xbText.getText().equals("")) {
 			checkXb = checkXb && checkXbFormat(xbText);
@@ -170,7 +208,12 @@ public class DevcController implements Initializable{
 		if(!xyzText.getText().equals("")) {
 			checkXyz = checkXyz && checkXyzFormat(xyzText);
 		}
-		if(!pbxText.getText().equals("")) {
+    }
+    
+    private void doCheckingSlcf() {
+		checkFloat = true;
+		
+    	if(!pbxText.getText().equals("")) {
 			checkFloat = checkFloat && checkFloatValues(pbxText);
 		}
 		if(!pbyText.getText().equals("")) {
@@ -179,7 +222,7 @@ public class DevcController implements Initializable{
 		if(!pbzText.getText().equals("")) {
 			checkFloat = checkFloat && checkFloatValues(pbzText);
 		}
-	}
+    }
 	
 	private boolean checkXbFormat(TextField tempField) {
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces

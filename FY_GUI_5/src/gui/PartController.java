@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import connectivity.ConnectionClass;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,39 +20,52 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class PartController implements Initializable{
+	//part
 	@FXML TextField surfIdText; //string
 	@FXML TextField specIdText; //string
 	@FXML TextField propIdText; //string
 	@FXML TextField qtyPartText; //string
-	@FXML TextField staticText; //boolean
-	@FXML TextField masslessText; //boolean
+	@FXML ComboBox staticCombo; //boolean
+	@FXML ComboBox masslessCombo; //boolean
 	@FXML TextField sampleText; //integer
 	@FXML TextField diameterText; //float
 	@FXML TextField idText; //string
+	
+	//bndf
 	@FXML TextField qtyBndfText; //string
+	
 	
 	@FXML Button addPartBtn;
 	@FXML Button addBndfBtn;
 	
-	boolean booleanCheck;
 	boolean intCheck;
 	boolean floatCheck;
+	
+	static String staticSelection = "";
+	static String masslessSelection = "";
 	
 	static int mainPartId = 1;
 	static int mainBndfId = 1;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		
 		Tooltip partTooltip = new Tooltip("Click to add another PART field.");
 		addPartBtn.setTooltip(partTooltip);
 		Tooltip bndfTooltip = new Tooltip("Click to add another BNDF field.");
 		addBndfBtn.setTooltip(bndfTooltip);
+		
+		ObservableList<String> staticList = FXCollections.observableArrayList("", "TRUE", "FALSE");
+		staticCombo.setItems(staticList);
+		
+		ObservableList<String> masslessList = FXCollections.observableArrayList("", "TRUE", "FALSE");
+		masslessCombo.setItems(masslessList);
 		
 	}
 	
@@ -72,9 +87,10 @@ public class PartController implements Initializable{
 	private void goToInit(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
-		if (booleanCheck && intCheck && floatCheck){
+		if (intCheck && floatCheck){
 			//store the values
 			storeValues();
+			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
 			Parent root = loader.load();
 			
@@ -85,13 +101,16 @@ public class PartController implements Initializable{
 			mainWindow.setScene(initScene);
 			mainWindow.show();
 		}
+		else {
+			System.out.println("Unable to go back to INIT page");
+		}
 	}
 	
 	@FXML
-	private void goToTemp(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
+	private void goToProp(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
-		if (booleanCheck && intCheck && floatCheck){
+		if (intCheck && floatCheck){
 			//store the values
 			storeValues();
 			
@@ -106,28 +125,40 @@ public class PartController implements Initializable{
 			mainWindow.show();
 		}
 		else{
-			System.out.println("Unable to load the PROP page");
+			System.out.println("Unable to proceed to PROP page");
 		}
 		
 	}
 	
 	@FXML
-	private void newPartLine(ActionEvent event) throws IOException, SQLException{
-		mainPartId++;
-		String mainPartIdString = Integer.toString(mainPartId);
-		String sqlPart = "INSERT INTO part (mainID, SURF_ID, SPEC_ID, PROP_ID, QUANTITIES, STATIC" + 
-				", MASSLESS, SAMPLING_FACTOR, DIAMETER, ID) VALUES ('" + mainPartIdString + "', '', '', '', '', '', '', '', '', '');";
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
-		Statement statement = connection.createStatement();
-		statement = connection.createStatement();
-		statement.executeUpdate(sqlPart);
+	private void newPartLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW PART LINE
+		doCheckingPart();
 		
-		showInfo();
+		if (intCheck && floatCheck){
+			//store the values
+			storeValues();
+			
+			mainPartId++;
+			String mainPartIdString = Integer.toString(mainPartId);
+			String sqlPart = "INSERT INTO part (mainID, SURF_ID, SPEC_ID, PROP_ID, QUANTITIES, STATIC" + 
+					", MASSLESS, SAMPLING_FACTOR, DIAMETER, ID) VALUES ('" + mainPartIdString + "', '', '', '', '', '', '', '', '', '');";
+			ConnectionClass connectionClass = new ConnectionClass();
+			Connection connection = connectionClass.getConnection();
+			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
+			statement.executeUpdate(sqlPart);
+			
+			showInfo();
+		}
+		else {
+			System.out.println("Unable to add a new PART line");
+		}
 	}
 	
 	@FXML
-	private void newBndfLine(ActionEvent event) throws IOException, SQLException{
+	private void newBndfLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW BNDF LINE
+		storeValues();
+		
 		mainBndfId++;
 		String mainBndfIdString = Integer.toString(mainBndfId);
 		String sqlBndf = "INSERT INTO bndf (mainID, QUANTITY) VALUES ('" + mainBndfIdString + "', '');";
@@ -136,51 +167,56 @@ public class PartController implements Initializable{
 		Statement statement = connection.createStatement();
 		statement = connection.createStatement();
 		statement.executeUpdate(sqlBndf);
+		
 		showInfo();
 	}
 	
+	@FXML
+    private void staticSelect(ActionEvent event) {
+		staticSelection = staticCombo.getSelectionModel().getSelectedItem().toString();
+		staticCombo.setValue(staticSelection);
+    }
+	
+	@FXML
+    private void masslessSelect(ActionEvent event) {
+		masslessSelection = masslessCombo.getSelectionModel().getSelectedItem().toString();
+		masslessCombo.setValue(masslessSelection);
+    }
+	
 	private void doChecking(){
-		booleanCheck = true;
+		doCheckingPart();
+	}
+	
+	private void doCheckingPart() {
 		intCheck = true;
 		floatCheck = true;
 		
-		//check the boolean values
-		if (!staticText.getText().equals("")){
-			booleanCheck = booleanCheck && checkBooleanValues(staticText);
-		}
-		if (!masslessText.getText().equals("")){
-			booleanCheck = booleanCheck && checkBooleanValues(masslessText);
-		}
-		
-		//check the integer value
 		if (!sampleText.getText().equals("")){
 			intCheck = intCheck && checkIntegerValues(sampleText);
 		}
-		
-		//check the float value
 		if (!diameterText.getText().equals("")){
 			floatCheck = floatCheck && checkFloatValues(diameterText);
 		}
 	}
 	
-	private boolean checkBooleanValues(TextField tempField){
-		if (tempField.getText().equalsIgnoreCase("true")){
-			tempField.setText("TRUE");
-			return true;
-		}
-		else if (tempField.getText().equalsIgnoreCase("false")){
-			tempField.setText("FALSE");
-			return true;
-		}
-		else{
-			Alert partAlert = new Alert(Alert.AlertType.INFORMATION);
-			partAlert.setTitle("Invalid logical value");
-			partAlert.setContentText("Static and Massless should be logical values. Please check again.");
-			partAlert.setHeaderText(null);
-			partAlert.show();
-			return false;
-		}
-	}
+//	private boolean checkBooleanValues(TextField tempField){
+//		if (tempField.getText().equalsIgnoreCase("true")){
+//			tempField.setText("TRUE");
+//			return true;
+//		}
+//		else if (tempField.getText().equalsIgnoreCase("false")){
+//			tempField.setText("FALSE");
+//			return true;
+//		}
+//		else{
+//			Alert partAlert = new Alert(Alert.AlertType.INFORMATION);
+//			partAlert.setTitle("Invalid logical value");
+//			partAlert.setContentText("Static and Massless should be logical values. Please check again.");
+//			partAlert.setHeaderText(null);
+//			partAlert.show();
+//			return false;
+//		}
+//	}
 	
 	private boolean checkIntegerValues(TextField tempField){
 		try{ 
@@ -238,7 +274,7 @@ public class PartController implements Initializable{
 		String mainBndfIdString = Integer.toString(mainBndfId);
 		String sqlPart = "INSERT INTO part VALUES('" + mainPartIdString + "', '" + surfIdText.getText() + "', '" 
 				+ specIdText.getText() + "', '" + propIdText.getText() + "', '" + qtyPartText.getText() + "', '"
-				+ staticText.getText() + "', '" + masslessText.getText() + "', '" + sampleText.getText() +
+				+ staticSelection + "', '" + masslessSelection + "', '" + sampleText.getText() +
 				"', '" + diameterText.getText() + "', '" + idText.getText() + "');";
 		String sqlBndf = "INSERT INTO bndf VALUES('" + mainBndfIdString + "', '" + qtyBndfText.getText() + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -260,8 +296,10 @@ public class PartController implements Initializable{
 			specIdText.setText(rs.getString(3));
 			propIdText.setText(rs.getString(4));
 			qtyPartText.setText(rs.getString(5));
-			staticText.setText(rs.getString(6));
-			masslessText.setText(rs.getString(7));
+			staticSelection = rs.getString(6);
+			staticCombo.setValue(staticSelection);
+			masslessSelection = rs.getString(7);
+			masslessCombo.setValue(masslessSelection);
 			sampleText.setText(rs.getString(8));
 			diameterText.setText(rs.getString(9));
 			idText.setText(rs.getString(10));

@@ -27,7 +27,7 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class InitController implements Initializable{
-	
+	//init
 	@FXML TextField idText; //string
 	@FXML TextField partIdText; //string
 	@FXML TextField specIdText; //string
@@ -38,6 +38,7 @@ public class InitController implements Initializable{
 	@FXML TextField massFracText; //float
 	@FXML TextField xbText; //array
 	
+	//mesh
 	@FXML TextField ijkText; //integer array
 	@FXML TextField xbMeshText; //float array
 	
@@ -53,7 +54,6 @@ public class InitController implements Initializable{
 	boolean xbFormat = true;
 	boolean checkFloat = true;
 	boolean checkInteger = true;
-	boolean realArray = true;
 	boolean checkIJK = true;
 	boolean checkMeshXBformat = true;
 	
@@ -73,7 +73,7 @@ public class InitController implements Initializable{
 	private void goToTime(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
-		if (xbFormat && checkFloat && checkInteger && realArray && checkIJK && checkMeshXBformat){
+		if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
 			//store values
 			storeValues();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
@@ -86,15 +86,19 @@ public class InitController implements Initializable{
 			mainWindow.setScene(timeScene);
 			mainWindow.show();
 		}
+		else {
+			System.out.println("Unable to go back to TIME page");
+		}
 	}
 	
 	@FXML
 	private void goToPart(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
-		if (xbFormat && checkFloat && checkInteger && realArray && checkIJK && checkMeshXBformat){
+		if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
 			//store values
 			storeValues();
+			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Part.fxml"));
 			Parent root = loader.load();
 			
@@ -106,12 +110,7 @@ public class InitController implements Initializable{
 			mainWindow.show();
 		}
 		else{
-//			System.out.println("XB FORMAT: "+ xbFormat);
-//			System.out.println("check float: "+ checkFloat);
-//			System.out.println("check integer: "+ checkInteger);
-//			System.out.println("real array: "+ realArray);
-//			System.out.println("ijk format: "+ checkIJK);
-			System.out.println("Unable to proceed to the PART page");
+			System.out.println("Unable to proceed to PART page");
 		}
 		
 	}
@@ -130,62 +129,66 @@ public class InitController implements Initializable{
 	}
 	
 	@FXML
-	private void newInitLine(ActionEvent event) throws IOException, SQLException{
-		mainInitId++;
-		String mainInitIdString = Integer.toString(mainInitId);
-		String sqlInit = "INSERT INTO init(mainID, idText, partIdText, specIdText, npartText, "
-				+ "npartCellText, massTimeText, massVolText, massFracText, xbText) "
-				+ "VALUES ('" + mainInitIdString + "', '', '', '', '', '', '', '', '', '')";
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
-		Statement statement = connection.createStatement();
-		statement = connection.createStatement();
-		statement.executeUpdate(sqlInit);
+	private void newInitLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW INIT LINE
+		doCheckingInit();
 		
-		String sqlShowInit = "SELECT * FROM init";
-		ResultSet rs = statement.executeQuery(sqlShowInit);
-		while (rs.next()){
-			idText.setText(rs.getString(2));
-			partIdText.setText(rs.getString(3));
-			specIdText.setText(rs.getString(4));
-			npartText.setText(rs.getString(5));
-			npartCellText.setText(rs.getString(6));
-			massTimeText.setText(rs.getString(7));
-			massVolText.setText(rs.getString(8));
-			massFracText.setText(rs.getString(9));
-			xbText.setText(rs.getString(10));
+		if (xbFormat && checkFloat && checkInteger){
+			//store values
+			storeValues();
+		
+			mainInitId++;
+			String mainInitIdString = Integer.toString(mainInitId);
+			String sqlInit = "INSERT INTO init(mainID, idText, partIdText, specIdText, npartText, "
+					+ "npartCellText, massTimeText, massVolText, massFracText, xbText) "
+					+ "VALUES ('" + mainInitIdString + "', '', '', '', '', '', '', '', '', '')";
+			ConnectionClass connectionClass = new ConnectionClass();
+			Connection connection = connectionClass.getConnection();
+			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
+			statement.executeUpdate(sqlInit);
+			
+			showInfo();
+		}
+		else {
+			System.out.println("Unable to add a new INIT line");
 		}
 	}
 	
 	@FXML
-	private void addMeshLine(ActionEvent event) throws IOException, SQLException{
-		mainMeshId++;
-		String mainMeshIdString = Integer.toString(mainMeshId);
-		String sqlMesh = "INSERT INTO mesh (mainID, ijkText, xbText) VALUES ('"
-				+ mainMeshIdString + "', '', '');";
-		ConnectionClass connectionClass = new ConnectionClass();
-		Connection connection = connectionClass.getConnection();
-		Statement statement = connection.createStatement();
-		statement = connection.createStatement();
-		statement.executeUpdate(sqlMesh);
+	private void addMeshLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW MESH LINE
+		doCheckingMesh();
 		
-		String sqlShowMesh = "SELECT * FROM init";
-		ResultSet rs = statement.executeQuery(sqlShowMesh);
-		while (rs.next()){
-			ijkText.setText(rs.getString(2));
-			xbMeshText.setText(rs.getString(3));
+		if (checkIJK && checkMeshXBformat){
+			//store values
+			storeValues();
+			
+			mainMeshId++;
+			String mainMeshIdString = Integer.toString(mainMeshId);
+			String sqlMesh = "INSERT INTO mesh (mainID, ijkText, xbText) VALUES ('"
+					+ mainMeshIdString + "', '', '');";
+			ConnectionClass connectionClass = new ConnectionClass();
+			Connection connection = connectionClass.getConnection();
+			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
+			statement.executeUpdate(sqlMesh);
+			
+			showInfo();
+		}
+		else {
+			System.out.println("Unable to add a new MESH line");
 		}
 	}
 	
-	
-	
 	private void doChecking(){
+		doCheckingInit();
+		doCheckingMesh();
+	}
+	
+	private void doCheckingInit() {
 		xbFormat = true;
 		checkFloat = true;
 		checkInteger = true;
-		realArray = true;
-		checkIJK = true;
-		checkMeshXBformat = true;
+		
 		if (!massTimeText.getText().equals("")){
 			checkFloat = checkFloat && checkFloatValues(massTimeText);
 		}
@@ -204,9 +207,14 @@ public class InitController implements Initializable{
 		if (!xbText.getText().equals("")){
 			xbFormat = xbFormat && checkXbFormat(xbText);
 		}
+	}
+	
+	private void doCheckingMesh() {
+		checkIJK = true;
+		checkMeshXBformat = true;
 		
-		checkMeshXBformat = checkMeshXB(xbMeshText);
-		checkIJK = checkIJKformat(ijkText);
+		checkMeshXBformat = checkMeshXBformat && checkMeshXB(xbMeshText);
+		checkIJK = checkIJK && checkIJKformat(ijkText);
 	}
 	
 	private boolean checkXbFormat(TextField valueTF){
@@ -382,7 +390,6 @@ public class InitController implements Initializable{
 			meshAlert.setContentText("There should be 3 integer values.");
 			meshAlert.setHeaderText(null);
 			meshAlert.show();
-			e.printStackTrace();
 			return false;
 		}
 	}

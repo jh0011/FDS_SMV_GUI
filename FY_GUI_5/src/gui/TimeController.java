@@ -61,11 +61,14 @@ public class TimeController implements Initializable{
 			Parent root = loader.load();
 			BasicController newBasic = loader.getController(); //Get the previous page's controller
 			
-			newBasic.showInfo(); //Set the values of the page //Values.chid, Values.title
+			newBasic.showInfo(); //Set the values of the page 
 			Scene basicScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 			mainWindow.setScene(basicScene);
 			mainWindow.show();
+		}
+		else {
+			System.out.println("Unable to go back to Basic page");
 		}
 		
 	}
@@ -90,7 +93,7 @@ public class TimeController implements Initializable{
 			mainWindow.show(); 
 		}
 		else{
-			System.out.println("Unable to proceed to the INIT page");
+			System.out.println("Unable to proceed to INIT page");
 		}
 	}
 	
@@ -109,9 +112,13 @@ public class TimeController implements Initializable{
 	}
 	
 	private void doChecking() {
+		doCheckingTime();
+		doCheckingCatf();
+	}
+	
+	private void doCheckingTime() {
 		checkFloat = true;
 		checkEndTime = true;
-		isCorrectFormat = true;
 		
 		checkEndTime = checkTimeEnd(endTimeText.getText());
 		if (!(endTimeText.getText().equals(""))){
@@ -123,6 +130,11 @@ public class TimeController implements Initializable{
 		if (!(dtText.getText().equals(""))){
 			checkFloat = checkFloat && checkTimeFloat(dtText);
 		}
+	}
+	
+	private void doCheckingCatf() {
+		isCorrectFormat = true;
+		
 		if (!filesText.getText().equals("")){
 			isCorrectFormat = formatText(filesText.getText());
 		}

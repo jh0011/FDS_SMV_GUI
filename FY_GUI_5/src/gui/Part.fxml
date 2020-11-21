@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -37,7 +38,7 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="partNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToTemp" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
+      <Button fx:id="partNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToProp" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
@@ -47,7 +48,6 @@
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="staticText" layoutX="557.0" layoutY="105.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
       <Label layoutX="460.0" layoutY="157.0" text="Massless" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
@@ -59,7 +59,6 @@
          </font>
       </Label>
       <TextField fx:id="sampleText" layoutX="557.0" layoutY="211.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
-      <TextField fx:id="masslessText" layoutX="557.0" layoutY="158.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
       <Label layoutX="107.0" layoutY="272.0" text="Prop_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
@@ -132,5 +131,7 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
+      <ComboBox fx:id="masslessCombo" layoutX="555.0" layoutY="158.0" onAction="#masslessSelect" prefHeight="25.0" prefWidth="162.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
+      <ComboBox fx:id="staticCombo" layoutX="556.0" layoutY="106.0" onAction="#staticSelect" prefHeight="25.0" prefWidth="162.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
    </children>
 </AnchorPane>
