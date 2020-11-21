@@ -116,7 +116,7 @@ public class DevcController implements Initializable{
 			Parent root = loader.load();
 			
 			SurfController surfCont = loader.getController(); //Get the next page's controller
-			//surfCont.showInfo(); //Set the values of the page 
+			surfCont.showInfo(); //Set the values of the page 
 			Scene surfScene = new Scene(root);
 			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 			mainWindow.setScene(surfScene);
@@ -142,8 +142,6 @@ public class DevcController implements Initializable{
 			
 			mainDevcId++;
 			String mainDevcIdString = Integer.toString(mainDevcId);
-			//iorSelection = "Select one (optional)"; //set the combo box when a new DEVC line is added
-			//String sqlDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('" + mainDevcIdString + "', '', '', '', '', '', '" + iorSelection + "', '');";
 			String sqlDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('" + mainDevcIdString + "', '', '', '', '', '', '', '');";
 			ConnectionClass connectionClass = new ConnectionClass();
 			Connection connection = connectionClass.getConnection();
@@ -167,10 +165,7 @@ public class DevcController implements Initializable{
 			storeValues();
 			
 			mainSlcfId++;
-			vectorSelection = "Select one (optional)";
 			String mainSlcfIdString = Integer.toString(mainSlcfId);
-//			String sqlSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR) VALUES ('" + mainSlcfIdString + 
-//					"', '', '', '', '', '', '" + vectorSelection + "');";
 			String sqlSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR) VALUES ('" + mainSlcfIdString + 
 					"', '', '', '', '', '', '');";
 			
@@ -381,7 +376,6 @@ public class DevcController implements Initializable{
 			xyzText.setText(rs.getString(5));
 			quantityText.setText(rs.getString(6));
 			iorSelection = rs.getString(7);
-			//System.out.println("IOR SELECTION: " + iorSelection);
 			iorCombo.setValue(iorSelection);
 			xbText.setText(rs.getString(8));
 		}

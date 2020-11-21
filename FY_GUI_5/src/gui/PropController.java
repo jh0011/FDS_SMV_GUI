@@ -160,7 +160,7 @@ public class PropController implements Initializable{
 	
 	@FXML
 	private void newSpecLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW SPEC LINE
-		mainSpecId++;
+		mainSpecId++; //no need to do checking
 		String mainSpecIdString = Integer.toString(mainSpecId);
 		String sqlSpec = "INSERT INTO spec (mainID, ID, BACKGROUND) VALUES ('" + mainSpecIdString + "', '', '');";
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -192,16 +192,6 @@ public class PropController implements Initializable{
 	
 	private void doChecking() {
 		doCheckingProp();
-		
-//		if (!integrateText.getText().equals("")) {
-//			checkBoolean = checkBoolean && checkBooleanValues(integrateText);
-//		}
-//		if (!normaliseText.getText().equals("")) {
-//			checkBoolean = checkBoolean && checkBooleanValues(normaliseText);
-//		}
-//		if (!backgroundText.getText().equals("")) {
-//			checkBoolean = checkBoolean && checkBooleanValues(backgroundText);
-//		}
 	}
 	
 	private void doCheckingProp() {
@@ -271,25 +261,6 @@ public class PropController implements Initializable{
 			return false;
 		}
 	}
-	
-//	private boolean checkBooleanValues(TextField tempField){
-//		if (tempField.getText().equalsIgnoreCase("true")){
-//			tempField.setText("TRUE");
-//			return true;
-//		}
-//		else if (tempField.getText().equalsIgnoreCase("false")){
-//			tempField.setText("FALSE");
-//			return true;
-//		}
-//		else{
-//			Alert propAlert = new Alert(Alert.AlertType.INFORMATION);
-//			propAlert.setTitle("Invalid logical value");
-//			propAlert.setContentText("Pdpa_integrate, Pdpa_normalize and Background should be logical values. Please check again.");
-//			propAlert.setHeaderText(null);
-//			propAlert.show();
-//			return false;
-//		}
-//	}
 	
 	private void storeValues() throws SQLException { //store values into the database
 		String mainPropIdString = Integer.toString(mainPropId);
