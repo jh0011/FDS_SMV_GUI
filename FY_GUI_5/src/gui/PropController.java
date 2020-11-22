@@ -330,7 +330,6 @@ public class PropController implements Initializable{
 			specIdText.setText(rs2.getString(2));
 			backgroundSelection = rs2.getString(3);
 			backgroundCombo.setValue(backgroundSelection);
-			System.out.println("BACKGROUND COMBO:" + backgroundSelection);
 		}
 	}
 

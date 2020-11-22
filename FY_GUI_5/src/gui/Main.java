@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Surf.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			//root = FXMLLoader.load(getClass().getResource("Ramp.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -49,6 +49,7 @@ public class Main extends Application {
 			String sqlSlcf = "DELETE FROM slcf;";
 			String sqlSurf = "DELETE FROM surf;";
 			String sqlVent = "DELETE FROM vent;";
+			String sqlRamp = "DELETE FROM ramp;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -69,6 +70,7 @@ public class Main extends Application {
 			String initSurf = "INSERT INTO surf (mainID, ID, PART_ID, MATL_ID, VEL, TMP_FRONT, BACKING, DEFAULT_SURF, GEOMETRY, " + 
 					"COLOR, HRRPUA) VALUES ('1', '', '', '', '', '', '', '', '', '', '');";
 			String initVent = "INSERT INTO vent (mainID, XB, SURF_ID, MB) VALUES ('1', '', '', '');";
+			String initRamp = "INSERT INTO ramp (mainID, FRACTION, TIME, ID) VALUES ('1', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -85,6 +87,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlSlcf);
 			statement.executeUpdate(sqlSurf);
 			statement.executeUpdate(sqlVent);
+			statement.executeUpdate(sqlRamp);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -99,6 +102,7 @@ public class Main extends Application {
 			statement.executeUpdate(initSlcf);
 			statement.executeUpdate(initSurf);
 			statement.executeUpdate(initVent);
+			statement.executeUpdate(initRamp);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

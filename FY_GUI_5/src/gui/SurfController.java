@@ -130,14 +130,14 @@ public class SurfController implements Initializable{
     		Parent root = loader.load();
     		
     		RampController rampCont = loader.getController(); //Get the next page's controller
-    		//rampCont.showInfo(); //Set the values of the page 
+    		rampCont.showInfo(); //Set the values of the page 
     		Scene rampScene = new Scene(root);
     		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
     		mainWindow.setScene(rampScene);
     		mainWindow.show();
     	}
     	else {
-    		System.out.println("Unable to go back to DEVC page");
+    		System.out.println("Unable to proceed to RAMP page");
     	}
     }
     
