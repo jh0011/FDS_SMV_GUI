@@ -76,6 +76,7 @@ public class InitController implements Initializable{
 		if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
 			//store values
 			storeValues();
+			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
 			Parent root = loader.load();
 			
@@ -134,7 +135,7 @@ public class InitController implements Initializable{
 		
 		if (xbFormat && checkFloat && checkInteger){
 			//store values
-			storeValues();
+			storeValuesInit();
 		
 			mainInitId++;
 			String mainInitIdString = Integer.toString(mainInitId);
@@ -147,7 +148,7 @@ public class InitController implements Initializable{
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlInit);
 			
-			showInfo();
+			showInfoInit();
 		}
 		else {
 			System.out.println("Unable to add a new INIT line");
@@ -160,7 +161,7 @@ public class InitController implements Initializable{
 		
 		if (checkIJK && checkMeshXBformat){
 			//store values
-			storeValues();
+			storeValuesMesh();
 			
 			mainMeshId++;
 			String mainMeshIdString = Integer.toString(mainMeshId);
@@ -172,7 +173,7 @@ public class InitController implements Initializable{
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlMesh);
 			
-			showInfo();
+			showInfoMesh();
 		}
 		else {
 			System.out.println("Unable to add a new MESH line");
@@ -395,19 +396,30 @@ public class InitController implements Initializable{
 	}
 	
 	private void storeValues() throws SQLException{ //store values into the database
+		storeValuesInit();
+		storeValuesMesh();
+	}
+	
+	private void storeValuesInit() throws SQLException{ //store INIT values into the database
 		String mainInitIdString = Integer.toString(mainInitId);
 		String sqlInit = "INSERT INTO init VALUES('" + mainInitIdString + "', '" + idText.getText() +
 				"', '" + partIdText.getText() + "', '" + specIdText.getText() + "', '" +
 				npartText.getText() + "', '" + npartCellText.getText() + "', '" +
 				massTimeText.getText() + "', '" + massVolText.getText() + "', '" + 
 				massFracText.getText() + "', '" + xbText.getText() + "');";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlInit);
+	}
+	
+	private void storeValuesMesh() throws SQLException{ //store MESH values into the database
 		String mainMeshIdString = Integer.toString(mainMeshId);
 		String sqlMesh = "INSERT INTO mesh VALUES('" + mainMeshIdString + "', '" + ijkText.getText() +
 				"', '" + xbMeshText.getText() + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
-		statement.executeUpdate(sqlInit);
 		statement.executeUpdate(sqlMesh);
 	}
 	
@@ -417,8 +429,12 @@ public class InitController implements Initializable{
 	}
 
 	public void showInfo() throws SQLException { //to show the info when the page is loaded
+		showInfoInit();
+		showInfoMesh();
+	}
+	
+	public void showInfoInit() throws SQLException { //to show the info when the page is loaded
 		String sqlInit = "SELECT * FROM init;";
-		String sqlMesh = "SELECT * FROM mesh;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
@@ -434,6 +450,13 @@ public class InitController implements Initializable{
 			massFracText.setText(rs.getString(9));
 			xbText.setText(rs.getString(10));
 		}
+	}
+	
+	public void showInfoMesh() throws SQLException { //to show the info when the page is loaded
+		String sqlMesh = "SELECT * FROM mesh;";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
 		
 		ResultSet rs2 = statement.executeQuery(sqlMesh);
 		while (rs2.next()){

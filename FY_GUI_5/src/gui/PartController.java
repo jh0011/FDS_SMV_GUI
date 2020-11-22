@@ -136,7 +136,7 @@ public class PartController implements Initializable{
 		
 		if (intCheck && floatCheck){
 			//store the values
-			storeValues();
+			storeValuesPart();
 			
 			mainPartId++;
 			String mainPartIdString = Integer.toString(mainPartId);
@@ -148,7 +148,7 @@ public class PartController implements Initializable{
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlPart);
 			
-			showInfo();
+			showInfoPart();
 		}
 		else {
 			System.out.println("Unable to add a new PART line");
@@ -157,7 +157,7 @@ public class PartController implements Initializable{
 	
 	@FXML
 	private void newBndfLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW BNDF LINE
-		storeValues();
+		storeValuesBndf();
 		
 		mainBndfId++;
 		String mainBndfIdString = Integer.toString(mainBndfId);
@@ -168,7 +168,7 @@ public class PartController implements Initializable{
 		statement = connection.createStatement();
 		statement.executeUpdate(sqlBndf);
 		
-		showInfo();
+		showInfoBndf();
 	}
 	
 	@FXML
@@ -270,23 +270,38 @@ public class PartController implements Initializable{
 	}
 	
 	private void storeValues() throws SQLException{ //store values into the database
+		storeValuesPart();
+		storeValuesBndf();
+	}
+	
+	private void storeValuesPart() throws SQLException{ //store PART values into the database
 		String mainPartIdString = Integer.toString(mainPartId);
-		String mainBndfIdString = Integer.toString(mainBndfId);
 		String sqlPart = "INSERT INTO part VALUES('" + mainPartIdString + "', '" + surfIdText.getText() + "', '" 
 				+ specIdText.getText() + "', '" + propIdText.getText() + "', '" + qtyPartText.getText() + "', '"
 				+ staticSelection + "', '" + masslessSelection + "', '" + sampleText.getText() +
 				"', '" + diameterText.getText() + "', '" + idText.getText() + "');";
-		String sqlBndf = "INSERT INTO bndf VALUES('" + mainBndfIdString + "', '" + qtyBndfText.getText() + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlPart);
+	}
+	
+	private void storeValuesBndf() throws SQLException{ //store BNDF values into the database
+		String mainBndfIdString = Integer.toString(mainBndfId);
+		String sqlBndf = "INSERT INTO bndf VALUES('" + mainBndfIdString + "', '" + qtyBndfText.getText() + "');";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlBndf);
 	}
 	
 	public void showInfo() throws SQLException{ //to show the info when the page is loaded
+		showInfoPart();
+		showInfoBndf();
+	}
+	
+	public void showInfoPart() throws SQLException{ //to show the info when the page is loaded
 		String sqlPart = "SELECT * FROM part;";
-		String sqlBndf = "SELECT * FROM bndf;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
@@ -304,6 +319,13 @@ public class PartController implements Initializable{
 			diameterText.setText(rs.getString(9));
 			idText.setText(rs.getString(10));
 		}
+	}
+	
+	public void showInfoBndf() throws SQLException{ //to show the info when the page is loaded
+		String sqlBndf = "SELECT * FROM bndf;";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
 		
 		ResultSet rs2 = statement.executeQuery(sqlBndf);
 		while (rs2.next()){

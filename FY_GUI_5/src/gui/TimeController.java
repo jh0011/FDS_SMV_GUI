@@ -220,21 +220,37 @@ public class TimeController implements Initializable{
 	}
 	
 	
-	protected void storeValues() throws SQLException{ //store values into the database
+	private void storeValues() throws SQLException{ //store values into the database
+		storeValuesTime();
+		storeValuesCatf();
+	}
+	
+	private void storeValuesTime() throws SQLException{ //store TIME values into the database
 		String sqlTime = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('" + endTimeText.getText() + "', '" + 
 				beginTimeText.getText() + "', '" + dtText.getText() + "');";
-		String sqlCatf = "INSERT INTO catf VALUES ('" + filesText.getText() + "');";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlTime);
+	}
+	
+	private void storeValuesCatf() throws SQLException{ //store CATF values into the database
+		String sqlCatf = "INSERT INTO catf VALUES ('" + filesText.getText() + "');";
+		
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlCatf);
 	}
 	
 	protected void showInfo() throws SQLException{ //to show the info when the page is loaded
+		showInfoTime();
+		showInfoCatf();
+	}
+	
+	protected void showInfoTime() throws SQLException{ //to show the info when the page is loaded
 		String sqlTime = "SELECT * FROM time;";
-		String sqlCatf = "SELECT * FROM catf;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
@@ -244,6 +260,13 @@ public class TimeController implements Initializable{
 			beginTimeText.setText(rs.getString(2));
 			dtText.setText(rs.getString(3));
 		}
+	}
+	
+	protected void showInfoCatf() throws SQLException{ //to show the info when the page is loaded
+		String sqlCatf = "SELECT * FROM catf;";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
 		ResultSet rs2 = statement.executeQuery(sqlCatf);
 		while (rs2.next()){
 			filesText.setText(rs2.getString(1));

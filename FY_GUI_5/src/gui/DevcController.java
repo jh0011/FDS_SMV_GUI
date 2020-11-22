@@ -138,7 +138,7 @@ public class DevcController implements Initializable{
 		doCheckingDevc();
 		if (checkXyz && checkXb) {
 			//store the values
-			storeValues();
+			storeValuesDevc();
 			
 			mainDevcId++;
 			String mainDevcIdString = Integer.toString(mainDevcId);
@@ -149,7 +149,7 @@ public class DevcController implements Initializable{
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlDevc);
 			
-			showInfo();
+			showInfoDevc();
 		}
 		else {
 			System.out.println("Unable to add new DEVC line");
@@ -162,7 +162,7 @@ public class DevcController implements Initializable{
 		
 		if (checkFloat) {
 			//store the values
-			storeValues();
+			storeValuesSlcf();
 			
 			mainSlcfId++;
 			String mainSlcfIdString = Integer.toString(mainSlcfId);
@@ -175,7 +175,7 @@ public class DevcController implements Initializable{
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlSlcf);
 			
-			showInfo();
+			showInfoSlcf();
 		}
 		else {
 			System.out.println("Unable to add new SLCF line");
@@ -348,23 +348,39 @@ public class DevcController implements Initializable{
 	
 	
 	private void storeValues() throws SQLException { //store values into the database
+		storeValuesDevc();
+		storeValuesSlcf();
+	}
+	
+	private void storeValuesDevc() throws SQLException { //store DEVC values into the database
 		String mainDevcIdString = Integer.toString(mainDevcId);
-		String mainSlcfIdString = Integer.toString(mainSlcfId);
 		String sqlDevc = "INSERT INTO devc VALUES('" + mainDevcIdString + "', '" + devcIdText.getText() + "', '" + propIdText.getText() + "', '" +
 				specIdText.getText() + "', '" + xyzText.getText() + "', '" + quantityText.getText() + "', '" + iorSelection + "', '" + xbText.getText() + "');";
+		
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlDevc);
+	}
+	
+	private void storeValuesSlcf() throws SQLException { //store SLCF values into the database
+		String mainSlcfIdString = Integer.toString(mainSlcfId);
 		String sqlSlcf = "INSERT INTO slcf VALUES('" + mainSlcfIdString + "', '" + slcfQtyText.getText() + "', '" + slcfSpecIdText.getText() + "', '" +
 				pbyText.getText() + "', '" + pbzText.getText() + "', '" + pbxText.getText() + "', '" + vectorSelection + "');";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
-		statement.executeUpdate(sqlDevc);
 		statement.executeUpdate(sqlSlcf);
 	}
 	
 	protected void showInfo() throws SQLException { //to show the info when the page is loaded
+		showInfoDevc();
+		showInfoSlcf();
+	}
+	
+	protected void showInfoDevc() throws SQLException { //to show the info when the page is loaded
 		String sqlDevc = "SELECT * FROM devc;";
-		String sqlSlcf = "SELECT * FROM slcf;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
@@ -379,6 +395,13 @@ public class DevcController implements Initializable{
 			iorCombo.setValue(iorSelection);
 			xbText.setText(rs.getString(8));
 		}
+	}
+	
+	protected void showInfoSlcf() throws SQLException { //to show the info when the page is loaded
+		String sqlSlcf = "SELECT * FROM slcf;";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
 		ResultSet rs2 = statement.executeQuery(sqlSlcf);
 		while (rs2.next()) {
 			slcfQtyText.setText(rs2.getString(2));

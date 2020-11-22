@@ -139,7 +139,7 @@ public class PropController implements Initializable{
 		
 		if (checkFloat && checkInteger) {
 			//store the values
-			storeValues();
+			storeValuesProp();
 			
 			mainPropId++;
 			String mainPropIdString = Integer.toString(mainPropId);
@@ -151,7 +151,7 @@ public class PropController implements Initializable{
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlProp);
 			
-			showInfo();
+			showInfoProp();
 		}
 		else {
 			System.out.println("Unable to add new PROP line");
@@ -160,6 +160,9 @@ public class PropController implements Initializable{
 	
 	@FXML
 	private void newSpecLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW SPEC LINE
+		//store the values
+		storeValuesSpec();
+		
 		mainSpecId++; //no need to do checking
 		String mainSpecIdString = Integer.toString(mainSpecId);
 		String sqlSpec = "INSERT INTO spec (mainID, ID, BACKGROUND) VALUES ('" + mainSpecIdString + "', '', '');";
@@ -169,7 +172,7 @@ public class PropController implements Initializable{
 		statement = connection.createStatement();
 		statement.executeUpdate(sqlSpec);
 		
-		showInfo();
+		showInfoSpec();
 	}
 	
 	@FXML
@@ -263,22 +266,37 @@ public class PropController implements Initializable{
 	}
 	
 	private void storeValues() throws SQLException { //store values into the database
+		storeValuesProp();
+		storeValuesSpec();
+	}
+	
+	private void storeValuesProp() throws SQLException { //store PROP values into the database
 		String mainPropIdString = Integer.toString(mainPropId);
-		String mainSpecIdString = Integer.toString(mainSpecId);
 		String sqlProp = "INSERT INTO prop VALUES('" + mainPropIdString + "', '" + idText.getText() + "', '" + partIdText.getText() + "', '" +
 				qtyText.getText() + "', '" + smvIdText.getText() + "', '" + offsetText.getText() + "', '" + integrateSelection + "', '" +
 				normaliseSelection + "', '" + pressureText.getText() + "', '" + partSecText.getText() + "', '" + partVelText.getText() + "');";
-		String sqlSpec = "INSERT INTO spec VALUES ('" + mainSpecIdString + "', '" + specIdText.getText() + "', '" + backgroundSelection + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlProp);
+	}
+	
+	private void storeValuesSpec() throws SQLException { //store SPEC values into the database
+		String mainSpecIdString = Integer.toString(mainSpecId);
+		String sqlSpec = "INSERT INTO spec VALUES ('" + mainSpecIdString + "', '" + specIdText.getText() + "', '" + backgroundSelection + "');";
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlSpec);
 	}
 	
 	protected void showInfo() throws SQLException { //to show the info when the page is loaded
+		showInfoProp();
+		showInfoSpec();
+	}
+	
+	protected void showInfoProp() throws SQLException { //to show the info when the page is loaded
 		String sqlProp = "SELECT * FROM prop;";
-		String sqlSpec = "SELECT * FROM spec;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -298,6 +316,14 @@ public class PropController implements Initializable{
 			partSecText.setText(rs.getString(10));
 			partVelText.setText(rs.getString(11));
 		}
+	}
+	
+	protected void showInfoSpec() throws SQLException { //to show the info when the page is loaded
+		String sqlSpec = "SELECT * FROM spec;";
+		
+		ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
 		
 		ResultSet rs2 = statement.executeQuery(sqlSpec);
 		while(rs2.next()) {

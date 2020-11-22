@@ -48,6 +48,7 @@ public class Main extends Application {
 			String sqlDevc = "DELETE FROM devc;";
 			String sqlSlcf = "DELETE FROM slcf;";
 			String sqlSurf = "DELETE FROM surf;";
+			String sqlVent = "DELETE FROM vent;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -67,6 +68,7 @@ public class Main extends Application {
 			String initSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR) VALUES ('1', '', '', '', '', '', '');";
 			String initSurf = "INSERT INTO surf (mainID, ID, PART_ID, MATL_ID, VEL, TMP_FRONT, BACKING, DEFAULT_SURF, GEOMETRY, " + 
 					"COLOR, HRRPUA) VALUES ('1', '', '', '', '', '', '', '', '', '', '');";
+			String initVent = "INSERT INTO vent (mainID, XB, SURF_ID, MB) VALUES ('1', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -82,6 +84,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlDevc);
 			statement.executeUpdate(sqlSlcf);
 			statement.executeUpdate(sqlSurf);
+			statement.executeUpdate(sqlVent);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -95,6 +98,7 @@ public class Main extends Application {
 			statement.executeUpdate(initDevc);
 			statement.executeUpdate(initSlcf);
 			statement.executeUpdate(initSurf);
+			statement.executeUpdate(initVent);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

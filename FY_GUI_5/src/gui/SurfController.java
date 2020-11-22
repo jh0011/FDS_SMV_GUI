@@ -38,22 +38,33 @@ public class SurfController implements Initializable{
     @FXML TextField colourText; //string
     @FXML TextField hrrpuaText; //float (+)
     
+    //vent
+    @FXML TextField xbText; //float (+ / -)
+    @FXML TextField surfIdText; //string
+    @FXML ComboBox mbCombo;
+   
     @FXML Button addSurfBtn;
+    @FXML Button addVentBtn;
     
     boolean checkFloatPos;
     boolean checkFloat;
     boolean checkMatl;
+    boolean checkXb;
     
     static String backingSelection = "";
     static String defaultSelection = "";
     static String geometrySelection = "";
+    static String mbSelection = "";
     
     static int mainSurfId = 1;
+    static int mainVentId = 1;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Tooltip surfTooltip = new Tooltip("Click to add another SURF field.");
 		addSurfBtn.setTooltip(surfTooltip);
+		Tooltip ventTooltip = new Tooltip("Click to add another VENT field.");
+		addVentBtn.setTooltip(ventTooltip);
 		
 		ObservableList<String> backingList = FXCollections.observableArrayList("", "INSULATED", "EXPOSED", "VOID");
 		backingCombo.setItems(backingList);
@@ -63,6 +74,9 @@ public class SurfController implements Initializable{
 		
 		ObservableList<String> geometryList = FXCollections.observableArrayList("", "CYLINDRICAL", "SPHERICAL");
 		geometryCombo.setItems(geometryList);
+		
+		ObservableList<String> mbList = FXCollections.observableArrayList("", "XMAX", "XMIN", "YMAX", "YMIN", "ZMAX", "ZMIN");
+		mbCombo.setItems(mbList);
 		
 	}
 	
@@ -84,7 +98,7 @@ public class SurfController implements Initializable{
     private void goToDevc(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkFloat & checkMatl) {
+    	if(checkFloatPos && checkFloat & checkMatl && checkXb) {
     		//store the values
     		storeValues();
     		
@@ -105,12 +119,35 @@ public class SurfController implements Initializable{
     }
     
     @FXML
+    private void goToRamp(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+    	doChecking();
+    	
+    	if(checkFloatPos && checkFloat & checkMatl && checkXb) {
+    		//store the values
+    		storeValues();
+    		
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Ramp.fxml"));
+    		Parent root = loader.load();
+    		
+    		RampController rampCont = loader.getController(); //Get the next page's controller
+    		//rampCont.showInfo(); //Set the values of the page 
+    		Scene rampScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(rampScene);
+    		mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to go back to DEVC page");
+    	}
+    }
+    
+    @FXML
     private void newSurfLine(ActionEvent event) throws SQLException { //ADD NEW SURF LINE
     	doCheckingSurf();
     	
     	if(checkFloatPos && checkFloat && checkMatl) {
     		//store the values
-    		storeValues();
+    		storeValuesSurf();
     		
 	    	mainSurfId++;
 	    	String mainSurfIdString = Integer.toString(mainSurfId);
@@ -122,10 +159,34 @@ public class SurfController implements Initializable{
 			statement = connection.createStatement();
 			statement.executeUpdate(sqlSurf);
 			
-			showInfo();
+			showInfoSurf();
     	}
     	else {
     		System.out.println("Unable to add new SURF line");
+    	}
+    }
+    
+    @FXML
+    private void newVentLine(ActionEvent event) throws SQLException { //ADD NEW VENT LINE
+    	doCheckingVent();
+    	
+    	if(checkXb) {
+    		//store the values
+    		storeValuesVent();
+    		
+    		mainVentId++;
+    		String mainVentIdString = Integer.toString(mainVentId);
+    		String sqlVent = "INSERT INTO vent (mainID, XB, SURF_ID, MB) VALUES ('" + mainVentIdString + "', '', '', '');";
+    		ConnectionClass connectionClass = new ConnectionClass();
+			Connection connection = connectionClass.getConnection();
+			Statement statement = connection.createStatement();
+			statement = connection.createStatement();
+			statement.executeUpdate(sqlVent);
+			
+			showInfoVent();
+    	}
+    	else{
+    		System.out.println("Unable to add new VENT line");
     	}
     }
     
@@ -147,8 +208,15 @@ public class SurfController implements Initializable{
     	geometryCombo.setValue(geometrySelection);
     }
     
+    @FXML
+    private void mbSelect(ActionEvent event) {
+    	mbSelection = mbCombo.getSelectionModel().getSelectedItem().toString();
+    	mbCombo.setValue(mbSelection);
+    }
+    
     private void doChecking() {
     	doCheckingSurf();
+    	doCheckingVent();
     }
     
     private void doCheckingSurf() {
@@ -167,6 +235,13 @@ public class SurfController implements Initializable{
     	}
     	if(!matlIdText.getText().equals("")) {
     		checkMatl = checkMatl && checkMatlValues(matlIdText);
+    	}
+    }
+    
+    private void doCheckingVent() {
+    	checkXb = true;
+    	if(!xbText.getText().equals("")) {
+    		checkXb = checkXb && checkXbFormat(xbText);
     	}
     }
     
@@ -226,7 +301,61 @@ public class SurfController implements Initializable{
     	return true;
     }
     
-    private void storeValues() throws SQLException { //store values into the database
+    private boolean checkXbFormat(TextField tempField) {
+    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			Alert ventAlert = new Alert(Alert.AlertType.INFORMATION);
+			ventAlert.setTitle("Incorrect XB format");
+			ventAlert.setContentText("There should not be any whitespaces.");
+			ventAlert.setHeaderText(null);
+			ventAlert.show();
+			return false;
+		}
+		String[] xbValues = tempField.getText().split(",");
+		float[] xbFloatValues = new float[6];
+		String concatXB = "";
+		
+		if (xbValues.length != 6){
+			Alert ventAlert = new Alert(Alert.AlertType.INFORMATION);
+			ventAlert.setTitle("Incorrect XB format");
+			ventAlert.setContentText("There should be 6 real values.");
+			ventAlert.setHeaderText(null);
+			ventAlert.show();
+			return false;
+		}
+		
+		for (int i=0; i<6; i++){ 
+			try{
+				Float.valueOf(xbValues[i]);
+			}
+			catch(Exception e){//check if each value is real
+			
+				Alert ventAlert = new Alert(Alert.AlertType.INFORMATION);
+				ventAlert.setTitle("Incorrect XB format");
+				ventAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
+						+ "values, comma-separated. Please check again.");
+				ventAlert.setHeaderText(null);
+				ventAlert.show();
+				return false;
+			}
+			
+			xbFloatValues[i] = Float.valueOf(xbValues[i]); //convert to float
+			if (i==5){
+				concatXB = concatXB + Float.toString(xbFloatValues[i]);
+			}
+			else{
+				concatXB = concatXB + Float.toString(xbFloatValues[i]) + ","; //convert to string
+			}
+		}
+		tempField.setText(concatXB);
+		return true;
+    }
+    
+    private void storeValues() throws SQLException{ //store values into the database
+    	storeValuesSurf();
+    	storeValuesVent();
+    }
+    
+    private void storeValuesSurf() throws SQLException { //store SURF values into the database
     	String mainSurfIdString = Integer.toString(mainSurfId);
     	String sqlSurf = "INSERT INTO surf VALUES ('" + mainSurfIdString + "', '" + idText.getText() + "', '" + partIdText.getText() + "', '" + matlIdText.getText() + "', '" +
     			velText.getText() + "', '" + tmpFrontText.getText() + "', '" + backingSelection + "', '" + defaultSelection + "', '" + geometrySelection + "', '" + colourText.getText() +
@@ -237,9 +366,24 @@ public class SurfController implements Initializable{
 		statement.executeUpdate(sqlSurf);
     }
     
-    protected void showInfo() throws SQLException {
+    private void storeValuesVent() throws SQLException { //store VENT values into the database
+    	String mainVentIdString = Integer.toString(mainVentId);
+    	String sqlVent = "INSERT INTO vent VALUES ('" + mainVentIdString + "', '" + xbText.getText() + "', '" + surfIdText.getText() + "', '" + mbSelection + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlVent);
+    	
+    }
+    
+    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    	showInfoSurf();
+    	showInfoVent();
+    }
+    
+    private void showInfoSurf() throws SQLException { //to show the info when the page is loaded
     	String sqlSurf = "SELECT * FROM surf;";
-		ConnectionClass connectionClass = new ConnectionClass();
+    	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sqlSurf);
@@ -257,6 +401,20 @@ public class SurfController implements Initializable{
 			geometryCombo.setValue(geometrySelection);
 			colourText.setText(rs.getString(10));
 			hrrpuaText.setText(rs.getString(11));
+		}
+    }
+    
+    private void showInfoVent() throws SQLException { //to show the info when the page is loaded
+    	String sqlVent = "SELECT * FROM vent;";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs2 = statement.executeQuery(sqlVent);
+		while (rs2.next()) {
+			xbText.setText(rs2.getString(2));
+			surfIdText.setText(rs2.getString(3));
+			mbSelection = rs2.getString(4);
+			mbCombo.setValue(mbSelection);
 		}
     }
 
