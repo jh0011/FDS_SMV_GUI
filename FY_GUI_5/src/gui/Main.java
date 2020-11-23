@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			//root = FXMLLoader.load(getClass().getResource("Ramp.fxml")); //For testing a certain page
+			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			root = FXMLLoader.load(getClass().getResource("Devc.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -66,7 +66,7 @@ public class Main extends Application {
 					+ ", OPERATING_PRESSURE, PARTICLES_PER_SECOND, PARTICLE_VELOCITY) VALUES ('1', '', '', '', '', '', '', '', '', '', '');";
 			String initSpec = "INSERT INTO spec (mainID, ID, BACKGROUND) VALUES ('1', '', '');";
 			String initDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('1', '', '', '', '', '', '', '');";
-			String initSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR) VALUES ('1', '', '', '', '', '', '');";
+			String initSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR, CELL_CENTERED) VALUES ('1', '', '', '', '', '', '', '');";
 			String initSurf = "INSERT INTO surf (mainID, ID, PART_ID, MATL_ID, VEL, TMP_FRONT, BACKING, DEFAULT_SURF, GEOMETRY, " + 
 					"COLOR, HRRPUA) VALUES ('1', '', '', '', '', '', '', '', '', '', '');";
 			String initVent = "INSERT INTO vent (mainID, XB, SURF_ID, MB) VALUES ('1', '', '', '');";

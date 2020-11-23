@@ -42,6 +42,7 @@ public class DevcController implements Initializable{
     @FXML TextField pbzText; //float
     @FXML TextField pbxText; //float
     @FXML ComboBox vectorCombo; //boolean
+    @FXML ComboBox centeredCombo; //boolean
     
 	@FXML Button addDevcBtn;
 	@FXML Button addSlcfBtn;
@@ -52,6 +53,7 @@ public class DevcController implements Initializable{
 	
 	static String iorSelection = "";
 	static String vectorSelection = "";
+	static String centeredSelection = "";
 	
 	static int mainDevcId = 1;
 	static int mainSlcfId = 1;
@@ -68,6 +70,9 @@ public class DevcController implements Initializable{
 		
 		ObservableList<String> vectorList = FXCollections.observableArrayList("", "TRUE", "FALSE");
 		vectorCombo.setItems(vectorList);
+		
+		ObservableList<String> centeredList = FXCollections.observableArrayList("", "TRUE", "FALSE");
+		centeredCombo.setItems(centeredList);
 	}
 	
 	@FXML 
@@ -166,8 +171,8 @@ public class DevcController implements Initializable{
 			
 			mainSlcfId++;
 			String mainSlcfIdString = Integer.toString(mainSlcfId);
-			String sqlSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR) VALUES ('" + mainSlcfIdString + 
-					"', '', '', '', '', '', '');";
+			String sqlSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR, CELL_CENTERED) VALUES ('" + mainSlcfIdString + 
+					"', '', '', '', '', '', '', '');";
 			
 			ConnectionClass connectionClass = new ConnectionClass();
 			Connection connection = connectionClass.getConnection();
@@ -186,6 +191,12 @@ public class DevcController implements Initializable{
     private void vectorSelect(ActionEvent event) {
     	vectorSelection = vectorCombo.getSelectionModel().getSelectedItem().toString();
     	vectorCombo.setValue(vectorSelection);
+    }
+    
+    @FXML
+    private void centeredSelect(ActionEvent event) {
+    	centeredSelection = centeredCombo.getSelectionModel().getSelectedItem().toString();
+    	centeredCombo.setValue(centeredSelection);
     }
     
     private void doChecking() {
@@ -366,7 +377,7 @@ public class DevcController implements Initializable{
 	private void storeValuesSlcf() throws SQLException { //store SLCF values into the database
 		String mainSlcfIdString = Integer.toString(mainSlcfId);
 		String sqlSlcf = "INSERT INTO slcf VALUES('" + mainSlcfIdString + "', '" + slcfQtyText.getText() + "', '" + slcfSpecIdText.getText() + "', '" +
-				pbyText.getText() + "', '" + pbzText.getText() + "', '" + pbxText.getText() + "', '" + vectorSelection + "');";
+				pbyText.getText() + "', '" + pbzText.getText() + "', '" + pbxText.getText() + "', '" + vectorSelection + "', '" + centeredSelection + "');";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -411,6 +422,8 @@ public class DevcController implements Initializable{
 			pbxText.setText(rs2.getString(6));
 			vectorSelection = rs2.getString(7);
 			vectorCombo.setValue(vectorSelection);
+			centeredSelection = rs2.getString(8);
+			centeredCombo.setValue(centeredSelection);
 		}
 	}
 

@@ -151,5 +151,11 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
+      <Label layoutX="67.0" layoutY="609.0" text="Cell_centered" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="centeredCombo" layoutX="191.0" layoutY="611.0" onAction="#centeredSelect" prefHeight="25.0" prefWidth="189.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
    </children>
 </AnchorPane>
