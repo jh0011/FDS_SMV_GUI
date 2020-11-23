@@ -114,6 +114,29 @@ public class RampController implements Initializable{
     }
     
     @FXML
+    private void goToObst(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    	doChecking();
+    	
+    	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
+    		//store the values
+    		storeValues();
+    	
+	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Obst.fxml"));
+			Parent root = loader.load();
+			
+			ObstController obstCont = loader.getController(); //Get the next page's controller
+			obstCont.showInfo(); //Set the values of the page 
+			Scene obstScene = new Scene(root);
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+			mainWindow.setScene(obstScene);
+			mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to proceed to OBST page");
+    	}
+    }
+    
+    @FXML
     private void newRampLine(ActionEvent event) throws SQLException { //ADD NEW RAMP LINE
     	doCheckingRamp();
     	
