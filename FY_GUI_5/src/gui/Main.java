@@ -20,7 +20,7 @@ public class Main extends Application {
 			Values.initValues();
 			Parent root;
 			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Devc.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Ramp.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -50,6 +50,7 @@ public class Main extends Application {
 			String sqlSurf = "DELETE FROM surf;";
 			String sqlVent = "DELETE FROM vent;";
 			String sqlRamp = "DELETE FROM ramp;";
+			String sqlCtrl = "DELETE FROM ctrl;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -71,6 +72,7 @@ public class Main extends Application {
 					"COLOR, HRRPUA) VALUES ('1', '', '', '', '', '', '', '', '', '', '');";
 			String initVent = "INSERT INTO vent (mainID, XB, SURF_ID, MB) VALUES ('1', '', '', '');";
 			String initRamp = "INSERT INTO ramp (mainID, FRACTION, TIME, ID) VALUES ('1', '', '', '');";
+			String initCtrl = "INSERT INTO ctrl (mainID, INPUT_ID, RAMP_ID, ID, LATCH, FUNCTION_TYPE) VALUES ('1', '', '', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -88,6 +90,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlSurf);
 			statement.executeUpdate(sqlVent);
 			statement.executeUpdate(sqlRamp);
+			statement.executeUpdate(sqlCtrl);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -103,6 +106,7 @@ public class Main extends Application {
 			statement.executeUpdate(initSurf);
 			statement.executeUpdate(initVent);
 			statement.executeUpdate(initRamp);
+			statement.executeUpdate(initCtrl);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

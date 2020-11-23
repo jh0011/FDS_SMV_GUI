@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import connectivity.ConnectionClass;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
@@ -27,18 +30,38 @@ public class RampController implements Initializable{
 	@FXML TextField fractionText; //float (+ / -)
     @FXML TextField timeText; //float (+)
     @FXML TextField rampIdText; //string
+    
+    //ctrl
+    @FXML TextField inputIdText;
+    @FXML TextField ctrlRampText;
+    @FXML TextField ctrlIdText;
+    @FXML ComboBox latchCombo;
+    @FXML ComboBox functionCombo;
 
     @FXML Button addRampBtn;
+    @FXML Button addCtrlBtn;
     
     boolean checkFloatPos;
     boolean checkFloat;
     
+    static String latchSelection = "";
+    static String functionSelection = "";
     static int mainRampId = 1;
+    static int mainCtrlId = 1;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Tooltip rampTooltip = new Tooltip("Click to add another RAMP field.");
 		addRampBtn.setTooltip(rampTooltip);
+		Tooltip ctrlTooltip = new Tooltip("Click to add another CTRL field.");
+		addCtrlBtn.setTooltip(ctrlTooltip);
+		
+		ObservableList<String> latchList = FXCollections.observableArrayList("", "TRUE", "FALSE");
+		latchCombo.setItems(latchList);
+		
+		ObservableList<String> functionList = FXCollections.observableArrayList("", "ANY", "ALL", "ONLY", "AT_LEAST", "TIME_DELAY", "CUSTOM", "DEADBAND", "KILL", "RESTART", "SUM", 
+				"SUBTRACT", "MULTIPLY", "DIVIDE", "POWER", "EXP", "LOG", "COS", "SIN", "ACOS", "ASIN", "MAX", "MIN", "PID");
+		functionCombo.setItems(functionList);
 	}
 	
 	@FXML
@@ -104,6 +127,37 @@ public class RampController implements Initializable{
     	
     }
     
+    @FXML
+    private void newCtrlLine(ActionEvent event) throws SQLException { //ADD NEW CTRL LINE
+    	//no checking required
+    	
+    	//store the values
+    	storeValuesCtrl();
+    	
+    	mainCtrlId++;
+    	String mainCtrlIdString = Integer.toString(mainCtrlId);
+    	String sqlCtrl = "INSERT INTO ctrl (mainID, INPUT_ID, RAMP_ID, ID, LATCH, FUNCTION_TYPE) VALUES ('" + mainCtrlIdString + "', '', '', '', '', '');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement = connection.createStatement();
+		statement.executeUpdate(sqlCtrl);
+		
+		showInfoCtrl();
+    }
+    
+    @FXML
+    private void latchSelect(ActionEvent event) {
+    	latchSelection = latchCombo.getSelectionModel().getSelectedItem().toString();
+    	latchCombo.setValue(latchSelection);
+    }
+    
+    @FXML
+    private void functionSelect(ActionEvent event) {
+    	functionSelection = functionCombo.getSelectionModel().getSelectedItem().toString();
+    	functionCombo.setValue(functionSelection);
+    }
+    
     private void doChecking() {
     	doCheckingRamp();
     }
@@ -164,6 +218,7 @@ public class RampController implements Initializable{
     
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesRamp();
+    	storeValuesCtrl();
     }
     
     private void storeValuesRamp() throws SQLException { //store RAMP values into the database
@@ -175,8 +230,19 @@ public class RampController implements Initializable{
 		statement.executeUpdate(sqlRamp);
     }
     
+    private void storeValuesCtrl() throws SQLException { //store CTRL values into the database
+    	String mainCtrlIdString = Integer.toString(mainCtrlId);
+    	String sqlCtrl = "INSERT INTO ctrl VALUES ('" + mainCtrlIdString + "', '" + inputIdText.getText() + "', '" + ctrlRampText.getText() + "', '" + 
+    			ctrlIdText.getText() + "', '" + latchSelection + "', '" + functionSelection + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlCtrl);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoRamp();
+    	showInfoCtrl();
     }
     
     protected void showInfoRamp() throws SQLException { //to show the info when the page is loaded
@@ -189,6 +255,23 @@ public class RampController implements Initializable{
 			fractionText.setText(rs.getString(2));
 			timeText.setText(rs.getString(3));
 			rampIdText.setText(rs.getString(4));
+		}
+    }
+    
+    protected void showInfoCtrl() throws SQLException { //to show the info when the page is loaded
+    	String sqlCtrl = "SELECT * FROM ctrl";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlCtrl);
+		while (rs.next()) {
+			inputIdText.setText(rs.getString(2));
+			ctrlRampText.setText(rs.getString(3));
+			ctrlIdText.setText(rs.getString(4));
+			latchSelection = rs.getString(5);
+			latchCombo.setValue(latchSelection);
+			functionSelection = rs.getString(6);
+			functionCombo.setValue(functionSelection);
 		}
     }
 
