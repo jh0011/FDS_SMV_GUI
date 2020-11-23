@@ -51,6 +51,7 @@ public class Main extends Application {
 			String sqlVent = "DELETE FROM vent;";
 			String sqlRamp = "DELETE FROM ramp;";
 			String sqlCtrl = "DELETE FROM ctrl;";
+			String sqlReac = "DELETE FROM reac;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -73,6 +74,7 @@ public class Main extends Application {
 			String initVent = "INSERT INTO vent (mainID, XB, SURF_ID, MB) VALUES ('1', '', '', '');";
 			String initRamp = "INSERT INTO ramp (mainID, FRACTION, TIME, ID) VALUES ('1', '', '', '');";
 			String initCtrl = "INSERT INTO ctrl (mainID, INPUT_ID, RAMP_ID, ID, LATCH, FUNCTION_TYPE) VALUES ('1', '', '', '', '', '');";
+			String initReac = "INSERT INTO reac (mainID, AUTO_IGNITION_TEMPERATURE, SOOT_YIELD, FUEL) VALUES ('1', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -91,6 +93,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlVent);
 			statement.executeUpdate(sqlRamp);
 			statement.executeUpdate(sqlCtrl);
+			statement.executeUpdate(sqlReac);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -107,6 +110,7 @@ public class Main extends Application {
 			statement.executeUpdate(initVent);
 			statement.executeUpdate(initRamp);
 			statement.executeUpdate(initCtrl);
+			statement.executeUpdate(initReac);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

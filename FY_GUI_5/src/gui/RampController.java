@@ -37,17 +37,26 @@ public class RampController implements Initializable{
     @FXML TextField ctrlIdText;
     @FXML ComboBox latchCombo;
     @FXML ComboBox functionCombo;
+    
+    //reac
+    @FXML TextField ignitTempText; //float (+ / -)
+    @FXML TextField sootText; //float (+)
+    @FXML TextField fuelText; //string
 
     @FXML Button addRampBtn;
     @FXML Button addCtrlBtn;
+    @FXML Button addReacBtn;
     
     boolean checkFloatPos;
     boolean checkFloat;
+    boolean checkFloatReac;
+    boolean checkFloatPosReac;
     
     static String latchSelection = "";
     static String functionSelection = "";
     static int mainRampId = 1;
     static int mainCtrlId = 1;
+    static int mainReacId = 1;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -55,6 +64,8 @@ public class RampController implements Initializable{
 		addRampBtn.setTooltip(rampTooltip);
 		Tooltip ctrlTooltip = new Tooltip("Click to add another CTRL field.");
 		addCtrlBtn.setTooltip(ctrlTooltip);
+		Tooltip reacTooltip = new Tooltip("Click to add another REAC field.");
+		addReacBtn.setTooltip(reacTooltip);
 		
 		ObservableList<String> latchList = FXCollections.observableArrayList("", "TRUE", "FALSE");
 		latchCombo.setItems(latchList);
@@ -82,7 +93,7 @@ public class RampController implements Initializable{
     private void goToSurf(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkFloat) {
+    	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
     		//store the values
     		storeValues();
     		
@@ -106,7 +117,7 @@ public class RampController implements Initializable{
     private void newRampLine(ActionEvent event) throws SQLException { //ADD NEW RAMP LINE
     	doCheckingRamp();
     	
-    	if(checkFloatPos && checkFloat) {
+    	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
     		//store the values 
     		storeValuesRamp();
     		
@@ -147,6 +158,28 @@ public class RampController implements Initializable{
     }
     
     @FXML
+    private void newReacLine(ActionEvent event) throws SQLException { //ADD NEW REAC LINE
+    	doCheckingReac();
+    	
+    	if(checkFloatReac && checkFloatPosReac) {
+    		mainReacId++;
+    		String mainReacIdString = Integer.toString(mainReacId);
+    		String sqlReac = "INSERT INTO reac (mainID, AUTO_IGNITION_TEMPERATURE, SOOT_YIELD, FUEL) VALUES ('" + mainReacIdString + "', '', '', '');";
+    		ConnectionClass connectionClass = new ConnectionClass();
+    		Connection connection = connectionClass.getConnection();
+    		Statement statement = connection.createStatement();
+    		statement = connection.createStatement();
+    		statement.executeUpdate(sqlReac);
+    		
+    		showInfoReac();
+    	}
+    	else {
+    		System.out.println("Unable to add new REAC line");
+    	}
+
+    }
+    
+    @FXML
     private void latchSelect(ActionEvent event) {
     	latchSelection = latchCombo.getSelectionModel().getSelectedItem().toString();
     	latchCombo.setValue(latchSelection);
@@ -160,6 +193,7 @@ public class RampController implements Initializable{
     
     private void doChecking() {
     	doCheckingRamp();
+    	doCheckingReac();
     }
     
     private void doCheckingRamp() {
@@ -174,6 +208,17 @@ public class RampController implements Initializable{
     	}
     }
     
+    private void doCheckingReac() {
+    	checkFloatReac = true;
+    	checkFloatPosReac = true;
+    	if(!ignitTempText.getText().equals("")) {
+    		checkFloatReac = checkFloatReac && checkFloatValues(ignitTempText);
+    	}
+    	if(!sootText.getText().equals("")) {
+    		checkFloatPosReac = checkFloatPosReac && checkFloatPosValues(sootText);
+    	}
+    }
+    
     private boolean checkFloatPosValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
@@ -181,7 +226,7 @@ public class RampController implements Initializable{
 			if (floatVal <= 0){ //if it is not a positive float
 				Alert rampAlert = new Alert(Alert.AlertType.INFORMATION);
 				rampAlert.setTitle("Invalid value");
-				rampAlert.setContentText("Time should be a positive value. Please check again.");
+				rampAlert.setContentText("Time and soot yield should be positive values. Please check again.");
 				rampAlert.setHeaderText(null);
 				rampAlert.show();
 				return false;
@@ -192,7 +237,7 @@ public class RampController implements Initializable{
 		catch (Exception e) { //if it is not a float
 			Alert rampAlert = new Alert(Alert.AlertType.INFORMATION);
 			rampAlert.setTitle("Invalid value");
-			rampAlert.setContentText("Time should be a numerical value. Please check again.");
+			rampAlert.setContentText("Time and soot yield should be numerical values. Please check again.");
 			rampAlert.setHeaderText(null);
 			rampAlert.show();
 			return false;
@@ -209,7 +254,7 @@ public class RampController implements Initializable{
 		catch (Exception e) { //if it is not a float
 			Alert surfAlert = new Alert(Alert.AlertType.INFORMATION);
 			surfAlert.setTitle("Invalid value");
-			surfAlert.setContentText("Fraction should be numerical values. Please check again.");
+			surfAlert.setContentText("Fraction and auto ignition temperature should be numerical values. Please check again.");
 			surfAlert.setHeaderText(null);
 			surfAlert.show();
 			return false;
@@ -219,6 +264,7 @@ public class RampController implements Initializable{
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesRamp();
     	storeValuesCtrl();
+    	storeValuesReac();
     }
     
     private void storeValuesRamp() throws SQLException { //store RAMP values into the database
@@ -240,9 +286,19 @@ public class RampController implements Initializable{
 		statement.executeUpdate(sqlCtrl);
     }
     
+    private void storeValuesReac() throws SQLException { //store REAC values into the database
+    	String mainReacIdString = Integer.toString(mainReacId);
+    	String sqlReac = "INSERT INTO reac VALUES ('" + mainReacIdString + "', '" + ignitTempText.getText() + "', '" + sootText.getText() + "', '" + fuelText.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlReac);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoRamp();
     	showInfoCtrl();
+    	showInfoReac();
     }
     
     protected void showInfoRamp() throws SQLException { //to show the info when the page is loaded
@@ -272,6 +328,19 @@ public class RampController implements Initializable{
 			latchCombo.setValue(latchSelection);
 			functionSelection = rs.getString(6);
 			functionCombo.setValue(functionSelection);
+		}
+    }
+    
+    protected void showInfoReac() throws SQLException { //to show the info when the page is loaded
+    	String sqlReac = "SELECT * FROM reac";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlReac);
+		while (rs.next()) {
+			ignitTempText.setText(rs.getString(2));
+			sootText.setText(rs.getString(3));
+			fuelText.setText(rs.getString(4));
 		}
     }
 
