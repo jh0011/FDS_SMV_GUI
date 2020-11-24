@@ -38,7 +38,7 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="obstNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
+      <Button fx:id="obstNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToDump" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>

@@ -55,6 +55,7 @@ public class Main extends Application {
 			String sqlObst = "DELETE FROM obst;";
 			String sqlMisc = "DELETE FROM misc;";
 			String sqlRadi = "DELETE FROM radi;";
+			String sqlDump = "DELETE FROM dump;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -81,6 +82,7 @@ public class Main extends Application {
 			String initObst = "INSERT INTO obst (mainID, BULK_DENSITY, COLOR, SURF_ID, XB) VALUES ('1', '', '', '', '');";
 			String initMisc = "INSERT INTO misc (NOISE, FREEZE_VELOCITY, HUMIDITY, Y_CO2_INFNTY, TMPA, GVEC) VALUES ('', '', '', '', '', '');";
 			String initRadi = "INSERT INTO radi (RADIATION) VALUES ('');";
+			String initDump = "INSERT INTO dump (MASS_FILE, SMOKE_3D, NFRAMES, DT_DEVC) VALUES ('', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -103,6 +105,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlObst);
 			statement.executeUpdate(sqlMisc);
 			statement.executeUpdate(sqlRadi);
+			statement.executeUpdate(sqlDump);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -123,6 +126,7 @@ public class Main extends Application {
 			statement.executeUpdate(initObst);
 			statement.executeUpdate(initMisc);
 			statement.executeUpdate(initRadi);
+			statement.executeUpdate(initDump);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

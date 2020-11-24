@@ -112,6 +112,30 @@ public class ObstController implements Initializable{
     }
     
     @FXML
+    private void goToDump(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    	doChecking();
+    	
+    	if(checkFloatPos && checkXb && checkFloatPosMisc && checkGvec && checkFloatMisc && checkFloatPercent) {
+    		//store the values
+    		storeValues();
+    		
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Dump.fxml"));
+    		Parent root = loader.load();
+    		
+    		DumpController dumpCont = loader.getController(); //Get the next page's controller
+    		dumpCont.showInfo(); //Set the values of the page 
+    		Scene dumpScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(dumpScene);
+    		mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to proceed to DUMP page");
+    	}
+    	
+    }
+    
+    @FXML
     private void newObstLine(ActionEvent event) throws SQLException { //ADD NEW OBST LINE
     	doCheckingObst();
     	
