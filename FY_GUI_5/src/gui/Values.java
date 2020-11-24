@@ -125,6 +125,19 @@ public class Values {
 		String sqlMesh = "DELETE FROM mesh;";
 		String sqlPart = "DELETE FROM part;";
 		String sqlBndf = "DELETE FROM bndf;";
+		String sqlProp = "DELETE FROM prop;";
+		String sqlSpec = "DELETE FROM spec;";
+		String sqlDevc = "DELETE FROM devc;";
+		String sqlSlcf = "DELETE FROM slcf;";
+		String sqlSurf = "DELETE FROM surf;";
+		String sqlVent = "DELETE FROM vent;";
+		String sqlRamp = "DELETE FROM ramp;";
+		String sqlCtrl = "DELETE FROM ctrl;";
+		String sqlReac = "DELETE FROM reac;";
+		String sqlObst = "DELETE FROM obst;";
+		String sqlMisc = "DELETE FROM misc;";
+		String sqlRadi = "DELETE FROM radi;";
+		String sqlDump = "DELETE FROM dump;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -137,6 +150,19 @@ public class Values {
 		statement.executeUpdate(sqlMesh);
 		statement.executeUpdate(sqlPart);
 		statement.executeUpdate(sqlBndf);
+		statement.executeUpdate(sqlProp);
+		statement.executeUpdate(sqlSpec);
+		statement.executeUpdate(sqlDevc);
+		statement.executeUpdate(sqlSlcf);
+		statement.executeUpdate(sqlSurf);
+		statement.executeUpdate(sqlVent);
+		statement.executeUpdate(sqlRamp);
+		statement.executeUpdate(sqlCtrl);
+		statement.executeUpdate(sqlReac);
+		statement.executeUpdate(sqlObst);
+		statement.executeUpdate(sqlMisc);
+		statement.executeUpdate(sqlRadi);
+		statement.executeUpdate(sqlDump);
 	}
 	
 	protected static boolean cancelWarning(){
