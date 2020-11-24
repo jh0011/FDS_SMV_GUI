@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			//root = FXMLLoader.load(getClass().getResource("Obst.fxml")); //For testing a certain page
+			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			root = FXMLLoader.load(getClass().getResource("Obst.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -53,6 +53,8 @@ public class Main extends Application {
 			String sqlCtrl = "DELETE FROM ctrl;";
 			String sqlReac = "DELETE FROM reac;";
 			String sqlObst = "DELETE FROM obst;";
+			String sqlMisc = "DELETE FROM misc;";
+			String sqlRadi = "DELETE FROM radi;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -77,6 +79,8 @@ public class Main extends Application {
 			String initCtrl = "INSERT INTO ctrl (mainID, INPUT_ID, RAMP_ID, ID, LATCH, FUNCTION_TYPE) VALUES ('1', '', '', '', '', '');";
 			String initReac = "INSERT INTO reac (mainID, AUTO_IGNITION_TEMPERATURE, SOOT_YIELD, FUEL) VALUES ('1', '', '', '');";
 			String initObst = "INSERT INTO obst (mainID, BULK_DENSITY, COLOR, SURF_ID, XB) VALUES ('1', '', '', '', '');";
+			String initMisc = "INSERT INTO misc (NOISE, FREEZE_VELOCITY, HUMIDITY, Y_CO2_INFNTY, TMPA, GVEC) VALUES ('', '', '', '', '', '');";
+			String initRadi = "INSERT INTO radi (RADIATION) VALUES ('');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -97,6 +101,8 @@ public class Main extends Application {
 			statement.executeUpdate(sqlCtrl);
 			statement.executeUpdate(sqlReac);
 			statement.executeUpdate(sqlObst);
+			statement.executeUpdate(sqlMisc);
+			statement.executeUpdate(sqlRadi);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -115,6 +121,8 @@ public class Main extends Application {
 			statement.executeUpdate(initCtrl);
 			statement.executeUpdate(initReac);
 			statement.executeUpdate(initObst);
+			statement.executeUpdate(initMisc);
+			statement.executeUpdate(initRadi);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
