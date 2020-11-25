@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class DumpController implements Initializable{
@@ -55,6 +56,9 @@ public class DumpController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Tooltip matlTooltip = new Tooltip("Click to add another MATL field.");
+		addMatlBtn.setTooltip(matlTooltip);
+		
 		ObservableList<String> massList = FXCollections.observableArrayList("", "TRUE", "FALSE");
 		massCombo.setItems(massList);
 		
@@ -98,6 +102,26 @@ public class DumpController implements Initializable{
     		System.out.println("Unable to go back to OBST page");
     	}
     	
+    }
+    
+    @FXML
+    private void goToMult(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    	doChecking();
+    	
+    	if(checkIntPos && checkFloatPos && checkIntPosMatl && checkFloatPosMatl) {
+    		//store the values
+    		storeValues();
+    		
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Mult.fxml"));
+    		Parent root = loader.load();
+    		
+    		MultController multCont = loader.getController(); //Get the next page's controller
+    		multCont.showInfo(); //Set the values of the page 
+    		Scene multScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(multScene);
+    		mainWindow.show();
+    	}
     }
     
     @FXML

@@ -57,6 +57,7 @@ public class Main extends Application {
 			String sqlRadi = "DELETE FROM radi;";
 			String sqlDump = "DELETE FROM dump;";
 			String sqlMatl = "DELETE FROM matl;";
+			String sqlMult = "DELETE FROM mult;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -86,6 +87,7 @@ public class Main extends Application {
 			String initDump = "INSERT INTO dump (MASS_FILE, SMOKE_3D, NFRAMES, DT_DEVC) VALUES ('', '', '', '');";
 			String initMatl = "INSERT INTO matl (mainID, SPECIFIC_HEAT, HEAT_OF_REACTION, SPEC_ID, ID, REFERENCE_TEMPERATURE, N_REACTIONS, DENSITY, CONDUCTIVITY) "
 					+ "VALUES ('1', '', '', '', '', '', '', '', '')";
+			String initMult = "INSERT INTO mult (mainID, ID, I_UPPER, J_UPPER, K_UPPER, DX, DY, DZ) VALUES ('1', '', '', '', '', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -110,6 +112,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlRadi);
 			statement.executeUpdate(sqlDump);
 			statement.executeUpdate(sqlMatl);
+			statement.executeUpdate(sqlMult);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -132,6 +135,7 @@ public class Main extends Application {
 			statement.executeUpdate(initRadi);
 			statement.executeUpdate(initDump);
 			statement.executeUpdate(initMatl);
+			statement.executeUpdate(initMult);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
