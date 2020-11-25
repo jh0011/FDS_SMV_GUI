@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,8 +12,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="gui.DumpController">
+<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DumpController">
    <children>
       <Label layoutX="45.0" layoutY="36.0" text="DUMP">
          <font>
@@ -72,5 +72,73 @@
          </font>
       </Label>
       <TextField fx:id="dtDevcText" layoutX="191.0" layoutY="116.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Separator layoutX="76.0" layoutY="222.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="257.0" text="MATL">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="435.0" layoutY="329.0" text="Specific_heat" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="specificText" layoutX="555.0" layoutY="330.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="412.0" layoutY="383.0" text="Heat of reaction" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="reactionText" layoutX="554.0" layoutY="384.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="107.0" layoutY="383.0" text="Spec_ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="specIdText" layoutX="191.0" layoutY="384.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="150.0" layoutY="329.0" text="ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="idText" layoutX="190.0" layoutY="331.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="423.0" layoutY="436.0" text="Reference tmp." textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="referenceText" layoutX="555.0" layoutY="437.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="447.0" layoutY="490.0" text="N_reactions" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="reactionsText" layoutX="554.0" layoutY="491.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="113.0" layoutY="490.0" text="Density" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="densityText" layoutX="191.0" layoutY="491.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="72.0" layoutY="436.0" text="Conductivity" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="conductivityText" layoutX="190.0" layoutY="438.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Button fx:id="addMatlBtn" layoutX="147.0" layoutY="262.0" mnemonicParsing="false" onAction="#newMatlLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

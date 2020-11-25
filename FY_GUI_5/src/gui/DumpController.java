@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -30,11 +31,27 @@ public class DumpController implements Initializable{
     @FXML TextField framesText; //int (+)
     @FXML TextField dtDevcText; //float (+)
     
+    //matl
+    @FXML TextField specificText; //float (+)
+    @FXML TextField reactionText; //float (+)
+    @FXML TextField specIdText; //string
+    @FXML TextField idText; //string
+    @FXML TextField referenceText; //float (+)
+    @FXML TextField reactionsText; //int (+)
+    @FXML TextField densityText; //float (+)
+    @FXML TextField conductivityText; //float (+)
+
+    @FXML Button addMatlBtn;
+    
     boolean checkIntPos;
     boolean checkFloatPos;
     
+    boolean checkIntPosMatl;
+    boolean checkFloatPosMatl;
+    
     static String massSelection = "";
     static String smokeSelection = "";
+    static int mainMatlId = 1;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -63,7 +80,7 @@ public class DumpController implements Initializable{
     private void goToObst(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkIntPos && checkFloatPos) {
+    	if(checkIntPos && checkFloatPos && checkIntPosMatl && checkFloatPosMatl) {
     		//store the values
     		storeValues();
     		
@@ -84,6 +101,32 @@ public class DumpController implements Initializable{
     }
     
     @FXML
+    private void newMatlLine(ActionEvent event) throws SQLException { //ADD NEW MATL LINE
+    	doCheckingMatl();
+    	
+    	if(checkIntPosMatl && checkFloatPosMatl) {
+    		//store the values
+    		storeValuesMatl();
+    		
+    		mainMatlId++;
+        	String mainMatlIdString = Integer.toString(mainMatlId);
+        	String sqlMatl = "INSERT INTO matl (mainID, SPECIFIC_HEAT, HEAT_OF_REACTION, SPEC_ID, ID, REFERENCE_TEMPERATURE, N_REACTIONS, DENSITY, CONDUCTIVITY) "
+    				+ "VALUES ('" + mainMatlIdString + "', '', '', '', '', '', '', '', '')";
+        	ConnectionClass connectionClass = new ConnectionClass();
+    		Connection connection = connectionClass.getConnection();
+    		Statement statement = connection.createStatement();
+    		statement = connection.createStatement();
+    		statement.executeUpdate(sqlMatl);
+    		
+    		showInfoMatl();
+    	}
+    	else {
+    		System.out.println("Unable to add new MATL line");
+    	}
+    	
+    }
+    
+    @FXML
     private void massSelect(ActionEvent event) {
     	massSelection = massCombo.getSelectionModel().getSelectedItem().toString();
     	massCombo.setValue(massSelection);
@@ -97,6 +140,7 @@ public class DumpController implements Initializable{
     
     private void doChecking() {
     	doCheckingDump();
+    	doCheckingMatl();
     }
     
     private void doCheckingDump() {
@@ -110,6 +154,29 @@ public class DumpController implements Initializable{
     	}
     }
     
+    private void doCheckingMatl() {
+    	checkIntPosMatl = true;
+    	checkFloatPosMatl = true;
+    	if(!reactionsText.getText().equals("")) {
+    		checkIntPosMatl = checkIntPosMatl && checkPosIntValues(reactionsText);
+    	}
+    	if(!specificText.getText().equals("")) {
+    		checkFloatPosMatl = checkFloatPosMatl && checkPosFloatValues(specificText);
+    	}
+		if(!reactionText.getText().equals("")) {
+			checkFloatPosMatl = checkFloatPosMatl && checkPosFloatValues(reactionText);		
+    	}
+		if(!referenceText.getText().equals("")) {
+			checkFloatPosMatl = checkFloatPosMatl && checkPosFloatValues(referenceText);
+		}
+		if(!densityText.getText().equals("")) {
+			checkFloatPosMatl = checkFloatPosMatl && checkPosFloatValues(densityText);
+		}
+		if(!conductivityText.getText().equals("")) {
+			checkFloatPosMatl = checkFloatPosMatl && checkPosFloatValues(conductivityText);
+		}
+    }
+    
     private boolean checkPosIntValues(TextField tempField) { //check if integer is positive
     	try{ 
 			String stringVal = tempField.getText();
@@ -117,7 +184,7 @@ public class DumpController implements Initializable{
 			if (intVal <= 0){ //if it is not a positive integer
 				Alert dumpAlert = new Alert(Alert.AlertType.INFORMATION);
 				dumpAlert.setTitle("Invalid integer value");
-				dumpAlert.setContentText("Nframes should be a positive integer. Please check again.");
+				dumpAlert.setContentText("Nframes and N_reactions should be positive integers. Please check again.");
 				dumpAlert.setHeaderText(null);
 				dumpAlert.show();
 				return false;
@@ -128,7 +195,7 @@ public class DumpController implements Initializable{
 		catch(Exception e){ //if it is not integer
 			Alert dumpAlert = new Alert(Alert.AlertType.INFORMATION);
 			dumpAlert.setTitle("Invalid integer value");
-			dumpAlert.setContentText("Nframes should be an integer. Please check again.");
+			dumpAlert.setContentText("Nframes and N_reactions should be integers. Please check again.");
 			dumpAlert.setHeaderText(null);
 			dumpAlert.show();
 			return false;
@@ -142,7 +209,7 @@ public class DumpController implements Initializable{
 			if (floatVal <= 0){ //if it is not a positive float
 				Alert dumpAlert = new Alert(Alert.AlertType.INFORMATION);
 				dumpAlert.setTitle("Invalid value");
-				dumpAlert.setContentText("Dt_devc should be a positive value. Please check again.");
+				dumpAlert.setContentText("Dt_devc, Specific_heat, heat of reaction, reference tmp., density and conductivity should be positive values. Please check again.");
 				dumpAlert.setHeaderText(null);
 				dumpAlert.show();
 				return false;
@@ -153,7 +220,7 @@ public class DumpController implements Initializable{
 		catch (Exception e) { //if it is not a float
 			Alert dumpAlert = new Alert(Alert.AlertType.INFORMATION);
 			dumpAlert.setTitle("Invalid value");
-			dumpAlert.setContentText("Dt_devc should be a numerical value. Please check again.");
+			dumpAlert.setContentText("Dt_devc, Specific_heat, heat of reaction, reference tmp., density and conductivity should be numerical values. Please check again.");
 			dumpAlert.setHeaderText(null);
 			dumpAlert.show();
 			return false;
@@ -162,6 +229,7 @@ public class DumpController implements Initializable{
     
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesDump();
+    	storeValuesMatl();
     }
 
     private void storeValuesDump() throws SQLException{ //store DUMP values into the database
@@ -172,8 +240,19 @@ public class DumpController implements Initializable{
 		statement.executeUpdate(sqlDump);
     }
     
+    private void storeValuesMatl() throws SQLException{ //store MATL values into the database
+    	String mainMatlIdString = Integer.toString(mainMatlId);
+    	String sqlMatl = "INSERT INTO matl VALUES ('" + mainMatlIdString + "', '" + specificText.getText() + "', '" + reactionText.getText() + "', '" + specIdText.getText() + "', '" +
+    			idText.getText() + "', '" + referenceText.getText() + "', '" + reactionsText.getText() + "', '" + densityText.getText() + "', '" + conductivityText.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlMatl);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoDump();
+    	showInfoMatl();
     }
     
     protected void showInfoDump() throws SQLException { //to show the info when the page is loaded
@@ -189,6 +268,24 @@ public class DumpController implements Initializable{
 			smokeCombo.setValue(smokeSelection);
 			framesText.setText(rs.getString(3));
 			dtDevcText.setText(rs.getString(4));
+		}
+    }
+    
+    protected void showInfoMatl() throws SQLException { //to show the info when the page is loaded
+    	String sqlMatl = "SELECT * FROM matl;";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlMatl);
+		while (rs.next()) {
+			specificText.setText(rs.getString(2));
+			reactionText.setText(rs.getString(3));
+			specIdText.setText(rs.getString(4));
+			idText.setText(rs.getString(5));
+			referenceText.setText(rs.getString(6));
+			reactionsText.setText(rs.getString(7));
+			densityText.setText(rs.getString(8));
+			conductivityText.setText(rs.getString(9));
 		}
     }
 }

@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			//root = FXMLLoader.load(getClass().getResource("Obst.fxml")); //For testing a certain page
+			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			root = FXMLLoader.load(getClass().getResource("Dump.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -56,6 +56,7 @@ public class Main extends Application {
 			String sqlMisc = "DELETE FROM misc;";
 			String sqlRadi = "DELETE FROM radi;";
 			String sqlDump = "DELETE FROM dump;";
+			String sqlMatl = "DELETE FROM matl;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -83,6 +84,8 @@ public class Main extends Application {
 			String initMisc = "INSERT INTO misc (NOISE, FREEZE_VELOCITY, HUMIDITY, Y_CO2_INFNTY, TMPA, GVEC) VALUES ('', '', '', '', '', '');";
 			String initRadi = "INSERT INTO radi (RADIATION) VALUES ('');";
 			String initDump = "INSERT INTO dump (MASS_FILE, SMOKE_3D, NFRAMES, DT_DEVC) VALUES ('', '', '', '');";
+			String initMatl = "INSERT INTO matl (mainID, SPECIFIC_HEAT, HEAT_OF_REACTION, SPEC_ID, ID, REFERENCE_TEMPERATURE, N_REACTIONS, DENSITY, CONDUCTIVITY) "
+					+ "VALUES ('1', '', '', '', '', '', '', '', '')";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -106,6 +109,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlMisc);
 			statement.executeUpdate(sqlRadi);
 			statement.executeUpdate(sqlDump);
+			statement.executeUpdate(sqlMatl);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -127,6 +131,7 @@ public class Main extends Application {
 			statement.executeUpdate(initMisc);
 			statement.executeUpdate(initRadi);
 			statement.executeUpdate(initDump);
+			statement.executeUpdate(initMatl);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
