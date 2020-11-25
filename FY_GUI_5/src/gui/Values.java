@@ -140,6 +140,7 @@ public class Values {
 		String sqlDump = "DELETE FROM dump;";
 		String sqlMatl = "DELETE FROM matl;";
 		String sqlMult = "DELETE FROM mult;";
+		String sqlWind = "DELETE FROM wind;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -167,6 +168,7 @@ public class Values {
 		statement.executeUpdate(sqlDump);
 		statement.executeUpdate(sqlMatl);
 		statement.executeUpdate(sqlMult);
+		statement.executeUpdate(sqlWind);
 	}
 	
 	protected static boolean cancelWarning(){

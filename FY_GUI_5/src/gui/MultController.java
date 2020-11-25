@@ -32,10 +32,20 @@ public class MultController implements Initializable{
     @FXML TextField dyText; //float (+)
     @FXML TextField dzText; //float (+)
     
+    //wind
+    @FXML TextField zText; //float (+)
+    @FXML TextField directionText; //float (0 - 360)
+    @FXML TextField lText; //float (>= -500)
+    @FXML TextField speedText; //float (+)
+    
     @FXML Button addMultBtn;
     
     boolean checkIntPosMult;
     boolean checkFloatPosMult;
+    
+    boolean checkFloatPosWind;
+    boolean checkDirection;
+    boolean checkL;
     
     static int mainMultId = 1;
 
@@ -63,7 +73,7 @@ public class MultController implements Initializable{
     private  void goToDump(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if (checkIntPosMult && checkFloatPosMult) {
+    	if (checkIntPosMult && checkFloatPosMult && checkFloatPosWind && checkDirection && checkL) {
     		//store the values
     		storeValues();
     		
@@ -104,6 +114,7 @@ public class MultController implements Initializable{
     
     private void doChecking() {
     	doCheckingMult();
+    	doCheckingWind();
     }
     
     private void doCheckingMult() {
@@ -126,6 +137,24 @@ public class MultController implements Initializable{
     	}
     	if(!dzText.getText().equals("")) {
     		checkFloatPosMult = checkFloatPosMult && checkPosFloatValues(dzText);
+    	}
+    }
+    
+    private void doCheckingWind() {
+    	checkFloatPosWind = true;
+    	checkDirection = true;
+    	checkL = true;
+    	if(!zText.getText().equals("")) {
+    		checkFloatPosWind = checkFloatPosWind && checkPosFloatValues(zText);
+    	}
+    	if(!speedText.getText().equals("")) {
+    		checkFloatPosWind = checkFloatPosWind && checkPosFloatValues(speedText);
+    	}
+    	if(!directionText.getText().equals("")) {
+    		checkDirection = checkDirection && checkDirectionValues(directionText);
+    	}
+    	if(!lText.getText().equals("")) {
+    		checkL = checkL && checkLValues(lText);
     	}
     }
     
@@ -161,7 +190,7 @@ public class MultController implements Initializable{
 			if (floatVal <= 0){ //if it is not a positive float
 				Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
 				multAlert.setTitle("Invalid value");
-				multAlert.setContentText("DX, DY and DZ should be positive values. Please check again.");
+				multAlert.setContentText("DX, DY, DZ, Speed and Z_0 should be positive values. Please check again.");
 				multAlert.setHeaderText(null);
 				multAlert.show();
 				return false;
@@ -172,7 +201,57 @@ public class MultController implements Initializable{
 		catch (Exception e) { //if it is not a float
 			Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
 			multAlert.setTitle("Invalid value");
-			multAlert.setContentText("DX, DY and DZ should be numerical values. Please check again.");
+			multAlert.setContentText("DX, DY, DZ, Speed and Z_0 should be numerical values. Please check again.");
+			multAlert.setHeaderText(null);
+			multAlert.show();
+			return false;
+		}
+    }
+    
+    private boolean checkDirectionValues(TextField tempField) { //check if float is between 0 and 360
+    	try {
+			String stringVal = tempField.getText();
+			float floatVal = Float.valueOf(stringVal);
+			if (floatVal < 0 || floatVal > 360){ //if it is not between 0 and 360
+				Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
+				multAlert.setTitle("Invalid value");
+				multAlert.setContentText("Direction should be a positive value, between 0 and 360. Please check again.");
+				multAlert.setHeaderText(null);
+				multAlert.show();
+				return false;
+			}
+			tempField.setText(Float.toString(floatVal));
+			return true;
+		}
+		catch (Exception e) { //if it is not a float
+			Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
+			multAlert.setTitle("Invalid value");
+			multAlert.setContentText("Direction should be a numerical value. Please check again.");
+			multAlert.setHeaderText(null);
+			multAlert.show();
+			return false;
+		}
+    }
+    
+    private boolean checkLValues(TextField tempField) { //check if float is >= -500)
+    	try {
+			String stringVal = tempField.getText();
+			float floatVal = Float.valueOf(stringVal);
+			if (floatVal < -500){ //if it is not below -500
+				Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
+				multAlert.setTitle("Invalid value");
+				multAlert.setContentText("L should be more than -500. Please check again.");
+				multAlert.setHeaderText(null);
+				multAlert.show();
+				return false;
+			}
+			tempField.setText(Float.toString(floatVal));
+			return true;
+		}
+		catch (Exception e) { //if it is not a float
+			Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
+			multAlert.setTitle("Invalid value");
+			multAlert.setContentText("L should be a numerical value. Please check again.");
 			multAlert.setHeaderText(null);
 			multAlert.show();
 			return false;
@@ -181,6 +260,7 @@ public class MultController implements Initializable{
     
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesMult();
+    	storeValuesWind();
     }
     
     private void storeValuesMult() throws SQLException { //store MULT values into the database
@@ -193,8 +273,17 @@ public class MultController implements Initializable{
 		statement.executeUpdate(sqlMult);
     }
     
+    private void storeValuesWind() throws SQLException { //store WIND values into the database
+    	String sqlWind = "INSERT INTO wind VALUES ('" + zText.getText() + "', '" + directionText.getText() + "', '" + lText.getText() + "', '" + speedText.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlWind);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoMult();
+    	showInfoWind();
     }
     
     protected void showInfoMult() throws SQLException { //to show the info when the page is loaded
@@ -211,6 +300,20 @@ public class MultController implements Initializable{
 			dxText.setText(rs.getString(6));
 			dyText.setText(rs.getString(7));
 			dzText.setText(rs.getString(8));
+		}
+    }
+    
+    protected void showInfoWind() throws SQLException { //to show the info when the page is loaded
+    	String sqlWind = "SELECT * FROM wind;";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlWind);
+		while (rs.next()) {
+			zText.setText(rs.getString(1));
+			directionText.setText(rs.getString(2));
+			lText.setText(rs.getString(3));
+			speedText.setText(rs.getString(4));
 		}
     }
 }

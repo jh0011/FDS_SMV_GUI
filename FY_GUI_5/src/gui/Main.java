@@ -58,6 +58,7 @@ public class Main extends Application {
 			String sqlDump = "DELETE FROM dump;";
 			String sqlMatl = "DELETE FROM matl;";
 			String sqlMult = "DELETE FROM mult;";
+			String sqlWind = "DELETE FROM wind;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -88,6 +89,7 @@ public class Main extends Application {
 			String initMatl = "INSERT INTO matl (mainID, SPECIFIC_HEAT, HEAT_OF_REACTION, SPEC_ID, ID, REFERENCE_TEMPERATURE, N_REACTIONS, DENSITY, CONDUCTIVITY) "
 					+ "VALUES ('1', '', '', '', '', '', '', '', '')";
 			String initMult = "INSERT INTO mult (mainID, ID, I_UPPER, J_UPPER, K_UPPER, DX, DY, DZ) VALUES ('1', '', '', '', '', '', '', '');";
+			String initWind = "INSERT INTO wind (Z_0, DIRECTION, L, SPEED) VALUES ('', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -113,6 +115,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlDump);
 			statement.executeUpdate(sqlMatl);
 			statement.executeUpdate(sqlMult);
+			statement.executeUpdate(sqlWind);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -136,6 +139,7 @@ public class Main extends Application {
 			statement.executeUpdate(initDump);
 			statement.executeUpdate(initMatl);
 			statement.executeUpdate(initMult);
+			statement.executeUpdate(initWind);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
