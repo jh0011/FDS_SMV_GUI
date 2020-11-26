@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -60,5 +61,32 @@
          </font>
       </Label>
       <ComboBox fx:id="solverCombo" layoutX="507.0" layoutY="109.0" onAction="#solverSelect" prefHeight="25.0" prefWidth="153.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="4" />
+      <Separator layoutX="76.0" layoutY="165.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="197.0" text="COMB">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="50.0" layoutY="268.0" text="Fixed_mix_time" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="timeText" layoutX="190.0" layoutY="270.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="355.0" layoutY="268.0" text="Extinction_model" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="modelCombo" layoutX="507.0" layoutY="270.0" onAction="#modelSelect" prefHeight="25.0" prefWidth="153.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
    </children>
 </AnchorPane>

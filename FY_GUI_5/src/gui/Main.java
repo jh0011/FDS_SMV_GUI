@@ -60,6 +60,7 @@ public class Main extends Application {
 			String sqlMult = "DELETE FROM mult;";
 			String sqlWind = "DELETE FROM wind;";
 			String sqlPres = "DELETE FROM pres;";
+			String sqlComb = "DELETE FROM comb;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -92,6 +93,7 @@ public class Main extends Application {
 			String initMult = "INSERT INTO mult (mainID, ID, I_UPPER, J_UPPER, K_UPPER, DX, DY, DZ) VALUES ('1', '', '', '', '', '', '', '');";
 			String initWind = "INSERT INTO wind (Z_0, DIRECTION, L, SPEED) VALUES ('', '', '', '');";
 			String initPres = "INSERT INTO pres (FISHPAK_BC, SOLVER) VALUES ('', '');";
+			String initComb = "INSERT INTO comb (FIXED_MIX_TIME, EXTINCTION_MODEL) VALUES ('', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -119,6 +121,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlMult);
 			statement.executeUpdate(sqlWind);
 			statement.executeUpdate(sqlPres);
+			statement.executeUpdate(sqlComb);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -144,6 +147,7 @@ public class Main extends Application {
 			statement.executeUpdate(initMult);
 			statement.executeUpdate(initWind);
 			statement.executeUpdate(initPres);
+			statement.executeUpdate(initComb);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

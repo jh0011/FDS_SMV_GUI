@@ -141,6 +141,8 @@ public class Values {
 		String sqlMatl = "DELETE FROM matl;";
 		String sqlMult = "DELETE FROM mult;";
 		String sqlWind = "DELETE FROM wind;";
+		String sqlPres = "DELETE FROM pres;";
+		String sqlComb = "DELETE FROM comb;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -169,6 +171,8 @@ public class Values {
 		statement.executeUpdate(sqlMatl);
 		statement.executeUpdate(sqlMult);
 		statement.executeUpdate(sqlWind);
+		statement.executeUpdate(sqlPres);
+		statement.executeUpdate(sqlComb);
 	}
 	
 	protected static boolean cancelWarning(){

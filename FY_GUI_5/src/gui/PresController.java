@@ -28,14 +28,24 @@ public class PresController implements Initializable{
 	@FXML TextField fishpakText; //integer (+) (3)
     @FXML ComboBox solverCombo;
     
+    //comb
+    @FXML TextField timeText; //float (+)
+    @FXML ComboBox modelCombo;
+    
     boolean checkFishpak;
     
+    boolean checkTimePres;
+    
     static String solverSelection = "";
+    static String modelSelection = "";
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		ObservableList<String> solverList = FXCollections.observableArrayList("", "FFT", "UGLMAT", "GLMAT");
 		solverCombo.setItems(solverList);
+		
+		ObservableList<String> modelList = FXCollections.observableArrayList("", "EXTINCTION 1", "EXTINCTION 2");
+		modelCombo.setItems(modelList);
 	}
 	
 	@FXML
@@ -56,7 +66,7 @@ public class PresController implements Initializable{
     private void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFishpak) {
+    	if(checkFishpak && checkTimePres) {
     		//store the values
         	storeValues();
         	
@@ -81,8 +91,15 @@ public class PresController implements Initializable{
     	solverCombo.setValue(solverSelection);
     }
     
+    @FXML
+    private void modelSelect(ActionEvent event) {
+    	modelSelection = modelCombo.getSelectionModel().getSelectedItem().toString();
+    	modelCombo.setValue(modelSelection);
+    }
+    
     private void doChecking() { 
     	doCheckingPres();
+    	doCheckingComb();
     }
     
     private void doCheckingPres() {
@@ -92,7 +109,14 @@ public class PresController implements Initializable{
     	}
     }
     
-    private boolean checkFishpakFormat(TextField tempField) {
+    private void doCheckingComb() {
+    	checkTimePres = true;
+    	if(!timeText.getText().equals("")) {
+    		checkTimePres = checkTimePres && checkFloatPosValues(timeText);
+    	}
+    }
+    
+    private boolean checkFishpakFormat(TextField tempField) { //check the fishpak format
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert presAlert = new Alert(Alert.AlertType.INFORMATION);
 			presAlert.setTitle("Incorrect Fishpak format");
@@ -144,8 +168,34 @@ public class PresController implements Initializable{
 		}
     }
     
+    private boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
+    	try {
+			String stringVal = tempField.getText();
+			float floatVal = Float.valueOf(stringVal);
+			if (floatVal <= 0){ //if it is not a positive float
+				Alert combAlert = new Alert(Alert.AlertType.INFORMATION);
+				combAlert.setTitle("Invalid value");
+				combAlert.setContentText("Fixed_mix_time should be a positive value. Please check again.");
+				combAlert.setHeaderText(null);
+				combAlert.show();
+				return false;
+			}
+			tempField.setText(Float.toString(floatVal));
+			return true;
+		}
+		catch (Exception e) { //if it is not a float
+			Alert combAlert = new Alert(Alert.AlertType.INFORMATION);
+			combAlert.setTitle("Invalid value");
+			combAlert.setContentText("Fixed_mix_time should be a numerical value. Please check again.");
+			combAlert.setHeaderText(null);
+			combAlert.show();
+			return false;
+		}
+    }
+    
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesPres();
+    	storeValuesComb();
     }
     
     private void storeValuesPres() throws SQLException { //store PRES values into the database
@@ -156,8 +206,17 @@ public class PresController implements Initializable{
 		statement.executeUpdate(sqlPres);
     }
     
+    private void storeValuesComb() throws SQLException { //store COMB values into the database
+    	String sqlComb = "INSERT INTO comb VALUES ('" + timeText.getText() + "', '" + modelSelection + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlComb);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoPres();
+    	showInfoComb();
     }
     
     protected void showInfoPres() throws SQLException { //to show the info when the page is loaded
@@ -170,6 +229,19 @@ public class PresController implements Initializable{
 			fishpakText.setText(rs.getString(1));
 			solverSelection = rs.getString(2);
 			solverCombo.setValue(solverSelection);
+		}
+    }
+    
+    protected void showInfoComb() throws SQLException { //to show the info when the page is loaded
+    	String sqlComb = "SELECT * FROM comb;";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlComb);
+		while (rs.next()) {
+			timeText.setText(rs.getString(1));
+			modelSelection = rs.getString(2);
+			modelCombo.setValue(modelSelection);
 		}
     }
 
