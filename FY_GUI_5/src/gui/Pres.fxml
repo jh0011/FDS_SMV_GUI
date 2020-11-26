@@ -88,5 +88,37 @@
          </font>
       </Label>
       <ComboBox fx:id="modelCombo" layoutX="507.0" layoutY="270.0" onAction="#modelSelect" prefHeight="25.0" prefWidth="153.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
+      <Separator layoutX="76.0" layoutY="316.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="348.0" text="TABL">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="152.0" layoutY="419.0" text="ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tableIdText" layoutX="190.0" layoutY="421.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="403.0" layoutY="419.0" text="Table_data" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tableDataText" layoutX="507.0" layoutY="421.0" prefHeight="25.0" prefWidth="197.0" promptText="Optional" />
+      <Button fx:id="addTablBtn" layoutX="143.0" layoutY="354.0" mnemonicParsing="false" onAction="#newTablLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

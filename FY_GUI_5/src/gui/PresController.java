@@ -19,8 +19,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class PresController implements Initializable{
@@ -32,15 +34,25 @@ public class PresController implements Initializable{
     @FXML TextField timeText; //float (+)
     @FXML ComboBox modelCombo;
     
-    boolean checkFishpak;
+    //tabl
+    @FXML TextField tableIdText; //string
+    @FXML TextField tableDataText; //5 int (+) & 1 float (>0 & <=1)
+
+    @FXML Button addTablBtn;
     
+    boolean checkFishpak;
     boolean checkTimePres;
+    boolean checkTableData;
     
     static String solverSelection = "";
     static String modelSelection = "";
+    static int mainTablId = 1;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Tooltip tablTooltip = new Tooltip("Click to add another TABL field.");
+		addTablBtn.setTooltip(tablTooltip);
+		
 		ObservableList<String> solverList = FXCollections.observableArrayList("", "FFT", "UGLMAT", "GLMAT");
 		solverCombo.setItems(solverList);
 		
@@ -66,7 +78,7 @@ public class PresController implements Initializable{
     private void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFishpak && checkTimePres) {
+    	if(checkFishpak && checkTimePres && checkTableData) {
     		//store the values
         	storeValues();
         	
@@ -82,6 +94,29 @@ public class PresController implements Initializable{
     	}
     	else {
     		System.out.println("Unable to go back to MULT page");
+    	}
+    }
+    
+    @FXML
+    private void newTablLine(ActionEvent event) throws SQLException { //ADD NEW TABL LINE
+    	doCheckingTabl();
+    	
+    	if(checkTableData) {
+    		//store the values
+    		storeValuesTabl();
+    		
+    		mainTablId++;
+        	String mainTablIdString = Integer.toString(mainTablId);
+        	String sqlTabl = "INSERT INTO tabl (mainID, ID, TABLE_DATA) VALUES ('" + mainTablIdString + "', '', '');";
+        	ConnectionClass connectionClass = new ConnectionClass();
+    		Connection connection = connectionClass.getConnection();
+    		Statement statement = connection.createStatement();
+    		statement.executeUpdate(sqlTabl);
+    		
+    		showInfoTabl();
+    	}
+    	else {
+    		System.out.println("Unable to add new TABL line");
     	}
     }
 
@@ -100,6 +135,7 @@ public class PresController implements Initializable{
     private void doChecking() { 
     	doCheckingPres();
     	doCheckingComb();
+    	doCheckingTabl();
     }
     
     private void doCheckingPres() {
@@ -113,6 +149,13 @@ public class PresController implements Initializable{
     	checkTimePres = true;
     	if(!timeText.getText().equals("")) {
     		checkTimePres = checkTimePres && checkFloatPosValues(timeText);
+    	}
+    }
+    
+    private void doCheckingTabl() {
+    	checkTableData = true;
+    	if(!tableDataText.getText().equals("")) {
+    		checkTableData = checkTableData && checkTableDataFormat(tableDataText);
     	}
     }
     
@@ -193,9 +236,81 @@ public class PresController implements Initializable{
 		}
     }
     
+    private boolean checkTableDataFormat(TextField tempField) { //check if 5 integer degree values & 1 fraction
+    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			Alert tablAlert = new Alert(Alert.AlertType.INFORMATION);
+			tablAlert.setTitle("Incorrect Table_data format");
+			tablAlert.setContentText("There should not be any whitespaces.");
+			tablAlert.setHeaderText(null);
+			tablAlert.show();
+			return false;
+		}
+		
+		String[] tableDataValues = tempField.getText().split(",");
+		String concatTableData = "";
+		if (tableDataValues.length != 6){ //check if table data is the correct length
+			Alert tablAlert = new Alert(Alert.AlertType.INFORMATION);
+			tablAlert.setTitle("Incorrect Table_data format");
+			tablAlert.setContentText("There should be 6 numerical values, comma-separated. The first 5 values are degrees integer values and the last value is a fraction in decimal.");
+			tablAlert.setHeaderText(null);
+			tablAlert.show();
+			return false;
+		}
+		
+		try{
+			for (int i=0; i<5; i++){
+				int tableDataInt = Integer.parseInt(tableDataValues[i]);
+				if (tableDataInt < 0 || tableDataInt > 360){ //check if degree is negative or more than 360
+					Alert tablAlert = new Alert(Alert.AlertType.INFORMATION);
+					tablAlert.setTitle("Incorrect Table_data format");
+					tablAlert.setContentText("The first 5 values of Table_data should be between 0 and 360.");
+					tablAlert.setHeaderText(null);
+					tablAlert.show();
+					return false;
+				}
+				
+				concatTableData = concatTableData + String.valueOf(tableDataInt) + ","; //concatenate to format the table data string
+			}
+			try { //check if the 6th value is a float
+				String stringVal = tableDataValues[5];
+				float floatVal = Float.valueOf(stringVal);
+				if (floatVal <= 0 || floatVal > 1){ //if it is not between 0 and 1
+					Alert tablAlert = new Alert(Alert.AlertType.INFORMATION);
+					tablAlert.setTitle("Invalid value");
+					tablAlert.setContentText("6th value of Table_data should be a positive value between 0 and 1. Please check again.");
+					tablAlert.setHeaderText(null);
+					tablAlert.show();
+					return false;
+				}
+				concatTableData = concatTableData + Float.toString(floatVal);
+				tempField.setText(concatTableData);
+				return true;
+			}
+			catch(Exception e) { //if the 6th value is not a float
+				Alert tablAlert = new Alert(Alert.AlertType.INFORMATION);
+				tablAlert.setTitle("Invalid value");
+				tablAlert.setContentText("6th value of Table_data should be a numerical value. Please check again.");
+				tablAlert.setHeaderText(null);
+				tablAlert.show();
+				return false;
+			}
+			
+			
+		}
+		catch(Exception e){ //check if first 5 values is an integer
+			Alert tablAlert = new Alert(Alert.AlertType.INFORMATION);
+			tablAlert.setTitle("Incorrect Table_data format");
+			tablAlert.setContentText("The first 5 values should be integers between 0 and 360. Please check again.");
+			tablAlert.setHeaderText(null);
+			tablAlert.show();
+			return false;
+		}
+    }
+    
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesPres();
     	storeValuesComb();
+    	storeValuesTabl();
     }
     
     private void storeValuesPres() throws SQLException { //store PRES values into the database
@@ -214,9 +329,19 @@ public class PresController implements Initializable{
 		statement.executeUpdate(sqlComb);
     }
     
+    private void storeValuesTabl() throws SQLException { //store TABL values into the database
+    	String mainTablIdString = Integer.toString(mainTablId);
+    	String sqlTabl = "INSERT INTO tabl VALUES ('" + mainTablIdString + "', '" + tableIdText.getText() + "', '" + tableDataText.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlTabl);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoPres();
     	showInfoComb();
+    	showInfoTabl();
     }
     
     protected void showInfoPres() throws SQLException { //to show the info when the page is loaded
@@ -242,6 +367,18 @@ public class PresController implements Initializable{
 			timeText.setText(rs.getString(1));
 			modelSelection = rs.getString(2);
 			modelCombo.setValue(modelSelection);
+		}
+    }
+    
+    protected void showInfoTabl() throws SQLException { //to show the info when the page is loaded
+    	String sqlTabl = "SELECT * FROM tabl;";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlTabl);
+		while (rs.next()) {
+			tableIdText.setText(rs.getString(2));
+			tableDataText.setText(rs.getString(3));
 		}
     }
 
