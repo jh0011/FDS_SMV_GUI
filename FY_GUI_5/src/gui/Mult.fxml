@@ -11,8 +11,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="gui.MultController">
+<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MultController">
    <children>
       <Label layoutX="45.0" layoutY="36.0" text="MULT">
          <font>
@@ -38,7 +37,7 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="multNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
+      <Button fx:id="multNextBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToPres" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Next">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>

@@ -93,6 +93,29 @@ public class MultController implements Initializable{
     }
     
     @FXML
+    private  void goToPres(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+    	doChecking();
+    	
+    	if (checkIntPosMult && checkFloatPosMult && checkFloatPosWind && checkDirection && checkL) {
+    		//store the values
+    		storeValues();
+    		
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Pres.fxml"));
+    		Parent root = loader.load();
+    		
+    		PresController presCont = loader.getController(); //Get the next page's controller
+    		presCont.showInfo(); //Set the values of the page 
+    		Scene presScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(presScene);
+    		mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to proceed to PRES page");
+    	}
+    }
+    
+    @FXML
     private void newMultLine(ActionEvent event) throws SQLException { //ADD NEW MULT LINE
     	doCheckingMult();
     	
