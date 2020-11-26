@@ -18,14 +18,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class PresController implements Initializable{
 	//pres
-	@FXML TextField fishpakText;
+	@FXML TextField fishpakText; //integer (+) (3)
     @FXML ComboBox solverCombo;
+    
+    boolean checkFishpak;
     
     static String solverSelection = "";
 
@@ -53,18 +56,23 @@ public class PresController implements Initializable{
     private void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	//store the values
-    	storeValues();
-    	
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Mult.fxml"));
-		Parent root = loader.load();
-		
-		MultController multCont = loader.getController(); //Get the next page's controller
-		multCont.showInfo(); //Set the values of the page 
-		Scene multScene = new Scene(root);
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-		mainWindow.setScene(multScene);
-		mainWindow.show();
+    	if(checkFishpak) {
+    		//store the values
+        	storeValues();
+        	
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("Mult.fxml"));
+    		Parent root = loader.load();
+    		
+    		MultController multCont = loader.getController(); //Get the next page's controller
+    		multCont.showInfo(); //Set the values of the page 
+    		Scene multScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(multScene);
+    		mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to go back to MULT page");
+    	}
     }
 
     @FXML
@@ -74,8 +82,66 @@ public class PresController implements Initializable{
     }
     
     private void doChecking() { 
-    	//no checking for pres
-    	
+    	doCheckingPres();
+    }
+    
+    private void doCheckingPres() {
+    	checkFishpak = true;
+    	if(!fishpakText.getText().equals("")) {
+    		checkFishpak = checkFishpak && checkFishpakFormat(fishpakText);
+    	}
+    }
+    
+    private boolean checkFishpakFormat(TextField tempField) {
+		if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			Alert presAlert = new Alert(Alert.AlertType.INFORMATION);
+			presAlert.setTitle("Incorrect Fishpak format");
+			presAlert.setContentText("There should not be any whitespaces.");
+			presAlert.setHeaderText(null);
+			presAlert.show();
+			return false;
+		}
+		
+		String[] ijkValues = tempField.getText().split(",");
+		String concatFishpak = "";
+		if (ijkValues.length != 3){ //check if Fishpak is the correct length
+			Alert presAlert = new Alert(Alert.AlertType.INFORMATION);
+			presAlert.setTitle("Incorrect Fishpak format");
+			presAlert.setContentText("There should be 3 integer values, comma-separated.");
+			presAlert.setHeaderText(null);
+			presAlert.show();
+			return false;
+		}
+		
+		try{
+			for (int i=0; i<3; i++){
+				int ijkInt = Integer.parseInt(ijkValues[i]);
+				if (ijkInt <= 0){ //check if Fishpak is negative or zero
+					Alert presAlert = new Alert(Alert.AlertType.INFORMATION);
+					presAlert.setTitle("Incorrect Fishpak format");
+					presAlert.setContentText("The Fishpak value should be more than zero.");
+					presAlert.setHeaderText(null);
+					presAlert.show();
+					return false;
+				}
+				if (i==0 || i==1){ //concatenate to format the Fishpak string
+					concatFishpak = concatFishpak + String.valueOf(ijkInt) + ",";
+				}
+				else{
+					concatFishpak = concatFishpak + String.valueOf(ijkInt);
+				}
+			}
+			tempField.setText(concatFishpak);
+			return true;
+		}
+		catch(Exception e){ //check if Fishpak is an integer
+			Alert presAlert = new Alert(Alert.AlertType.INFORMATION);
+			presAlert.setTitle("Incorrect Fishpak format");
+			presAlert.setContentText("There should be 3 integer values.");
+			presAlert.setHeaderText(null);
+			presAlert.show();
+			return false;
+		}
     }
     
     private void storeValues() throws SQLException { //store values into the database
