@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			//root = FXMLLoader.load(getClass().getResource("Pres.fxml")); //For testing a certain page
+			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			root = FXMLLoader.load(getClass().getResource("Pres.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -62,6 +62,7 @@ public class Main extends Application {
 			String sqlPres = "DELETE FROM pres;";
 			String sqlComb = "DELETE FROM comb;";
 			String sqlTabl = "DELETE FROM tabl;";
+			String sqlClip = "DELETE FROM clip;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -96,6 +97,7 @@ public class Main extends Application {
 			String initPres = "INSERT INTO pres (FISHPAK_BC, SOLVER) VALUES ('', '');";
 			String initComb = "INSERT INTO comb (FIXED_MIX_TIME, EXTINCTION_MODEL) VALUES ('', '');";
 			String initTabl = "INSERT INTO tabl (mainID, ID, TABLE_DATA) VALUES ('1', '', '');";
+			String initClip = "INSERT INTO clip (MAXIMUM_DENSITY, MAXIMUM_TEMPERATURE, MINIMUM_DENSITY, MINIMUM_TEMPERATURE) VALUES ('', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -125,6 +127,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlPres);
 			statement.executeUpdate(sqlComb);
 			statement.executeUpdate(sqlTabl);
+			statement.executeUpdate(sqlClip);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -152,6 +155,7 @@ public class Main extends Application {
 			statement.executeUpdate(initPres);
 			statement.executeUpdate(initComb);
 			statement.executeUpdate(initTabl);
+			statement.executeUpdate(initClip);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

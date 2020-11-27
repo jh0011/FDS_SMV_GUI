@@ -37,12 +37,20 @@ public class PresController implements Initializable{
     //tabl
     @FXML TextField tableIdText; //string
     @FXML TextField tableDataText; //5 int (+) & 1 float (>0 & <=1)
+    
+    //clip
+    @FXML TextField maxDenText; //float (+)
+    @FXML TextField maxTempText; //float (+ / -)
+    @FXML  TextField minDenText; //float (+)
+    @FXML TextField minTempText; //float (+ / -)
 
     @FXML Button addTablBtn;
     
     boolean checkFishpak;
     boolean checkTimePres;
     boolean checkTableData;
+    boolean checkFloatPosClip;
+    boolean checkFloatClip;
     
     static String solverSelection = "";
     static String modelSelection = "";
@@ -78,7 +86,7 @@ public class PresController implements Initializable{
     private void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFishpak && checkTimePres && checkTableData) {
+    	if(checkFishpak && checkTimePres && checkTableData && checkFloatPosClip && checkFloatClip) {
     		//store the values
         	storeValues();
         	
@@ -136,6 +144,7 @@ public class PresController implements Initializable{
     	doCheckingPres();
     	doCheckingComb();
     	doCheckingTabl();
+    	doCheckingClip();
     }
     
     private void doCheckingPres() {
@@ -157,6 +166,23 @@ public class PresController implements Initializable{
     	if(!tableDataText.getText().equals("")) {
     		checkTableData = checkTableData && checkTableDataFormat(tableDataText);
     	}
+    }
+    
+    private void doCheckingClip() {
+    	checkFloatPosClip = true;
+    	checkFloatClip = true;
+    	if(!maxDenText.getText().equals("")) {
+    		checkFloatPosClip = checkFloatPosClip && checkFloatPosValues(maxDenText);
+    	}
+		if(!minDenText.getText().equals("")) {
+			checkFloatPosClip = checkFloatPosClip && checkFloatPosValues(minDenText);		
+    	}
+		if(!maxTempText.getText().equals("")) {
+			checkFloatClip = checkFloatClip && checkFloatValues(maxTempText);
+		}
+		if(!minTempText.getText().equals("")) {
+			checkFloatClip = checkFloatClip && checkFloatValues(minTempText);
+		}
     }
     
     private boolean checkFishpakFormat(TextField tempField) { //check the fishpak format
@@ -218,7 +244,7 @@ public class PresController implements Initializable{
 			if (floatVal <= 0){ //if it is not a positive float
 				Alert combAlert = new Alert(Alert.AlertType.INFORMATION);
 				combAlert.setTitle("Invalid value");
-				combAlert.setContentText("Fixed_mix_time should be a positive value. Please check again.");
+				combAlert.setContentText("Fixed_mix_time, Max. density and Min. density should be positive values. Please check again.");
 				combAlert.setHeaderText(null);
 				combAlert.show();
 				return false;
@@ -229,7 +255,7 @@ public class PresController implements Initializable{
 		catch (Exception e) { //if it is not a float
 			Alert combAlert = new Alert(Alert.AlertType.INFORMATION);
 			combAlert.setTitle("Invalid value");
-			combAlert.setContentText("Fixed_mix_time should be a numerical value. Please check again.");
+			combAlert.setContentText("Fixed_mix_time, Max. density and Min. density should be numerical values. Please check again.");
 			combAlert.setHeaderText(null);
 			combAlert.show();
 			return false;
@@ -307,10 +333,28 @@ public class PresController implements Initializable{
 		}
     }
     
+    private boolean checkFloatValues(TextField tempField) { //check if value is a float
+    	try {
+			String stringVal = tempField.getText();
+			float floatVal = Float.valueOf(stringVal);
+			tempField.setText(Float.toString(floatVal));
+			return true;
+		}
+		catch (Exception e) { //if it is not a float
+			Alert clipAlert = new Alert(Alert.AlertType.INFORMATION);
+			clipAlert.setTitle("Invalid value");
+			clipAlert.setContentText("Max. temp and Min. temp should be a numerical value. Please check again.");
+			clipAlert.setHeaderText(null);
+			clipAlert.show();
+			return false;
+		}
+    }
+    
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesPres();
     	storeValuesComb();
     	storeValuesTabl();
+    	storeValuesClip();
     }
     
     private void storeValuesPres() throws SQLException { //store PRES values into the database
@@ -338,10 +382,19 @@ public class PresController implements Initializable{
 		statement.executeUpdate(sqlTabl);
     }
     
+    private void storeValuesClip() throws SQLException { //store CLIP values into the database
+    	String sqlClip = "INSERT INTO clip VALUES ('" + maxDenText.getText() + "', '" + maxTempText.getText() + "', '" + minDenText.getText() + "', '" + minTempText.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlClip);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoPres();
     	showInfoComb();
     	showInfoTabl();
+    	showInfoClip();
     }
     
     protected void showInfoPres() throws SQLException { //to show the info when the page is loaded
@@ -379,6 +432,20 @@ public class PresController implements Initializable{
 		while (rs.next()) {
 			tableIdText.setText(rs.getString(2));
 			tableDataText.setText(rs.getString(3));
+		}
+    }
+    
+    protected void showInfoClip() throws SQLException { //to show the info when the page is loaded
+    	String sqlClip = "SELECT * FROM clip;";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlClip);
+		while (rs.next()) {
+			maxDenText.setText(rs.getString(1));
+			maxTempText.setText(rs.getString(2));
+			minDenText.setText(rs.getString(3));
+			minTempText.setText(rs.getString(4));
 		}
     }
 

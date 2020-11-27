@@ -12,8 +12,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="gui.PresController">
+<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PresController">
    <children>
       <Label layoutX="45.0" layoutY="36.0" text="PRES">
          <font>
@@ -120,5 +119,44 @@
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
+      <Separator layoutX="76.0" layoutY="460.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="492.0" text="CLIP">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="78.0" layoutY="553.0" text="Max. density" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="maxDenText" layoutX="190.0" layoutY="555.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="352.0" layoutY="553.0" text="Max. temperature" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="maxTempText" layoutX="507.0" layoutY="555.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="81.0" layoutY="596.0" text="Min. density" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="minDenText" layoutX="190.0" layoutY="598.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="357.0" layoutY="593.0" text="Min. temperature" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="minTempText" layoutX="507.0" layoutY="595.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
    </children>
 </AnchorPane>

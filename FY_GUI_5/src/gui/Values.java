@@ -144,6 +144,7 @@ public class Values {
 		String sqlPres = "DELETE FROM pres;";
 		String sqlComb = "DELETE FROM comb;";
 		String sqlTabl = "DELETE FROM tabl;";
+		String sqlClip = "DELETE FROM clip;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -175,6 +176,7 @@ public class Values {
 		statement.executeUpdate(sqlPres);
 		statement.executeUpdate(sqlComb);
 		statement.executeUpdate(sqlTabl);
+		statement.executeUpdate(sqlClip);
 	}
 	
 	protected static boolean cancelWarning(){
