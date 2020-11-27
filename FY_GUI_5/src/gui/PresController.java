@@ -117,7 +117,7 @@ public class PresController implements Initializable{
     		Parent root = loader.load();
     		
     		HvacController hvacCont = loader.getController(); //Get the next page's controller
-    		//hvacCont.showInfo(); //Set the values of the page 
+    		hvacCont.showInfo(); //Set the values of the page 
     		Scene hvacScene = new Scene(root);
     		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
     		mainWindow.setScene(hvacScene);

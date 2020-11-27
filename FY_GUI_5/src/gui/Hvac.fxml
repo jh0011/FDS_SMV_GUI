@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -46,5 +48,47 @@
             <Image url="@../../Fire1.jpg" />
          </image>
       </ImageView>
+      <Label layoutX="154.0" layoutY="103.0" text="ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="idText" layoutX="190.0" layoutY="105.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="401.0" layoutY="103.0" text="Roughness" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="roughnessText" layoutX="507.0" layoutY="105.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="109.0" layoutY="150.0" text="Devc_ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="devcIdText" layoutX="190.0" layoutY="152.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="434.0" layoutY="147.0" text="Length" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="lengthText" layoutX="507.0" layoutY="149.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="119.0" layoutY="194.0" text="Fan_ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="fanIdText" layoutX="190.0" layoutY="196.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="453.0" layoutY="194.0" text="Area" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="areaText" layoutX="507.0" layoutY="196.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="109.0" layoutY="241.0" text="Type_ID" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="typeCombo" layoutX="190.0" layoutY="242.0" onAction="#typeSelect" prefHeight="25.0" prefWidth="153.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="7" />
    </children>
 </AnchorPane>

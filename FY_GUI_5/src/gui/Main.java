@@ -20,7 +20,7 @@ public class Main extends Application {
 			Values.initValues();
 			Parent root;
 			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Obst.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Pres.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -63,6 +63,7 @@ public class Main extends Application {
 			String sqlComb = "DELETE FROM comb;";
 			String sqlTabl = "DELETE FROM tabl;";
 			String sqlClip = "DELETE FROM clip;";
+			String sqlHvac = "DELETE FROM hvac;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -98,6 +99,7 @@ public class Main extends Application {
 			String initComb = "INSERT INTO comb (FIXED_MIX_TIME, EXTINCTION_MODEL) VALUES ('', '');";
 			String initTabl = "INSERT INTO tabl (mainID, ID, TABLE_DATA) VALUES ('1', '', '');";
 			String initClip = "INSERT INTO clip (MAXIMUM_DENSITY, MAXIMUM_TEMPERATURE, MINIMUM_DENSITY, MINIMUM_TEMPERATURE) VALUES ('', '', '', '');";
+			String initHvac = "INSERT INTO hvac (ID, ROUGHNESS, DEVC_ID, LENGTH, FAN_ID, AREA, TYPE_ID) VALUES ('', '', '', '', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -128,6 +130,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlComb);
 			statement.executeUpdate(sqlTabl);
 			statement.executeUpdate(sqlClip);
+			statement.executeUpdate(sqlHvac);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -156,6 +159,7 @@ public class Main extends Application {
 			statement.executeUpdate(initComb);
 			statement.executeUpdate(initTabl);
 			statement.executeUpdate(initClip);
+			statement.executeUpdate(initHvac);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
