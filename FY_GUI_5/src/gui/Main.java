@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Pres.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			//root = FXMLLoader.load(getClass().getResource("Hvac.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -64,6 +64,7 @@ public class Main extends Application {
 			String sqlTabl = "DELETE FROM tabl;";
 			String sqlClip = "DELETE FROM clip;";
 			String sqlHvac = "DELETE FROM hvac;";
+			String sqlHole = "DELETE FROM hole;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -100,6 +101,7 @@ public class Main extends Application {
 			String initTabl = "INSERT INTO tabl (mainID, ID, TABLE_DATA) VALUES ('1', '', '');";
 			String initClip = "INSERT INTO clip (MAXIMUM_DENSITY, MAXIMUM_TEMPERATURE, MINIMUM_DENSITY, MINIMUM_TEMPERATURE) VALUES ('', '', '', '');";
 			String initHvac = "INSERT INTO hvac (ID, ROUGHNESS, DEVC_ID, LENGTH, FAN_ID, AREA, TYPE_ID) VALUES ('', '', '', '', '', '', '');";
+			String initHole = "INSERT INTO hole (MESH_ID, MULT_ID, DEVC_ID, CTRL_ID, XB) VALUES ('', '', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -131,6 +133,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlTabl);
 			statement.executeUpdate(sqlClip);
 			statement.executeUpdate(sqlHvac);
+			statement.executeUpdate(sqlHole);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -160,6 +163,7 @@ public class Main extends Application {
 			statement.executeUpdate(initTabl);
 			statement.executeUpdate(initClip);
 			statement.executeUpdate(initHvac);
+			statement.executeUpdate(initHole);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

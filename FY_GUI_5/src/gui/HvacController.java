@@ -33,7 +33,15 @@ public class HvacController implements Initializable{
     @FXML TextField areaText; //float (+)
     @FXML ComboBox typeCombo;
     
+    //hole
+    @FXML TextField meshIdText; //string
+    @FXML TextField multIdText; //string
+    @FXML TextField holeDevcText; //string
+    @FXML TextField ctrlIdText; //string
+    @FXML TextField xbText; //xb float (6) (+)
+    
     boolean checkFloatPosHvac;
+    boolean checkXb;
     
     static String typeSelection = "";
 
@@ -61,7 +69,7 @@ public class HvacController implements Initializable{
     private void goToPres(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if (checkFloatPosHvac) {
+    	if (checkFloatPosHvac && checkXb) {
     		//store the values
     		storeValues();
     		
@@ -88,6 +96,7 @@ public class HvacController implements Initializable{
     
     private void doChecking() {
     	doCheckingHvac();
+    	doCheckingHole();
     }
     
     private void doCheckingHvac() {
@@ -100,6 +109,13 @@ public class HvacController implements Initializable{
     	}
     	if (!areaText.getText().equals("")) {
     		checkFloatPosHvac = checkFloatPosHvac && checkFloatPosValues(areaText);
+    	}
+    }
+    
+    private void doCheckingHole() {
+    	checkXb = true;
+    	if(!xbText.getText().equals("")) {
+    		checkXb = checkXb && checkXbFormat(xbText);
     	}
     }
     
@@ -128,8 +144,63 @@ public class HvacController implements Initializable{
 		}
     }
     
+    private boolean checkXbFormat(TextField tempField) { //check the XB format
+    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
+			holeAlert.setTitle("Incorrect XB format");
+			holeAlert.setContentText("There should not be any whitespaces.");
+			holeAlert.setHeaderText(null);
+			holeAlert.show();
+			return false;
+		}
+		String[] xbValues = tempField.getText().split(",");
+		String concatXB = "";
+		
+		if (xbValues.length != 6){
+			Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
+			holeAlert.setTitle("Incorrect XB format");
+			holeAlert.setContentText("There should be 6 real values.");
+			holeAlert.setHeaderText(null);
+			holeAlert.show();
+			return false;
+		}
+		
+		for (int i=0; i<6; i++){ 
+			try{
+				float floatVal = Float.valueOf(xbValues[i]);
+				if (floatVal < 0) { //check if the float is negative
+					Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
+					holeAlert.setTitle("Invalid XB value");
+					holeAlert.setContentText("The values should not have negative numbers. Please check again.");
+					holeAlert.setHeaderText(null);
+					holeAlert.show();
+					return false;
+				}
+				if (i==5){
+					concatXB = concatXB + Float.toString(floatVal);
+				}
+				else{
+					concatXB = concatXB + Float.toString(floatVal) + ","; //convert to string
+				}
+			}
+			catch(Exception e){//check if each value is real
+			
+				Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
+				holeAlert.setTitle("Incorrect XB format");
+				holeAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
+						+ "values, comma-separated. Please check again.");
+				holeAlert.setHeaderText(null);
+				holeAlert.show();
+				return false;
+			}
+		}
+		tempField.setText(concatXB);
+		return true;
+    }
+    
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesHvac();
+    	storeValuesHole();
     }
     
     private void storeValuesHvac() throws SQLException { //store HVAC values into the database
@@ -141,11 +212,21 @@ public class HvacController implements Initializable{
 		statement.executeUpdate(sqlHvac);
     }
     
-    protected void showInfo() throws SQLException {
+    private void storeValuesHole() throws SQLException { //store HOLE values into the database
+    	String sqlHole = "INSERT INTO hole VALUES ('" + meshIdText.getText() + "', '" + multIdText.getText() + "', '" + holeDevcText.getText() + "', '" + ctrlIdText.getText() + 
+    			"', '" + xbText.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlHole);
+    }
+    
+    protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoHvac();
+    	showInfoHole();
     }
 
-    protected void showInfoHvac() throws SQLException {
+    protected void showInfoHvac() throws SQLException { //to show the info when the page is loaded
     	String sqlHvac = "SELECT * FROM hvac";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -160,6 +241,21 @@ public class HvacController implements Initializable{
 			areaText.setText(rs.getString(6));
 			typeSelection = rs.getString(7);
 			typeCombo.setValue(typeSelection);
+		}
+    }
+    
+    protected void showInfoHole() throws SQLException { //to show the info when the page is loaded
+    	String sqlHole = "SELECT * FROM hole";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlHole);
+		while (rs.next()) {
+			meshIdText.setText(rs.getString(1));
+			multIdText.setText(rs.getString(2));
+			holeDevcText.setText(rs.getString(3));
+			ctrlIdText.setText(rs.getString(4));
+			xbText.setText(rs.getString(5));
 		}
     }
 }

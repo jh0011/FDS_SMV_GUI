@@ -146,6 +146,7 @@ public class Values {
 		String sqlTabl = "DELETE FROM tabl;";
 		String sqlClip = "DELETE FROM clip;";
 		String sqlHvac = "DELETE FROM hvac;";
+		String sqlHole = "DELETE FROM hole;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -179,6 +180,7 @@ public class Values {
 		statement.executeUpdate(sqlTabl);
 		statement.executeUpdate(sqlClip);
 		statement.executeUpdate(sqlHvac);
+		statement.executeUpdate(sqlHole);
 	}
 	
 	protected static boolean cancelWarning(){
