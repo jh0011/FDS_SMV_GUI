@@ -301,49 +301,54 @@ public class SurfController implements Initializable{
     	return true;
     }
     
-    private boolean checkXbFormat(TextField tempField) {
+    private boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
-			Alert ventAlert = new Alert(Alert.AlertType.INFORMATION);
-			ventAlert.setTitle("Incorrect XB format");
-			ventAlert.setContentText("There should not be any whitespaces.");
-			ventAlert.setHeaderText(null);
-			ventAlert.show();
+			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+			initAlert.setTitle("Incorrect XB format");
+			initAlert.setContentText("There should not be any whitespaces.");
+			initAlert.setHeaderText(null);
+			initAlert.show();
 			return false;
 		}
 		String[] xbValues = tempField.getText().split(",");
-		float[] xbFloatValues = new float[6];
 		String concatXB = "";
 		
 		if (xbValues.length != 6){
-			Alert ventAlert = new Alert(Alert.AlertType.INFORMATION);
-			ventAlert.setTitle("Incorrect XB format");
-			ventAlert.setContentText("There should be 6 real values.");
-			ventAlert.setHeaderText(null);
-			ventAlert.show();
+			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+			initAlert.setTitle("Incorrect XB format");
+			initAlert.setContentText("There should be 6 real values.");
+			initAlert.setHeaderText(null);
+			initAlert.show();
 			return false;
 		}
 		
 		for (int i=0; i<6; i++){ 
 			try{
-				Float.valueOf(xbValues[i]);
+				float floatVal = Float.valueOf(xbValues[i]);
+				if (floatVal < 0) { //check if the float is negative
+					Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+					initAlert.setTitle("Invalid XB value");
+					initAlert.setContentText("The values should not have negative numbers. Please check again.");
+					initAlert.setHeaderText(null);
+					initAlert.show();
+					return false;
+				}
+				if (i==5){
+					concatXB = concatXB + Float.toString(floatVal);
+				}
+				else{
+					concatXB = concatXB + Float.toString(floatVal) + ","; //convert to string
+				}
 			}
 			catch(Exception e){//check if each value is real
 			
-				Alert ventAlert = new Alert(Alert.AlertType.INFORMATION);
-				ventAlert.setTitle("Incorrect XB format");
-				ventAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
+				Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+				initAlert.setTitle("Incorrect XB format");
+				initAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
 						+ "values, comma-separated. Please check again.");
-				ventAlert.setHeaderText(null);
-				ventAlert.show();
+				initAlert.setHeaderText(null);
+				initAlert.show();
 				return false;
-			}
-			
-			xbFloatValues[i] = Float.valueOf(xbValues[i]); //convert to float
-			if (i==5){
-				concatXB = concatXB + Float.toString(xbFloatValues[i]);
-			}
-			else{
-				concatXB = concatXB + Float.toString(xbFloatValues[i]) + ","; //convert to string
 			}
 		}
 		tempField.setText(concatXB);

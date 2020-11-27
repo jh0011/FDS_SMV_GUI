@@ -218,8 +218,8 @@ public class InitController implements Initializable{
 		checkIJK = checkIJK && checkIJKformat(ijkText);
 	}
 	
-	private boolean checkXbFormat(TextField valueTF){
-		if (valueTF.getText().contains(" ")){ //check if there are any white spaces
+	private boolean checkXbFormat(TextField tempField){ //check the XB format
+		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 			initAlert.setTitle("Incorrect XB format");
 			initAlert.setContentText("There should not be any whitespaces.");
@@ -227,8 +227,7 @@ public class InitController implements Initializable{
 			initAlert.show();
 			return false;
 		}
-		String[] xbValues = valueTF.getText().split(",");
-		float[] xbFloatValues = new float[6];
+		String[] xbValues = tempField.getText().split(",");
 		String concatXB = "";
 		
 		if (xbValues.length != 6){
@@ -242,7 +241,21 @@ public class InitController implements Initializable{
 		
 		for (int i=0; i<6; i++){ 
 			try{
-				Float.valueOf(xbValues[i]);
+				float floatVal = Float.valueOf(xbValues[i]);
+				if (floatVal < 0) { //check if the float is negative
+					Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+					initAlert.setTitle("Invalid XB value");
+					initAlert.setContentText("The values should not have negative numbers. Please check again.");
+					initAlert.setHeaderText(null);
+					initAlert.show();
+					return false;
+				}
+				if (i==5){
+					concatXB = concatXB + Float.toString(floatVal);
+				}
+				else{
+					concatXB = concatXB + Float.toString(floatVal) + ","; //convert to string
+				}
 			}
 			catch(Exception e){//check if each value is real
 			
@@ -254,18 +267,9 @@ public class InitController implements Initializable{
 				initAlert.show();
 				return false;
 			}
-			
-			xbFloatValues[i] = Float.valueOf(xbValues[i]); //convert to float
-			if (i==5){
-				concatXB = concatXB + Float.toString(xbFloatValues[i]);
-			}
-			else{
-				concatXB = concatXB + Float.toString(xbFloatValues[i]) + ","; //convert to string
-			}
 		}
-		valueTF.setText(concatXB);
+		tempField.setText(concatXB);
 		return true;
-		
 	}
 	
 	private boolean checkIntValues(TextField valueTF){

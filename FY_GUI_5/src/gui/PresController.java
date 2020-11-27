@@ -106,6 +106,29 @@ public class PresController implements Initializable{
     }
     
     @FXML
+    private void goToHvac(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    	doChecking();
+    	
+    	if(checkFishpak && checkTimePres && checkTableData && checkFloatPosClip && checkFloatClip) {
+    		//store the values
+        	storeValues();
+        	
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("Hvac.fxml"));
+    		Parent root = loader.load();
+    		
+    		HvacController hvacCont = loader.getController(); //Get the next page's controller
+    		//hvacCont.showInfo(); //Set the values of the page 
+    		Scene hvacScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(hvacScene);
+    		mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to proceed to HVAC page");
+    	}
+    }
+    
+    @FXML
     private void newTablLine(ActionEvent event) throws SQLException { //ADD NEW TABL LINE
     	doCheckingTabl();
     	
