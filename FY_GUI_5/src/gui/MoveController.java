@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import connectivity.ConnectionClass;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -29,14 +32,23 @@ public class MoveController implements Initializable{
     @FXML TextField angleText; //float (0 - 360)
     @FXML TextField axisText; //float (3) (+)
     
+    //prof
+    @FXML TextField profIdText; //string
+    @FXML TextField xyzText; //float (3) (+)
+    @FXML TextField qtyText; //string
+    @FXML ComboBox iorCombo;
+    
     boolean checkFloatPos;
     boolean checkAngle;
     boolean checkAxis;
+    boolean checkXyz;
+    
+    static String iorSelection = "";
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
+		ObservableList<String> iorList = FXCollections.observableArrayList("", "-1", "1", "-2", "2", "-3", "3");
+		iorCombo.setItems(iorList);
 	}
 	
 	@FXML
@@ -57,7 +69,7 @@ public class MoveController implements Initializable{
     private void goToHvac(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkAngle && checkAxis) {
+    	if(checkFloatPos && checkAngle && checkAxis && checkXyz) {
     		//store the values
     		storeValues();
     		
@@ -76,8 +88,15 @@ public class MoveController implements Initializable{
     	}
     }
     
+    @FXML
+    private void iorSelect(ActionEvent event) {
+    	iorSelection = iorCombo.getSelectionModel().getSelectedItem().toString();
+    	iorCombo.setValue(iorSelection);
+    }
+    
     private void doChecking() {
     	doCheckingMove();
+    	doCheckingProf();
     }
     
     private void doCheckingMove() {
@@ -102,7 +121,10 @@ public class MoveController implements Initializable{
     }
     
     private void doCheckingProf() {
-    	
+    	checkXyz = true;
+    	if(!xyzText.getText().equals("")) {
+    		checkXyz = checkXyz && checkXyzFormat(xyzText);
+    	}
     }
     
     private boolean checkFloatPosValues(TextField tempField) { //check if float is positive
@@ -167,7 +189,7 @@ public class MoveController implements Initializable{
 		
 		String[] axisValues = tempField.getText().split(",");
 		String concatAxis = "";
-		if (axisValues.length != 3){ //check if gvec is the correct length
+		if (axisValues.length != 3){ //check if axis is the correct length
 			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
 			moveAlert.setTitle("Incorrect Axis format");
 			moveAlert.setContentText("There should be 3 real values, comma-separated.");
@@ -187,7 +209,7 @@ public class MoveController implements Initializable{
 					moveAlert.show();
 					return false;
 				}
-				if (i==0 || i==1){ //concatenate to format the xyz string
+				if (i==0 || i==1){ //concatenate to format the axis string
 					concatAxis = concatAxis + Float.toString(axisFloat) + ",";
 				}
 				else{
@@ -195,6 +217,59 @@ public class MoveController implements Initializable{
 				}
 			}
 			tempField.setText(concatAxis);
+			return true;
+		}
+		catch(Exception e){ //check if axis is a number
+			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
+			moveAlert.setTitle("Incorrect Axis format");
+			moveAlert.setContentText("There should be 3 real values.");
+			moveAlert.setHeaderText(null);
+			moveAlert.show();
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
+    private boolean checkXyzFormat(TextField tempField) { //check if 3 positive float values
+    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
+			moveAlert.setTitle("Incorrect XYZ format");
+			moveAlert.setContentText("There should not be any whitespaces.");
+			moveAlert.setHeaderText(null);
+			moveAlert.show();
+			return false;
+		}
+		
+		String[] xyzValues = tempField.getText().split(",");
+		String concatXyz = "";
+		if (xyzValues.length != 3){ //check if xyz is the correct length
+			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
+			moveAlert.setTitle("Incorrect XYZ format");
+			moveAlert.setContentText("There should be 3 real values, comma-separated.");
+			moveAlert.setHeaderText(null);
+			moveAlert.show();
+			return false;
+		}
+		
+		try{
+			for (int i=0; i<3; i++){
+				float xyzFloat = Float.valueOf(xyzValues[i]);
+				if (xyzFloat < 0){ //check if xyz is negative or zero
+					Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
+					moveAlert.setTitle("Incorrect XYZ format");
+					moveAlert.setContentText("The XYZ values should be positive real values.");
+					moveAlert.setHeaderText(null);
+					moveAlert.show();
+					return false;
+				}
+				if (i==0 || i==1){ //concatenate to format the xyz string
+					concatXyz = concatXyz + Float.toString(xyzFloat) + ",";
+				}
+				else{
+					concatXyz = concatXyz + Float.toString(xyzFloat);
+				}
+			}
+			tempField.setText(concatXyz);
 			return true;
 		}
 		catch(Exception e){ //check if xyz is a number
@@ -210,6 +285,7 @@ public class MoveController implements Initializable{
 
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesMove();
+    	storeValuesProf();
     }
     
 	private void storeValuesMove() throws SQLException { //store MOVE values into the database
@@ -220,12 +296,17 @@ public class MoveController implements Initializable{
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlMove);
     }
-	private void storeValuesProf() { //to show the info when the page is loaded
-		
+	private void storeValuesProf() throws SQLException { //to show the info when the page is loaded
+		String sqlProf = "INSERT INTO prof VALUES ('" + profIdText.getText() + "', '" + xyzText.getText() + "', '" + qtyText.getText() + "', '" + iorSelection + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlProf);
 	}
 	
 	protected void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoMove();
+		showInfoProf();
 	}
 	
 	protected void showInfoMove() throws SQLException { //to show the info when the page is loaded
@@ -241,6 +322,21 @@ public class MoveController implements Initializable{
 			zText.setText(rs.getString(4));
 			angleText.setText(rs.getString(5));
 			axisText.setText(rs.getString(6));
+		}
+	}
+	
+	protected void showInfoProf() throws SQLException { //to show the info when the page is loaded
+		String sqlPrf = "SELECT * FROM prof";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlPrf);
+		while (rs.next()) {
+			profIdText.setText(rs.getString(1));
+			xyzText.setText(rs.getString(2));
+			qtyText.setText(rs.getString(3));
+			iorSelection = rs.getString(4);
+			iorCombo.setValue(iorSelection);
 		}
 	}
 }

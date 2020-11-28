@@ -90,8 +90,8 @@
          </font>
       </Label>
       <ComboBox fx:id="typeCombo" layoutX="190.0" layoutY="242.0" onAction="#typeSelect" prefHeight="25.0" prefWidth="153.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="7" />
-      <Separator layoutX="76.0" layoutY="291.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="323.0" text="HOLE">
+      <Separator layoutX="76.0" layoutY="286.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="312.0" text="HOLE">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -105,38 +105,38 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label layoutX="106.0" layoutY="379.0" text="Mesh_ID" textFill="WHITE">
+      <Label layoutX="106.0" layoutY="365.0" text="Mesh_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="meshIdText" layoutX="190.0" layoutY="381.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="426.0" layoutY="379.0" text="Mult_ID" textFill="WHITE">
+      <TextField fx:id="meshIdText" layoutX="190.0" layoutY="367.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="426.0" layoutY="365.0" text="Mult_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="multIdText" layoutX="507.0" layoutY="381.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="109.0" layoutY="426.0" text="Devc_ID" textFill="WHITE">
+      <TextField fx:id="multIdText" layoutX="507.0" layoutY="367.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="109.0" layoutY="412.0" text="Devc_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="holeDevcText" layoutX="190.0" layoutY="428.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="434.0" layoutY="423.0" text="Ctrl_ID" textFill="WHITE">
+      <TextField fx:id="holeDevcText" layoutX="190.0" layoutY="414.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="434.0" layoutY="409.0" text="Ctrl_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="ctrlIdText" layoutX="507.0" layoutY="425.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="150.0" layoutY="470.0" text="XB" textFill="WHITE">
+      <TextField fx:id="ctrlIdText" layoutX="507.0" layoutY="411.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="150.0" layoutY="456.0" text="XB" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="190.0" layoutY="472.0" prefHeight="25.0" prefWidth="153.0" promptText="Optional" fx:id="xbText" />
-      <Separator layoutX="76.0" layoutY="503.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="519.0" text="ISOF">
+      <TextField layoutX="190.0" layoutY="458.0" prefHeight="25.0" prefWidth="153.0" promptText="Optional" fx:id="xbText" />
+      <Separator layoutX="76.0" layoutY="489.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="505.0" text="ISOF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -150,29 +150,29 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label layoutX="106.0" layoutY="568.0" text="Quantity" textFill="WHITE">
+      <Label layoutX="106.0" layoutY="554.0" text="Quantity" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="qtyText" layoutX="190.0" layoutY="570.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="426.0" layoutY="568.0" text="Value(2)" textFill="WHITE">
+      <TextField fx:id="qtyText" layoutX="190.0" layoutY="556.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="426.0" layoutY="554.0" text="Value(2)" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="val2Text" layoutX="507.0" layoutY="570.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="109.0" layoutY="607.0" text="Value(1)" textFill="WHITE">
+      <TextField fx:id="val2Text" layoutX="507.0" layoutY="556.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="109.0" layoutY="593.0" text="Value(1)" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="val1Text" layoutX="190.0" layoutY="609.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
-      <Label layoutX="427.0" layoutY="604.0" text="Value(3)" textFill="WHITE">
+      <TextField fx:id="val1Text" layoutX="190.0" layoutY="595.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="427.0" layoutY="590.0" text="Value(3)" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="val3Text" layoutX="507.0" layoutY="606.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <TextField fx:id="val3Text" layoutX="507.0" layoutY="592.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
    </children>
 </AnchorPane>

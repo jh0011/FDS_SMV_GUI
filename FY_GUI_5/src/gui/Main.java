@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Hvac.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			//root = FXMLLoader.load(getClass().getResource("Move.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -67,6 +67,7 @@ public class Main extends Application {
 			String sqlHole = "DELETE FROM hole;";
 			String sqlIsof = "DELETE FROM isof;";
 			String sqlMove = "DELETE FROM move;";
+			String sqlProf = "DELETE FROM prof;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -106,6 +107,7 @@ public class Main extends Application {
 			String initHole = "INSERT INTO hole (MESH_ID, MULT_ID, DEVC_ID, CTRL_ID, XB) VALUES ('', '', '', '', '');";
 			String initIsof = "INSERT INTO isof (QUANTITY, VALUE_1, VALUE_2, VALUE_3) VALUES ('', '', '', '');";
 			String initMove = "INSERT INTO move (ID, X0, Y0, Z0, ROTATION_ANGLE, AXIS) VALUES ('', '', '', '', '', '');";
+			String initProf = "INSERT INTO prof (ID, XYZ, QUANTITY, IOR) VALUES ('', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -140,6 +142,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlHole);
 			statement.executeUpdate(sqlIsof);
 			statement.executeUpdate(sqlMove);
+			statement.executeUpdate(sqlProf);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -172,6 +175,7 @@ public class Main extends Application {
 			statement.executeUpdate(initHole);
 			statement.executeUpdate(initIsof);
 			statement.executeUpdate(initMove);
+			statement.executeUpdate(initProf);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
