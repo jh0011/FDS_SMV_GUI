@@ -40,8 +40,15 @@ public class HvacController implements Initializable{
     @FXML TextField ctrlIdText; //string
     @FXML TextField xbText; //xb float (6) (+)
     
+    //isof
+    @FXML TextField qtyText; //string
+    @FXML TextField val1Text; //float (+ / -)
+    @FXML TextField val2Text; //float (+ / -)
+    @FXML TextField val3Text; //float (+ / -)
+    
     boolean checkFloatPosHvac;
     boolean checkXb;
+    boolean checkFloat;
     
     static String typeSelection = "";
 
@@ -69,7 +76,7 @@ public class HvacController implements Initializable{
     private void goToPres(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if (checkFloatPosHvac && checkXb) {
+    	if (checkFloatPosHvac && checkXb && checkFloat) {
     		//store the values
     		storeValues();
     		
@@ -97,6 +104,7 @@ public class HvacController implements Initializable{
     private void doChecking() {
     	doCheckingHvac();
     	doCheckingHole();
+    	doCheckingIsof();
     }
     
     private void doCheckingHvac() {
@@ -116,6 +124,18 @@ public class HvacController implements Initializable{
     	checkXb = true;
     	if(!xbText.getText().equals("")) {
     		checkXb = checkXb && checkXbFormat(xbText);
+    	}
+    }
+    private void doCheckingIsof() {
+    	checkFloat = true;
+    	if(!val1Text.getText().equals("")) {
+    		checkFloat = checkFloat && checkFloatValues(val1Text);
+    	}
+    	if(!val2Text.getText().equals("")) {
+    		checkFloat = checkFloat && checkFloatValues(val2Text);
+    	}
+    	if(!val3Text.getText().equals("")) {
+    		checkFloat = checkFloat && checkFloatValues(val3Text);
     	}
     }
     
@@ -198,9 +218,27 @@ public class HvacController implements Initializable{
 		return true;
     }
     
+    private boolean checkFloatValues(TextField tempField) { //check if value is a float
+    	try {
+			String stringVal = tempField.getText();
+			float floatVal = Float.valueOf(stringVal);
+			tempField.setText(Float.toString(floatVal));
+			return true;
+		}
+		catch (Exception e) { //if it is not a float
+			Alert miscAlert = new Alert(Alert.AlertType.INFORMATION);
+			miscAlert.setTitle("Invalid value");
+			miscAlert.setContentText("Value(1), Value(2) and Value(3) should be numerical values. Please check again.");
+			miscAlert.setHeaderText(null);
+			miscAlert.show();
+			return false;
+		}
+    }
+    
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesHvac();
     	storeValuesHole();
+    	storeValuesIsof();
     }
     
     private void storeValuesHvac() throws SQLException { //store HVAC values into the database
@@ -221,9 +259,18 @@ public class HvacController implements Initializable{
 		statement.executeUpdate(sqlHole);
     }
     
+    private void storeValuesIsof() throws SQLException { //store ISOF values into the database
+    	String sqlIsof = "INSERT INTO isof VALUES ('" + qtyText.getText() + "', '" + val1Text.getText() + "', '" + val2Text.getText() + "', '" + val3Text.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlIsof);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoHvac();
     	showInfoHole();
+    	showInfoIsof();
     }
 
     protected void showInfoHvac() throws SQLException { //to show the info when the page is loaded
@@ -256,6 +303,20 @@ public class HvacController implements Initializable{
 			holeDevcText.setText(rs.getString(3));
 			ctrlIdText.setText(rs.getString(4));
 			xbText.setText(rs.getString(5));
+		}
+    }
+    
+    protected void showInfoIsof() throws SQLException { //to show the info when the page is loaded
+    	String sqlIsof = "SELECT * FROM isof";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlIsof);
+		while (rs.next()) {
+			qtyText.setText(rs.getString(1));
+			val1Text.setText(rs.getString(2));
+			val2Text.setText(rs.getString(3));
+			val3Text.setText(rs.getString(4));
 		}
     }
 }

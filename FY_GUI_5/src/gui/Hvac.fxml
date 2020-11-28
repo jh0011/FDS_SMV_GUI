@@ -12,8 +12,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="gui.HvacController">
+<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.HvacController">
    <children>
       <Label layoutX="45.0" layoutY="36.0" text="HVAC">
          <font>
@@ -136,5 +135,44 @@
          </font>
       </Label>
       <TextField layoutX="190.0" layoutY="472.0" prefHeight="25.0" prefWidth="153.0" promptText="Optional" fx:id="xbText" />
+      <Separator layoutX="76.0" layoutY="503.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="519.0" text="ISOF">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="106.0" layoutY="568.0" text="Quantity" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="qtyText" layoutX="190.0" layoutY="570.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="426.0" layoutY="568.0" text="Value(2)" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="val2Text" layoutX="507.0" layoutY="570.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="109.0" layoutY="607.0" text="Value(1)" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="val1Text" layoutX="190.0" layoutY="609.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
+      <Label layoutX="427.0" layoutY="604.0" text="Value(3)" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="val3Text" layoutX="507.0" layoutY="606.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
    </children>
 </AnchorPane>
