@@ -148,6 +148,7 @@ public class Values {
 		String sqlHvac = "DELETE FROM hvac;";
 		String sqlHole = "DELETE FROM hole;";
 		String sqlIsof = "DELETE FROM isof;";
+		String sqlMove = "DELETE FROM move;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -183,6 +184,7 @@ public class Values {
 		statement.executeUpdate(sqlHvac);
 		statement.executeUpdate(sqlHole);
 		statement.executeUpdate(sqlIsof);
+		statement.executeUpdate(sqlMove);
 	}
 	
 	protected static boolean cancelWarning(){

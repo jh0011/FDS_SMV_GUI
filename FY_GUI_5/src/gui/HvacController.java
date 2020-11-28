@@ -96,6 +96,29 @@ public class HvacController implements Initializable{
     }
     
     @FXML
+    private void goToMove(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+    	doChecking();
+    	
+    	if (checkFloatPosHvac && checkXb && checkFloat) {
+    		//store the values
+    		storeValues();
+    		
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Move.fxml"));
+    		Parent root = loader.load();
+    		
+    		MoveController moveCont = loader.getController(); //Get the next page's controller
+    		moveCont.showInfo(); //Set the values of the page 
+    		Scene moveScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(moveScene);
+    		mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to proceed to MOVE page");
+    	}
+    }
+    
+    @FXML
     private void typeSelect(ActionEvent event) {
     	typeSelection = typeCombo.getSelectionModel().getSelectedItem().toString();
     	typeCombo.setValue(typeSelection);

@@ -66,6 +66,7 @@ public class Main extends Application {
 			String sqlHvac = "DELETE FROM hvac;";
 			String sqlHole = "DELETE FROM hole;";
 			String sqlIsof = "DELETE FROM isof;";
+			String sqlMove = "DELETE FROM move;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -104,6 +105,7 @@ public class Main extends Application {
 			String initHvac = "INSERT INTO hvac (ID, ROUGHNESS, DEVC_ID, LENGTH, FAN_ID, AREA, TYPE_ID) VALUES ('', '', '', '', '', '', '');";
 			String initHole = "INSERT INTO hole (MESH_ID, MULT_ID, DEVC_ID, CTRL_ID, XB) VALUES ('', '', '', '', '');";
 			String initIsof = "INSERT INTO isof (QUANTITY, VALUE_1, VALUE_2, VALUE_3) VALUES ('', '', '', '');";
+			String initMove = "INSERT INTO move (ID, X0, Y0, Z0, ROTATION_ANGLE, AXIS) VALUES ('', '', '', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -137,6 +139,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlHvac);
 			statement.executeUpdate(sqlHole);
 			statement.executeUpdate(sqlIsof);
+			statement.executeUpdate(sqlMove);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -168,6 +171,7 @@ public class Main extends Application {
 			statement.executeUpdate(initHvac);
 			statement.executeUpdate(initHole);
 			statement.executeUpdate(initIsof);
+			statement.executeUpdate(initMove);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
