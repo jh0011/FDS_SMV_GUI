@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class TrnxController implements Initializable{
@@ -28,17 +29,26 @@ public class TrnxController implements Initializable{
     @FXML TextField ccText; //float (+)
     @FXML TextField pcText; //float (+)
     
+    //zone
+    @FXML TextField xyzText; //float (3) (+)
+
     @FXML Button addTrnxBtn;
+   	@FXML Button addZoneBtn;
     
     boolean checkPosInt;
     boolean checkPosFloat;
+    boolean checkXyz;
     
     static int mainTrnxId = 1;
+    static int mainZoneId = 1;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		Tooltip trnxTooltip = new Tooltip("Click to add another TRNX field.");
+		addTrnxBtn.setTooltip(trnxTooltip);
 		
+		Tooltip zoneTooltip = new Tooltip("Click to add another ZONE field.");
+		addZoneBtn.setTooltip(zoneTooltip);
 	}
 	
 	@FXML
@@ -59,7 +69,7 @@ public class TrnxController implements Initializable{
     private void goToMove(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkPosInt && checkPosFloat) {
+    	if(checkPosInt && checkPosFloat && checkXyz) {
     		//store the values
     		storeValues();
     		
@@ -73,7 +83,9 @@ public class TrnxController implements Initializable{
     		mainWindow.setScene(moveScene);
     		mainWindow.show();
     	}
-    	
+    	else {
+    		System.out.println("Unable to go back to MOVE page");
+    	}
     }
     
     @FXML
@@ -99,8 +111,32 @@ public class TrnxController implements Initializable{
     	}
     }
     
+    @FXML
+    private void newZoneLine(ActionEvent event) throws SQLException { //ADD NEW ZONE LINE
+    	doCheckingZone();
+    	
+    	if(checkXyz) {
+    		//store values
+    		storeValuesZone();
+    		
+    		mainZoneId++;
+        	String mainZoneIdString = Integer.toString(mainZoneId);
+        	String sqlZone = "INSERT INTO zone (mainID, XYZ) VALUES ('" + mainZoneIdString + "', '');";
+        	ConnectionClass connectionClass = new ConnectionClass();
+    		Connection connection = connectionClass.getConnection();
+    		Statement statement = connection.createStatement();
+    		statement.executeUpdate(sqlZone);
+    		
+    		showInfoZone();
+    	}
+    	else {
+    		System.out.println("Unable to add new ZONE line");
+    	}
+    }
+    
     private void doChecking() {
     	doCheckingTrnx();
+    	doCheckingZone();
     }
     
     private void doCheckingTrnx() {
@@ -114,6 +150,13 @@ public class TrnxController implements Initializable{
     	}
     	if(!pcText.getText().equals("")) {
     		checkPosFloat = checkPosFloat && checkPosFloatValues(pcText);
+    	}
+    }
+    
+    private void doCheckingZone() {
+    	checkXyz = true;
+    	if (!xyzText.getText().equals("")) {
+    		checkXyz = checkXyz && checkXyzFormat(xyzText);
     	}
     }
     
@@ -167,8 +210,62 @@ public class TrnxController implements Initializable{
 		}
     }
     
+    private boolean checkXyzFormat(TextField tempField) { //check if xyz is correct
+    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			Alert zoneAlert = new Alert(Alert.AlertType.INFORMATION);
+			zoneAlert.setTitle("Incorrect XYZ format");
+			zoneAlert.setContentText("There should not be any whitespaces.");
+			zoneAlert.setHeaderText(null);
+			zoneAlert.show();
+			return false;
+		}
+		
+		String[] xyzValues = tempField.getText().split(",");
+		String concatXyz = "";
+		if (xyzValues.length != 3){ //check if XYZ is the correct length
+			Alert zoneAlert = new Alert(Alert.AlertType.INFORMATION);
+			zoneAlert.setTitle("Incorrect XYZ format");
+			zoneAlert.setContentText("There should be 3 real values, comma-separated.");
+			zoneAlert.setHeaderText(null);
+			zoneAlert.show();
+			return false;
+		}
+		
+		try{
+			for (int i=0; i<3; i++){
+				float xyzFloat = Float.valueOf(xyzValues[i]);
+				if (xyzFloat < 0){ //check if xyz is negative or zero
+					Alert zoneAlert = new Alert(Alert.AlertType.INFORMATION);
+					zoneAlert.setTitle("Incorrect XYZ format");
+					zoneAlert.setContentText("The XYZ values should be positive real values.");
+					zoneAlert.setHeaderText(null);
+					zoneAlert.show();
+					return false;
+				}
+				if (i==0 || i==1){ //concatenate to format the xyz string
+					concatXyz = concatXyz + Float.toString(xyzFloat) + ",";
+				}
+				else{
+					concatXyz = concatXyz + Float.toString(xyzFloat);
+				}
+			}
+			tempField.setText(concatXyz);
+			return true;
+		}
+		catch(Exception e){ //check if xyz is a number
+			Alert miscAlert = new Alert(Alert.AlertType.INFORMATION);
+			miscAlert.setTitle("Incorrect XYZ format");
+			miscAlert.setContentText("There should be 3 real values.");
+			miscAlert.setHeaderText(null);
+			miscAlert.show();
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesTrnx();
+    	storeValuesZone();
     }
     
     private void storeValuesTrnx() throws SQLException { //store TRNX values into the database
@@ -180,8 +277,18 @@ public class TrnxController implements Initializable{
 		statement.executeUpdate(sqlTrnx);
     }
     
+    private void storeValuesZone() throws SQLException { //store ZONE values into the database
+    	String mainZoneIdString = Integer.toString(mainZoneId);
+    	String sqlZone = "INSERT INTO zone VALUES ('" + mainZoneIdString + "', '" + xyzText.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlZone);
+    }
+    
     protected void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoTrnx();
+    	showInfoZone();
     }
     
     protected void showInfoTrnx() throws SQLException { //to show the info when the page is loaded
@@ -195,6 +302,17 @@ public class TrnxController implements Initializable{
 			meshText.setText(rs.getString(3));
 			ccText.setText(rs.getString(4));
 			pcText.setText(rs.getString(5));
+		}
+    }
+    
+    protected void showInfoZone() throws SQLException { //to show the info when the page is loaded
+    	String sqlZone = "SELECT * FROM zone";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlZone);
+		while (rs.next()) {
+			xyzText.setText(rs.getString(2));
 		}
     }
 

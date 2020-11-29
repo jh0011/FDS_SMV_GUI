@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Move.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			//root = FXMLLoader.load(getClass().getResource("Trnx.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -70,6 +70,7 @@ public class Main extends Application {
 			String sqlProf = "DELETE FROM prof;";
 			String sqlRadf = "DELETE FROM radf;";
 			String sqlTrnx = "DELETE FROM trnx;";
+			String sqlZone = "DELETE FROM zone;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -112,6 +113,7 @@ public class Main extends Application {
 			String initProf = "INSERT INTO prof (ID, XYZ, QUANTITY, IOR) VALUES ('', '', '', '');";
 			String initRadf = "INSERT INTO radf (I_STEP, J_STEP, K_STEP, XB) VALUES ('', '', '', '');";
 			String initTrnx = "INSERT INTO trnx (mainID, ID, MESH_NUMBER, CC, PC) VALUES ('1', '', '', '', '');";
+			String initZone = "INSERT INTO zone (mainID, XYZ) VALUES ('1', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -149,6 +151,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlProf);
 			statement.executeUpdate(sqlRadf);
 			statement.executeUpdate(sqlTrnx);
+			statement.executeUpdate(sqlZone);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -184,6 +187,7 @@ public class Main extends Application {
 			statement.executeUpdate(initProf);
 			statement.executeUpdate(initRadf);
 			statement.executeUpdate(initTrnx);
+			statement.executeUpdate(initZone);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

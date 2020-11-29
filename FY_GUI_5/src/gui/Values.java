@@ -152,6 +152,7 @@ public class Values {
 		String sqlProf = "DELETE FROM prof;";
 		String sqlRadf = "DELETE FROM radf;";
 		String sqlTrnx = "DELETE FROM trnx;";
+		String sqlZone = "DELETE FROM zone;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -191,6 +192,7 @@ public class Values {
 		statement.executeUpdate(sqlProf);
 		statement.executeUpdate(sqlRadf);
 		statement.executeUpdate(sqlTrnx);
+		statement.executeUpdate(sqlZone);
 	}
 	
 	protected static boolean cancelWarning(){

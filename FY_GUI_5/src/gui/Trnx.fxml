@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -71,6 +72,32 @@
       </Label>
       <TextField fx:id="pcText" layoutX="507.0" layoutY="149.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
       <Button fx:id="addTrnxBtn" layoutX="143.0" layoutY="42.0" mnemonicParsing="false" onAction="#newTrnxLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Separator layoutX="76.0" layoutY="196.0" prefHeight="27.0" prefWidth="705.0" />
+      <Label layoutX="45.0" layoutY="228.0" text="ZONE">
+         <font>
+            <Font name="Bestina" size="34.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="#eb6200" offset="0.06513409961685823" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="152.0" layoutY="299.0" text="XYZ" textFill="WHITE">
+         <font>
+            <Font name="Leelawadee UI" size="18.0" />
+         </font>
+      </Label>
+      <TextField layoutX="190.0" layoutY="301.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" fx:id="xyzText" />
+      <Button fx:id="addZoneBtn" layoutX="143.0" layoutY="234.0" mnemonicParsing="false" onAction="#newZoneLine" prefHeight="27.0" prefWidth="79.0" style="-fx-background-color: eb9f65;" text="+ New" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
