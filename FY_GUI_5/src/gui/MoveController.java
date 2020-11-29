@@ -38,10 +38,18 @@ public class MoveController implements Initializable{
     @FXML TextField qtyText; //string
     @FXML ComboBox iorCombo;
     
+    //radf
+    @FXML TextField iText; //integer (+)
+    @FXML TextField jText; //integer (+)
+    @FXML TextField kText; //integer (+)
+    @FXML TextField xbText; //float (6) (+)
+    
     boolean checkFloatPos;
     boolean checkAngle;
     boolean checkAxis;
     boolean checkXyz;
+    boolean checkIntPos;
+    boolean checkXb;
     
     static String iorSelection = "";
     
@@ -69,7 +77,7 @@ public class MoveController implements Initializable{
     private void goToHvac(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkAngle && checkAxis && checkXyz) {
+    	if(checkFloatPos && checkAngle && checkAxis && checkXyz && checkIntPos && checkXb) {
     		//store the values
     		storeValues();
     		
@@ -97,6 +105,7 @@ public class MoveController implements Initializable{
     private void doChecking() {
     	doCheckingMove();
     	doCheckingProf();
+    	doCheckingRadf();
     }
     
     private void doCheckingMove() {
@@ -124,6 +133,23 @@ public class MoveController implements Initializable{
     	checkXyz = true;
     	if(!xyzText.getText().equals("")) {
     		checkXyz = checkXyz && checkXyzFormat(xyzText);
+    	}
+    }
+    
+    private void doCheckingRadf() {
+    	checkIntPos = true;
+    	checkXb = true;
+    	if(!iText.getText().equals("")) {
+    		checkIntPos = checkIntPos && checkPosIntValues(iText);
+    	}
+    	if(!jText.getText().equals("")) {
+    		checkIntPos = checkIntPos && checkPosIntValues(jText);
+    	}
+    	if(!kText.getText().equals("")) {
+    		checkIntPos = checkIntPos && checkPosIntValues(kText);
+    	}
+    	if(!xbText.getText().equals("")) {
+    		checkXb = checkXb && checkXbFormat(xbText);
     	}
     }
     
@@ -282,10 +308,90 @@ public class MoveController implements Initializable{
 			return false;
 		}
     }
+    
+    private boolean checkPosIntValues(TextField tempField) { //check if integer is positive
+    	try{ 
+			String stringVal = tempField.getText();
+			int intVal = Integer.parseInt(stringVal);
+			if (intVal <= 0){ //if it is not a positive integer
+				Alert radfAlert = new Alert(Alert.AlertType.INFORMATION);
+				radfAlert.setTitle("Invalid integer value");
+				radfAlert.setContentText("I_Step, J_Step and K_Step should be positive integers. Please check again.");
+				radfAlert.setHeaderText(null);
+				radfAlert.show();
+				return false;
+			}
+			tempField.setText(stringVal);
+			return true;
+		}
+		catch(Exception e){ //if it is not integer
+			Alert radfAlert = new Alert(Alert.AlertType.INFORMATION);
+			radfAlert.setTitle("Invalid integer value");
+			radfAlert.setContentText("I_Step, J_Step and K_Step should be integers. Please check again.");
+			radfAlert.setHeaderText(null);
+			radfAlert.show();
+			return false;
+		}
+    }
+    
+    private boolean checkXbFormat(TextField tempField) { //check the XB format
+    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+			initAlert.setTitle("Incorrect XB format");
+			initAlert.setContentText("There should not be any whitespaces.");
+			initAlert.setHeaderText(null);
+			initAlert.show();
+			return false;
+		}
+		String[] xbValues = tempField.getText().split(",");
+		String concatXB = "";
+		
+		if (xbValues.length != 6){
+			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+			initAlert.setTitle("Incorrect XB format");
+			initAlert.setContentText("There should be 6 real values.");
+			initAlert.setHeaderText(null);
+			initAlert.show();
+			return false;
+		}
+		
+		for (int i=0; i<6; i++){ 
+			try{
+				float floatVal = Float.valueOf(xbValues[i]);
+				if (floatVal < 0) { //check if the float is negative
+					Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+					initAlert.setTitle("Invalid XB value");
+					initAlert.setContentText("The values should not have negative numbers. Please check again.");
+					initAlert.setHeaderText(null);
+					initAlert.show();
+					return false;
+				}
+				if (i==5){
+					concatXB = concatXB + Float.toString(floatVal);
+				}
+				else{
+					concatXB = concatXB + Float.toString(floatVal) + ","; //convert to string
+				}
+			}
+			catch(Exception e){//check if each value is real
+			
+				Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+				initAlert.setTitle("Incorrect XB format");
+				initAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
+						+ "values, comma-separated. Please check again.");
+				initAlert.setHeaderText(null);
+				initAlert.show();
+				return false;
+			}
+		}
+		tempField.setText(concatXB);
+		return true;
+    }
 
     private void storeValues() throws SQLException { //store values into the database
     	storeValuesMove();
     	storeValuesProf();
+    	storeValuesRadf();
     }
     
 	private void storeValuesMove() throws SQLException { //store MOVE values into the database
@@ -296,7 +402,7 @@ public class MoveController implements Initializable{
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlMove);
     }
-	private void storeValuesProf() throws SQLException { //to show the info when the page is loaded
+	private void storeValuesProf() throws SQLException { //store PROF values into the database
 		String sqlProf = "INSERT INTO prof VALUES ('" + profIdText.getText() + "', '" + xyzText.getText() + "', '" + qtyText.getText() + "', '" + iorSelection + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -304,9 +410,18 @@ public class MoveController implements Initializable{
 		statement.executeUpdate(sqlProf);
 	}
 	
+	private void storeValuesRadf() throws SQLException { //store RADF values into the database
+		String sqlRadf = "INSERT INTO radf VALUES ('" + iText.getText() + "', '" + jText.getText() + "', '" + kText.getText() + "', '" + xbText.getText() + "');";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		statement.executeUpdate(sqlRadf);
+	}
+	
 	protected void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoMove();
 		showInfoProf();
+		showInfoRadf();
 	}
 	
 	protected void showInfoMove() throws SQLException { //to show the info when the page is loaded
@@ -337,6 +452,20 @@ public class MoveController implements Initializable{
 			qtyText.setText(rs.getString(3));
 			iorSelection = rs.getString(4);
 			iorCombo.setValue(iorSelection);
+		}
+	}
+	
+	protected void showInfoRadf() throws SQLException { //to show the info when the page is loaded
+		String sqlRadf = "SELECT * FROM radf";
+    	ConnectionClass connectionClass = new ConnectionClass();
+		Connection connection = connectionClass.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(sqlRadf);
+		while (rs.next()) {
+			iText.setText(rs.getString(1));
+			jText.setText(rs.getString(2));
+			kText.setText(rs.getString(3));
+			xbText.setText(rs.getString(4));
 		}
 	}
 }

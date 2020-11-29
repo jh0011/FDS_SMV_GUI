@@ -19,8 +19,8 @@ public class Main extends Application {
 		try {
 			Values.initValues();
 			Parent root;
-			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			//root = FXMLLoader.load(getClass().getResource("Move.fxml")); //For testing a certain page
+			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			root = FXMLLoader.load(getClass().getResource("Move.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -68,6 +68,7 @@ public class Main extends Application {
 			String sqlIsof = "DELETE FROM isof;";
 			String sqlMove = "DELETE FROM move;";
 			String sqlProf = "DELETE FROM prof;";
+			String sqlRadf = "DELETE FROM radf;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -108,6 +109,7 @@ public class Main extends Application {
 			String initIsof = "INSERT INTO isof (QUANTITY, VALUE_1, VALUE_2, VALUE_3) VALUES ('', '', '', '');";
 			String initMove = "INSERT INTO move (ID, X0, Y0, Z0, ROTATION_ANGLE, AXIS) VALUES ('', '', '', '', '', '');";
 			String initProf = "INSERT INTO prof (ID, XYZ, QUANTITY, IOR) VALUES ('', '', '', '');";
+			String initRadf = "INSERT INTO radf (I_STEP, J_STEP, K_STEP, XB) VALUES ('', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -143,6 +145,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlIsof);
 			statement.executeUpdate(sqlMove);
 			statement.executeUpdate(sqlProf);
+			statement.executeUpdate(sqlRadf);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -176,6 +179,7 @@ public class Main extends Application {
 			statement.executeUpdate(initIsof);
 			statement.executeUpdate(initMove);
 			statement.executeUpdate(initProf);
+			statement.executeUpdate(initRadf);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");
