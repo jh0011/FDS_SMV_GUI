@@ -69,6 +69,7 @@ public class Main extends Application {
 			String sqlMove = "DELETE FROM move;";
 			String sqlProf = "DELETE FROM prof;";
 			String sqlRadf = "DELETE FROM radf;";
+			String sqlTrnx = "DELETE FROM trnx;";
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -110,6 +111,7 @@ public class Main extends Application {
 			String initMove = "INSERT INTO move (ID, X0, Y0, Z0, ROTATION_ANGLE, AXIS) VALUES ('', '', '', '', '', '');";
 			String initProf = "INSERT INTO prof (ID, XYZ, QUANTITY, IOR) VALUES ('', '', '', '');";
 			String initRadf = "INSERT INTO radf (I_STEP, J_STEP, K_STEP, XB) VALUES ('', '', '', '');";
+			String initTrnx = "INSERT INTO trnx (mainID, ID, MESH_NUMBER, CC, PC) VALUES ('1', '', '', '', '');";
 			
 			Statement statement;
 			statement = connection.createStatement();
@@ -146,6 +148,7 @@ public class Main extends Application {
 			statement.executeUpdate(sqlMove);
 			statement.executeUpdate(sqlProf);
 			statement.executeUpdate(sqlRadf);
+			statement.executeUpdate(sqlTrnx);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
@@ -180,6 +183,7 @@ public class Main extends Application {
 			statement.executeUpdate(initMove);
 			statement.executeUpdate(initProf);
 			statement.executeUpdate(initRadf);
+			statement.executeUpdate(initTrnx);
 		} catch (Exception e){
 			e.printStackTrace();
 			System.out.println("DATABASE NOT SET CORRECTLY");

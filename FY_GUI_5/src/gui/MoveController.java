@@ -97,6 +97,29 @@ public class MoveController implements Initializable{
     }
     
     @FXML
+    private void goToTrnx(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    	doChecking();
+    	
+    	if(checkFloatPos && checkAngle && checkAxis && checkXyz && checkIntPos && checkXb) {
+    		//store the values
+    		storeValues();
+    		
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Trnx.fxml"));
+    		Parent root = loader.load();
+    		
+    		TrnxController trnxCont = loader.getController(); //Get the next page's controller
+    		trnxCont.showInfo(); //Set the values of the page 
+    		Scene trnxScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(trnxScene);
+    		mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to proceed to TRNX page");
+    	}
+    }
+    
+    @FXML
     private void iorSelect(ActionEvent event) {
     	iorSelection = iorCombo.getSelectionModel().getSelectedItem().toString();
     	iorCombo.setValue(iorSelection);
