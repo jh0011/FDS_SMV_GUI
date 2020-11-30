@@ -15,9 +15,26 @@ Download SceneBuilder: https://gluonhq.com/products/scene-builder/
 Download MySQL Workbench: https://dev.mysql.com/downloads/workbench/ 
 
 ## Before running
-Before running the program, we need to change the PATH static final int in Values.java. This is the directory in which the .fds file would be created in. The path should be written in this format: "C:\\\Users\\\dell\\\Desktop\\\\".
+~~Before running the program, we need to change the PATH static final int in Values.java. This is the directory in which the .fds file would be created in. The path should be written in this format: "C:\\\Users\\\dell\\\Desktop\\\\".~~
 
-The connection to the database on localhost would also need to be established.
+The connection to the database on localhost would also need to be established. These are the setup steps.
+
+1. Create a MySQL connection in MySQL workbench. The default username is "root" and default password is "root". 
+
+2. Create a new schema in MySQL workbench and name it as "fds_db".
+
+3. Open the fds_db.sql script into MySQL workbench.
+
+4. Click on the fds_db schema and execute the SQL script.
+
+## Default values used
+Username: root
+
+Password: root
+
+Database name: fds_db
+
+**If any of these values are not used, be sure to update the variables in ConnectionClass.java (within the Connectivity package).**
 
 ## Features
 - Each Namelist mentioned in the FDS user guide would have a .fxml and a Controller class to handle the user input for the multiple parameters.
