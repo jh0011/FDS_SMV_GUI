@@ -27,7 +27,7 @@ The connection to the database on localhost would also need to be established. T
 
 4. Click on the fds_db schema and execute the SQL script.
 
-## Default values used
+#### Default values used for MySQL database
 Username: root
 
 Password: root
