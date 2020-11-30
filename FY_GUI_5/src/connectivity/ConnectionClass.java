@@ -8,9 +8,10 @@ public class ConnectionClass {
 	public Connection connection;
 	
 	public Connection getConnection(){
-		String url = "jdbc:mysql://127.0.0.1:3306/fds_db?useTimezone=true&serverTimezone=UTC";
-		String userName = "root";
-		String password = "root";
+		String userName = "root"; //Change this as needed
+		String password = "root"; //Change this as needed
+		String db_name = "fds_db"; //Change this as needed
+		String url = "jdbc:mysql://127.0.0.1:3306/" + db_name + "?useTimezone=true&serverTimezone=UTC";
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); 
