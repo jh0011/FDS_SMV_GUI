@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import connectivity.ConnectionClass;
@@ -27,6 +28,7 @@ public class Values {
 	protected static FileWriter fw;
 	protected static BufferedWriter bw = null;
 	
+	protected static ArrayList<String> parameters;
 	
 	//HEAD 
 	protected static String CHID = ""; //0

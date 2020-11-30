@@ -79,9 +79,14 @@ public class SurfController implements Initializable{
 		mbCombo.setItems(mbList);
 		
 	}
-	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
-    private void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
+    public void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -95,7 +100,7 @@ public class SurfController implements Initializable{
     }
 
     @FXML
-    private void goToDevc(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
+    public void goToDevc(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
     	if(checkFloatPos && checkFloat & checkMatl && checkXb) {
@@ -301,7 +306,7 @@ public class SurfController implements Initializable{
     	return true;
     }
     
-    private boolean checkXbFormat(TextField tempField) { //check the XB format
+    public boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 			initAlert.setTitle("Incorrect XB format");
