@@ -42,11 +42,6 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Button fx:id="printBtn" layoutX="544.0" layoutY="36.0" mnemonicParsing="false" onAction="#printFile" prefHeight="37.0" prefWidth="139.0" style="-fx-background-color: #EC6400;" text="Print Testing">
-         <font>
-            <Font name="Leelawadee UI Bold" size="16.0" />
-         </font>
-      </Button>
       <ImageView fitHeight="130.0" fitWidth="153.0" layoutX="703.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../Fire1.jpg" />

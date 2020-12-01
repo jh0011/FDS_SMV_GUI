@@ -49,7 +49,6 @@ public class InitController implements Initializable{
 	@FXML Button initNextBtn;
 	@FXML Button addInitBtn;
 	@FXML Button addMeshBtn;
-	@FXML Button printBtn;
 	
 	boolean xbFormat = true;
 	boolean checkFloat = true;
@@ -425,11 +424,6 @@ public class InitController implements Initializable{
 		Connection connection = connectionClass.getConnection();
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlMesh);
-	}
-	
-	@FXML 
-	private void printFile(ActionEvent event) throws IOException{ //SAMPLE TESTING
-		Values.printFile();
 	}
 
 	public void showInfo() throws SQLException { //to show the info when the page is loaded
