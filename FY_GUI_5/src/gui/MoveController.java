@@ -60,7 +60,7 @@ public class MoveController implements Initializable{
 	}
 	
 	@FXML
-    private void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -74,7 +74,7 @@ public class MoveController implements Initializable{
     }
 
     @FXML
-    private void goToHvac(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
+    public void goToHvac(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
     	if(checkFloatPos && checkAngle && checkAxis && checkXyz && checkIntPos && checkXb) {
@@ -97,7 +97,7 @@ public class MoveController implements Initializable{
     }
     
     @FXML
-    private void goToTrnx(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    public void goToTrnx(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
     	if(checkFloatPos && checkAngle && checkAxis && checkXyz && checkIntPos && checkXb) {
@@ -120,18 +120,18 @@ public class MoveController implements Initializable{
     }
     
     @FXML
-    private void iorSelect(ActionEvent event) {
+    public void iorSelect(ActionEvent event) {
     	iorSelection = iorCombo.getSelectionModel().getSelectedItem().toString();
     	iorCombo.setValue(iorSelection);
     }
     
-    private void doChecking() {
+    public void doChecking() {
     	doCheckingMove();
     	doCheckingProf();
     	doCheckingRadf();
     }
     
-    private void doCheckingMove() {
+    public void doCheckingMove() {
     	checkFloatPos = true;
         checkAngle = true;
         checkAxis = true;
@@ -152,14 +152,14 @@ public class MoveController implements Initializable{
         }
     }
     
-    private void doCheckingProf() {
+    public void doCheckingProf() {
     	checkXyz = true;
     	if(!xyzText.getText().equals("")) {
     		checkXyz = checkXyz && checkXyzFormat(xyzText);
     	}
     }
     
-    private void doCheckingRadf() {
+    public void doCheckingRadf() {
     	checkIntPos = true;
     	checkXb = true;
     	if(!iText.getText().equals("")) {
@@ -176,7 +176,7 @@ public class MoveController implements Initializable{
     	}
     }
     
-    private boolean checkFloatPosValues(TextField tempField) { //check if float is positive
+    public boolean checkFloatPosValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -201,7 +201,7 @@ public class MoveController implements Initializable{
 		}
     }
     
-    private boolean checkAngleValues(TextField tempField) { //check if float is between 0 and 360
+    public boolean checkAngleValues(TextField tempField) { //check if float is between 0 and 360
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -226,7 +226,7 @@ public class MoveController implements Initializable{
 		}
     }
     
-    private boolean checkAxisFormat(TextField tempField) { //check if 3 positive float
+    public boolean checkAxisFormat(TextField tempField) { //check if 3 positive float
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
 			moveAlert.setTitle("Incorrect Axis format");
@@ -279,7 +279,7 @@ public class MoveController implements Initializable{
 		}
     }
     
-    private boolean checkXyzFormat(TextField tempField) { //check if 3 positive float values
+    public boolean checkXyzFormat(TextField tempField) { //check if 3 positive float values
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
 			moveAlert.setTitle("Incorrect XYZ format");
@@ -332,7 +332,7 @@ public class MoveController implements Initializable{
 		}
     }
     
-    private boolean checkPosIntValues(TextField tempField) { //check if integer is positive
+    public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
     	try{ 
 			String stringVal = tempField.getText();
 			int intVal = Integer.parseInt(stringVal);
@@ -357,7 +357,7 @@ public class MoveController implements Initializable{
 		}
     }
     
-    private boolean checkXbFormat(TextField tempField) { //check the XB format
+    public boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 			initAlert.setTitle("Incorrect XB format");
@@ -411,13 +411,13 @@ public class MoveController implements Initializable{
 		return true;
     }
 
-    private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
     	storeValuesMove();
     	storeValuesProf();
     	storeValuesRadf();
     }
     
-	private void storeValuesMove() throws SQLException { //store MOVE values into the database
+    public void storeValuesMove() throws SQLException { //store MOVE values into the database
 		String sqlMove = "INSERT INTO move VALUES ('" + idText.getText() + "', '" + xText.getText() + "', '" + yText.getText() + "', '" + zText.getText() + 
     			"', '" + angleText.getText() + "', '" + axisText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -425,7 +425,7 @@ public class MoveController implements Initializable{
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(sqlMove);
     }
-	private void storeValuesProf() throws SQLException { //store PROF values into the database
+    public void storeValuesProf() throws SQLException { //store PROF values into the database
 		String sqlProf = "INSERT INTO prof VALUES ('" + profIdText.getText() + "', '" + xyzText.getText() + "', '" + qtyText.getText() + "', '" + iorSelection + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -433,7 +433,7 @@ public class MoveController implements Initializable{
 		statement.executeUpdate(sqlProf);
 	}
 	
-	private void storeValuesRadf() throws SQLException { //store RADF values into the database
+    public void storeValuesRadf() throws SQLException { //store RADF values into the database
 		String sqlRadf = "INSERT INTO radf VALUES ('" + iText.getText() + "', '" + jText.getText() + "', '" + kText.getText() + "', '" + xbText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -441,13 +441,13 @@ public class MoveController implements Initializable{
 		statement.executeUpdate(sqlRadf);
 	}
 	
-	protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoMove();
 		showInfoProf();
 		showInfoRadf();
 	}
 	
-	protected void showInfoMove() throws SQLException { //to show the info when the page is loaded
+    public void showInfoMove() throws SQLException { //to show the info when the page is loaded
 		String sqlMove = "SELECT * FROM move";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -463,7 +463,7 @@ public class MoveController implements Initializable{
 		}
 	}
 	
-	protected void showInfoProf() throws SQLException { //to show the info when the page is loaded
+    public void showInfoProf() throws SQLException { //to show the info when the page is loaded
 		String sqlPrf = "SELECT * FROM prof";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -478,7 +478,7 @@ public class MoveController implements Initializable{
 		}
 	}
 	
-	protected void showInfoRadf() throws SQLException { //to show the info when the page is loaded
+    public void showInfoRadf() throws SQLException { //to show the info when the page is loaded
 		String sqlRadf = "SELECT * FROM radf";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();

@@ -56,7 +56,7 @@ public class MultController implements Initializable{
 	}
 
 	@FXML
-    private void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -70,7 +70,7 @@ public class MultController implements Initializable{
     }
 
     @FXML
-    private  void goToDump(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
+    public  void goToDump(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
     	if (checkIntPosMult && checkFloatPosMult && checkFloatPosWind && checkDirection && checkL) {
@@ -93,7 +93,7 @@ public class MultController implements Initializable{
     }
     
     @FXML
-    private  void goToPres(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+    public  void goToPres(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
     	
     	if (checkIntPosMult && checkFloatPosMult && checkFloatPosWind && checkDirection && checkL) {
@@ -116,7 +116,7 @@ public class MultController implements Initializable{
     }
     
     @FXML
-    private void newMultLine(ActionEvent event) throws SQLException { //ADD NEW MULT LINE
+    public void newMultLine(ActionEvent event) throws SQLException { //ADD NEW MULT LINE
     	doCheckingMult();
     	
     	if (checkIntPosMult && checkFloatPosMult) {
@@ -135,12 +135,12 @@ public class MultController implements Initializable{
     	}
     }
     
-    private void doChecking() {
+    public void doChecking() {
     	doCheckingMult();
     	doCheckingWind();
     }
     
-    private void doCheckingMult() {
+    public void doCheckingMult() {
     	checkIntPosMult = true;
     	checkFloatPosMult = true;
     	if(!iUpperText.getText().equals("")) {
@@ -163,7 +163,7 @@ public class MultController implements Initializable{
     	}
     }
     
-    private void doCheckingWind() {
+    public void doCheckingWind() {
     	checkFloatPosWind = true;
     	checkDirection = true;
     	checkL = true;
@@ -181,7 +181,7 @@ public class MultController implements Initializable{
     	}
     }
     
-    private boolean checkPosIntValues(TextField tempField) { //check if integer is positive value
+    public boolean checkPosIntValues(TextField tempField) { //check if integer is positive value
     	try{ 
 			String stringVal = tempField.getText();
 			int intVal = Integer.parseInt(stringVal);
@@ -206,7 +206,7 @@ public class MultController implements Initializable{
 		}
     }
     
-    private boolean checkPosFloatValues(TextField tempField) { //check if float is positive value
+    public boolean checkPosFloatValues(TextField tempField) { //check if float is positive value
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -231,7 +231,7 @@ public class MultController implements Initializable{
 		}
     }
     
-    private boolean checkDirectionValues(TextField tempField) { //check if float is between 0 and 360
+    public boolean checkDirectionValues(TextField tempField) { //check if float is between 0 and 360
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -256,7 +256,7 @@ public class MultController implements Initializable{
 		}
     }
     
-    private boolean checkLValues(TextField tempField) { //check if float is >= -500)
+    public boolean checkLValues(TextField tempField) { //check if float is >= -500)
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -281,12 +281,12 @@ public class MultController implements Initializable{
 		}
     }
     
-    private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
     	storeValuesMult();
     	storeValuesWind();
     }
     
-    private void storeValuesMult() throws SQLException { //store MULT values into the database
+    public void storeValuesMult() throws SQLException { //store MULT values into the database
     	String mainMultIdString = Integer.toString(mainMultId);
     	String sqlMult = "INSERT INTO mult VALUES ('" + mainMultIdString + "', '" + idText.getText() + "', '" + iUpperText.getText() + "', '" + jUpperText.getText() + "', '" +
     			kUpperText.getText() + "', '" + dxText.getText() + "', '" + dyText.getText() + "', '" + dzText.getText() + "');";
@@ -296,7 +296,7 @@ public class MultController implements Initializable{
 		statement.executeUpdate(sqlMult);
     }
     
-    private void storeValuesWind() throws SQLException { //store WIND values into the database
+    public void storeValuesWind() throws SQLException { //store WIND values into the database
     	String sqlWind = "INSERT INTO wind VALUES ('" + zText.getText() + "', '" + directionText.getText() + "', '" + lText.getText() + "', '" + speedText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -304,12 +304,12 @@ public class MultController implements Initializable{
 		statement.executeUpdate(sqlWind);
     }
     
-    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoMult();
     	showInfoWind();
     }
     
-    protected void showInfoMult() throws SQLException { //to show the info when the page is loaded
+    public void showInfoMult() throws SQLException { //to show the info when the page is loaded
     	String sqlMult = "SELECT * FROM mult;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -326,7 +326,7 @@ public class MultController implements Initializable{
 		}
     }
     
-    protected void showInfoWind() throws SQLException { //to show the info when the page is loaded
+    public void showInfoWind() throws SQLException { //to show the info when the page is loaded
     	String sqlWind = "SELECT * FROM wind;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();

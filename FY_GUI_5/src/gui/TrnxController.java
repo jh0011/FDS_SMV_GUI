@@ -52,7 +52,7 @@ public class TrnxController implements Initializable{
 	}
 	
 	@FXML
-    private void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
+    public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -66,7 +66,7 @@ public class TrnxController implements Initializable{
     }
 
     @FXML
-    private void goToMove(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
+    public void goToMove(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
     	if(checkPosInt && checkPosFloat && checkXyz) {
@@ -89,7 +89,7 @@ public class TrnxController implements Initializable{
     }
     
     @FXML
-    private void goToEditor(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    public void goToEditor(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
     	if(checkPosInt && checkPosFloat && checkXyz) {
@@ -112,7 +112,7 @@ public class TrnxController implements Initializable{
     }
     
     @FXML
-    private void newTrnxLine(ActionEvent event) throws SQLException { //ADD NEW TRNX LINE
+    public void newTrnxLine(ActionEvent event) throws SQLException { //ADD NEW TRNX LINE
     	doCheckingTrnx();
     	
     	if (checkPosInt && checkPosFloat) {
@@ -135,7 +135,7 @@ public class TrnxController implements Initializable{
     }
     
     @FXML
-    private void newZoneLine(ActionEvent event) throws SQLException { //ADD NEW ZONE LINE
+    public void newZoneLine(ActionEvent event) throws SQLException { //ADD NEW ZONE LINE
     	doCheckingZone();
     	
     	if(checkXyz) {
@@ -157,12 +157,12 @@ public class TrnxController implements Initializable{
     	}
     }
     
-    private void doChecking() {
+    public void doChecking() {
     	doCheckingTrnx();
     	doCheckingZone();
     }
     
-    private void doCheckingTrnx() {
+    public void doCheckingTrnx() {
     	checkPosInt = true;
     	checkPosFloat = true;
     	if(!meshText.getText().equals("")) {
@@ -176,14 +176,14 @@ public class TrnxController implements Initializable{
     	}
     }
     
-    private void doCheckingZone() {
+    public void doCheckingZone() {
     	checkXyz = true;
     	if (!xyzText.getText().equals("")) {
     		checkXyz = checkXyz && checkXyzFormat(xyzText);
     	}
     }
     
-    private boolean checkPosIntValues(TextField tempField) { //check if integer is positive
+    public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
     	try{ 
 			String stringVal = tempField.getText();
 			int intVal = Integer.parseInt(stringVal);
@@ -208,7 +208,7 @@ public class TrnxController implements Initializable{
 		}
     }
     
-    private boolean checkPosFloatValues(TextField tempField) { //check if float is positive
+    public boolean checkPosFloatValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -233,7 +233,7 @@ public class TrnxController implements Initializable{
 		}
     }
     
-    private boolean checkXyzFormat(TextField tempField) { //check if xyz is correct
+    public boolean checkXyzFormat(TextField tempField) { //check if xyz is correct
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert zoneAlert = new Alert(Alert.AlertType.INFORMATION);
 			zoneAlert.setTitle("Incorrect XYZ format");
@@ -286,12 +286,12 @@ public class TrnxController implements Initializable{
 		}
     }
     
-    private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
     	storeValuesTrnx();
     	storeValuesZone();
     }
     
-    private void storeValuesTrnx() throws SQLException { //store TRNX values into the database
+    public void storeValuesTrnx() throws SQLException { //store TRNX values into the database
     	String mainTrnxIdString = Integer.toString(mainTrnxId);
     	String sqlTrnx = "INSERT INTO trnx VALUES ('" + mainTrnxIdString + "', '" + idText.getText() + "', '" + meshText.getText() + "', '" + ccText.getText() + "', '" + pcText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -300,7 +300,7 @@ public class TrnxController implements Initializable{
 		statement.executeUpdate(sqlTrnx);
     }
     
-    private void storeValuesZone() throws SQLException { //store ZONE values into the database
+    public void storeValuesZone() throws SQLException { //store ZONE values into the database
     	String mainZoneIdString = Integer.toString(mainZoneId);
     	String sqlZone = "INSERT INTO zone VALUES ('" + mainZoneIdString + "', '" + xyzText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -309,12 +309,12 @@ public class TrnxController implements Initializable{
 		statement.executeUpdate(sqlZone);
     }
     
-    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoTrnx();
     	showInfoZone();
     }
     
-    protected void showInfoTrnx() throws SQLException { //to show the info when the page is loaded
+    public void showInfoTrnx() throws SQLException { //to show the info when the page is loaded
     	String sqlTrx = "SELECT * FROM trnx";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -328,7 +328,7 @@ public class TrnxController implements Initializable{
 		}
     }
     
-    protected void showInfoZone() throws SQLException { //to show the info when the page is loaded
+    public void showInfoZone() throws SQLException { //to show the info when the page is loaded
     	String sqlZone = "SELECT * FROM zone";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();

@@ -59,7 +59,7 @@ public class HvacController implements Initializable{
 	}
 	
 	@FXML
-    private void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
+	public void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -73,7 +73,7 @@ public class HvacController implements Initializable{
     }
 
     @FXML
-    private void goToPres(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
+    public void goToPres(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
     	if (checkFloatPosHvac && checkXb && checkFloat) {
@@ -96,7 +96,7 @@ public class HvacController implements Initializable{
     }
     
     @FXML
-    private void goToMove(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+    public void goToMove(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
     	
     	if (checkFloatPosHvac && checkXb && checkFloat) {
@@ -119,18 +119,18 @@ public class HvacController implements Initializable{
     }
     
     @FXML
-    private void typeSelect(ActionEvent event) {
+    public void typeSelect(ActionEvent event) {
     	typeSelection = typeCombo.getSelectionModel().getSelectedItem().toString();
     	typeCombo.setValue(typeSelection);
     }
     
-    private void doChecking() {
+    public void doChecking() {
     	doCheckingHvac();
     	doCheckingHole();
     	doCheckingIsof();
     }
     
-    private void doCheckingHvac() {
+    public void doCheckingHvac() {
     	checkFloatPosHvac = true;
     	if (!roughnessText.getText().equals("")) {
     		checkFloatPosHvac = checkFloatPosHvac && checkFloatPosValues(roughnessText);
@@ -143,13 +143,13 @@ public class HvacController implements Initializable{
     	}
     }
     
-    private void doCheckingHole() {
+    public void doCheckingHole() {
     	checkXb = true;
     	if(!xbText.getText().equals("")) {
     		checkXb = checkXb && checkXbFormat(xbText);
     	}
     }
-    private void doCheckingIsof() {
+    public void doCheckingIsof() {
     	checkFloat = true;
     	if(!val1Text.getText().equals("")) {
     		checkFloat = checkFloat && checkFloatValues(val1Text);
@@ -162,7 +162,7 @@ public class HvacController implements Initializable{
     	}
     }
     
-    private boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
+    public boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -187,7 +187,7 @@ public class HvacController implements Initializable{
 		}
     }
     
-    private boolean checkXbFormat(TextField tempField) { //check the XB format
+    public boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
 			holeAlert.setTitle("Incorrect XB format");
@@ -241,7 +241,7 @@ public class HvacController implements Initializable{
 		return true;
     }
     
-    private boolean checkFloatValues(TextField tempField) { //check if value is a float
+    public boolean checkFloatValues(TextField tempField) { //check if value is a float
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -258,13 +258,13 @@ public class HvacController implements Initializable{
 		}
     }
     
-    private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
     	storeValuesHvac();
     	storeValuesHole();
     	storeValuesIsof();
     }
     
-    private void storeValuesHvac() throws SQLException { //store HVAC values into the database
+    public void storeValuesHvac() throws SQLException { //store HVAC values into the database
     	String sqlHvac = "INSERT INTO hvac VALUES ('" + idText.getText() + "', '" + roughnessText.getText() + "', '" + devcIdText.getText() + "', '" +
     			lengthText.getText() + "', '" + fanIdText.getText() + "', '" + areaText.getText() + "', '" + typeSelection + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -273,7 +273,7 @@ public class HvacController implements Initializable{
 		statement.executeUpdate(sqlHvac);
     }
     
-    private void storeValuesHole() throws SQLException { //store HOLE values into the database
+    public void storeValuesHole() throws SQLException { //store HOLE values into the database
     	String sqlHole = "INSERT INTO hole VALUES ('" + meshIdText.getText() + "', '" + multIdText.getText() + "', '" + holeDevcText.getText() + "', '" + ctrlIdText.getText() + 
     			"', '" + xbText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -282,7 +282,7 @@ public class HvacController implements Initializable{
 		statement.executeUpdate(sqlHole);
     }
     
-    private void storeValuesIsof() throws SQLException { //store ISOF values into the database
+    public void storeValuesIsof() throws SQLException { //store ISOF values into the database
     	String sqlIsof = "INSERT INTO isof VALUES ('" + qtyText.getText() + "', '" + val1Text.getText() + "', '" + val2Text.getText() + "', '" + val3Text.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -290,13 +290,13 @@ public class HvacController implements Initializable{
 		statement.executeUpdate(sqlIsof);
     }
     
-    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoHvac();
     	showInfoHole();
     	showInfoIsof();
     }
 
-    protected void showInfoHvac() throws SQLException { //to show the info when the page is loaded
+    public void showInfoHvac() throws SQLException { //to show the info when the page is loaded
     	String sqlHvac = "SELECT * FROM hvac";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -314,7 +314,7 @@ public class HvacController implements Initializable{
 		}
     }
     
-    protected void showInfoHole() throws SQLException { //to show the info when the page is loaded
+    public void showInfoHole() throws SQLException { //to show the info when the page is loaded
     	String sqlHole = "SELECT * FROM hole";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -329,7 +329,7 @@ public class HvacController implements Initializable{
 		}
     }
     
-    protected void showInfoIsof() throws SQLException { //to show the info when the page is loaded
+    public void showInfoIsof() throws SQLException { //to show the info when the page is loaded
     	String sqlIsof = "SELECT * FROM isof";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();

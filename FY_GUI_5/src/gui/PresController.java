@@ -69,7 +69,7 @@ public class PresController implements Initializable{
 	}
 	
 	@FXML
-    private void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -83,7 +83,7 @@ public class PresController implements Initializable{
     }
 
     @FXML
-    private void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
+    public void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
     	if(checkFishpak && checkTimePres && checkTableData && checkFloatPosClip && checkFloatClip) {
@@ -106,7 +106,7 @@ public class PresController implements Initializable{
     }
     
     @FXML
-    private void goToHvac(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    public void goToHvac(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
     	if(checkFishpak && checkTimePres && checkTableData && checkFloatPosClip && checkFloatClip) {
@@ -129,7 +129,7 @@ public class PresController implements Initializable{
     }
     
     @FXML
-    private void newTablLine(ActionEvent event) throws SQLException { //ADD NEW TABL LINE
+    public void newTablLine(ActionEvent event) throws SQLException { //ADD NEW TABL LINE
     	doCheckingTabl();
     	
     	if(checkTableData) {
@@ -152,46 +152,46 @@ public class PresController implements Initializable{
     }
 
     @FXML
-    private void solverSelect(ActionEvent event) {
+    public void solverSelect(ActionEvent event) {
     	solverSelection = solverCombo.getSelectionModel().getSelectedItem().toString();
     	solverCombo.setValue(solverSelection);
     }
     
     @FXML
-    private void modelSelect(ActionEvent event) {
+    public void modelSelect(ActionEvent event) {
     	modelSelection = modelCombo.getSelectionModel().getSelectedItem().toString();
     	modelCombo.setValue(modelSelection);
     }
     
-    private void doChecking() { 
+    public void doChecking() { 
     	doCheckingPres();
     	doCheckingComb();
     	doCheckingTabl();
     	doCheckingClip();
     }
     
-    private void doCheckingPres() {
+    public void doCheckingPres() {
     	checkFishpak = true;
     	if(!fishpakText.getText().equals("")) {
     		checkFishpak = checkFishpak && checkFishpakFormat(fishpakText);
     	}
     }
     
-    private void doCheckingComb() {
+    public void doCheckingComb() {
     	checkTimePres = true;
     	if(!timeText.getText().equals("")) {
     		checkTimePres = checkTimePres && checkFloatPosValues(timeText);
     	}
     }
     
-    private void doCheckingTabl() {
+    public void doCheckingTabl() {
     	checkTableData = true;
     	if(!tableDataText.getText().equals("")) {
     		checkTableData = checkTableData && checkTableDataFormat(tableDataText);
     	}
     }
     
-    private void doCheckingClip() {
+    public void doCheckingClip() {
     	checkFloatPosClip = true;
     	checkFloatClip = true;
     	if(!maxDenText.getText().equals("")) {
@@ -208,7 +208,7 @@ public class PresController implements Initializable{
 		}
     }
     
-    private boolean checkFishpakFormat(TextField tempField) { //check the fishpak format
+    public boolean checkFishpakFormat(TextField tempField) { //check the fishpak format
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert presAlert = new Alert(Alert.AlertType.INFORMATION);
 			presAlert.setTitle("Incorrect Fishpak format");
@@ -260,7 +260,7 @@ public class PresController implements Initializable{
 		}
     }
     
-    private boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
+    public boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -285,7 +285,7 @@ public class PresController implements Initializable{
 		}
     }
     
-    private boolean checkTableDataFormat(TextField tempField) { //check if 5 integer degree values & 1 fraction
+    public boolean checkTableDataFormat(TextField tempField) { //check if 5 integer degree values & 1 fraction
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert tablAlert = new Alert(Alert.AlertType.INFORMATION);
 			tablAlert.setTitle("Incorrect Table_data format");
@@ -356,7 +356,7 @@ public class PresController implements Initializable{
 		}
     }
     
-    private boolean checkFloatValues(TextField tempField) { //check if value is a float
+    public boolean checkFloatValues(TextField tempField) { //check if value is a float
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -373,14 +373,14 @@ public class PresController implements Initializable{
 		}
     }
     
-    private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
     	storeValuesPres();
     	storeValuesComb();
     	storeValuesTabl();
     	storeValuesClip();
     }
     
-    private void storeValuesPres() throws SQLException { //store PRES values into the database
+    public void storeValuesPres() throws SQLException { //store PRES values into the database
     	String sqlPres = "INSERT INTO pres VALUES ('" + fishpakText.getText() + "', '" + solverSelection + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -388,7 +388,7 @@ public class PresController implements Initializable{
 		statement.executeUpdate(sqlPres);
     }
     
-    private void storeValuesComb() throws SQLException { //store COMB values into the database
+    public void storeValuesComb() throws SQLException { //store COMB values into the database
     	String sqlComb = "INSERT INTO comb VALUES ('" + timeText.getText() + "', '" + modelSelection + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -396,7 +396,7 @@ public class PresController implements Initializable{
 		statement.executeUpdate(sqlComb);
     }
     
-    private void storeValuesTabl() throws SQLException { //store TABL values into the database
+    public void storeValuesTabl() throws SQLException { //store TABL values into the database
     	String mainTablIdString = Integer.toString(mainTablId);
     	String sqlTabl = "INSERT INTO tabl VALUES ('" + mainTablIdString + "', '" + tableIdText.getText() + "', '" + tableDataText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -405,7 +405,7 @@ public class PresController implements Initializable{
 		statement.executeUpdate(sqlTabl);
     }
     
-    private void storeValuesClip() throws SQLException { //store CLIP values into the database
+    public void storeValuesClip() throws SQLException { //store CLIP values into the database
     	String sqlClip = "INSERT INTO clip VALUES ('" + maxDenText.getText() + "', '" + maxTempText.getText() + "', '" + minDenText.getText() + "', '" + minTempText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -413,14 +413,14 @@ public class PresController implements Initializable{
 		statement.executeUpdate(sqlClip);
     }
     
-    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoPres();
     	showInfoComb();
     	showInfoTabl();
     	showInfoClip();
     }
     
-    protected void showInfoPres() throws SQLException { //to show the info when the page is loaded
+    public void showInfoPres() throws SQLException { //to show the info when the page is loaded
     	String sqlPres = "SELECT * FROM pres;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -433,7 +433,7 @@ public class PresController implements Initializable{
 		}
     }
     
-    protected void showInfoComb() throws SQLException { //to show the info when the page is loaded
+    public void showInfoComb() throws SQLException { //to show the info when the page is loaded
     	String sqlComb = "SELECT * FROM comb;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -446,7 +446,7 @@ public class PresController implements Initializable{
 		}
     }
     
-    protected void showInfoTabl() throws SQLException { //to show the info when the page is loaded
+    public void showInfoTabl() throws SQLException { //to show the info when the page is loaded
     	String sqlTabl = "SELECT * FROM tabl;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -458,7 +458,7 @@ public class PresController implements Initializable{
 		}
     }
     
-    protected void showInfoClip() throws SQLException { //to show the info when the page is loaded
+    public void showInfoClip() throws SQLException { //to show the info when the page is loaded
     	String sqlClip = "SELECT * FROM clip;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
