@@ -74,7 +74,7 @@ public class ObstController implements Initializable{
 	}
 	
 	@FXML
-    private void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -88,7 +88,7 @@ public class ObstController implements Initializable{
     }
 
     @FXML
-    private void goToRamp(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
+    public void goToRamp(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
     	if(checkFloatPos && checkXb && checkFloatPosMisc && checkGvec && checkFloatMisc && checkFloatPercent) {
@@ -112,7 +112,7 @@ public class ObstController implements Initializable{
     }
     
     @FXML
-    private void goToDump(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    public void goToDump(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
     	if(checkFloatPos && checkXb && checkFloatPosMisc && checkGvec && checkFloatMisc && checkFloatPercent) {
@@ -136,7 +136,7 @@ public class ObstController implements Initializable{
     }
     
     @FXML
-    private void newObstLine(ActionEvent event) throws SQLException { //ADD NEW OBST LINE
+    public void newObstLine(ActionEvent event) throws SQLException { //ADD NEW OBST LINE
     	doCheckingObst();
     	
     	if(checkFloatPos && checkXb) {
@@ -160,29 +160,29 @@ public class ObstController implements Initializable{
     }
     
     @FXML
-    private void noiseSelect(ActionEvent event) {
+    public void noiseSelect(ActionEvent event) {
     	noiseSelection = noiseCombo.getSelectionModel().getSelectedItem().toString();
     	noiseCombo.setValue(noiseSelection);
     }
     
     @FXML
-    private void freezeSelect(ActionEvent event) {
+    public void freezeSelect(ActionEvent event) {
     	freezeSelection = freezeCombo.getSelectionModel().getSelectedItem().toString();
     	freezeCombo.setValue(freezeSelection);
     }
     
     @FXML
-    private void radiSelect(ActionEvent event) {
+    public void radiSelect(ActionEvent event) {
     	radiSelection = radiCombo.getSelectionModel().getSelectedItem().toString();
     	radiCombo.setValue(radiSelection);
     }
     
-    private void doChecking() {
+    public void doChecking() {
     	doCheckingObst();
     	doCheckingMisc();
     }
     
-    private void doCheckingObst() {
+    public void doCheckingObst() {
     	checkFloatPos = true;
     	checkXb = true;
     	if (!bulkText.getText().equals("")) {
@@ -193,7 +193,7 @@ public class ObstController implements Initializable{
     	}
     }
     
-    private void doCheckingMisc() {
+    public void doCheckingMisc() {
     	checkFloatPosMisc = true;
         checkGvec = true;
         checkFloatMisc = true;
@@ -212,7 +212,7 @@ public class ObstController implements Initializable{
         }
     }
     
-    private boolean checkFloatPosValues(TextField tempField) { //check if float is positive
+    public boolean checkFloatPosValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -237,7 +237,7 @@ public class ObstController implements Initializable{
 		}
     }
     
-    private boolean checkXbFormat(TextField tempField) { //check the XB format
+    public boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 			initAlert.setTitle("Incorrect XB format");
@@ -291,7 +291,7 @@ public class ObstController implements Initializable{
 		return true;
     }
     
-    private boolean checkGvecFormat(TextField tempField) {
+    public boolean checkGvecFormat(TextField tempField) {
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert miscAlert = new Alert(Alert.AlertType.INFORMATION);
 			miscAlert.setTitle("Incorrect Gvec format");
@@ -344,7 +344,7 @@ public class ObstController implements Initializable{
 		}
     }
     
-    private boolean checkFloatValues(TextField tempField) { //check if the value is a float
+    public boolean checkFloatValues(TextField tempField) { //check if the value is a float
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -361,7 +361,7 @@ public class ObstController implements Initializable{
 		}
     }
     
-    private boolean checkPercentValues(TextField tempField) { //check if float is a percentage
+    public boolean checkPercentValues(TextField tempField) { //check if float is a percentage
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -386,13 +386,13 @@ public class ObstController implements Initializable{
 		}
     }
     
-    private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
     	storeValuesObst();
     	storeValuesMisc();
     	storeValuesRadi();
     }
     
-    private void storeValuesObst() throws SQLException { //store OBST values into the database
+    public void storeValuesObst() throws SQLException { //store OBST values into the database
     	String mainObstIdString = Integer.toString(mainObstId);
     	String sqlObst = "INSERT INTO obst VALUES ('" + mainObstIdString + "', '" + bulkText.getText() + "', '" + colourText.getText() + "', '" + surfIdText.getText() +
     			"', '" + xbText.getText() + "');";
@@ -402,7 +402,7 @@ public class ObstController implements Initializable{
 		statement.executeUpdate(sqlObst);
     }
     
-    private void storeValuesMisc() throws SQLException { //store MISC values into the database
+    public void storeValuesMisc() throws SQLException { //store MISC values into the database
     	String sqlMisc = "INSERT INTO misc VALUES ('" + noiseSelection + "', '" + freezeSelection + "', '" + humidityText.getText() + "', '" + co2Text.getText() +
     			"', '" + tmpaText.getText() + "', '" + gvecText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -411,7 +411,7 @@ public class ObstController implements Initializable{
 		statement.executeUpdate(sqlMisc);
     }
     
-    private void storeValuesRadi() throws SQLException { //store RADI values into the database
+    public void storeValuesRadi() throws SQLException { //store RADI values into the database
     	String sqlRadi = "INSERT INTO radi VALUES ('" + radiSelection + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -419,7 +419,7 @@ public class ObstController implements Initializable{
 		statement.executeUpdate(sqlRadi);
     }
     
-    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoObst();
     	showInfoMisc();
     	showInfoRadi();
@@ -439,7 +439,7 @@ public class ObstController implements Initializable{
 		}
     }
     
-    protected void showInfoMisc() throws SQLException { //to show the info when the page is loaded
+    public void showInfoMisc() throws SQLException { //to show the info when the page is loaded
     	String sqlMisc = "SELECT * FROM misc;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -458,7 +458,7 @@ public class ObstController implements Initializable{
 		}
     }
     
-    protected void showInfoRadi() throws SQLException { //to show the info when the page is loaded
+    public void showInfoRadi() throws SQLException { //to show the info when the page is loaded
     	String sqlRadi = "SELECT * FROM radi;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();

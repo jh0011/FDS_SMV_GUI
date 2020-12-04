@@ -124,7 +124,7 @@ public class SurfController implements Initializable{
     }
     
     @FXML
-    private void goToRamp(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+    public void goToRamp(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
     	
     	if(checkFloatPos && checkFloat & checkMatl && checkXb) {
@@ -147,7 +147,7 @@ public class SurfController implements Initializable{
     }
     
     @FXML
-    private void newSurfLine(ActionEvent event) throws SQLException { //ADD NEW SURF LINE
+    public void newSurfLine(ActionEvent event) throws SQLException { //ADD NEW SURF LINE
     	doCheckingSurf();
     	
     	if(checkFloatPos && checkFloat && checkMatl) {
@@ -172,7 +172,7 @@ public class SurfController implements Initializable{
     }
     
     @FXML
-    private void newVentLine(ActionEvent event) throws SQLException { //ADD NEW VENT LINE
+    public void newVentLine(ActionEvent event) throws SQLException { //ADD NEW VENT LINE
     	doCheckingVent();
     	
     	if(checkXb) {
@@ -196,35 +196,35 @@ public class SurfController implements Initializable{
     }
     
     @FXML
-    private void backingSelect(ActionEvent event) {
+    public void backingSelect(ActionEvent event) {
     	backingSelection = backingCombo.getSelectionModel().getSelectedItem().toString();
     	backingCombo.setValue(backingSelection);
     }
     
     @FXML
-    private void defaultSelect(ActionEvent event) {
+    public void defaultSelect(ActionEvent event) {
     	defaultSelection = defaultCombo.getSelectionModel().getSelectedItem().toString();
     	defaultCombo.setValue(defaultSelection);
     }
 
     @FXML
-    private void geometrySelect(ActionEvent event) {
+    public void geometrySelect(ActionEvent event) {
     	geometrySelection = geometryCombo.getSelectionModel().getSelectedItem().toString();
     	geometryCombo.setValue(geometrySelection);
     }
     
     @FXML
-    private void mbSelect(ActionEvent event) {
+    public void mbSelect(ActionEvent event) {
     	mbSelection = mbCombo.getSelectionModel().getSelectedItem().toString();
     	mbCombo.setValue(mbSelection);
     }
     
-    private void doChecking() {
+    public void doChecking() {
     	doCheckingSurf();
     	doCheckingVent();
     }
     
-    private void doCheckingSurf() {
+    public void doCheckingSurf() {
     	checkFloatPos = true;
     	checkFloat = true;
     	checkMatl = true;
@@ -243,14 +243,14 @@ public class SurfController implements Initializable{
     	}
     }
     
-    private void doCheckingVent() {
+    public void doCheckingVent() {
     	checkXb = true;
     	if(!xbText.getText().equals("")) {
     		checkXb = checkXb && checkXbFormat(xbText);
     	}
     }
     
-    private boolean checkFloatPosValues(TextField tempField) { //check if the float values are POSITIVE
+    public boolean checkFloatPosValues(TextField tempField) { //check if the float values are POSITIVE
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -275,7 +275,7 @@ public class SurfController implements Initializable{
 		}
     }
     
-    private boolean checkFloatValues(TextField tempField) { //check if values are a float
+    public boolean checkFloatValues(TextField tempField) { //check if values are a float
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -292,9 +292,9 @@ public class SurfController implements Initializable{
 		}
     }
     
-    private boolean checkMatlValues(TextField tempField) {
+    public boolean checkMatlValues(TextField tempField) {
     	String stringVal = tempField.getText();
-    	if(stringVal.contains(",")) {
+    	if(stringVal.contains(",") || stringVal.contains(";")) {
     		Alert surfAlert = new Alert(Alert.AlertType.INFORMATION);
 			surfAlert.setTitle("Invalid value");
 			surfAlert.setContentText("Matl_ID should only have one value. Please check again.");
@@ -360,12 +360,12 @@ public class SurfController implements Initializable{
 		return true;
     }
     
-    private void storeValues() throws SQLException{ //store values into the database
+    public void storeValues() throws SQLException{ //store values into the database
     	storeValuesSurf();
     	storeValuesVent();
     }
     
-    private void storeValuesSurf() throws SQLException { //store SURF values into the database
+    public void storeValuesSurf() throws SQLException { //store SURF values into the database
     	String mainSurfIdString = Integer.toString(mainSurfId);
     	String sqlSurf = "INSERT INTO surf VALUES ('" + mainSurfIdString + "', '" + idText.getText() + "', '" + partIdText.getText() + "', '" + matlIdText.getText() + "', '" +
     			velText.getText() + "', '" + tmpFrontText.getText() + "', '" + backingSelection + "', '" + defaultSelection + "', '" + geometrySelection + "', '" + colourText.getText() +
@@ -376,7 +376,7 @@ public class SurfController implements Initializable{
 		statement.executeUpdate(sqlSurf);
     }
     
-    private void storeValuesVent() throws SQLException { //store VENT values into the database
+    public void storeValuesVent() throws SQLException { //store VENT values into the database
     	String mainVentIdString = Integer.toString(mainVentId);
     	String sqlVent = "INSERT INTO vent VALUES ('" + mainVentIdString + "', '" + xbText.getText() + "', '" + surfIdText.getText() + "', '" + mbSelection + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -386,12 +386,12 @@ public class SurfController implements Initializable{
     	
     }
     
-    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoSurf();
     	showInfoVent();
     }
     
-    private void showInfoSurf() throws SQLException { //to show the info when the page is loaded
+    public void showInfoSurf() throws SQLException { //to show the info when the page is loaded
     	String sqlSurf = "SELECT * FROM surf;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -414,7 +414,7 @@ public class SurfController implements Initializable{
 		}
     }
     
-    private void showInfoVent() throws SQLException { //to show the info when the page is loaded
+    public void showInfoVent() throws SQLException { //to show the info when the page is loaded
     	String sqlVent = "SELECT * FROM vent;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();

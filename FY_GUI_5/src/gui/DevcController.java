@@ -76,7 +76,7 @@ public class DevcController implements Initializable{
 	}
 	
 	@FXML 
-	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -90,7 +90,7 @@ public class DevcController implements Initializable{
 	}
 	
 	@FXML
-	private void goToProp(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
+	public void goToProp(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
 		if (checkXyz && checkXb && checkFloat) {
@@ -111,7 +111,7 @@ public class DevcController implements Initializable{
 	}
 	
 	@FXML
-    private void goToSurf(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+	public void goToSurf(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
 		doChecking();
 		if (checkXyz && checkXb && checkFloat) {
 			//store the values
@@ -133,13 +133,13 @@ public class DevcController implements Initializable{
     }
 	
 	@FXML
-    private void iorSelect(ActionEvent event) {
+	public void iorSelect(ActionEvent event) {
 		iorSelection = iorCombo.getSelectionModel().getSelectedItem().toString();
 		iorCombo.setValue(iorSelection);
     }
 	
 	@FXML
-	private void newDevcLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW DEVC LINE
+	public void newDevcLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW DEVC LINE
 		doCheckingDevc();
 		if (checkXyz && checkXb) {
 			//store the values
@@ -162,7 +162,7 @@ public class DevcController implements Initializable{
 	}
 	
 	@FXML
-    private void newSlcfLine(ActionEvent event) throws SQLException { //ADD NEW SLCF LINE
+	public void newSlcfLine(ActionEvent event) throws SQLException { //ADD NEW SLCF LINE
 		doCheckingSlcf();
 		
 		if (checkFloat) {
@@ -188,23 +188,23 @@ public class DevcController implements Initializable{
     }
 
     @FXML
-    private void vectorSelect(ActionEvent event) {
+    public void vectorSelect(ActionEvent event) {
     	vectorSelection = vectorCombo.getSelectionModel().getSelectedItem().toString();
     	vectorCombo.setValue(vectorSelection);
     }
     
     @FXML
-    private void centeredSelect(ActionEvent event) {
+    public void centeredSelect(ActionEvent event) {
     	centeredSelection = centeredCombo.getSelectionModel().getSelectedItem().toString();
     	centeredCombo.setValue(centeredSelection);
     }
     
-    private void doChecking() {
+    public void doChecking() {
 		doCheckingDevc();
 		doCheckingSlcf();
 	}
     
-    private void doCheckingDevc() {
+    public void doCheckingDevc() {
     	checkXb = true;
 		checkXyz = true;
 	
@@ -216,7 +216,7 @@ public class DevcController implements Initializable{
 		}
     }
     
-    private void doCheckingSlcf() {
+    public void doCheckingSlcf() {
 		checkFloat = true;
 		
     	if(!pbxText.getText().equals("")) {
@@ -230,7 +230,7 @@ public class DevcController implements Initializable{
 		}
     }
 	
-	private boolean checkXbFormat(TextField tempField) { //check the XB format
+    public boolean checkXbFormat(TextField tempField) { //check the XB format
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 			initAlert.setTitle("Incorrect XB format");
@@ -284,7 +284,7 @@ public class DevcController implements Initializable{
 		return true;
 	}
 	
-	private boolean checkXyzFormat(TextField tempField) {
+    public boolean checkXyzFormat(TextField tempField) {
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert devcAlert = new Alert(Alert.AlertType.INFORMATION);
 			devcAlert.setTitle("Incorrect XYZ format");
@@ -337,7 +337,7 @@ public class DevcController implements Initializable{
 		}
 	}
 	
-	private boolean checkFloatValues(TextField tempField) {
+    public boolean checkFloatValues(TextField tempField) {
 		try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -363,12 +363,12 @@ public class DevcController implements Initializable{
 	}
 	
 	
-	private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
 		storeValuesDevc();
 		storeValuesSlcf();
 	}
 	
-	private void storeValuesDevc() throws SQLException { //store DEVC values into the database
+    public void storeValuesDevc() throws SQLException { //store DEVC values into the database
 		String mainDevcIdString = Integer.toString(mainDevcId);
 		String sqlDevc = "INSERT INTO devc VALUES('" + mainDevcIdString + "', '" + devcIdText.getText() + "', '" + propIdText.getText() + "', '" +
 				specIdText.getText() + "', '" + xyzText.getText() + "', '" + quantityText.getText() + "', '" + iorSelection + "', '" + xbText.getText() + "');";
@@ -379,7 +379,7 @@ public class DevcController implements Initializable{
 		statement.executeUpdate(sqlDevc);
 	}
 	
-	private void storeValuesSlcf() throws SQLException { //store SLCF values into the database
+    public void storeValuesSlcf() throws SQLException { //store SLCF values into the database
 		String mainSlcfIdString = Integer.toString(mainSlcfId);
 		String sqlSlcf = "INSERT INTO slcf VALUES('" + mainSlcfIdString + "', '" + slcfQtyText.getText() + "', '" + slcfSpecIdText.getText() + "', '" +
 				pbyText.getText() + "', '" + pbzText.getText() + "', '" + pbxText.getText() + "', '" + vectorSelection + "', '" + centeredSelection + "');";
@@ -390,12 +390,12 @@ public class DevcController implements Initializable{
 		statement.executeUpdate(sqlSlcf);
 	}
 	
-	protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoDevc();
 		showInfoSlcf();
 	}
 	
-	protected void showInfoDevc() throws SQLException { //to show the info when the page is loaded
+    public void showInfoDevc() throws SQLException { //to show the info when the page is loaded
 		String sqlDevc = "SELECT * FROM devc;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -413,7 +413,7 @@ public class DevcController implements Initializable{
 		}
 	}
 	
-	protected void showInfoSlcf() throws SQLException { //to show the info when the page is loaded
+    public void showInfoSlcf() throws SQLException { //to show the info when the page is loaded
 		String sqlSlcf = "SELECT * FROM slcf;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -431,5 +431,4 @@ public class DevcController implements Initializable{
 			centeredCombo.setValue(centeredSelection);
 		}
 	}
-
 }

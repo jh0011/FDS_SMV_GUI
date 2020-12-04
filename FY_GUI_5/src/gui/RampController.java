@@ -76,7 +76,7 @@ public class RampController implements Initializable{
 	}
 	
 	@FXML
-    private void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
+	public void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -90,7 +90,7 @@ public class RampController implements Initializable{
     }
 
     @FXML
-    private void goToSurf(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
+    public void goToSurf(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
     	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
@@ -114,7 +114,7 @@ public class RampController implements Initializable{
     }
     
     @FXML
-    private void goToObst(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    public void goToObst(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
     	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
@@ -137,7 +137,7 @@ public class RampController implements Initializable{
     }
     
     @FXML
-    private void newRampLine(ActionEvent event) throws SQLException { //ADD NEW RAMP LINE
+    public void newRampLine(ActionEvent event) throws SQLException { //ADD NEW RAMP LINE
     	doCheckingRamp();
     	
     	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
@@ -162,7 +162,7 @@ public class RampController implements Initializable{
     }
     
     @FXML
-    private void newCtrlLine(ActionEvent event) throws SQLException { //ADD NEW CTRL LINE
+    public void newCtrlLine(ActionEvent event) throws SQLException { //ADD NEW CTRL LINE
     	//no checking required
     	
     	//store the values
@@ -181,7 +181,7 @@ public class RampController implements Initializable{
     }
     
     @FXML
-    private void newReacLine(ActionEvent event) throws SQLException { //ADD NEW REAC LINE
+    public void newReacLine(ActionEvent event) throws SQLException { //ADD NEW REAC LINE
     	doCheckingReac();
     	
     	if(checkFloatReac && checkFloatPosReac) {
@@ -203,23 +203,23 @@ public class RampController implements Initializable{
     }
     
     @FXML
-    private void latchSelect(ActionEvent event) {
+    public void latchSelect(ActionEvent event) {
     	latchSelection = latchCombo.getSelectionModel().getSelectedItem().toString();
     	latchCombo.setValue(latchSelection);
     }
     
     @FXML
-    private void functionSelect(ActionEvent event) {
+    public void functionSelect(ActionEvent event) {
     	functionSelection = functionCombo.getSelectionModel().getSelectedItem().toString();
     	functionCombo.setValue(functionSelection);
     }
     
-    private void doChecking() {
+    public void doChecking() {
     	doCheckingRamp();
     	doCheckingReac();
     }
     
-    private void doCheckingRamp() {
+    public void doCheckingRamp() {
     	checkFloatPos = true;
     	checkFloat = true;
     	
@@ -231,7 +231,7 @@ public class RampController implements Initializable{
     	}
     }
     
-    private void doCheckingReac() {
+    public void doCheckingReac() {
     	checkFloatReac = true;
     	checkFloatPosReac = true;
     	if(!ignitTempText.getText().equals("")) {
@@ -242,7 +242,7 @@ public class RampController implements Initializable{
     	}
     }
     
-    private boolean checkFloatPosValues(TextField tempField) { //check if float is positive
+    public boolean checkFloatPosValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -267,7 +267,7 @@ public class RampController implements Initializable{
 		}
     }
     
-    private boolean checkFloatValues(TextField tempField) { //check if the value is a float
+    public boolean checkFloatValues(TextField tempField) { //check if the value is a float
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -284,13 +284,13 @@ public class RampController implements Initializable{
 		}
     }
     
-    private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
     	storeValuesRamp();
     	storeValuesCtrl();
     	storeValuesReac();
     }
     
-    private void storeValuesRamp() throws SQLException { //store RAMP values into the database
+    public void storeValuesRamp() throws SQLException { //store RAMP values into the database
     	String mainRampIdString = Integer.toString(mainRampId);
     	String sqlRamp = "INSERT INTO ramp VALUES ('" + mainRampIdString + "', '" + fractionText.getText() + "', '" + timeText.getText() + "', '" + rampIdText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -299,7 +299,7 @@ public class RampController implements Initializable{
 		statement.executeUpdate(sqlRamp);
     }
     
-    private void storeValuesCtrl() throws SQLException { //store CTRL values into the database
+    public void storeValuesCtrl() throws SQLException { //store CTRL values into the database
     	String mainCtrlIdString = Integer.toString(mainCtrlId);
     	String sqlCtrl = "INSERT INTO ctrl VALUES ('" + mainCtrlIdString + "', '" + inputIdText.getText() + "', '" + ctrlRampText.getText() + "', '" + 
     			ctrlIdText.getText() + "', '" + latchSelection + "', '" + functionSelection + "');";
@@ -309,7 +309,7 @@ public class RampController implements Initializable{
 		statement.executeUpdate(sqlCtrl);
     }
     
-    private void storeValuesReac() throws SQLException { //store REAC values into the database
+    public void storeValuesReac() throws SQLException { //store REAC values into the database
     	String mainReacIdString = Integer.toString(mainReacId);
     	String sqlReac = "INSERT INTO reac VALUES ('" + mainReacIdString + "', '" + ignitTempText.getText() + "', '" + sootText.getText() + "', '" + fuelText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -318,13 +318,13 @@ public class RampController implements Initializable{
 		statement.executeUpdate(sqlReac);
     }
     
-    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoRamp();
     	showInfoCtrl();
     	showInfoReac();
     }
     
-    protected void showInfoRamp() throws SQLException { //to show the info when the page is loaded
+    public void showInfoRamp() throws SQLException { //to show the info when the page is loaded
     	String sqlRamp = "SELECT * FROM ramp";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -337,7 +337,7 @@ public class RampController implements Initializable{
 		}
     }
     
-    protected void showInfoCtrl() throws SQLException { //to show the info when the page is loaded
+    public void showInfoCtrl() throws SQLException { //to show the info when the page is loaded
     	String sqlCtrl = "SELECT * FROM ctrl";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -354,7 +354,7 @@ public class RampController implements Initializable{
 		}
     }
     
-    protected void showInfoReac() throws SQLException { //to show the info when the page is loaded
+    public void showInfoReac() throws SQLException { //to show the info when the page is loaded
     	String sqlReac = "SELECT * FROM reac";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -366,5 +366,4 @@ public class RampController implements Initializable{
 			fuelText.setText(rs.getString(4));
 		}
     }
-
 }

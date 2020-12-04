@@ -67,7 +67,7 @@ public class DumpController implements Initializable{
 	}
 	
 	@FXML
-    private void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -81,7 +81,7 @@ public class DumpController implements Initializable{
     }
 
     @FXML
-    private void goToObst(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
+    public void goToObst(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
     	if(checkIntPos && checkFloatPos && checkIntPosMatl && checkFloatPosMatl) {
@@ -105,7 +105,7 @@ public class DumpController implements Initializable{
     }
     
     @FXML
-    private void goToMult(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    public void goToMult(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
     	if(checkIntPos && checkFloatPos && checkIntPosMatl && checkFloatPosMatl) {
@@ -125,7 +125,7 @@ public class DumpController implements Initializable{
     }
     
     @FXML
-    private void newMatlLine(ActionEvent event) throws SQLException { //ADD NEW MATL LINE
+    public void newMatlLine(ActionEvent event) throws SQLException { //ADD NEW MATL LINE
     	doCheckingMatl();
     	
     	if(checkIntPosMatl && checkFloatPosMatl) {
@@ -151,23 +151,23 @@ public class DumpController implements Initializable{
     }
     
     @FXML
-    private void massSelect(ActionEvent event) {
+    public void massSelect(ActionEvent event) {
     	massSelection = massCombo.getSelectionModel().getSelectedItem().toString();
     	massCombo.setValue(massSelection);
     }
 
     @FXML
-    private void smokeSelect(ActionEvent event) {
+    public void smokeSelect(ActionEvent event) {
     	smokeSelection = smokeCombo.getSelectionModel().getSelectedItem().toString();
     	smokeCombo.setValue(smokeSelection);
     }
     
-    private void doChecking() {
+    public void doChecking() {
     	doCheckingDump();
     	doCheckingMatl();
     }
     
-    private void doCheckingDump() {
+    public void doCheckingDump() {
     	checkIntPos = true;
     	checkFloatPos = true;
     	if(!framesText.getText().equals("")) {
@@ -178,7 +178,7 @@ public class DumpController implements Initializable{
     	}
     }
     
-    private void doCheckingMatl() {
+    public void doCheckingMatl() {
     	checkIntPosMatl = true;
     	checkFloatPosMatl = true;
     	if(!reactionsText.getText().equals("")) {
@@ -201,7 +201,7 @@ public class DumpController implements Initializable{
 		}
     }
     
-    private boolean checkPosIntValues(TextField tempField) { //check if integer is positive
+    public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
     	try{ 
 			String stringVal = tempField.getText();
 			int intVal = Integer.parseInt(stringVal);
@@ -226,7 +226,7 @@ public class DumpController implements Initializable{
 		}
     }
     
-    private boolean checkPosFloatValues(TextField tempField) { //check if float is positive
+    public boolean checkPosFloatValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -251,12 +251,12 @@ public class DumpController implements Initializable{
 		}
     }
     
-    private void storeValues() throws SQLException { //store values into the database
+    public void storeValues() throws SQLException { //store values into the database
     	storeValuesDump();
     	storeValuesMatl();
     }
 
-    private void storeValuesDump() throws SQLException{ //store DUMP values into the database
+    public void storeValuesDump() throws SQLException{ //store DUMP values into the database
     	String sqlDump = "INSERT INTO dump VALUES ('" + massSelection + "', '" + smokeSelection + "', '" + framesText.getText() + "', '" + dtDevcText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -264,7 +264,7 @@ public class DumpController implements Initializable{
 		statement.executeUpdate(sqlDump);
     }
     
-    private void storeValuesMatl() throws SQLException{ //store MATL values into the database
+    public void storeValuesMatl() throws SQLException{ //store MATL values into the database
     	String mainMatlIdString = Integer.toString(mainMatlId);
     	String sqlMatl = "INSERT INTO matl VALUES ('" + mainMatlIdString + "', '" + specificText.getText() + "', '" + reactionText.getText() + "', '" + specIdText.getText() + "', '" +
     			idText.getText() + "', '" + referenceText.getText() + "', '" + reactionsText.getText() + "', '" + densityText.getText() + "', '" + conductivityText.getText() + "');";
@@ -274,12 +274,12 @@ public class DumpController implements Initializable{
 		statement.executeUpdate(sqlMatl);
     }
     
-    protected void showInfo() throws SQLException { //to show the info when the page is loaded
+    public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoDump();
     	showInfoMatl();
     }
     
-    protected void showInfoDump() throws SQLException { //to show the info when the page is loaded
+    public void showInfoDump() throws SQLException { //to show the info when the page is loaded
     	String sqlDump = "SELECT * FROM dump;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -295,7 +295,7 @@ public class DumpController implements Initializable{
 		}
     }
     
-    protected void showInfoMatl() throws SQLException { //to show the info when the page is loaded
+    public void showInfoMatl() throws SQLException { //to show the info when the page is loaded
     	String sqlMatl = "SELECT * FROM matl;";
     	ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
