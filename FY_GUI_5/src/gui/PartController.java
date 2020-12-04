@@ -70,7 +70,7 @@ public class PartController implements Initializable{
 	}
 	
 	@FXML 
-	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -84,7 +84,7 @@ public class PartController implements Initializable{
 	}
 	
 	@FXML
-	private void goToInit(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
+	public void goToInit(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
 		if (intCheck && floatCheck){
@@ -107,7 +107,7 @@ public class PartController implements Initializable{
 	}
 	
 	@FXML
-	private void goToProp(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
+	public void goToProp(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
 		if (intCheck && floatCheck){
@@ -131,7 +131,7 @@ public class PartController implements Initializable{
 	}
 	
 	@FXML
-	private void newPartLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW PART LINE
+	public void newPartLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW PART LINE
 		doCheckingPart();
 		
 		if (intCheck && floatCheck){
@@ -156,7 +156,7 @@ public class PartController implements Initializable{
 	}
 	
 	@FXML
-	private void newBndfLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW BNDF LINE
+	public void newBndfLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW BNDF LINE
 		storeValuesBndf();
 		
 		mainBndfId++;
@@ -172,22 +172,22 @@ public class PartController implements Initializable{
 	}
 	
 	@FXML
-    private void staticSelect(ActionEvent event) {
+	public void staticSelect(ActionEvent event) {
 		staticSelection = staticCombo.getSelectionModel().getSelectedItem().toString();
 		staticCombo.setValue(staticSelection);
     }
 	
 	@FXML
-    private void masslessSelect(ActionEvent event) {
+	public void masslessSelect(ActionEvent event) {
 		masslessSelection = masslessCombo.getSelectionModel().getSelectedItem().toString();
 		masslessCombo.setValue(masslessSelection);
     }
 	
-	private void doChecking(){
+	public void doChecking(){
 		doCheckingPart();
 	}
 	
-	private void doCheckingPart() {
+	public void doCheckingPart() {
 		intCheck = true;
 		floatCheck = true;
 		
@@ -199,7 +199,7 @@ public class PartController implements Initializable{
 		}
 	}
 	
-//	private boolean checkBooleanValues(TextField tempField){
+//	public boolean checkBooleanValues(TextField tempField){
 //		if (tempField.getText().equalsIgnoreCase("true")){
 //			tempField.setText("TRUE");
 //			return true;
@@ -218,7 +218,7 @@ public class PartController implements Initializable{
 //		}
 //	}
 	
-	private boolean checkIntegerValues(TextField tempField){
+	public boolean checkIntegerValues(TextField tempField){
 		try{ 
 			String stringVal = tempField.getText();
 			int intVal = Integer.parseInt(stringVal);
@@ -243,7 +243,7 @@ public class PartController implements Initializable{
 		}
 	}
 	
-	private boolean checkFloatValues(TextField tempField){
+	public boolean checkFloatValues(TextField tempField){
 		try{
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -269,12 +269,12 @@ public class PartController implements Initializable{
 		
 	}
 	
-	private void storeValues() throws SQLException{ //store values into the database
+	public void storeValues() throws SQLException{ //store values into the database
 		storeValuesPart();
 		storeValuesBndf();
 	}
 	
-	private void storeValuesPart() throws SQLException{ //store PART values into the database
+	public void storeValuesPart() throws SQLException{ //store PART values into the database
 		String mainPartIdString = Integer.toString(mainPartId);
 		String sqlPart = "INSERT INTO part VALUES('" + mainPartIdString + "', '" + surfIdText.getText() + "', '" 
 				+ specIdText.getText() + "', '" + propIdText.getText() + "', '" + qtyPartText.getText() + "', '"
@@ -286,7 +286,7 @@ public class PartController implements Initializable{
 		statement.executeUpdate(sqlPart);
 	}
 	
-	private void storeValuesBndf() throws SQLException{ //store BNDF values into the database
+	public void storeValuesBndf() throws SQLException{ //store BNDF values into the database
 		String mainBndfIdString = Integer.toString(mainBndfId);
 		String sqlBndf = "INSERT INTO bndf VALUES('" + mainBndfIdString + "', '" + qtyBndfText.getText() + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -332,5 +332,4 @@ public class PartController implements Initializable{
 			qtyBndfText.setText(rs2.getString(2));
 		}
 	}
-
 }

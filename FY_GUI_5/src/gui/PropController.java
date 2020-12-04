@@ -73,7 +73,7 @@ public class PropController implements Initializable{
 	}
 	
 	@FXML 
-	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -87,7 +87,7 @@ public class PropController implements Initializable{
 	}
 	
 	@FXML
-	private void goToPart(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
+	public void goToPart(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
 		if (checkFloat && checkInteger) {
@@ -109,7 +109,7 @@ public class PropController implements Initializable{
 	}
 	
 	@FXML
-	private void goToDevc(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
+	public void goToDevc(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
 		if (checkFloat && checkInteger) {
@@ -134,7 +134,7 @@ public class PropController implements Initializable{
 	}
 	
 	@FXML
-	private void newPropLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW PROP LINE
+	public void newPropLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW PROP LINE
 		doCheckingProp();
 		
 		if (checkFloat && checkInteger) {
@@ -159,7 +159,7 @@ public class PropController implements Initializable{
 	}
 	
 	@FXML
-	private void newSpecLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW SPEC LINE
+	public void newSpecLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW SPEC LINE
 		//store the values
 		storeValuesSpec();
 		
@@ -176,28 +176,28 @@ public class PropController implements Initializable{
 	}
 	
 	@FXML
-    void backgroundSelect(ActionEvent event) {
+	public void backgroundSelect(ActionEvent event) {
 		backgroundSelection = backgroundCombo.getSelectionModel().getSelectedItem().toString();
 		backgroundCombo.setValue(backgroundSelection);
     }
 	
 	@FXML
-    void integrateSelect(ActionEvent event) {
+	public void integrateSelect(ActionEvent event) {
 		integrateSelection = integrateCombo.getSelectionModel().getSelectedItem().toString();
 		integrateCombo.setValue(integrateSelection);
     }
 	
 	@FXML
-    void normaliseSelect(ActionEvent event) {
+	public void normaliseSelect(ActionEvent event) {
 		normaliseSelection = normaliseCombo.getSelectionModel().getSelectedItem().toString();
 		normaliseCombo.setValue(normaliseSelection);
     }
 	
-	private void doChecking() {
+	public void doChecking() {
 		doCheckingProp();
 	}
 	
-	private void doCheckingProp() {
+	public void doCheckingProp() {
 		checkFloat = true;
 		checkInteger = true;
 		
@@ -215,7 +215,7 @@ public class PropController implements Initializable{
 		}
 	}
 	
-	private boolean checkFloatValues(TextField tempField){
+	public boolean checkFloatValues(TextField tempField){
 		try {
 			String stringVal = tempField.getText();
 			float floatVal = Float.valueOf(stringVal);
@@ -240,7 +240,7 @@ public class PropController implements Initializable{
 		}
 	}
 	
-	private boolean checkIntegerValues(TextField tempField) {
+	public boolean checkIntegerValues(TextField tempField) {
 		try{ 
 			String stringVal = tempField.getText();
 			int intVal = Integer.parseInt(stringVal);
@@ -265,12 +265,12 @@ public class PropController implements Initializable{
 		}
 	}
 	
-	private void storeValues() throws SQLException { //store values into the database
+	public void storeValues() throws SQLException { //store values into the database
 		storeValuesProp();
 		storeValuesSpec();
 	}
 	
-	private void storeValuesProp() throws SQLException { //store PROP values into the database
+	public void storeValuesProp() throws SQLException { //store PROP values into the database
 		String mainPropIdString = Integer.toString(mainPropId);
 		String sqlProp = "INSERT INTO prop VALUES('" + mainPropIdString + "', '" + idText.getText() + "', '" + partIdText.getText() + "', '" +
 				qtyText.getText() + "', '" + smvIdText.getText() + "', '" + offsetText.getText() + "', '" + integrateSelection + "', '" +
@@ -281,7 +281,7 @@ public class PropController implements Initializable{
 		statement.executeUpdate(sqlProp);
 	}
 	
-	private void storeValuesSpec() throws SQLException { //store SPEC values into the database
+	public void storeValuesSpec() throws SQLException { //store SPEC values into the database
 		String mainSpecIdString = Integer.toString(mainSpecId);
 		String sqlSpec = "INSERT INTO spec VALUES ('" + mainSpecIdString + "', '" + specIdText.getText() + "', '" + backgroundSelection + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -290,12 +290,12 @@ public class PropController implements Initializable{
 		statement.executeUpdate(sqlSpec);
 	}
 	
-	protected void showInfo() throws SQLException { //to show the info when the page is loaded
+	public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoProp();
 		showInfoSpec();
 	}
 	
-	protected void showInfoProp() throws SQLException { //to show the info when the page is loaded
+	public void showInfoProp() throws SQLException { //to show the info when the page is loaded
 		String sqlProp = "SELECT * FROM prop;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -318,7 +318,7 @@ public class PropController implements Initializable{
 		}
 	}
 	
-	protected void showInfoSpec() throws SQLException { //to show the info when the page is loaded
+	public void showInfoSpec() throws SQLException { //to show the info when the page is loaded
 		String sqlSpec = "SELECT * FROM spec;";
 		
 		ConnectionClass connectionClass = new ConnectionClass();

@@ -69,7 +69,7 @@ public class InitController implements Initializable{
 	}
 	
 	@FXML
-	private void goToTime(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
+	public void goToTime(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
 		if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
@@ -92,7 +92,7 @@ public class InitController implements Initializable{
 	}
 	
 	@FXML
-	private void goToPart(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
+	public void goToPart(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
 		if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
@@ -115,7 +115,7 @@ public class InitController implements Initializable{
 		
 	}
 	@FXML 
-	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -129,7 +129,7 @@ public class InitController implements Initializable{
 	}
 	
 	@FXML
-	private void newInitLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW INIT LINE
+	public void newInitLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW INIT LINE
 		doCheckingInit();
 		
 		if (xbFormat && checkFloat && checkInteger){
@@ -155,7 +155,7 @@ public class InitController implements Initializable{
 	}
 	
 	@FXML
-	private void addMeshLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW MESH LINE
+	public void addMeshLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW MESH LINE
 		doCheckingMesh();
 		
 		if (checkIJK && checkMeshXBformat){
@@ -179,12 +179,12 @@ public class InitController implements Initializable{
 		}
 	}
 	
-	private void doChecking(){
+	public void doChecking(){
 		doCheckingInit();
 		doCheckingMesh();
 	}
 	
-	private void doCheckingInit() {
+	public void doCheckingInit() {
 		xbFormat = true;
 		checkFloat = true;
 		checkInteger = true;
@@ -209,7 +209,7 @@ public class InitController implements Initializable{
 		}
 	}
 	
-	private void doCheckingMesh() {
+	public void doCheckingMesh() {
 		checkIJK = true;
 		checkMeshXBformat = true;
 		
@@ -217,7 +217,7 @@ public class InitController implements Initializable{
 		checkIJK = checkIJK && checkIJKformat(ijkText);
 	}
 	
-	private boolean checkXbFormat(TextField tempField){ //check the XB format
+	public boolean checkXbFormat(TextField tempField){ //check the XB format
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 			initAlert.setTitle("Incorrect XB format");
@@ -271,7 +271,7 @@ public class InitController implements Initializable{
 		return true;
 	}
 	
-	private boolean checkIntValues(TextField valueTF){
+	public boolean checkIntValues(TextField valueTF){
 		try{
 			String value = valueTF.getText();
 			int valueInt = Integer.parseInt(value);
@@ -298,7 +298,7 @@ public class InitController implements Initializable{
 		}
 	}
 	
-	private boolean checkFloatValues (TextField valueTF){
+	public boolean checkFloatValues (TextField valueTF){
 		try{
 			String value = valueTF.getText();
 			float valueFloat = Float.valueOf(value);
@@ -325,7 +325,7 @@ public class InitController implements Initializable{
 		}
 	}
 	
-	private boolean checkMeshXB(TextField valueTF){
+	public boolean checkMeshXB(TextField valueTF){
 		if (valueTF.getText().equals("")){ //check if it is empty
 			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
 			meshAlert.setTitle("Empty MESH XB values");
@@ -338,7 +338,7 @@ public class InitController implements Initializable{
 		
 	}
 	
-	private boolean checkIJKformat(TextField valueTF){ 
+	public boolean checkIJKformat(TextField valueTF){ 
 		if (valueTF.getText().equals("")){ //check if ijk is empty
 			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
 			meshAlert.setTitle("Empty MESH IJK values");
@@ -398,12 +398,12 @@ public class InitController implements Initializable{
 		}
 	}
 	
-	private void storeValues() throws SQLException{ //store values into the database
+	public void storeValues() throws SQLException{ //store values into the database
 		storeValuesInit();
 		storeValuesMesh();
 	}
 	
-	private void storeValuesInit() throws SQLException{ //store INIT values into the database
+	public void storeValuesInit() throws SQLException{ //store INIT values into the database
 		String mainInitIdString = Integer.toString(mainInitId);
 		String sqlInit = "INSERT INTO init VALUES('" + mainInitIdString + "', '" + idText.getText() +
 				"', '" + partIdText.getText() + "', '" + specIdText.getText() + "', '" +
@@ -416,7 +416,7 @@ public class InitController implements Initializable{
 		statement.executeUpdate(sqlInit);
 	}
 	
-	private void storeValuesMesh() throws SQLException{ //store MESH values into the database
+	public void storeValuesMesh() throws SQLException{ //store MESH values into the database
 		String mainMeshIdString = Integer.toString(mainMeshId);
 		String sqlMesh = "INSERT INTO mesh VALUES('" + mainMeshIdString + "', '" + ijkText.getText() +
 				"', '" + xbMeshText.getText() + "');";
@@ -462,7 +462,4 @@ public class InitController implements Initializable{
 			xbMeshText.setText(rs2.getString(3));
 		}
 	}
-	
-	
-
 }

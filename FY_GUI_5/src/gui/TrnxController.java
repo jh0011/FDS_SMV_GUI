@@ -89,6 +89,29 @@ public class TrnxController implements Initializable{
     }
     
     @FXML
+    private void goToEditor(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
+    	doChecking();
+    	
+    	if(checkPosInt && checkPosFloat && checkXyz) {
+    		//store the values
+    		storeValues();
+    		
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Editor.fxml"));
+    		Parent root = loader.load();
+    		
+    		EditorController editorCont = loader.getController(); //Get the next page's controller
+    		//editorCont.showInfo(); //Set the values of the page 
+    		Scene editorScene = new Scene(root);
+    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		mainWindow.setScene(editorScene);
+    		mainWindow.show();
+    	}
+    	else {
+    		System.out.println("Unable to go to EDITOR page");
+    	}
+    }
+    
+    @FXML
     private void newTrnxLine(ActionEvent event) throws SQLException { //ADD NEW TRNX LINE
     	doCheckingTrnx();
     	

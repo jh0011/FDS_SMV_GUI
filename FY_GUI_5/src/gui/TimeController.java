@@ -50,7 +50,7 @@ public class TimeController implements Initializable{
 	}
 	
 	@FXML
-	private void goToBasic(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
+	public void goToBasic(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
 		if (checkEndTime && checkFloat && isCorrectFormat){
@@ -74,7 +74,7 @@ public class TimeController implements Initializable{
 	}
 	
 	@FXML
-	private void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
+	public void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		
 		doChecking();
 		
@@ -98,7 +98,7 @@ public class TimeController implements Initializable{
 	}
 	
 	@FXML
-	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -111,12 +111,12 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	private void doChecking() {
+	public void doChecking() {
 		doCheckingTime();
 		doCheckingCatf();
 	}
 	
-	private void doCheckingTime() {
+	public void doCheckingTime() {
 		checkFloat = true;
 		checkEndTime = true;
 		
@@ -132,7 +132,7 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	private void doCheckingCatf() {
+	public void doCheckingCatf() {
 		isCorrectFormat = true;
 		
 		if (!filesText.getText().equals("")){
@@ -140,7 +140,7 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	private boolean checkTimeEnd(String timeStart){
+	public boolean checkTimeEnd(String timeStart){
 		if (timeStart.equals("")){ //Check if end time is empty
 			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
 			timeAlert.setTitle("Empty time value");
@@ -153,7 +153,7 @@ public class TimeController implements Initializable{
 		return true;
 	}
 	
-	private boolean checkTimeFloat(TextField tempField){
+	public boolean checkTimeFloat(TextField tempField){
 		try{
 			String value = tempField.getText();
 			float timeFloat = Float.valueOf(value);
@@ -179,7 +179,16 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	private boolean formatText(String text){
+	public boolean formatText(String text){
+		if (text.contains(" ") || text.contains(",") || text.contains(";") || countNumChar(text, '.') > 1){ //check for file invalid delimiter
+			Alert filesAlert = new Alert(Alert.AlertType.INFORMATION);
+			filesAlert.setTitle("Files title format");
+			filesAlert.setContentText("The files have invalid delimiters. Files should be delimited by a new line.");
+			filesAlert.setHeaderText(null);
+			filesAlert.show();
+			return false;
+		}
+		
 		String[] files = text.split("\\n");
 		Values.concatFiles = "";
 		for (int i=0; i<files.length; i++){
@@ -192,6 +201,16 @@ public class TimeController implements Initializable{
 				return false;
 			}
 			
+			if (files[i].contains("|") || files[i].contains("/") || files[i].contains("\\") || files[i].contains(":") ||
+					files[i].contains("?") || files[i].contains("*") || files[i].contains("<") || files[i].contains(">") 
+					|| files[i].contains("\"")){ //check for file invalid symbols
+				Alert filesAlert = new Alert(Alert.AlertType.INFORMATION);
+				filesAlert.setTitle("Files title format");
+				filesAlert.setContentText("The files have invalid symbols");
+				filesAlert.setHeaderText(null);
+				filesAlert.show();
+				return false;
+			}
 			if (i <= files.length - 2){
 				Values.concatFiles = Values.concatFiles + "'" + files[i] + "', ";
 			}
@@ -219,13 +238,23 @@ public class TimeController implements Initializable{
 		return true;
 	}
 	
+	public int countNumChar(String value, char charValue) {
+		int count = 0;
+		for (int i=0; i<value.length(); i++) {
+			if (value.charAt(i) == charValue) {
+				count++;
+			}
+		}
+		return count;
+	}
 	
-	private void storeValues() throws SQLException{ //store values into the database
+	
+	public void storeValues() throws SQLException{ //store values into the database
 		storeValuesTime();
 		storeValuesCatf();
 	}
 	
-	private void storeValuesTime() throws SQLException{ //store TIME values into the database
+	public void storeValuesTime() throws SQLException{ //store TIME values into the database
 		String sqlTime = "INSERT INTO time (EndTime, StartTime, DT) VALUES ('" + endTimeText.getText() + "', '" + 
 				beginTimeText.getText() + "', '" + dtText.getText() + "');";
 		
@@ -235,7 +264,7 @@ public class TimeController implements Initializable{
 		statement.executeUpdate(sqlTime);
 	}
 	
-	private void storeValuesCatf() throws SQLException{ //store CATF values into the database
+	public void storeValuesCatf() throws SQLException{ //store CATF values into the database
 		String sqlCatf = "INSERT INTO catf VALUES ('" + filesText.getText() + "');";
 		
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -244,12 +273,12 @@ public class TimeController implements Initializable{
 		statement.executeUpdate(sqlCatf);
 	}
 	
-	protected void showInfo() throws SQLException{ //to show the info when the page is loaded
+	public void showInfo() throws SQLException{ //to show the info when the page is loaded
 		showInfoTime();
 		showInfoCatf();
 	}
 	
-	protected void showInfoTime() throws SQLException{ //to show the info when the page is loaded
+	public void showInfoTime() throws SQLException{ //to show the info when the page is loaded
 		String sqlTime = "SELECT * FROM time;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -262,7 +291,7 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	protected void showInfoCatf() throws SQLException{ //to show the info when the page is loaded
+	public void showInfoCatf() throws SQLException{ //to show the info when the page is loaded
 		String sqlCatf = "SELECT * FROM catf;";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -272,6 +301,4 @@ public class TimeController implements Initializable{
 			filesText.setText(rs2.getString(1));
 		}
 	}
-
-
 }

@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,28 +21,39 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
 public class BasicController implements Initializable{
-	
+	//head
 	@FXML Button basicNextBtn;
 	@FXML Button basicBackBtn;
 	@FXML Button cancelBtn;
 	@FXML TextField chidText = new TextField();
 	@FXML TextArea titleText;
 	
+	@FXML Label headTitle;
+	@FXML AnchorPane headAnchor;
+	
 	protected String chid;
 	protected String title;
+	
+	static boolean isShowingHead = false;
+	Popup popup = new Popup();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 	}
 	
 	@FXML
-	private void goToTime(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
+	public void goToTime(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		//store values
 //		Values.allStrings[0][0] = chidText.getText();
 //		Values.allStrings[1][0] = titleText.getText();
@@ -72,7 +84,7 @@ public class BasicController implements Initializable{
 	}
 	
 	@FXML
-	private void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
 			Values.cancelForm();
 			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
@@ -83,12 +95,10 @@ public class BasicController implements Initializable{
 			mainWindow.setScene(introScene);
 			mainWindow.show();
 		}
-		
-		
 	}
 	
 	@FXML
-	private void goToIntro(ActionEvent event) throws IOException{
+	public void goToIntro(ActionEvent event) throws IOException{
 		Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
 		Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
@@ -99,8 +109,35 @@ public class BasicController implements Initializable{
 		
 	}
 	
+	@FXML
+	public void openHeadDesc(MouseEvent event) {
+//		System.out.println("HEAD CLICKED");
+//		Popup popup = new Popup();
+//		Label label = new Label("This is a Popupppppppg pfp lpdo  psmd  pksdpf oksdp osdkfd ifji sokls fjfe sjiaid efyroks ijcdn iejdehfb oefkdlsp"
+//				+ " psmd  pksdpf oksdp osdkfd ifji sokls fjfe sjiaid efyroks ijcdn iejdehfb oefkdlsp");
+//		
+//		popup.getContent().add(label);
+//		label.setMaxWidth(200); 
+//        label.setMaxHeight(200);
+//        label.setWrapText(true);
+//        label.setStyle(" -fx-background-color: #e65c00;"); 
+//        Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+//        popup.show(mainWindow);
+//        isShowingHead = true;
+        Alert headAlert = new Alert(Alert.AlertType.INFORMATION);
+		headAlert.setTitle("HEAD namelist");
+		headAlert.setContentText("This is a Popupppppppg pfp lpdo  psmd  pksdpf oksdp osdkfd ifji sokls fjfe sjiaid efyroks ijcdn iejdehfb oefkdlsp\"\r\n"
+				+ "//				+ \" psmd  pksdpf oksdp osdkfd ifji sokls fjfe sjiaid efyroks ijcdn iejdehfb oefkdlsp");
+		headAlert.setHeaderText(null);
+		ImageView icon = new ImageView("Fire2.jpg");
+		icon.setFitHeight(48);
+        icon.setFitWidth(48);
+        headAlert.getDialogPane().setGraphic(icon);
+		headAlert.show();
+    }
 	
-	private boolean checkChid(String chid){
+	
+	public boolean checkChid(String chid){
 		if (chid.equals("")){ //check whether CHID is filled
 			Alert chidAlert = new Alert(Alert.AlertType.INFORMATION);
 			chidAlert.setTitle("Empty CHID");
@@ -127,13 +164,22 @@ public class BasicController implements Initializable{
 			extAlert.show();
 			return false;
 		}
+		if (chid.contains("|") || chid.contains("/") || chid.contains("\\") || chid.contains(":") ||
+				chid.contains("?") || chid.contains("*") || chid.contains("<") || chid.contains(">") || chid.contains("\"")){ //check for invalid symbols
+			Alert extAlert = new Alert(Alert.AlertType.INFORMATION);
+			extAlert.setTitle("Invalid CHID");
+			extAlert.setContentText("Invalid symbols in CHID");
+			extAlert.setHeaderText(null);
+			extAlert.show();
+			return false;
+		}
 		//Values.allStrings[0][0] = chidText.getText();
 		return true;
 	}
 	
 
 	
-	protected void showInfo() throws SQLException{ //String chid, String title
+	public void showInfo() throws SQLException{ //String chid, String title
 		String sql = "SELECT * FROM head";
 		ConnectionClass connectionClass = new ConnectionClass();
 		Connection connection = connectionClass.getConnection();
@@ -144,7 +190,4 @@ public class BasicController implements Initializable{
 			titleText.setText(rs.getString(2));
 		}
 	}
-	
-
-
 }
