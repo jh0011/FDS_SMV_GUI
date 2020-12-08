@@ -23,6 +23,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class TrnxController implements Initializable{
+	/**
+	 * Controller class for Trnx.fxml
+	 * @author 
+	 */
+	
 	//trnx
 	@FXML TextField idText; //string
     @FXML TextField meshText; //integer (+)
@@ -51,6 +56,12 @@ public class TrnxController implements Initializable{
 		addZoneBtn.setTooltip(zoneTooltip);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
     public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
@@ -65,6 +76,12 @@ public class TrnxController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (MOVE) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToMove(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
@@ -88,6 +105,12 @@ public class TrnxController implements Initializable{
     	}
     }
     
+    /**
+	 * Go to the next page (Editor) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToEditor(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
@@ -111,6 +134,12 @@ public class TrnxController implements Initializable{
     	}
     }
     
+    /**
+	 * Add a new line for TRNX namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newTrnxLine(ActionEvent event) throws SQLException { //ADD NEW TRNX LINE
     	doCheckingTrnx();
@@ -134,6 +163,12 @@ public class TrnxController implements Initializable{
     	}
     }
     
+    /**
+	 * Add a new line for ZONE namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newZoneLine(ActionEvent event) throws SQLException { //ADD NEW ZONE LINE
     	doCheckingZone();
@@ -157,6 +192,9 @@ public class TrnxController implements Initializable{
     	}
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
     	doCheckingTrnx();
     	doCheckingZone();
@@ -183,6 +221,11 @@ public class TrnxController implements Initializable{
     	}
     }
     
+    /**
+	 * Check if the integer is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
     	try{ 
 			String stringVal = tempField.getText();
@@ -208,6 +251,11 @@ public class TrnxController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkPosFloatValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
@@ -233,6 +281,14 @@ public class TrnxController implements Initializable{
 		}
     }
     
+    /**
+     * Check the XYZ format: <br>
+     * - No white spaces <br>
+     * - 3 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkXyzFormat(TextField tempField) { //check if xyz is correct
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert zoneAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -286,6 +342,10 @@ public class TrnxController implements Initializable{
 		}
     }
     
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesTrnx();
     	storeValuesZone();
@@ -309,6 +369,10 @@ public class TrnxController implements Initializable{
 		statement.executeUpdate(sqlZone);
     }
     
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoTrnx();
     	showInfoZone();
