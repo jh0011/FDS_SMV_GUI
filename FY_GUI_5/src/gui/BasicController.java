@@ -32,6 +32,10 @@ import javafx.stage.Stage;
 
 
 public class BasicController implements Initializable{
+	/**
+	 * Controller class for Basic.fxml
+	 * @author 
+	 */
 	//head
 	@FXML Button basicNextBtn;
 	@FXML Button basicBackBtn;
@@ -50,8 +54,53 @@ public class BasicController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	@FXML
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+		if (Values.cancelWarning()){
+			Values.cancelForm();
+			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
+			Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
+			
+			
+			mainWindow.setScene(introScene);
+			mainWindow.show();
+		}
+	}
+	
+	/**
+	 * Go to the previous page (INTRO) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
+	@FXML
+	public void goToIntro(ActionEvent event) throws IOException{ //PREVIOUS SCENE
+		Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
+		Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
+		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
+		
+		
+		mainWindow.setScene(introScene);
+		mainWindow.show();
+		
+	}
+	
+	/**
+	 * Go to the next page (TIME) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToTime(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		//store values
@@ -83,32 +132,10 @@ public class BasicController implements Initializable{
 		
 	}
 	
-	@FXML
-	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
-		if (Values.cancelWarning()){
-			Values.cancelForm();
-			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
-			Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
-			
-			
-			mainWindow.setScene(introScene);
-			mainWindow.show();
-		}
-	}
-	
-	@FXML
-	public void goToIntro(ActionEvent event) throws IOException{
-		Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
-		Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
-		
-		
-		mainWindow.setScene(introScene);
-		mainWindow.show();
-		
-	}
-	
+	/**
+	 * Description of HEAD namelist
+	 * @param event Open the description label
+	 */
 	@FXML
 	public void openHeadDesc(MouseEvent event) {
 //		System.out.println("HEAD CLICKED");
@@ -136,7 +163,15 @@ public class BasicController implements Initializable{
 		headAlert.show();
     }
 	
-	
+	/**
+	 * CHID input validation: <br>
+	 * - If CHID is empty <br>
+	 * - Whitespaces <br>
+	 * - File extension <br>
+	 * - Invalid symbols
+	 * @param chid The user's CHID input
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkChid(String chid){
 		if (chid.equals("")){ //check whether CHID is filled
 			Alert chidAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -177,8 +212,10 @@ public class BasicController implements Initializable{
 		return true;
 	}
 	
-
-	
+	/**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
 	public void showInfo() throws SQLException{ //String chid, String title
 		String sql = "SELECT * FROM head";
 		ConnectionClass connectionClass = new ConnectionClass();

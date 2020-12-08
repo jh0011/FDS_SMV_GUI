@@ -27,6 +27,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class InitController implements Initializable{
+	/**
+	 * Controller class for Init.fxml
+	 * @author 
+	 */
+	
 	//init
 	@FXML TextField idText; //string
 	@FXML TextField partIdText; //string
@@ -68,6 +73,32 @@ public class InitController implements Initializable{
 		addMeshBtn.setTooltip(meshTooltip);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	@FXML 
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+		if (Values.cancelWarning()){
+			Values.cancelForm();
+			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
+			Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
+			
+			
+			mainWindow.setScene(introScene);
+			mainWindow.show();
+		}
+	}
+	
+	/**
+	 * Go to the previous page (TIME) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToTime(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
@@ -91,6 +122,12 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Go to the next page (PART) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToPart(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
@@ -112,22 +149,14 @@ public class InitController implements Initializable{
 		else{
 			System.out.println("Unable to proceed to PART page");
 		}
-		
-	}
-	@FXML 
-	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
-		if (Values.cancelWarning()){
-			Values.cancelForm();
-			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
-			Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
-			
-			
-			mainWindow.setScene(introScene);
-			mainWindow.show();
-		}
 	}
 	
+	/**
+	 * Add a new line for INIT namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void newInitLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW INIT LINE
 		doCheckingInit();
@@ -154,6 +183,12 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Add a new line for MESH namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void addMeshLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW MESH LINE
 		doCheckingMesh();
@@ -179,11 +214,17 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Call the checking methods for the different namelists
+	 */
 	public void doChecking(){
 		doCheckingInit();
 		doCheckingMesh();
 	}
 	
+	/**
+	 * Check the input fields for INIT
+	 */
 	public void doCheckingInit() {
 		xbFormat = true;
 		checkFloat = true;
@@ -209,6 +250,9 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Check the input fields for MESH
+	 */
 	public void doCheckingMesh() {
 		checkIJK = true;
 		checkMeshXBformat = true;
@@ -217,6 +261,14 @@ public class InitController implements Initializable{
 		checkIJK = checkIJK && checkIJKformat(ijkText);
 	}
 	
+	/**
+	 * Check the format of XB <br>
+	 * - No white spaces <br>
+	 * - 6 values <br>
+	 * - Positive float
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkXbFormat(TextField tempField){ //check the XB format
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -271,6 +323,11 @@ public class InitController implements Initializable{
 		return true;
 	}
 	
+	/**
+	 * Check if the integer is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkIntValues(TextField valueTF){
 		try{
 			String value = valueTF.getText();
@@ -298,6 +355,11 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkFloatValues (TextField valueTF){
 		try{
 			String value = valueTF.getText();
@@ -325,6 +387,11 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Check XB format and if it is filled 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkMeshXB(TextField valueTF){
 		if (valueTF.getText().equals("")){ //check if it is empty
 			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -338,6 +405,11 @@ public class InitController implements Initializable{
 		
 	}
 	
+	/**
+	 * Check the IJK format and if it is filled 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkIJKformat(TextField valueTF){ 
 		if (valueTF.getText().equals("")){ //check if ijk is empty
 			Alert meshAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -398,6 +470,10 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
 	public void storeValues() throws SQLException{ //store values into the database
 		storeValuesInit();
 		storeValuesMesh();
@@ -426,6 +502,10 @@ public class InitController implements Initializable{
 		statement.executeUpdate(sqlMesh);
 	}
 
+	/**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
 	public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoInit();
 		showInfoMesh();

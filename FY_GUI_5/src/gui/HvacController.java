@@ -24,6 +24,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class HvacController implements Initializable{
+	/**
+	 * Controller class for Hvac.fxml
+	 * @author 
+	 */
+	
 	//hvac
 	@FXML TextField idText; //string
     @FXML TextField roughnessText; //float (+)
@@ -58,6 +63,12 @@ public class HvacController implements Initializable{
 		typeCombo.setItems(typeList);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
 		if (Values.cancelWarning()){
@@ -72,6 +83,12 @@ public class HvacController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (PRES) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToPres(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
@@ -95,6 +112,12 @@ public class HvacController implements Initializable{
     	}
     }
     
+    /**
+	 * Go to the next page (MOVE) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToMove(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
@@ -124,6 +147,9 @@ public class HvacController implements Initializable{
     	typeCombo.setValue(typeSelection);
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
     	doCheckingHvac();
     	doCheckingHole();
@@ -162,6 +188,11 @@ public class HvacController implements Initializable{
     	}
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
     	try {
 			String stringVal = tempField.getText();
@@ -187,6 +218,14 @@ public class HvacController implements Initializable{
 		}
     }
     
+    /**
+     * Check the XB format: <br>
+     * - No white spaces <br>
+     * - 6 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -241,6 +280,11 @@ public class HvacController implements Initializable{
 		return true;
     }
     
+    /**
+	 * Check if the value is a float 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatValues(TextField tempField) { //check if value is a float
     	try {
 			String stringVal = tempField.getText();
@@ -258,6 +302,10 @@ public class HvacController implements Initializable{
 		}
     }
     
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesHvac();
     	storeValuesHole();
@@ -290,6 +338,10 @@ public class HvacController implements Initializable{
 		statement.executeUpdate(sqlIsof);
     }
     
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoHvac();
     	showInfoHole();

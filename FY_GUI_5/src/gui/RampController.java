@@ -26,6 +26,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class RampController implements Initializable{
+	/**
+	 * Controller class for Ramp.fxml
+	 * @author 
+	 */
+	
 	//ramp
 	@FXML TextField fractionText; //float (+ / -)
     @FXML TextField timeText; //float (+)
@@ -75,6 +80,12 @@ public class RampController implements Initializable{
 		functionCombo.setItems(functionList);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
 		if (Values.cancelWarning()){
@@ -89,6 +100,12 @@ public class RampController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (SURF) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToSurf(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
@@ -113,6 +130,12 @@ public class RampController implements Initializable{
     	
     }
     
+    /**
+	 * Go to the next page (OBST) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToObst(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
@@ -136,6 +159,12 @@ public class RampController implements Initializable{
     	}
     }
     
+    /**
+	 * Add a new line for RAMP namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newRampLine(ActionEvent event) throws SQLException { //ADD NEW RAMP LINE
     	doCheckingRamp();
@@ -161,6 +190,12 @@ public class RampController implements Initializable{
     	
     }
     
+    /**
+	 * Add a new line for CTRL namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newCtrlLine(ActionEvent event) throws SQLException { //ADD NEW CTRL LINE
     	//no checking required
@@ -180,6 +215,12 @@ public class RampController implements Initializable{
 		showInfoCtrl();
     }
     
+    /**
+	 * Add a new line for REAC namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newReacLine(ActionEvent event) throws SQLException { //ADD NEW REAC LINE
     	doCheckingReac();
@@ -214,6 +255,9 @@ public class RampController implements Initializable{
     	functionCombo.setValue(functionSelection);
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
     	doCheckingRamp();
     	doCheckingReac();
@@ -242,6 +286,11 @@ public class RampController implements Initializable{
     	}
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
@@ -267,6 +316,11 @@ public class RampController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the value is a float
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatValues(TextField tempField) { //check if the value is a float
     	try {
 			String stringVal = tempField.getText();
@@ -284,6 +338,10 @@ public class RampController implements Initializable{
 		}
     }
     
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesRamp();
     	storeValuesCtrl();
@@ -318,6 +376,10 @@ public class RampController implements Initializable{
 		statement.executeUpdate(sqlReac);
     }
     
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoRamp();
     	showInfoCtrl();

@@ -23,6 +23,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class MultController implements Initializable{
+	/**
+	 * Controller class for Mult.fxml
+	 * @author 
+	 */
+	
 	//mult
 	@FXML TextField idText; //string
 	@FXML TextField iUpperText; //int (+)
@@ -55,6 +60,12 @@ public class MultController implements Initializable{
 		addMultBtn.setTooltip(multooltip);
 	}
 
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
@@ -69,6 +80,12 @@ public class MultController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (DUMP) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public  void goToDump(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
@@ -92,6 +109,12 @@ public class MultController implements Initializable{
     	}
     }
     
+    /**
+	 * Go to the next page (PRES) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public  void goToPres(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
@@ -115,6 +138,12 @@ public class MultController implements Initializable{
     	}
     }
     
+    /**
+	 * Add a new line for MULT namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newMultLine(ActionEvent event) throws SQLException { //ADD NEW MULT LINE
     	doCheckingMult();
@@ -135,6 +164,9 @@ public class MultController implements Initializable{
     	}
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
     	doCheckingMult();
     	doCheckingWind();
@@ -181,6 +213,11 @@ public class MultController implements Initializable{
     	}
     }
     
+    /**
+	 * Check if the integer is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkPosIntValues(TextField tempField) { //check if integer is positive value
     	try{ 
 			String stringVal = tempField.getText();
@@ -206,6 +243,11 @@ public class MultController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkPosFloatValues(TextField tempField) { //check if float is positive value
     	try {
 			String stringVal = tempField.getText();
@@ -231,6 +273,11 @@ public class MultController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the float is a value between 0 and 360 degrees
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkDirectionValues(TextField tempField) { //check if float is between 0 and 360
     	try {
 			String stringVal = tempField.getText();
@@ -256,6 +303,11 @@ public class MultController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the float is more than -500 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkLValues(TextField tempField) { //check if float is >= -500)
     	try {
 			String stringVal = tempField.getText();
@@ -281,6 +333,10 @@ public class MultController implements Initializable{
 		}
     }
     
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesMult();
     	storeValuesWind();
@@ -304,6 +360,10 @@ public class MultController implements Initializable{
 		statement.executeUpdate(sqlWind);
     }
     
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoMult();
     	showInfoWind();

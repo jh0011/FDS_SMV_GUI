@@ -26,6 +26,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class DumpController implements Initializable{
+	/**
+	 * Controller class for Dump.fxml
+	 * @author 
+	 */
+	
 	//dump
 	@FXML ComboBox massCombo;
     @FXML ComboBox smokeCombo;
@@ -66,6 +71,12 @@ public class DumpController implements Initializable{
 		smokeCombo.setItems(smokeList);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
@@ -80,6 +91,12 @@ public class DumpController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (OBST) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToObst(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
@@ -104,6 +121,12 @@ public class DumpController implements Initializable{
     	
     }
     
+    /**
+	 * Go to the next page (MULT) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToMult(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
@@ -124,6 +147,12 @@ public class DumpController implements Initializable{
     	}
     }
     
+    /**
+	 * Add a new line for MATL namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newMatlLine(ActionEvent event) throws SQLException { //ADD NEW MATL LINE
     	doCheckingMatl();
@@ -162,6 +191,9 @@ public class DumpController implements Initializable{
     	smokeCombo.setValue(smokeSelection);
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
     	doCheckingDump();
     	doCheckingMatl();
@@ -201,6 +233,11 @@ public class DumpController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the integer is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
     	try{ 
 			String stringVal = tempField.getText();
@@ -226,6 +263,11 @@ public class DumpController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkPosFloatValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
@@ -251,6 +293,10 @@ public class DumpController implements Initializable{
 		}
     }
     
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesDump();
     	storeValuesMatl();
@@ -274,6 +320,10 @@ public class DumpController implements Initializable{
 		statement.executeUpdate(sqlMatl);
     }
     
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoDump();
     	showInfoMatl();

@@ -26,6 +26,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class SurfController implements Initializable{
+	/**
+	 * Controller class for Surf.fxml
+	 * @author 
+	 */
+	
 	//surf
     @FXML TextField idText; //string
     @FXML TextField partIdText; //string
@@ -79,6 +84,7 @@ public class SurfController implements Initializable{
 		mbCombo.setItems(mbList);
 		
 	}
+	
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
@@ -99,6 +105,12 @@ public class SurfController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (DEVC) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToDevc(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
@@ -123,6 +135,12 @@ public class SurfController implements Initializable{
     	
     }
     
+    /**
+	 * Go to the next page (RAMP) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToRamp(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
@@ -146,6 +164,12 @@ public class SurfController implements Initializable{
     	}
     }
     
+    /**
+	 * Add a new line for SURF namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newSurfLine(ActionEvent event) throws SQLException { //ADD NEW SURF LINE
     	doCheckingSurf();
@@ -171,6 +195,12 @@ public class SurfController implements Initializable{
     	}
     }
     
+    /**
+	 * Add a new line for VENT namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newVentLine(ActionEvent event) throws SQLException { //ADD NEW VENT LINE
     	doCheckingVent();
@@ -219,6 +249,9 @@ public class SurfController implements Initializable{
     	mbCombo.setValue(mbSelection);
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
     	doCheckingSurf();
     	doCheckingVent();
@@ -250,6 +283,11 @@ public class SurfController implements Initializable{
     	}
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if the float values are POSITIVE
     	try {
 			String stringVal = tempField.getText();
@@ -275,6 +313,11 @@ public class SurfController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the value is a float
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatValues(TextField tempField) { //check if values are a float
     	try {
 			String stringVal = tempField.getText();
@@ -292,6 +335,11 @@ public class SurfController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if there is one Material ID
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkMatlValues(TextField tempField) {
     	String stringVal = tempField.getText();
     	if(stringVal.contains(",") || stringVal.contains(";")) {
@@ -306,6 +354,14 @@ public class SurfController implements Initializable{
     	return true;
     }
     
+    /**
+     * Check the XB format: <br>
+     * - No white spaces <br>
+     * - 6 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -360,6 +416,10 @@ public class SurfController implements Initializable{
 		return true;
     }
     
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException{ //store values into the database
     	storeValuesSurf();
     	storeValuesVent();
@@ -386,6 +446,10 @@ public class SurfController implements Initializable{
     	
     }
     
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoSurf();
     	showInfoVent();
@@ -427,5 +491,4 @@ public class SurfController implements Initializable{
 			mbCombo.setValue(mbSelection);
 		}
     }
-
 }

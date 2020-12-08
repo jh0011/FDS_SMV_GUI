@@ -24,6 +24,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class MoveController implements Initializable{
+	/**
+	 * Controller class for Move.fxml
+	 * @author 
+	 */
+	
 	//move
 	@FXML TextField idText; //string
     @FXML TextField xText; //float (+)
@@ -59,6 +64,12 @@ public class MoveController implements Initializable{
 		iorCombo.setItems(iorList);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
@@ -73,6 +84,12 @@ public class MoveController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (HVAC) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToHvac(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
@@ -96,6 +113,12 @@ public class MoveController implements Initializable{
     	}
     }
     
+    /**
+	 * Go to the next page (TRNX) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToTrnx(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
@@ -125,6 +148,9 @@ public class MoveController implements Initializable{
     	iorCombo.setValue(iorSelection);
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
     	doCheckingMove();
     	doCheckingProf();
@@ -176,6 +202,11 @@ public class MoveController implements Initializable{
     	}
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
@@ -201,6 +232,11 @@ public class MoveController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the float a value between 0 and 360 degrees 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkAngleValues(TextField tempField) { //check if float is between 0 and 360
     	try {
 			String stringVal = tempField.getText();
@@ -226,6 +262,14 @@ public class MoveController implements Initializable{
 		}
     }
     
+    /**
+     * Check the Axis format: <br>
+     * - No white spaces <br>
+     * - 3 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkAxisFormat(TextField tempField) { //check if 3 positive float
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -279,6 +323,14 @@ public class MoveController implements Initializable{
 		}
     }
     
+    /**
+     * Check the XYZ format: <br>
+     * - No white spaces <br>
+     * - 3 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkXyzFormat(TextField tempField) { //check if 3 positive float values
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -331,7 +383,11 @@ public class MoveController implements Initializable{
 			return false;
 		}
     }
-    
+    /**
+	 * Check if the integer is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
     	try{ 
 			String stringVal = tempField.getText();
@@ -357,6 +413,14 @@ public class MoveController implements Initializable{
 		}
     }
     
+    /**
+     * Check the XB format: <br>
+     * - No white spaces <br>
+     * - 6 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -411,6 +475,10 @@ public class MoveController implements Initializable{
 		return true;
     }
 
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesMove();
     	storeValuesProf();
@@ -441,6 +509,10 @@ public class MoveController implements Initializable{
 		statement.executeUpdate(sqlRadf);
 	}
 	
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoMove();
 		showInfoProf();

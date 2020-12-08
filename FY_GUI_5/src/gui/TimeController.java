@@ -23,8 +23,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-
 public class TimeController implements Initializable{
+	/**
+	 * Controller class for Time.fxml
+	 * @author 
+	 */
 	
 	//time
 	@FXML TextField endTimeText;
@@ -49,6 +52,32 @@ public class TimeController implements Initializable{
 		
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	@FXML
+	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
+		if (Values.cancelWarning()){
+			Values.cancelForm();
+			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
+			Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
+			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
+			
+			
+			mainWindow.setScene(introScene);
+			mainWindow.show();
+		}
+	}
+	
+	/**
+	 * Go to the previous page (BASIC) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToBasic(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
@@ -73,6 +102,12 @@ public class TimeController implements Initializable{
 		
 	}
 	
+	/**
+	 * Go to the next page (INIT) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		
@@ -97,25 +132,17 @@ public class TimeController implements Initializable{
 		}
 	}
 	
-	@FXML
-	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
-		if (Values.cancelWarning()){
-			Values.cancelForm();
-			Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
-			Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
-			
-			
-			mainWindow.setScene(introScene);
-			mainWindow.show();
-		}
-	}
-	
+	/**
+	 * Call the checking methods for the different namelists
+	 */
 	public void doChecking() {
 		doCheckingTime();
 		doCheckingCatf();
 	}
 	
+	/**
+	 * Check the input fields for TIME
+	 */
 	public void doCheckingTime() {
 		checkFloat = true;
 		checkEndTime = true;
@@ -132,6 +159,9 @@ public class TimeController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Check the input fields for CATF
+	 */
 	public void doCheckingCatf() {
 		isCorrectFormat = true;
 		
@@ -140,6 +170,12 @@ public class TimeController implements Initializable{
 		}
 	}
 	
+	/**
+	 * End Time input validation: <br>
+	 * - If it is empty
+	 * @param timeStart The Start Time input from user
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkTimeEnd(String timeStart){
 		if (timeStart.equals("")){ //Check if end time is empty
 			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -153,6 +189,11 @@ public class TimeController implements Initializable{
 		return true;
 	}
 	
+	/**
+	 * Check if the float is positive
+	 * @param tempField TextField for the time values
+	 * @returnBoolean on whether the check was successful
+	 */
 	public boolean checkTimeFloat(TextField tempField){
 		try{
 			String value = tempField.getText();
@@ -179,6 +220,11 @@ public class TimeController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Check if the Files is formatted correctly
+	 * @param text Input value from user
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean formatText(String text){
 		if (text.contains(" ") || text.contains(",") || text.contains(";") || countNumChar(text, '.') > 1){ //check for file invalid delimiter
 			Alert filesAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -248,7 +294,10 @@ public class TimeController implements Initializable{
 		return count;
 	}
 	
-	
+	/**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
 	public void storeValues() throws SQLException{ //store values into the database
 		storeValuesTime();
 		storeValuesCatf();
@@ -273,6 +322,10 @@ public class TimeController implements Initializable{
 		statement.executeUpdate(sqlCatf);
 	}
 	
+	/**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
 	public void showInfo() throws SQLException{ //to show the info when the page is loaded
 		showInfoTime();
 		showInfoCatf();

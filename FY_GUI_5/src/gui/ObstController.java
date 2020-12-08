@@ -26,6 +26,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class ObstController implements Initializable{
+	/**
+	 * Controller class for Obst.fxml
+	 * @author 
+	 */
+	
 	//obst
     @FXML TextField bulkText; //float (+)
     @FXML TextField colourText; //string
@@ -73,6 +78,12 @@ public class ObstController implements Initializable{
 		radiCombo.setItems(radiList);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
@@ -87,6 +98,12 @@ public class ObstController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (RAMP) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToRamp(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
@@ -111,6 +128,12 @@ public class ObstController implements Initializable{
     	
     }
     
+    /**
+	 * Go to the next page (DUMP) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToDump(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
@@ -135,6 +158,12 @@ public class ObstController implements Initializable{
     	
     }
     
+    /**
+	 * Add a new line for OBST namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newObstLine(ActionEvent event) throws SQLException { //ADD NEW OBST LINE
     	doCheckingObst();
@@ -177,6 +206,9 @@ public class ObstController implements Initializable{
     	radiCombo.setValue(radiSelection);
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
     	doCheckingObst();
     	doCheckingMisc();
@@ -212,6 +244,11 @@ public class ObstController implements Initializable{
         }
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if float is positive
     	try {
 			String stringVal = tempField.getText();
@@ -237,6 +274,14 @@ public class ObstController implements Initializable{
 		}
     }
     
+    /**
+     * Check the XB format: <br>
+     * - No white spaces <br>
+     * - 6 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkXbFormat(TextField tempField) { //check the XB format
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -291,6 +336,14 @@ public class ObstController implements Initializable{
 		return true;
     }
     
+    /**
+     * Check the Gvec format: <br>
+     * - No white spaces <br>
+     * - 3 values <br>
+     * - Integers 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkGvecFormat(TextField tempField) {
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert miscAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -344,6 +397,11 @@ public class ObstController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the value is a float
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatValues(TextField tempField) { //check if the value is a float
     	try {
 			String stringVal = tempField.getText();
@@ -361,6 +419,11 @@ public class ObstController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the value is a percentage
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkPercentValues(TextField tempField) { //check if float is a percentage
     	try {
 			String stringVal = tempField.getText();
@@ -386,6 +449,10 @@ public class ObstController implements Initializable{
 		}
     }
     
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesObst();
     	storeValuesMisc();
@@ -419,6 +486,10 @@ public class ObstController implements Initializable{
 		statement.executeUpdate(sqlRadi);
     }
     
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoObst();
     	showInfoMisc();

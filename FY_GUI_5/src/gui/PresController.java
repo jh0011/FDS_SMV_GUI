@@ -26,6 +26,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class PresController implements Initializable{
+	/**
+	 * Controller class for Pres.fxml
+	 * @author 
+	 */
+	
 	//pres
 	@FXML TextField fishpakText; //integer (+) (3)
     @FXML ComboBox solverCombo;
@@ -68,6 +73,12 @@ public class PresController implements Initializable{
 		modelCombo.setItems(modelList);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
@@ -82,6 +93,12 @@ public class PresController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (MULT) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
@@ -105,6 +122,12 @@ public class PresController implements Initializable{
     	}
     }
     
+    /**
+	 * Go to the next page (HVAC) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToHvac(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
@@ -128,6 +151,12 @@ public class PresController implements Initializable{
     	}
     }
     
+    /**
+	 * Add a new line for TABL namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void newTablLine(ActionEvent event) throws SQLException { //ADD NEW TABL LINE
     	doCheckingTabl();
@@ -163,6 +192,9 @@ public class PresController implements Initializable{
     	modelCombo.setValue(modelSelection);
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() { 
     	doCheckingPres();
     	doCheckingComb();
@@ -208,6 +240,14 @@ public class PresController implements Initializable{
 		}
     }
     
+    /**
+     * Check the FishPak format: <br>
+     * - No white spaces <br>
+     * - 3 values <br>
+     * - Positive integer 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkFishpakFormat(TextField tempField) { //check the fishpak format
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert presAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -260,6 +300,11 @@ public class PresController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
     	try {
 			String stringVal = tempField.getText();
@@ -285,6 +330,14 @@ public class PresController implements Initializable{
 		}
     }
     
+    /**
+	 * Check table format: <br>
+	 * - 6 values <br>
+	 * - 5 integer degree values (0-360) and 1 fraction (0-1) <br>
+	 * - No white spaces
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkTableDataFormat(TextField tempField) { //check if 5 integer degree values & 1 fraction
     	if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert tablAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -356,6 +409,11 @@ public class PresController implements Initializable{
 		}
     }
     
+    /**
+	 * Check if the value is a float 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatValues(TextField tempField) { //check if value is a float
     	try {
 			String stringVal = tempField.getText();
@@ -373,6 +431,10 @@ public class PresController implements Initializable{
 		}
     }
     
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesPres();
     	storeValuesComb();
@@ -413,6 +475,10 @@ public class PresController implements Initializable{
 		statement.executeUpdate(sqlClip);
     }
     
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoPres();
     	showInfoComb();

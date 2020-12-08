@@ -26,6 +26,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class PropController implements Initializable{
+	/**
+	 * Controller class for Prop.fxml
+	 * @author 
+	 */
+	
 	//prop
 	@FXML TextField idText; //string
 	@FXML TextField partIdText; //string
@@ -72,6 +77,12 @@ public class PropController implements Initializable{
 		backgroundCombo.setItems(backgroundList);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML 
 	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
@@ -86,6 +97,12 @@ public class PropController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Go to the previous page (PART) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToPart(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
@@ -108,6 +125,12 @@ public class PropController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Go to the next page (DEVC) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToDevc(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
@@ -133,6 +156,12 @@ public class PropController implements Initializable{
 		
 	}
 	
+	/**
+	 * Add a new line for PROP namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void newPropLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW PROP LINE
 		doCheckingProp();
@@ -158,6 +187,12 @@ public class PropController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Add a new line for SPEC namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void newSpecLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW SPEC LINE
 		//store the values
@@ -193,6 +228,9 @@ public class PropController implements Initializable{
 		normaliseCombo.setValue(normaliseSelection);
     }
 	
+	/**
+	 * Call the checking methods for the different namelists
+	 */
 	public void doChecking() {
 		doCheckingProp();
 	}
@@ -215,6 +253,11 @@ public class PropController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkFloatValues(TextField tempField){
 		try {
 			String stringVal = tempField.getText();
@@ -240,6 +283,11 @@ public class PropController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Check if the integer is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
 	public boolean checkIntegerValues(TextField tempField) {
 		try{ 
 			String stringVal = tempField.getText();
@@ -265,6 +313,10 @@ public class PropController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
 	public void storeValues() throws SQLException { //store values into the database
 		storeValuesProp();
 		storeValuesSpec();
@@ -290,6 +342,10 @@ public class PropController implements Initializable{
 		statement.executeUpdate(sqlSpec);
 	}
 	
+	/**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
 	public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoProp();
 		showInfoSpec();

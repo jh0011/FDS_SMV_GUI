@@ -26,6 +26,11 @@ import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 public class DevcController implements Initializable{
+	/**
+	 * Controller class for Devc.fxml
+	 * @author 
+	 */
+	
 	//devc
 	@FXML TextField devcIdText; //string
 	@FXML TextField propIdText; //string
@@ -75,6 +80,12 @@ public class DevcController implements Initializable{
 		centeredCombo.setItems(centeredList);
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML 
 	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
 		if (Values.cancelWarning()){
@@ -89,6 +100,12 @@ public class DevcController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Go to the previous page (PROP) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToProp(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
@@ -110,6 +127,12 @@ public class DevcController implements Initializable{
 		
 	}
 	
+	/**
+	 * Go to the next page (SURF) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void goToSurf(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
 		doChecking();
@@ -138,6 +161,12 @@ public class DevcController implements Initializable{
 		iorCombo.setValue(iorSelection);
     }
 	
+	/**
+	 * Add a new line for DEVC namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void newDevcLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW DEVC LINE
 		doCheckingDevc();
@@ -161,6 +190,12 @@ public class DevcController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Add a new line for SLCF namelist
+	 * @param event The add button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
 	@FXML
 	public void newSlcfLine(ActionEvent event) throws SQLException { //ADD NEW SLCF LINE
 		doCheckingSlcf();
@@ -199,6 +234,9 @@ public class DevcController implements Initializable{
     	centeredCombo.setValue(centeredSelection);
     }
     
+    /**
+	 * Call the checking methods for the different namelists
+	 */
     public void doChecking() {
 		doCheckingDevc();
 		doCheckingSlcf();
@@ -230,6 +268,14 @@ public class DevcController implements Initializable{
 		}
     }
 	
+    /**
+     * Check the XB format: <br>
+     * - No white spaces <br>
+     * - 6 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkXbFormat(TextField tempField) { //check the XB format
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -284,6 +330,14 @@ public class DevcController implements Initializable{
 		return true;
 	}
 	
+    /**
+     * Check the XYZ format: <br>
+     * - No white spaces <br>
+     * - 3 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
     public boolean checkXyzFormat(TextField tempField) {
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
 			Alert devcAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -337,6 +391,11 @@ public class DevcController implements Initializable{
 		}
 	}
 	
+    /**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
     public boolean checkFloatValues(TextField tempField) {
 		try {
 			String stringVal = tempField.getText();
@@ -362,7 +421,10 @@ public class DevcController implements Initializable{
 		}
 	}
 	
-	
+    /**
+	 * Store the values into the database after input validation
+	 * @throws SQLException
+	 */
     public void storeValues() throws SQLException { //store values into the database
 		storeValuesDevc();
 		storeValuesSlcf();
@@ -390,6 +452,10 @@ public class DevcController implements Initializable{
 		statement.executeUpdate(sqlSlcf);
 	}
 	
+    /**
+	 * Display the saved input values when the page is loaded
+	 * @throws SQLException
+	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoDevc();
 		showInfoSlcf();
