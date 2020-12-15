@@ -107,21 +107,22 @@ public class PropController implements Initializable{
 	public void goToPart(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
-		if (checkFloat && checkInteger) {
-			//store the values
-			storeValues();
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Part.fxml"));
-			Parent root = loader.load();
-			
-			PartController partCont = loader.getController(); //Get the next page's controller
-			partCont.showInfo(); //Set the values of the page 
-			Scene partScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(partScene);
-			mainWindow.show();
-		}
-		else {
-			System.out.println("Unable to go back to PART page");
+		try {
+			if (checkFloat && checkInteger) {
+				//store the values
+				storeValues();
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Part.fxml"));
+				Parent root = loader.load();
+				
+				PartController partCont = loader.getController(); //Get the next page's controller
+				partCont.showInfo(); //Set the values of the page 
+				Scene partScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(partScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
 	}
 	
@@ -135,25 +136,24 @@ public class PropController implements Initializable{
 	public void goToDevc(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
-		if (checkFloat && checkInteger) {
-			//store the values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Devc.fxml"));
-			Parent root = loader.load();
-			
-			DevcController devcCont = loader.getController(); //Get the next page's controller
-			devcCont.showInfo(); //Set the values of the page 
-			Scene devcScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(devcScene);
-			mainWindow.show();
+		try {
+			if (checkFloat && checkInteger) {
+				//store the values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Devc.fxml"));
+				Parent root = loader.load();
+				
+				DevcController devcCont = loader.getController(); //Get the next page's controller
+				devcCont.showInfo(); //Set the values of the page 
+				Scene devcScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(devcScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
-		else {
-			System.out.println("Unable to go to DEVC page");
-		}
-		
-		
 	}
 	
 	/**

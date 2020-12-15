@@ -103,23 +103,24 @@ public class PresController implements Initializable{
     public void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFishpak && checkTimePres && checkTableData && checkFloatPosClip && checkFloatClip) {
-    		//store the values
-        	storeValues();
-        	
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("Mult.fxml"));
-    		Parent root = loader.load();
-    		
-    		MultController multCont = loader.getController(); //Get the next page's controller
-    		multCont.showInfo(); //Set the values of the page 
-    		Scene multScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(multScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to MULT page");
-    	}
+    	try {
+	    	if(checkFishpak && checkTimePres && checkTableData && checkFloatPosClip && checkFloatClip) {
+	    		//store the values
+	        	storeValues();
+	        	
+	        	FXMLLoader loader = new FXMLLoader(getClass().getResource("Mult.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		MultController multCont = loader.getController(); //Get the next page's controller
+	    		multCont.showInfo(); //Set the values of the page 
+	    		Scene multScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(multScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**
@@ -132,23 +133,24 @@ public class PresController implements Initializable{
     public void goToHvac(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
-    	if(checkFishpak && checkTimePres && checkTableData && checkFloatPosClip && checkFloatClip) {
-    		//store the values
-        	storeValues();
-        	
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("Hvac.fxml"));
-    		Parent root = loader.load();
-    		
-    		HvacController hvacCont = loader.getController(); //Get the next page's controller
-    		hvacCont.showInfo(); //Set the values of the page 
-    		Scene hvacScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(hvacScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to proceed to HVAC page");
-    	}
+    	try {
+	    	if(checkFishpak && checkTimePres && checkTableData && checkFloatPosClip && checkFloatClip) {
+	    		//store the values
+	        	storeValues();
+	        	
+	        	FXMLLoader loader = new FXMLLoader(getClass().getResource("Hvac.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		HvacController hvacCont = loader.getController(); //Get the next page's controller
+	    		hvacCont.showInfo(); //Set the values of the page 
+	    		Scene hvacScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(hvacScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**

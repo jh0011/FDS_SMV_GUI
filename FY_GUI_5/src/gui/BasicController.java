@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import connectivity.ConnectionClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,6 +26,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
@@ -103,33 +106,28 @@ public class BasicController implements Initializable{
 	 */
 	@FXML
 	public void goToTime(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
-		//store values
-//		Values.allStrings[0][0] = chidText.getText();
-//		Values.allStrings[1][0] = titleText.getText();
-		
-		if (checkChid(chidText.getText())){
-			String sql = "INSERT INTO head (CHID, TITLE) VALUES ('" + chidText.getText() + "', '" + titleText.getText() + "');";
-			
-			ConnectionClass connectionClass = new ConnectionClass();
-			Connection connection = connectionClass.getConnection();
-			Statement statement = connection.createStatement();
-			statement.executeUpdate(sql);
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
-			Parent root = loader.load();
-			
-			TimeController timeCont = loader.getController(); //Get the next page's controller
-			timeCont.showInfo(); //Set the values of the page //Values.T_END, Values.T_BEGIN, Values.DT
-			Scene timeScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(timeScene);
-			mainWindow.show();
+		try {
+			if (checkChid(chidText.getText())){
+				String sql = "INSERT INTO head (CHID, TITLE) VALUES ('" + chidText.getText() + "', '" + titleText.getText() + "');";
+				
+				ConnectionClass connectionClass = new ConnectionClass();
+				Connection connection = connectionClass.getConnection();
+				Statement statement = connection.createStatement();
+				statement.executeUpdate(sql);
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
+				Parent root = loader.load();
+				
+				TimeController timeCont = loader.getController(); //Get the next page's controller
+				timeCont.showInfo(); //Set the values of the page //Values.T_END, Values.T_BEGIN, Values.DT
+				Scene timeScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(timeScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
-		else{
-			System.out.println("Unable to proceed to the TIME page.");
-		}
-		
-		
 	}
 	
 	/**
@@ -162,6 +160,7 @@ public class BasicController implements Initializable{
         headAlert.getDialogPane().setGraphic(icon);
 		headAlert.show();
     }
+	
 	
 	/**
 	 * CHID input validation: <br>

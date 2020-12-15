@@ -110,23 +110,24 @@ public class RampController implements Initializable{
     public void goToSurf(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Surf.fxml"));
-    		Parent root = loader.load();
-    		
-    		SurfController surfCont = loader.getController(); //Get the next page's controller
-    		surfCont.showInfo(); //Set the values of the page 
-    		Scene surfScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(surfScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to SURF page");
-    	}
+    	try {
+	    	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Surf.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		SurfController surfCont = loader.getController(); //Get the next page's controller
+	    		surfCont.showInfo(); //Set the values of the page 
+	    		Scene surfScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(surfScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     	
     }
     
@@ -140,23 +141,24 @@ public class RampController implements Initializable{
     public void goToObst(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
-    		//store the values
-    		storeValues();
-    	
-	    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Obst.fxml"));
-			Parent root = loader.load();
-			
-			ObstController obstCont = loader.getController(); //Get the next page's controller
-			obstCont.showInfo(); //Set the values of the page 
-			Scene obstScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(obstScene);
-			mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to proceed to OBST page");
-    	}
+    	try {
+	    	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
+	    		//store the values
+	    		storeValues();
+	    	
+		    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Obst.fxml"));
+				Parent root = loader.load();
+				
+				ObstController obstCont = loader.getController(); //Get the next page's controller
+				obstCont.showInfo(); //Set the values of the page 
+				Scene obstScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(obstScene);
+				mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**

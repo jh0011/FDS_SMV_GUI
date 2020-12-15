@@ -94,23 +94,24 @@ public class MoveController implements Initializable{
     public void goToHvac(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkAngle && checkAxis && checkXyz && checkIntPos && checkXb) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Hvac.fxml"));
-    		Parent root = loader.load();
-    		
-    		HvacController hvacCont = loader.getController(); //Get the next page's controller
-    		hvacCont.showInfo(); //Set the values of the page 
-    		Scene hvacScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(hvacScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to HVAC page");
-    	}
+    	try {
+	    	if(checkFloatPos && checkAngle && checkAxis && checkXyz && checkIntPos && checkXb) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Hvac.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		HvacController hvacCont = loader.getController(); //Get the next page's controller
+	    		hvacCont.showInfo(); //Set the values of the page 
+	    		Scene hvacScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(hvacScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**
@@ -123,23 +124,24 @@ public class MoveController implements Initializable{
     public void goToTrnx(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkAngle && checkAxis && checkXyz && checkIntPos && checkXb) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Trnx.fxml"));
-    		Parent root = loader.load();
-    		
-    		TrnxController trnxCont = loader.getController(); //Get the next page's controller
-    		trnxCont.showInfo(); //Set the values of the page 
-    		Scene trnxScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(trnxScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to proceed to TRNX page");
-    	}
+    	try {
+	    	if(checkFloatPos && checkAngle && checkAxis && checkXyz && checkIntPos && checkXb) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Trnx.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		TrnxController trnxCont = loader.getController(); //Get the next page's controller
+	    		trnxCont.showInfo(); //Set the values of the page 
+	    		Scene trnxScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(trnxScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     @FXML

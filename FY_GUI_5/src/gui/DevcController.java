@@ -110,19 +110,23 @@ public class DevcController implements Initializable{
 	public void goToProp(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
-		if (checkXyz && checkXb && checkFloat) {
-			//store the values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Prop.fxml"));
-			Parent root = loader.load();
-			
-			PropController propCont = loader.getController(); //Get the next page's controller
-			propCont.showInfo(); //Set the values of the page 
-			Scene propScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(propScene);
-			mainWindow.show();
+		try {
+			if (checkXyz && checkXb && checkFloat) {
+				//store the values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Prop.fxml"));
+				Parent root = loader.load();
+				
+				PropController propCont = loader.getController(); //Get the next page's controller
+				propCont.showInfo(); //Set the values of the page 
+				Scene propScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(propScene);
+				mainWindow.show();
+			}
+		} catch(Exception e) {
+			Values.showError();
 		}
 		
 	}
@@ -136,22 +140,24 @@ public class DevcController implements Initializable{
 	@FXML
 	public void goToSurf(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
 		doChecking();
-		if (checkXyz && checkXb && checkFloat) {
-			//store the values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Surf.fxml"));
-			Parent root = loader.load();
-			
-			SurfController surfCont = loader.getController(); //Get the next page's controller
-			surfCont.showInfo(); //Set the values of the page 
-			Scene surfScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(surfScene);
-			mainWindow.show();
-		}
-		else {
-			System.out.println("Unable to proceed to SURF page");
+		
+		try {
+			if (checkXyz && checkXb && checkFloat) {
+				//store the values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Surf.fxml"));
+				Parent root = loader.load();
+				
+				SurfController surfCont = loader.getController(); //Get the next page's controller
+				surfCont.showInfo(); //Set the values of the page 
+				Scene surfScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(surfScene);
+				mainWindow.show();
+			}
+		} catch(Exception e) {
+			Values.showError();
 		}
     }
 	

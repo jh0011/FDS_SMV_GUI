@@ -108,23 +108,24 @@ public class ObstController implements Initializable{
     public void goToRamp(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkXb && checkFloatPosMisc && checkGvec && checkFloatMisc && checkFloatPercent) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Ramp.fxml"));
-    		Parent root = loader.load();
-    		
-    		RampController rampCont = loader.getController(); //Get the next page's controller
-    		rampCont.showInfo(); //Set the values of the page 
-    		Scene rampScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(rampScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to RAMP page");
-    	}
+    	try {
+	    	if(checkFloatPos && checkXb && checkFloatPosMisc && checkGvec && checkFloatMisc && checkFloatPercent) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Ramp.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		RampController rampCont = loader.getController(); //Get the next page's controller
+	    		rampCont.showInfo(); //Set the values of the page 
+	    		Scene rampScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(rampScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     	
     }
     
@@ -138,24 +139,24 @@ public class ObstController implements Initializable{
     public void goToDump(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkXb && checkFloatPosMisc && checkGvec && checkFloatMisc && checkFloatPercent) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Dump.fxml"));
-    		Parent root = loader.load();
-    		
-    		DumpController dumpCont = loader.getController(); //Get the next page's controller
-    		dumpCont.showInfo(); //Set the values of the page 
-    		Scene dumpScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(dumpScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to proceed to DUMP page");
-    	}
-    	
+    	try {
+	    	if(checkFloatPos && checkXb && checkFloatPosMisc && checkGvec && checkFloatMisc && checkFloatPercent) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Dump.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		DumpController dumpCont = loader.getController(); //Get the next page's controller
+	    		dumpCont.showInfo(); //Set the values of the page 
+	    		Scene dumpScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(dumpScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**

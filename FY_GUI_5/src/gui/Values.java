@@ -7,6 +7,7 @@ import connectivity.ConnectionClass;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -209,6 +210,14 @@ public class Values {
 		else{
 			return false;
 		}
+	}
+	
+	public static void showError() {
+		Alert chidAlert = new Alert(Alert.AlertType.INFORMATION);
+		chidAlert.setTitle("Unable to proceed");
+		chidAlert.setContentText("Check that there are no invalid characters in the inputs.");
+		chidAlert.setHeaderText(null);
+		chidAlert.show();
 	}
 	
 	protected static void printFile() throws IOException{

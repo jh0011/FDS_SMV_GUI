@@ -90,23 +90,24 @@ public class MultController implements Initializable{
     public  void goToDump(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if (checkIntPosMult && checkFloatPosMult && checkFloatPosWind && checkDirection && checkL) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Dump.fxml"));
-    		Parent root = loader.load();
-    		
-    		DumpController dumpCont = loader.getController(); //Get the next page's controller
-    		dumpCont.showInfo(); //Set the values of the page 
-    		Scene dumpScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(dumpScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to DUMP page");
-    	}
+    	try {
+	    	if (checkIntPosMult && checkFloatPosMult && checkFloatPosWind && checkDirection && checkL) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Dump.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		DumpController dumpCont = loader.getController(); //Get the next page's controller
+	    		dumpCont.showInfo(); //Set the values of the page 
+	    		Scene dumpScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(dumpScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**
@@ -119,23 +120,24 @@ public class MultController implements Initializable{
     public  void goToPres(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
     	
-    	if (checkIntPosMult && checkFloatPosMult && checkFloatPosWind && checkDirection && checkL) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Pres.fxml"));
-    		Parent root = loader.load();
-    		
-    		PresController presCont = loader.getController(); //Get the next page's controller
-    		presCont.showInfo(); //Set the values of the page 
-    		Scene presScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(presScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to proceed to PRES page");
-    	}
+    	try {
+	    	if (checkIntPosMult && checkFloatPosMult && checkFloatPosWind && checkDirection && checkL) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Pres.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		PresController presCont = loader.getController(); //Get the next page's controller
+	    		presCont.showInfo(); //Set the values of the page 
+	    		Scene presScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(presScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**

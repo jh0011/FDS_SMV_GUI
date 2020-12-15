@@ -101,23 +101,24 @@ public class DumpController implements Initializable{
     public void goToObst(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkIntPos && checkFloatPos && checkIntPosMatl && checkFloatPosMatl) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Obst.fxml"));
-    		Parent root = loader.load();
-    		
-    		ObstController obstCont = loader.getController(); //Get the next page's controller
-    		obstCont.showInfo(); //Set the values of the page 
-    		Scene obstScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(obstScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to OBST page");
-    	}
+    	try {
+	    	if(checkIntPos && checkFloatPos && checkIntPosMatl && checkFloatPosMatl) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Obst.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		ObstController obstCont = loader.getController(); //Get the next page's controller
+	    		obstCont.showInfo(); //Set the values of the page 
+	    		Scene obstScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(obstScene);
+	    		mainWindow.show();
+	    	}
+    	} catch(Exception e) {
+			Values.showError();
+		}
     	
     }
     
@@ -131,20 +132,24 @@ public class DumpController implements Initializable{
     public void goToMult(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
-    	if(checkIntPos && checkFloatPos && checkIntPosMatl && checkFloatPosMatl) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Mult.fxml"));
-    		Parent root = loader.load();
-    		
-    		MultController multCont = loader.getController(); //Get the next page's controller
-    		multCont.showInfo(); //Set the values of the page 
-    		Scene multScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(multScene);
-    		mainWindow.show();
-    	}
+    	try {
+	    	if(checkIntPos && checkFloatPos && checkIntPosMatl && checkFloatPosMatl) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Mult.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		MultController multCont = loader.getController(); //Get the next page's controller
+	    		multCont.showInfo(); //Set the values of the page 
+	    		Scene multScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(multScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**
@@ -176,7 +181,6 @@ public class DumpController implements Initializable{
     	else {
     		System.out.println("Unable to add new MATL line");
     	}
-    	
     }
     
     @FXML

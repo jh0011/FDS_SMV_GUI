@@ -93,23 +93,24 @@ public class HvacController implements Initializable{
     public void goToPres(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if (checkFloatPosHvac && checkXb && checkFloat) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Pres.fxml"));
-    		Parent root = loader.load();
-    		
-    		PresController presCont = loader.getController(); //Get the next page's controller
-    		presCont.showInfo(); //Set the values of the page 
-    		Scene presScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(presScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to PRES page");
-    	}
+    	try {
+	    	if (checkFloatPosHvac && checkXb && checkFloat) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Pres.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		PresController presCont = loader.getController(); //Get the next page's controller
+	    		presCont.showInfo(); //Set the values of the page 
+	    		Scene presScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(presScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**
@@ -122,23 +123,24 @@ public class HvacController implements Initializable{
     public void goToMove(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
     	
-    	if (checkFloatPosHvac && checkXb && checkFloat) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Move.fxml"));
-    		Parent root = loader.load();
-    		
-    		MoveController moveCont = loader.getController(); //Get the next page's controller
-    		moveCont.showInfo(); //Set the values of the page 
-    		Scene moveScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(moveScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to proceed to MOVE page");
-    	}
+    	try {
+	    	if (checkFloatPosHvac && checkXb && checkFloat) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Move.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		MoveController moveCont = loader.getController(); //Get the next page's controller
+	    		moveCont.showInfo(); //Set the values of the page 
+	    		Scene moveScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(moveScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     @FXML

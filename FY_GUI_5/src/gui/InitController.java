@@ -103,22 +103,23 @@ public class InitController implements Initializable{
 	public void goToTime(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
-		if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
-			//store values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
-			Parent root = loader.load();
-			
-			TimeController timeCont = loader.getController(); //Get the next page's controller
-			timeCont.showInfo(); //Set the values of the page 
-			Scene timeScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(timeScene);
-			mainWindow.show();
-		}
-		else {
-			System.out.println("Unable to go back to TIME page");
+		try {
+			if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
+				//store values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Time.fxml"));
+				Parent root = loader.load();
+				
+				TimeController timeCont = loader.getController(); //Get the next page's controller
+				timeCont.showInfo(); //Set the values of the page 
+				Scene timeScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(timeScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
 	}
 	
@@ -132,22 +133,23 @@ public class InitController implements Initializable{
 	public void goToPart(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
-		if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
-			//store values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Part.fxml"));
-			Parent root = loader.load();
-			
-			PartController partCont = loader.getController(); //Get the next page's controller
-			partCont.showInfo(); //Set the values of the page 
-			Scene partScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(partScene);
-			mainWindow.show();
-		}
-		else{
-			System.out.println("Unable to proceed to PART page");
+		try {
+			if (xbFormat && checkFloat && checkInteger && checkIJK && checkMeshXBformat){
+				//store values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Part.fxml"));
+				Parent root = loader.load();
+				
+				PartController partCont = loader.getController(); //Get the next page's controller
+				partCont.showInfo(); //Set the values of the page 
+				Scene partScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(partScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
 	}
 	
@@ -181,6 +183,7 @@ public class InitController implements Initializable{
 		else {
 			System.out.println("Unable to add a new INIT line");
 		}
+		
 	}
 	
 	/**

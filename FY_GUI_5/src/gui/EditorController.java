@@ -97,28 +97,64 @@ public class EditorController implements Initializable{
     		editorText.setText(tempEditorString);
     	}
     	else {
-    		printValuesHead();
-    		printValuesMesh();
-    		printValuesTime();
-    		printValuesInit();
-    		printValuesSurf();
-    		printValuesReac();
-    		printValuesVent();
-    		printValuesPart();
-    		printValuesSlcf();
-    		printValuesMatl();
+    		if (countNumLines("head") > 1) {
+    			printValuesHead();
+    		}
+    		if (countNumLines("mesh") > 1) {
+    			printValuesMesh();
+    		}
+    		if (countNumLines("time") > 1) {
+    			printValuesTime();
+    		}
+    		if (countNumLines("init") > 1) {
+    			printValuesInit();
+    		}
+    		if (countNumLines("surf") > 1) {
+    			printValuesSurf();
+    		}
+    		if (countNumLines("reac") > 1) {
+    			printValuesReac();
+    		}
+    		if (countNumLines("vent") > 1) {
+    			printValuesVent();
+    		}
+    		if (countNumLines("part") > 1) {
+    			printValuesPart();
+    		}
+    		if (countNumLines("slcf") > 1) {
+    			printValuesSlcf();
+    		}
+    		if (countNumLines("matl") > 1) {
+    			printValuesMatl();
+    		}
+    		if (countNumLines("obst") > 1) {
+    			printValuesObst();
+    		}
+    		if (countNumLines("spec") > 1) {
+    			printValuesSpec();
+    		}
+    		if (countNumLines("devc") > 1) {
+    			printValuesDevc();
+    		}
+    		if (countNumLines("ctrl") > 1) {
+    			printValuesCtrl();
+    		}
+    		if (countNumLines("prop") > 1) {
+    			printValuesProp();
+    		}
     		editorText.appendText("&TAIL /");
     	}
     	tempEditorString = editorText.getText();
     }
     
-    public boolean compareText(TextArea text1, TextArea text2) {
-    	if (text1.getText().equals(text2.getText())) {
-    		return true;
+    public int countNumLines(String tableName) throws SQLException {
+    	String sql = "SELECT COUNT(*) FROM " + tableName + ";";
+    	ResultSet rs = getStatement().executeQuery(sql);
+    	int count = 0;
+    	while (rs.next()) {
+    		count = rs.getInt(1);
     	}
-    	else {
-    		return false;
-    	}
+    	return count;
     }
     
     public void printValuesHead() throws SQLException { //head
@@ -491,6 +527,210 @@ public class EditorController implements Initializable{
 	        	appendToEditorNumber("N_REACTIONS", N_REACTIONS);
 	        	appendToEditorNumber("DENSITY", DENSITY);
 	        	appendToEditorNumber("CONDUCTIVITY", CONDUCTIVITY);
+	    		editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesObst() throws SQLException { //obst
+    	//get the number of OBST lines
+    	String sqlObst = "SELECT mainID FROM obst GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlObst);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each OBST line
+	    	String BULK_DENSITY = "";
+	    	String COLOR = "";
+	    	String SURF_ID = "";
+	    	String XB = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlObst = "SELECT * FROM obst WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlObst);
+	        	while (rs.next()) {
+	        		BULK_DENSITY = rs.getString(2);
+	        		COLOR = rs.getString(3);
+	        		SURF_ID = rs.getString(4);
+	        		XB = rs.getString(5);
+	        	}
+	        	editorText.appendText("&OBST" + "\n");
+	        	appendToEditorNumber("BULK_DENSITY", BULK_DENSITY);
+	        	appendToEditorString("COLOR", COLOR);
+	        	appendToEditorString("SURF_ID", SURF_ID);
+	        	appendToEditorNumber("XB", XB);
+	        	editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesSpec() throws SQLException { //spec
+    	//get the number of SPEC lines
+    	String sqlSpec = "SELECT mainID FROM spec GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlSpec);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each SPEC line
+	    	String ID = "";
+	    	String BACKGROUND = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlSpec = "SELECT * FROM spec WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlSpec);
+	        	while (rs.next()) {
+	        		ID = rs.getString(2);
+	        		BACKGROUND = rs.getString(3);
+	        	}
+	        	editorText.appendText("&SPEC" + "\n");
+	        	appendToEditorString("ID", ID);
+	        	appendToEditorBoolean("BACKGROUND", BACKGROUND);
+	        	editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesDevc() throws SQLException { //devc
+    	//get the number of DEVC lines
+    	String sqlDevc = "SELECT mainID FROM devc GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlDevc);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each DEVC line
+	    	String ID = "";
+	    	String PROP_ID = "";
+	    	String SPEC_ID = "";
+	    	String XYZ = "";
+	    	String QUANTITY = "";
+	    	String IOR = "";
+	    	String XB = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlDevc = "SELECT * FROM devc WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlDevc);
+	        	while (rs.next()) {
+	        		ID = rs.getString(2);
+	        		PROP_ID = rs.getString(3);
+	        		SPEC_ID = rs.getString(4);
+	        		XYZ = rs.getString(5);
+	        		QUANTITY = rs.getString(6);
+	        		IOR = rs.getString(7);
+	        		XB = rs.getString(8);
+	        	}
+	        	editorText.appendText("&DEVC" + "\n");
+	        	appendToEditorString("ID", ID);
+	        	appendToEditorString("PROP_ID", PROP_ID);
+	        	appendToEditorString("SPEC_ID", SPEC_ID);
+	        	appendToEditorNumber("XYZ", XYZ);
+	        	appendToEditorString("QUANTITY", QUANTITY);
+	        	appendToEditorNumber("IOR", IOR);
+	        	appendToEditorNumber("XB", XB);
+	    		editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesCtrl() throws SQLException { //ctrl
+    	//get the number of CTRL lines
+    	String sqlCtrl = "SELECT mainID FROM ctrl GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlCtrl);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each CTRL line
+	    	String INPUT_ID = "";
+	    	String RAMP_ID = "";
+	    	String ID = "";
+	    	String LATCH = "";
+	    	String FUNCTION_TYPE = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlCtrl = "SELECT * FROM ctrl WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlCtrl);
+	        	while (rs.next()) {
+	        		INPUT_ID = rs.getString(2);
+	        		RAMP_ID = rs.getString(3);
+	        		ID = rs.getString(4);
+	        		LATCH = rs.getString(5);
+	        		FUNCTION_TYPE = rs.getString(6);
+	        	}
+	        	editorText.appendText("&CTRL" + "\n");
+	        	appendToEditorString("INPUT_ID", INPUT_ID);
+	        	appendToEditorString("RAMP_ID", RAMP_ID);
+	        	appendToEditorString("ID", ID);
+	        	appendToEditorBoolean("LATCH", LATCH);
+	        	appendToEditorString("FUNCTION_TYPE", FUNCTION_TYPE);
+	    		editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesProp() throws SQLException { //prop
+    	//get the number of PROP lines
+    	String sqlSurf = "SELECT mainID FROM prop GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlSurf);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each PROP line
+	    	String ID = "";
+	    	String PART_ID = "";
+	    	String QUANTITY = "";
+	    	String SMOKEVIEW_ID = "";
+	    	String OFFSET = "";
+	    	String PDPA_INTEGRATE = "";
+	    	String PDPA_NORMALIZE = "";
+	    	String OPERATING_PRESSURE = "";
+	    	String PARTICLES_PER_SECOND = "";
+	    	String PARTICLE_VELOCITY = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlSurf = "SELECT * FROM prop WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlSurf);
+	        	while (rs.next()) {
+	        		ID = rs.getString(2);
+	        		PART_ID = rs.getString(3);
+	        		QUANTITY = rs.getString(4);
+	        		SMOKEVIEW_ID = rs.getString(5);
+	        		OFFSET = rs.getString(6);
+	        		PDPA_INTEGRATE = rs.getString(7);
+	        		PDPA_NORMALIZE = rs.getString(8);
+	        		OPERATING_PRESSURE = rs.getString(9);
+	        		PARTICLES_PER_SECOND = rs.getString(10);
+	        		PARTICLE_VELOCITY = rs.getString(11);
+	        	}
+	        	editorText.appendText("&PROP" + "\n");
+	        	appendToEditorString("ID", ID);
+	        	appendToEditorString("PART_ID", PART_ID);
+	        	appendToEditorString("QUANTITY", QUANTITY);
+	        	appendToEditorString("SMOKEVIEW_ID", SMOKEVIEW_ID);
+	        	appendToEditorNumber("OFFSET", OFFSET);
+	        	appendToEditorBoolean("PDPA_INTEGRATE", PDPA_INTEGRATE);
+	        	appendToEditorBoolean("PDPA_NORMALIZE", PDPA_NORMALIZE);
+	        	appendToEditorNumber("OPERATING_PRESSURE", OPERATING_PRESSURE);
+	        	appendToEditorNumber("PARTICLES_PER_SECOND", PARTICLES_PER_SECOND);
+	        	appendToEditorNumber("PARTICLE_VELOCITY", PARTICLE_VELOCITY);
 	    		editorText.appendText("/" + "\n");
 	    	}
     	} catch(Exception e) {

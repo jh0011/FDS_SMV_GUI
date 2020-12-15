@@ -115,23 +115,24 @@ public class SurfController implements Initializable{
     public void goToDevc(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkFloat & checkMatl && checkXb) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Devc.fxml"));
-    		Parent root = loader.load();
-    		
-    		DevcController devcCont = loader.getController(); //Get the next page's controller
-    		devcCont.showInfo(); //Set the values of the page 
-    		Scene devcScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(devcScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to DEVC page");
-    	}
+    	try {
+	    	if(checkFloatPos && checkFloat & checkMatl && checkXb) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Devc.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		DevcController devcCont = loader.getController(); //Get the next page's controller
+	    		devcCont.showInfo(); //Set the values of the page 
+	    		Scene devcScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(devcScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     	
     }
     
@@ -145,23 +146,24 @@ public class SurfController implements Initializable{
     public void goToRamp(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
     	
-    	if(checkFloatPos && checkFloat & checkMatl && checkXb) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Ramp.fxml"));
-    		Parent root = loader.load();
-    		
-    		RampController rampCont = loader.getController(); //Get the next page's controller
-    		rampCont.showInfo(); //Set the values of the page 
-    		Scene rampScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(rampScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to proceed to RAMP page");
-    	}
+    	try {
+	    	if(checkFloatPos && checkFloat & checkMatl && checkXb) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Ramp.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		RampController rampCont = loader.getController(); //Get the next page's controller
+	    		rampCont.showInfo(); //Set the values of the page 
+	    		Scene rampScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(rampScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**

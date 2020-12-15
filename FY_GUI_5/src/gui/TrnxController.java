@@ -86,23 +86,24 @@ public class TrnxController implements Initializable{
     public void goToMove(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	doChecking();
     	
-    	if(checkPosInt && checkPosFloat && checkXyz) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Move.fxml"));
-    		Parent root = loader.load();
-    		
-    		MoveController moveCont = loader.getController(); //Get the next page's controller
-    		moveCont.showInfo(); //Set the values of the page 
-    		Scene moveScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(moveScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go back to MOVE page");
-    	}
+    	try {
+	    	if(checkPosInt && checkPosFloat && checkXyz) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Move.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		MoveController moveCont = loader.getController(); //Get the next page's controller
+	    		moveCont.showInfo(); //Set the values of the page 
+	    		Scene moveScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(moveScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**
@@ -115,23 +116,24 @@ public class TrnxController implements Initializable{
     public void goToEditor(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
     	doChecking();
     	
-    	if(checkPosInt && checkPosFloat && checkXyz) {
-    		//store the values
-    		storeValues();
-    		
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Editor.fxml"));
-    		Parent root = loader.load();
-    		
-    		EditorController editorCont = loader.getController(); //Get the next page's controller
-    		//editorCont.showInfo(); //Set the values of the page 
-    		Scene editorScene = new Scene(root);
-    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		mainWindow.setScene(editorScene);
-    		mainWindow.show();
-    	}
-    	else {
-    		System.out.println("Unable to go to EDITOR page");
-    	}
+    	try {
+	    	if(checkPosInt && checkPosFloat && checkXyz) {
+	    		//store the values
+	    		storeValues();
+	    		
+	    		FXMLLoader loader = new FXMLLoader(getClass().getResource("Editor.fxml"));
+	    		Parent root = loader.load();
+	    		
+	    		EditorController editorCont = loader.getController(); //Get the next page's controller
+	    		//editorCont.showInfo(); //Set the values of the page 
+	    		Scene editorScene = new Scene(root);
+	    		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+	    		mainWindow.setScene(editorScene);
+	    		mainWindow.show();
+	    	}
+    	}catch(Exception e) {
+			Values.showError();
+		}
     }
     
     /**

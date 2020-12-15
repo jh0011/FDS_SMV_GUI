@@ -82,22 +82,23 @@ public class TimeController implements Initializable{
 	public void goToBasic(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
-		if (checkEndTime && checkFloat && isCorrectFormat){
-			//store the values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Basic.fxml"));
-			Parent root = loader.load();
-			BasicController newBasic = loader.getController(); //Get the previous page's controller
-			
-			newBasic.showInfo(); //Set the values of the page 
-			Scene basicScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(basicScene);
-			mainWindow.show();
-		}
-		else {
-			System.out.println("Unable to go back to Basic page");
+		try {
+			if (checkEndTime && checkFloat && isCorrectFormat){
+				//store the values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Basic.fxml"));
+				Parent root = loader.load();
+				BasicController newBasic = loader.getController(); //Get the previous page's controller
+				
+				newBasic.showInfo(); //Set the values of the page 
+				Scene basicScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(basicScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
 		
 	}
@@ -110,25 +111,25 @@ public class TimeController implements Initializable{
 	 */
 	@FXML
 	public void goToInit(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
-		
 		doChecking();
 		
-		if (checkEndTime && checkFloat && isCorrectFormat){
-			//store the values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
-			Parent root = loader.load();
-			
-			InitController initCont = loader.getController(); //Get the next page's controller
-			initCont.showInfo(); //Set the values of the page
-			Scene initScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(initScene);
-			mainWindow.show(); 
-		}
-		else{
-			System.out.println("Unable to proceed to INIT page");
+		try {
+			if (checkEndTime && checkFloat && isCorrectFormat){
+				//store the values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
+				Parent root = loader.load();
+				
+				InitController initCont = loader.getController(); //Get the next page's controller
+				initCont.showInfo(); //Set the values of the page
+				Scene initScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(initScene);
+				mainWindow.show(); 
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
 	}
 	

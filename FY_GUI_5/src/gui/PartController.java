@@ -104,22 +104,23 @@ public class PartController implements Initializable{
 	public void goToInit(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
 		doChecking();
 		
-		if (intCheck && floatCheck){
-			//store the values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
-			Parent root = loader.load();
-			
-			InitController initCont = loader.getController(); //Get the next page's controller
-			initCont.showInfo(); //Set the values of the page 
-			Scene initScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(initScene);
-			mainWindow.show();
-		}
-		else {
-			System.out.println("Unable to go back to INIT page");
+		try {
+			if (intCheck && floatCheck){
+				//store the values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Init.fxml"));
+				Parent root = loader.load();
+				
+				InitController initCont = loader.getController(); //Get the next page's controller
+				initCont.showInfo(); //Set the values of the page 
+				Scene initScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(initScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
 	}
 	
@@ -133,22 +134,23 @@ public class PartController implements Initializable{
 	public void goToProp(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
 		doChecking();
 		
-		if (intCheck && floatCheck){
-			//store the values
-			storeValues();
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Prop.fxml"));
-			Parent root = loader.load();
-			
-			PropController propCont = loader.getController(); //Get the next page's controller
-			propCont.showInfo(); //Set the values of the page 
-			Scene propScene = new Scene(root);
-			Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-			mainWindow.setScene(propScene);
-			mainWindow.show();
-		}
-		else{
-			System.out.println("Unable to proceed to PROP page");
+		try {
+			if (intCheck && floatCheck){
+				//store the values
+				storeValues();
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Prop.fxml"));
+				Parent root = loader.load();
+				
+				PropController propCont = loader.getController(); //Get the next page's controller
+				propCont.showInfo(); //Set the values of the page 
+				Scene propScene = new Scene(root);
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+				mainWindow.setScene(propScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
 		}
 		
 	}
