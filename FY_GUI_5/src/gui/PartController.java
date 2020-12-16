@@ -169,6 +169,9 @@ public class PartController implements Initializable{
 			//store the values
 			storeValuesPart();
 			
+			//confirmation message for success
+			Values.printConfirmationMessage("PART", true);
+			
 			mainPartId++;
 			String mainPartIdString = Integer.toString(mainPartId);
 			String sqlPart = "INSERT INTO part (mainID, SURF_ID, SPEC_ID, PROP_ID, QUANTITIES, STATIC" + 
@@ -182,6 +185,8 @@ public class PartController implements Initializable{
 			showInfoPart();
 		}
 		else {
+			//confirmation message for failure
+			Values.printConfirmationMessage("PART", false);
 			System.out.println("Unable to add a new PART line");
 		}
 	}
@@ -195,6 +200,9 @@ public class PartController implements Initializable{
 	@FXML
 	public void newBndfLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW BNDF LINE
 		storeValuesBndf();
+		
+		//confirmation message for success
+		Values.printConfirmationMessage("BNDF", true);
 		
 		mainBndfId++;
 		String mainBndfIdString = Integer.toString(mainBndfId);

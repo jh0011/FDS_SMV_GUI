@@ -166,6 +166,9 @@ public class DumpController implements Initializable{
     		//store the values
     		storeValuesMatl();
     		
+    		//confirmation message for success
+			Values.printConfirmationMessage("MATL", true);
+    		
     		mainMatlId++;
         	String mainMatlIdString = Integer.toString(mainMatlId);
         	String sqlMatl = "INSERT INTO matl (mainID, SPECIFIC_HEAT, HEAT_OF_REACTION, SPEC_ID, ID, REFERENCE_TEMPERATURE, N_REACTIONS, DENSITY, CONDUCTIVITY) "
@@ -179,7 +182,9 @@ public class DumpController implements Initializable{
     		showInfoMatl();
     	}
     	else {
-    		System.out.println("Unable to add new MATL line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("MATL", false);
+    		//System.out.println("Unable to add new MATL line");
     	}
     }
     

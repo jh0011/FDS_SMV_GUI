@@ -173,6 +173,9 @@ public class ObstController implements Initializable{
     		//store the values
     		storeValuesObst();
     		
+    		//confirmation message for success
+			Values.printConfirmationMessage("OBST", true);
+    		
 	    	mainObstId++;
 	    	String mainObstIdString = Integer.toString(mainObstId);
 	    	String sqlObst = "INSERT INTO obst (mainID, BULK_DENSITY, COLOR, SURF_ID, XB) VALUES ('" + mainObstIdString + "', '', '', '', '');";
@@ -185,7 +188,9 @@ public class ObstController implements Initializable{
 			showInfoObst();
     	}
     	else {
-    		System.out.println("Unable to add new OBST line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("OBST", false);
+    		//System.out.println("Unable to add new OBST line");
     	}
     }
     

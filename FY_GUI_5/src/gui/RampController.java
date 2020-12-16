@@ -171,9 +171,12 @@ public class RampController implements Initializable{
     public void newRampLine(ActionEvent event) throws SQLException { //ADD NEW RAMP LINE
     	doCheckingRamp();
     	
-    	if(checkFloatPos && checkFloat && checkFloatReac && checkFloatPosReac) {
+    	if(checkFloatPos && checkFloat) {
     		//store the values 
     		storeValuesRamp();
+    		
+    		//confirmation message for success
+			Values.printConfirmationMessage("RAMP", true);
     		
     		mainRampId++;
         	String mainRampIdString = Integer.toString(mainRampId);
@@ -187,7 +190,9 @@ public class RampController implements Initializable{
     		showInfoRamp();
     	}
     	else {
-    		System.out.println("Unable to add new RAMP line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("RAMP", false);
+    		//System.out.println("Unable to add new RAMP line");
     	}
     	
     }
@@ -204,6 +209,9 @@ public class RampController implements Initializable{
     	
     	//store the values
     	storeValuesCtrl();
+    	
+    	//confirmation message for success
+		Values.printConfirmationMessage("CTRL", true);
     	
     	mainCtrlId++;
     	String mainCtrlIdString = Integer.toString(mainCtrlId);
@@ -228,6 +236,12 @@ public class RampController implements Initializable{
     	doCheckingReac();
     	
     	if(checkFloatReac && checkFloatPosReac) {
+    		//store the values
+    		storeValuesReac();
+    		
+    		//confirmation message for success
+			Values.printConfirmationMessage("REAC", true);
+			
     		mainReacId++;
     		String mainReacIdString = Integer.toString(mainReacId);
     		String sqlReac = "INSERT INTO reac (mainID, AUTO_IGNITION_TEMPERATURE, SOOT_YIELD, FUEL) VALUES ('" + mainReacIdString + "', '', '', '');";
@@ -240,7 +254,9 @@ public class RampController implements Initializable{
     		showInfoReac();
     	}
     	else {
-    		System.out.println("Unable to add new REAC line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("REAC", false);
+    		//System.out.println("Unable to add new REAC line");
     	}
 
     }

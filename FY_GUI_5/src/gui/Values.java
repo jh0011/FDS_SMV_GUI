@@ -212,6 +212,23 @@ public class Values {
 		}
 	}
 	
+	public static void printConfirmationMessage(String namelist, boolean isSuccess) {
+		if (isSuccess) {
+			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+			initAlert.setTitle(namelist + " line added");
+			initAlert.setContentText("A new " + namelist + " line has been added successfully.");
+			initAlert.setHeaderText(null);
+			initAlert.show();
+		}
+		else {
+			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+			initAlert.setTitle(namelist + " line not added");
+			initAlert.setContentText("A new " + namelist + " line is not able to be added. Please check the input values for " + namelist + ".");
+			initAlert.setHeaderText(null);
+			initAlert.show();
+		}
+	}
+	
 	public static void showError() {
 		Alert chidAlert = new Alert(Alert.AlertType.INFORMATION);
 		chidAlert.setTitle("Unable to proceed");

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import connectivity.ConnectionClass;
@@ -19,7 +20,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -81,15 +85,47 @@ public class EditorController implements Initializable{
     	DirectoryChooser directoryChooser = new DirectoryChooser();
     	directoryChooser.setTitle("Save FDS input file");
     	File selectedDirectory = directoryChooser.showDialog(null);
-    	System.out.println(selectedDirectory.getAbsolutePath());
+    	//System.out.println(selectedDirectory.getAbsolutePath());
     	File outputFile = new File(selectedDirectory + "\\" + CHID + ".fds");
+    	boolean isFileCreated = false;
     	if (!outputFile.exists()){
-			outputFile.createNewFile();
+    		isFileCreated = outputFile.createNewFile();
+    		if (isFileCreated) { //confirmation message for CREATION of the file
+        		Alert trnxAlert = new Alert(Alert.AlertType.INFORMATION);
+    			trnxAlert.setTitle("Successful file creation");
+    			trnxAlert.setContentText("File has been created in directory: " + selectedDirectory);
+    			trnxAlert.setHeaderText(null);
+    			ImageView icon = new ImageView("Fire2.jpg");
+    			icon.setFitHeight(48);
+    	        icon.setFitWidth(48);
+    	        trnxAlert.getDialogPane().setGraphic(icon);
+    			trnxAlert.show();
+    			
+    			fw = new FileWriter(outputFile);
+    			bw = new BufferedWriter(fw);
+    			bw.write(editorText.getText());
+    			bw.close();
+        	}
 		}
-    	fw = new FileWriter(outputFile);
-		bw = new BufferedWriter(fw);
-		bw.write(editorText.getText());
-		bw.close();
+    	else { //confirmation to overwrite the existing file
+			Alert trnxAlert = new Alert(Alert.AlertType.CONFIRMATION);
+			trnxAlert.setTitle("File already exists");
+			trnxAlert.setContentText("File with the same name already exists in directory: " + selectedDirectory + 
+					"\nClick on OK to overwrite the existing file. Click on Cancel to choose another directory or rename the CHID parameter.");
+			trnxAlert.setHeaderText(null);
+			ImageView icon = new ImageView("Fire2.jpg");
+			icon.setFitHeight(48);
+	        icon.setFitWidth(48);
+	        trnxAlert.getDialogPane().setGraphic(icon);
+	        Optional<ButtonType> userOption = trnxAlert.showAndWait();
+	        if (userOption.get() == ButtonType.OK){
+	        	fw = new FileWriter(outputFile);
+	    		bw = new BufferedWriter(fw);
+	    		bw.write(editorText.getText());
+	    		bw.close();
+			}
+		}
+    	
     }
     
     public void showFile() throws SQLException {

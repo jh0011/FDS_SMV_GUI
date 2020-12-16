@@ -166,7 +166,10 @@ public class InitController implements Initializable{
 		if (xbFormat && checkFloat && checkInteger){
 			//store values
 			storeValuesInit();
-		
+			
+			//confirmation message for success
+			Values.printConfirmationMessage("INIT", true);
+			
 			mainInitId++;
 			String mainInitIdString = Integer.toString(mainInitId);
 			String sqlInit = "INSERT INTO init(mainID, idText, partIdText, specIdText, npartText, "
@@ -181,7 +184,9 @@ public class InitController implements Initializable{
 			showInfoInit();
 		}
 		else {
-			System.out.println("Unable to add a new INIT line");
+			//confirmation message for failure
+			Values.printConfirmationMessage("INIT", false);
+			//System.out.println("Unable to add a new INIT line");
 		}
 		
 	}
@@ -200,6 +205,9 @@ public class InitController implements Initializable{
 			//store values
 			storeValuesMesh();
 			
+			//confirmation message for success
+			Values.printConfirmationMessage("MESH", true);
+			
 			mainMeshId++;
 			String mainMeshIdString = Integer.toString(mainMeshId);
 			String sqlMesh = "INSERT INTO mesh (mainID, ijkText, xbText) VALUES ('"
@@ -213,7 +221,9 @@ public class InitController implements Initializable{
 			showInfoMesh();
 		}
 		else {
-			System.out.println("Unable to add a new MESH line");
+			//confirmation message for failure
+			Values.printConfirmationMessage("MESH", false);
+			//System.out.println("Unable to add a new MESH line");
 		}
 	}
 	

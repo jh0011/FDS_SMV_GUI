@@ -167,6 +167,9 @@ public class PresController implements Initializable{
     		//store the values
     		storeValuesTabl();
     		
+    		//confirmation message for success
+			Values.printConfirmationMessage("TABL", true);
+    		
     		mainTablId++;
         	String mainTablIdString = Integer.toString(mainTablId);
         	String sqlTabl = "INSERT INTO tabl (mainID, ID, TABLE_DATA) VALUES ('" + mainTablIdString + "', '', '');";
@@ -178,7 +181,9 @@ public class PresController implements Initializable{
     		showInfoTabl();
     	}
     	else {
-    		System.out.println("Unable to add new TABL line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("TABL", false);
+    		//System.out.println("Unable to add new TABL line");
     	}
     }
 

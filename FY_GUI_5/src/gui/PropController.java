@@ -170,6 +170,9 @@ public class PropController implements Initializable{
 			//store the values
 			storeValuesProp();
 			
+			//confirmation message for success
+			Values.printConfirmationMessage("PROP", true);
+			
 			mainPropId++;
 			String mainPropIdString = Integer.toString(mainPropId);
 			String sqlProp = "INSERT INTO prop (mainID, ID, PART_ID, QUANTITY, SMOKEVIEW_ID, OFFSET, PDPA_INTEGRATE, PDPA_NORMALIZE"
@@ -183,7 +186,9 @@ public class PropController implements Initializable{
 			showInfoProp();
 		}
 		else {
-			System.out.println("Unable to add new PROP line");
+			//confirmation message for failure
+			Values.printConfirmationMessage("PROP", false);
+			//System.out.println("Unable to add new PROP line");
 		}
 	}
 	
@@ -197,6 +202,9 @@ public class PropController implements Initializable{
 	public void newSpecLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW SPEC LINE
 		//store the values
 		storeValuesSpec();
+		
+		//confirmation message for success
+		Values.printConfirmationMessage("SPEC", true);
 		
 		mainSpecId++; //no need to do checking
 		String mainSpecIdString = Integer.toString(mainSpecId);

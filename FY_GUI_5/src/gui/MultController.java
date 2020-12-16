@@ -151,6 +151,12 @@ public class MultController implements Initializable{
     	doCheckingMult();
     	
     	if (checkIntPosMult && checkFloatPosMult) {
+    		//store the values
+    		storeValuesMult();
+    		
+    		//confirmation message for success
+			Values.printConfirmationMessage("MULT", true);
+			
     		mainMultId++;
         	String mainMultIdString = Integer.toString(mainMultId);
         	String sqlMult = "INSERT INTO mult (mainID, ID, I_UPPER, J_UPPER, K_UPPER, DX, DY, DZ) VALUES ('" + mainMultIdString + "', '', '', '', '', '', '', '');";
@@ -162,7 +168,9 @@ public class MultController implements Initializable{
     		showInfoMult();
     	}
     	else {
-    		System.out.println("Unable to add new MULT line");
+    		//confirmation message for success
+			Values.printConfirmationMessage("MULT", false);
+    		//System.out.println("Unable to add new MULT line");
     	}
     }
     

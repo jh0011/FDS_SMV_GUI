@@ -150,6 +150,9 @@ public class TrnxController implements Initializable{
     		//store values
     		storeValuesTrnx();
     		
+    		//confirmation message for success
+			Values.printConfirmationMessage("TRNX", true);
+    		
     		mainTrnxId++;
     		String mainTrnxIdString = Integer.toString(mainTrnxId);
     		String sqlTrnx = "INSERT INTO trnx (mainID, ID, MESH_NUMBER, CC, PC) VALUES ('" + mainTrnxIdString + "', '', '', '', '');";
@@ -161,7 +164,9 @@ public class TrnxController implements Initializable{
     		showInfoTrnx();
     	}
     	else {
-    		System.out.println("Unable to add new TRNX line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("TRNX", false);
+    		//System.out.println("Unable to add new TRNX line");
     	}
     }
     
@@ -179,6 +184,9 @@ public class TrnxController implements Initializable{
     		//store values
     		storeValuesZone();
     		
+    		//confirmation message for success
+			Values.printConfirmationMessage("ZONE", true);
+    		
     		mainZoneId++;
         	String mainZoneIdString = Integer.toString(mainZoneId);
         	String sqlZone = "INSERT INTO zone (mainID, XYZ) VALUES ('" + mainZoneIdString + "', '');";
@@ -190,7 +198,9 @@ public class TrnxController implements Initializable{
     		showInfoZone();
     	}
     	else {
-    		System.out.println("Unable to add new ZONE line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("ZONE", false);
+    		//System.out.println("Unable to add new ZONE line");
     	}
     }
     

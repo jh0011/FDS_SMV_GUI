@@ -180,6 +180,9 @@ public class SurfController implements Initializable{
     		//store the values
     		storeValuesSurf();
     		
+    		//confirmation message for success
+			Values.printConfirmationMessage("SURF", true);
+    		
 	    	mainSurfId++;
 	    	String mainSurfIdString = Integer.toString(mainSurfId);
 	    	String sqlSurf = "INSERT INTO surf (mainID, ID, PART_ID, MATL_ID, VEL, TMP_FRONT, BACKING, DEFAULT_SURF, GEOMETRY, " + 
@@ -193,7 +196,9 @@ public class SurfController implements Initializable{
 			showInfoSurf();
     	}
     	else {
-    		System.out.println("Unable to add new SURF line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("SURF", false);
+    		//System.out.println("Unable to add new SURF line");
     	}
     }
     
@@ -211,6 +216,9 @@ public class SurfController implements Initializable{
     		//store the values
     		storeValuesVent();
     		
+    		//confirmation message for success
+			Values.printConfirmationMessage("VENT", true);
+    		
     		mainVentId++;
     		String mainVentIdString = Integer.toString(mainVentId);
     		String sqlVent = "INSERT INTO vent (mainID, XB, SURF_ID, MB) VALUES ('" + mainVentIdString + "', '', '', '');";
@@ -223,7 +231,9 @@ public class SurfController implements Initializable{
 			showInfoVent();
     	}
     	else{
-    		System.out.println("Unable to add new VENT line");
+    		//confirmation message for failure
+			Values.printConfirmationMessage("VENT", false);
+    		//System.out.println("Unable to add new VENT line");
     	}
     }
     

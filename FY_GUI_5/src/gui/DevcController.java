@@ -180,6 +180,9 @@ public class DevcController implements Initializable{
 			//store the values
 			storeValuesDevc();
 			
+			//confirmation message for success
+			Values.printConfirmationMessage("DEVC", true);
+			
 			mainDevcId++;
 			String mainDevcIdString = Integer.toString(mainDevcId);
 			String sqlDevc = "INSERT INTO devc (mainID, ID, PROP_ID, SPEC_ID, XYZ, QUANTITY, IOR, XB) VALUES ('" + mainDevcIdString + "', '', '', '', '', '', '', '');";
@@ -192,7 +195,9 @@ public class DevcController implements Initializable{
 			showInfoDevc();
 		}
 		else {
-			System.out.println("Unable to add new DEVC line");
+			//confirmation message for failure
+			Values.printConfirmationMessage("DEVC", false);
+			//System.out.println("Unable to add new DEVC line");
 		}
 	}
 	
@@ -210,6 +215,9 @@ public class DevcController implements Initializable{
 			//store the values
 			storeValuesSlcf();
 			
+			//confirmation message for success
+			Values.printConfirmationMessage("SLCF", true);
+			
 			mainSlcfId++;
 			String mainSlcfIdString = Integer.toString(mainSlcfId);
 			String sqlSlcf = "INSERT INTO slcf (mainID, QUANTITY, SPEC_ID, PBY, PBZ, PBX, VECTOR, CELL_CENTERED) VALUES ('" + mainSlcfIdString + 
@@ -224,7 +232,9 @@ public class DevcController implements Initializable{
 			showInfoSlcf();
 		}
 		else {
-			System.out.println("Unable to add new SLCF line");
+			//confirmation message for failure
+			Values.printConfirmationMessage("SLCF", false);
+			//System.out.println("Unable to add new SLCF line");
 		}
     }
 
