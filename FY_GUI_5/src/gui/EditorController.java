@@ -77,6 +77,17 @@ public class EditorController implements Initializable{
 		mainWindow.show();
     }
     
+    public void goToFinal(ActionEvent event) throws IOException { //NEXT SCENE
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Final.fxml"));
+		Parent root = loader.load();
+		
+		FinalController finalCont = loader.getController(); //Get the next page's controller
+		Scene finalScene = new Scene(root);
+		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+		mainWindow.setScene(finalScene);
+		mainWindow.show();
+    }
+    
     @FXML
     public void saveFile(ActionEvent event) throws IOException { //save to the file system
     	//store the updated text area
@@ -126,7 +137,11 @@ public class EditorController implements Initializable{
 			}
 		}
     	
+    	//proceed to the final page
+    	goToFinal(event);
     }
+    
+    
     
     public void showFile() throws SQLException {
     	if (!tempEditorString.equals("")) {
