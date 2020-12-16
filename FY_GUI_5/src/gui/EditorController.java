@@ -142,6 +142,21 @@ public class EditorController implements Initializable{
     		if (countNumLines("prop") > 1) {
     			printValuesProp();
     		}
+    		if (countNumLines("radi") > 1) {
+    			printValuesRadi();
+    		}
+    		if (countNumLines("radf") > 1) {
+    			printValuesRadf();
+    		}
+    		if (countNumLines("mult") > 1) {
+    			printValuesMult();
+    		}
+    		if (countNumLines("pres") > 1) {
+    			printValuesPres();
+    		}
+    		if (countNumLines("move") > 1) {
+    			printValuesMove();
+    		}
     		editorText.appendText("&TAIL /");
     	}
     	tempEditorString = editorText.getText();
@@ -736,6 +751,126 @@ public class EditorController implements Initializable{
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
     	}
+    }
+    
+    public void printValuesRadi() throws SQLException { //radi
+    	String sqlRadi = "SELECT * FROM radi";
+    	String RADIATION = "";
+		ResultSet rs = getStatement().executeQuery(sqlRadi);
+		while (rs.next()) {
+			RADIATION = rs.getString(1);
+		}
+		editorText.appendText("&RADI" + "\n");
+		appendToEditorBoolean("RADIATION", RADIATION);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesRadf() throws SQLException { //radf
+    	String sqlRadf = "SELECT * FROM radf";
+    	String I_STEP = "";
+    	String J_STEP = "";
+    	String K_STEP = "";
+    	String XB = "";
+		ResultSet rs = getStatement().executeQuery(sqlRadf);
+		while (rs.next()) {
+			I_STEP = rs.getString(1);
+			J_STEP = rs.getString(2);
+			K_STEP = rs.getString(3);
+			XB = rs.getString(4);
+		}
+		editorText.appendText("&RADF" + "\n");
+		appendToEditorNumber("I_STEP", I_STEP);
+		appendToEditorNumber("J_STEP", J_STEP);
+		appendToEditorNumber("K_STEP", K_STEP);
+		appendToEditorNumber("XB", XB);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesMult() throws SQLException { //mult
+    	//get the number of MULT lines
+    	String sqlMult = "SELECT mainID FROM mult GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlMult);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each MULT line
+	    	String ID = "";
+	    	String I_UPPER = "";
+	    	String J_UPPER = "";
+	    	String K_UPPER = "";
+	    	String DX = "";
+	    	String DY = "";
+	    	String DZ = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlMult = "SELECT * FROM mult WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlMult);
+	        	while (rs.next()) {
+	        		ID = rs.getString(2);
+	        		I_UPPER = rs.getString(3);
+	        		J_UPPER = rs.getString(4);
+	        		K_UPPER = rs.getString(5);
+	        		DX = rs.getString(6);
+	        		DY = rs.getString(7);
+	        		DZ = rs.getString(8);
+	        	}
+	        	editorText.appendText("&MULT" + "\n");
+	        	appendToEditorString("ID", ID);
+	        	appendToEditorNumber("I_UPPER", I_UPPER);
+	        	appendToEditorNumber("J_UPPER", J_UPPER);
+	        	appendToEditorNumber("K_UPPER", K_UPPER);
+	        	appendToEditorNumber("DX", DX);
+	        	appendToEditorNumber("DY", DY);
+	        	appendToEditorNumber("DZ", DZ);
+	    		editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesPres() throws SQLException { //pres
+    	String sqlPres = "SELECT * FROM pres";
+    	String FISHPAK_BC = "";
+    	String SOLVER = "";
+		ResultSet rs = getStatement().executeQuery(sqlPres);
+		while (rs.next()) {
+			FISHPAK_BC = rs.getString(1);
+			SOLVER = rs.getString(2);
+		}
+		editorText.appendText("&PRES" + "\n");
+		appendToEditorNumber("FISHPAK_BC", FISHPAK_BC);
+		appendToEditorString("SOLVER", SOLVER);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesMove() throws SQLException { //move
+    	String sqlMove = "SELECT * FROM move";
+    	String ID = "";
+    	String X0 = "";
+    	String Y0 = "";
+    	String Z0 = "";
+    	String ROTATION_ANGLE = "";
+    	String AXIS = "";
+		ResultSet rs = getStatement().executeQuery(sqlMove);
+		while (rs.next()) {
+			ID = rs.getString(1);
+			X0 = rs.getString(2);
+			Y0 = rs.getString(3);
+			Z0 = rs.getString(4);
+			ROTATION_ANGLE = rs.getString(5);
+			AXIS = rs.getString(6);
+		}
+		editorText.appendText("&MOVE" + "\n");
+		appendToEditorString("ID", ID);
+		appendToEditorNumber("X0", X0);
+		appendToEditorNumber("Y0", Y0);
+		appendToEditorNumber("Z0", Z0);
+		appendToEditorNumber("ROTATION_ANGLE", ROTATION_ANGLE);
+		appendToEditorNumber("AXIS", AXIS);
+		editorText.appendText("/" + "\n");
     }
     
     public void appendToEditorString(String paramName, String value) { //add single quotes for string
