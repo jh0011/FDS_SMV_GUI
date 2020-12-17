@@ -88,14 +88,26 @@ public class BasicController implements Initializable{
 	 */
 	@FXML
 	public void goToIntro(ActionEvent event) throws IOException{ //PREVIOUS SCENE
-		Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
-		Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
-		
-		
-		mainWindow.setScene(introScene);
-		mainWindow.show();
-		
+		try {
+			if (checkChid(chidText.getText())){
+				String sql = "INSERT INTO head (CHID, TITLE) VALUES ('" + chidText.getText() + "', '" + titleText.getText() + "');";
+				
+				ConnectionClass connectionClass = new ConnectionClass();
+				Connection connection = connectionClass.getConnection();
+				Statement statement = connection.createStatement();
+				statement.executeUpdate(sql);
+				
+				Parent introLayout = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Get the next layout
+				Scene introScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
+				Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
+				
+				
+				mainWindow.setScene(introScene);
+				mainWindow.show();
+			}
+		}catch(Exception e) {
+			Values.showError();
+		}
 	}
 	
 	/**

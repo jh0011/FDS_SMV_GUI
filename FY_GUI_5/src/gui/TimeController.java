@@ -149,6 +149,18 @@ public class TimeController implements Initializable{
     }
 	
 	/**
+	 * Description of CATF namelist
+	 * @param event Open the description label
+	 */
+	@FXML
+    public void openCatfDesc(MouseEvent event) {
+		String content = "The CATF namelist allows for the inclusion of input information from different files into a simulation. \n\n"
+				+ "Other files: Write the file names, delimited by a new line.";
+		String namelist = "CATF";
+		Values.openDesc(namelist, content);
+    }
+	
+	/**
 	 * Call the checking methods for the different namelists
 	 */
 	public void doChecking() {

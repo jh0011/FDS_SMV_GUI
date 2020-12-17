@@ -67,7 +67,7 @@
          </image>
       </ImageView>
       <Separator layoutX="45.0" layoutY="265.0" prefHeight="8.0" prefWidth="737.0" />
-      <Label layoutX="45.0" layoutY="294.0" text="CATF">
+      <Label layoutX="45.0" layoutY="294.0" onMouseClicked="#openCatfDesc" text="CATF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>

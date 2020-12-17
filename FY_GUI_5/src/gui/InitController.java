@@ -24,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class InitController implements Initializable{
@@ -226,6 +227,43 @@ public class InitController implements Initializable{
 			//System.out.println("Unable to add a new MESH line");
 		}
 	}
+	
+	/**
+	 * Description of INIT namelist
+	 * @param event Open the description label
+	 */
+	@FXML
+    public void openInitDesc(MouseEvent event) {
+		String content = "The INIT namelist can be used to change the ambient conditions within rectangular regions of the domain. \n\n"
+				+ "ID: To identify the INIT line.\n\n"
+				+ "Part_ID: The type of particle to be inserted.\n\n"
+				+ "Spec ID: Mass Fraction and Spec ID occur in pairs.\n\n"
+				+ "N Particles: To indicate the number of particles to insert within a specified region of the domain.\n\n"
+				+ "N Particles per cell: To indicate the number of particles within each grid cell of a specified region.\n\n"
+				+ "Mass Fraction: Mass Fraction and Spec ID occur in pairs.\n\n"
+				+ "Mass per time: For particles with mass, it can be used to specify the rate the particles should be introduced, in the units of kg/s.\n\n"
+				+ "Mass per volume: To indicate the mass per volume of particles in the units of kg/m3.\n\n"
+				+ "XB: The origin point of a mesh is defined by the first, third and fifth values of the real number "
+    			+ "sextuplet, XB, and the opposite corner is defined by the second, fourth and sixth values. There should be 6 comma-separated values.";
+		String namelist = "INIT";
+		Values.openDesc(namelist, content);
+    }
+
+	/**
+	 * Description of MESH namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openMeshDesc(MouseEvent event) {
+    	String content = "All FDS calculations must be performed within a domain that is made up of rectilinear volumes called "
+    			+ "meshes. Each mesh is divided into rectangular cells, the number of which depends on the desired resolution "
+    			+ "of the flow dynamics. MESH is the namelist group that defines the computational domain. \n\n"
+    			+ "IJK: The mesh is subdivided into uniform cells via the parameter IJK. The 3 real values should be comma-separated.\n\n"
+    			+ "XB: The origin point of a mesh is defined by the first, third and fifth values of the real number "
+    			+ "sextuplet, XB, and the opposite corner is defined by the second, fourth and sixth values. There should be 6 comma-separated values.";
+    	String namelist = "MESH";
+		Values.openDesc(namelist, content);
+    }
 	
 	/**
 	 * Call the checking methods for the different namelists
