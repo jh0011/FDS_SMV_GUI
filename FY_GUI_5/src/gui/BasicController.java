@@ -149,16 +149,11 @@ public class BasicController implements Initializable{
 //        Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 //        popup.show(mainWindow);
 //        isShowingHead = true;
-        Alert headAlert = new Alert(Alert.AlertType.INFORMATION);
-		headAlert.setTitle("HEAD namelist");
-		headAlert.setContentText("This is a Popupppppppg pfp lpdo  psmd  pksdpf oksdp osdkfd ifji sokls fjfe sjiaid efyroks ijcdn iejdehfb oefkdlsp\"\r\n"
-				+ "//				+ \" psmd  pksdpf oksdp osdkfd ifji sokls fjfe sjiaid efyroks ijcdn iejdehfb oefkdlsp");
-		headAlert.setHeaderText(null);
-		ImageView icon = new ImageView("Fire2.jpg");
-		icon.setFitHeight(48);
-        icon.setFitWidth(48);
-        headAlert.getDialogPane().setGraphic(icon);
-		headAlert.show();
+		String content = "The HEAD namelist is a required value and is used to give the job a name. \n\n"
+				+ "CHID: It is the character ID that will be used to name the .fds file. The extension \".fds\" and whitespaces should not "
+				+ "be written. \n\nTITLE: Describes the simulation.";
+		String namelist = "HEAD";
+		Values.openDesc(namelist, content);
     }
 	
 	

@@ -7,6 +7,7 @@ import connectivity.ConnectionClass;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 
 import java.io.BufferedWriter;
@@ -227,6 +228,18 @@ public class Values {
 			initAlert.setHeaderText(null);
 			initAlert.show();
 		}
+	}
+	
+	public static void openDesc(String namelist, String content) {
+		Alert headAlert = new Alert(Alert.AlertType.INFORMATION);
+		headAlert.setTitle(namelist + " namelist");
+		headAlert.setContentText(content);
+		headAlert.setHeaderText(null);
+		ImageView icon = new ImageView("Fire2.jpg");
+		icon.setFitHeight(48);
+        icon.setFitWidth(48);
+        headAlert.getDialogPane().setGraphic(icon);
+		headAlert.show();
 	}
 	
 	public static void showError() {

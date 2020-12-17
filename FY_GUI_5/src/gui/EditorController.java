@@ -208,6 +208,21 @@ public class EditorController implements Initializable{
     		if (countNumLines("move") > 1) {
     			printValuesMove();
     		}
+    		if (countNumLines("isof") > 1) {
+    			printValuesIsof();
+    		}
+    		if (countNumLines("hvac") > 1) {
+    			printValuesHvac();
+    		}
+    		if (countNumLines("hole") > 1) {
+    			printValuesHole();
+    		}
+    		if (countNumLines("misc") > 1) {
+    			printValuesMisc();
+    		}
+    		if (countNumLines("trnx") > 1) {
+    			printValuesTrnx();
+    		}
     		editorText.appendText("&TAIL /");
     	}
     	tempEditorString = editorText.getText();
@@ -922,6 +937,144 @@ public class EditorController implements Initializable{
 		appendToEditorNumber("ROTATION_ANGLE", ROTATION_ANGLE);
 		appendToEditorNumber("AXIS", AXIS);
 		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesIsof() throws SQLException { //isof
+    	String sqlIsof = "SELECT * FROM isof";
+    	String QUANTITY = "";
+    	String VALUE_1 = "";
+    	String VALUE_2 = "";
+    	String VALUE_3 = "";
+		ResultSet rs = getStatement().executeQuery(sqlIsof);
+		while (rs.next()) {
+			QUANTITY = rs.getString(1);
+			VALUE_1 = rs.getString(2);
+			VALUE_2 = rs.getString(3);
+			VALUE_3 = rs.getString(4);
+		}
+		editorText.appendText("&ISOF" + "\n");
+		appendToEditorString("QUANTITY", QUANTITY);
+		appendToEditorNumber("VALUE_1", VALUE_1);
+		appendToEditorNumber("VALUE_2", VALUE_2);
+		appendToEditorNumber("VALUE_3", VALUE_3);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesHvac() throws SQLException { //hvac
+    	String sqlHvac = "SELECT * FROM hvac";
+    	String ID = "";
+    	String ROUGHNESS = "";
+    	String DEVC_ID = "";
+    	String LENGTH = "";
+    	String FAN_ID = "";
+    	String AREA = "";
+    	String TYPE_ID = "";
+		ResultSet rs = getStatement().executeQuery(sqlHvac);
+		while (rs.next()) {
+			ID = rs.getString(1);
+			ROUGHNESS = rs.getString(2);
+			DEVC_ID = rs.getString(3);
+			LENGTH = rs.getString(4);
+			FAN_ID = rs.getString(5);
+			AREA = rs.getString(6);
+			TYPE_ID = rs.getString(7);
+		}
+		editorText.appendText("&HVAC" + "\n");
+		appendToEditorString("ID", ID);
+		appendToEditorNumber("ROUGHNESS", ROUGHNESS);
+		appendToEditorString("DEVC_ID", DEVC_ID);
+		appendToEditorNumber("LENGTH", LENGTH);
+		appendToEditorString("FAN_ID", FAN_ID);
+		appendToEditorNumber("AREA", AREA);
+		appendToEditorString("TYPE_ID", TYPE_ID);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesHole() throws SQLException { //hole
+    	String sqlHole = "SELECT * FROM hole";
+    	String MESH_ID = "";
+    	String MULT_ID = "";
+    	String DEVC_ID = "";
+    	String CTRL_ID = "";
+    	String XB = "";
+		ResultSet rs = getStatement().executeQuery(sqlHole);
+		while (rs.next()) {
+			MESH_ID = rs.getString(1);
+			MULT_ID = rs.getString(2);
+			DEVC_ID = rs.getString(3);
+			CTRL_ID = rs.getString(4);
+			XB = rs.getString(5);
+		}
+		editorText.appendText("&HOLE" + "\n");
+		appendToEditorString("MESH_ID", MESH_ID);
+		appendToEditorString("MULT_ID", MULT_ID);
+		appendToEditorString("DEVC_ID", DEVC_ID);
+		appendToEditorString("CTRL_ID", CTRL_ID);
+		appendToEditorNumber("XB", XB);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesMisc() throws SQLException { //misc
+    	String sqlMisc = "SELECT * FROM misc";
+    	String NOISE = "";
+    	String FREEZE_VELOCITY = "";
+    	String HUMIDITY = "";
+    	String Y_CO2_INFNTY = "";
+    	String TMPA = "";
+    	String GVEC = "";
+		ResultSet rs = getStatement().executeQuery(sqlMisc);
+		while (rs.next()) {
+			NOISE = rs.getString(1);
+			FREEZE_VELOCITY = rs.getString(2);
+			HUMIDITY = rs.getString(3);
+			Y_CO2_INFNTY = rs.getString(4);
+			TMPA = rs.getString(5);
+			GVEC = rs.getString(6);
+		}
+		editorText.appendText("&MISC" + "\n");
+		appendToEditorBoolean("NOISE", NOISE);
+		appendToEditorBoolean("FREEZE_VELOCITY", FREEZE_VELOCITY);
+		appendToEditorNumber("HUMIDITY", HUMIDITY);
+		appendToEditorNumber("Y_CO2_INFNTY", Y_CO2_INFNTY);
+		appendToEditorNumber("TMPA", TMPA);
+		appendToEditorNumber("GVEC", GVEC);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesTrnx() throws SQLException { //trnx
+    	//get the number of TRNX lines
+    	String sqlTrnx = "SELECT mainID FROM trnx GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlTrnx);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each TRNX line
+	    	String ID = "";
+	    	String MESH_NUMBER = "";
+	    	String CC = "";
+	    	String PC = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlTrnx = "SELECT * FROM trnx WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlTrnx);
+	        	while (rs.next()) {
+	        		ID = rs.getString(2);
+	        		MESH_NUMBER = rs.getString(3);
+	        		CC = rs.getString(4);
+	        		PC = rs.getString(5);
+	        	}
+	        	editorText.appendText("&TRNX" + "\n");
+	        	appendToEditorString("ID", ID);
+	        	appendToEditorNumber("MESH_NUMBER", MESH_NUMBER);
+	        	appendToEditorNumber("CC", CC);
+	        	appendToEditorNumber("PC", PC);
+	        	editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
     }
     
     public void appendToEditorString(String paramName, String value) { //add single quotes for string

@@ -20,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 
@@ -132,6 +133,20 @@ public class TimeController implements Initializable{
 			Values.showError();
 		}
 	}
+	
+	/**
+	 * Description of TIME namelist
+	 * @param event Open the description label
+	 */
+	@FXML
+    public void openTimeDesc(MouseEvent event) {
+		String content = "The TIME namelist defines the time duration of the simulation and the initial time "
+				+ "step used to advance the solution of the discretized equations. \n\nEnd Time: A required value. It states the duration in"
+				+ " seconds that the simulation will run for. \n\nStart Time: An optional value. The default value is 0. Please specify if otherwise."
+				+ "\n\nDT: The initial time step size.";
+		String namelist = "TIME";
+		Values.openDesc(namelist, content);
+    }
 	
 	/**
 	 * Call the checking methods for the different namelists

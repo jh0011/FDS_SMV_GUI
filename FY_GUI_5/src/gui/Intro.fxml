@@ -30,12 +30,12 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label layoutX="64.0" layoutY="241.0" prefHeight="71.0" prefWidth="434.0" text="This desktop application will bring you through the creation of the .fds input file for the FDS-SMV simulator to run." textFill="WHITE" wrapText="true">
+      <Label layoutX="64.0" layoutY="221.0" prefHeight="71.0" prefWidth="434.0" text="This desktop application will bring you through the creation of the .fds input file for the FDS-SMV simulator to run." textFill="WHITE" wrapText="true">
          <font>
             <Font name="Leelawadee UI" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="64.0" layoutY="428.0" prefHeight="40.0" prefWidth="434.0" text="Click on &quot;Next&quot; to start the creation of the input file." textFill="WHITE" wrapText="true">
+      <Label layoutX="64.0" layoutY="473.0" prefHeight="40.0" prefWidth="434.0" text="Click on &quot;Next&quot; to start the creation of the input file." textFill="WHITE" wrapText="true">
          <font>
             <Font name="Leelawadee UI" size="15.0" />
          </font>
@@ -45,7 +45,12 @@
             <Image url="@../../Fire1.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="64.0" layoutY="335.0" prefHeight="71.0" prefWidth="451.0" text="Due to the extensive number of parameters, not all the parameters are included in this desktop application." textFill="WHITE" wrapText="true">
+      <Label layoutX="64.0" layoutY="308.0" prefHeight="71.0" prefWidth="451.0" text="Due to the extensive number of parameters, not all the parameters are included in this desktop application." textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Leelawadee UI" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="64.0" layoutY="390.0" prefHeight="71.0" prefWidth="451.0" text="Click on each namelist's heading to get a description of each namelist." textFill="WHITE" wrapText="true">
          <font>
             <Font name="Leelawadee UI" size="15.0" />
          </font>
