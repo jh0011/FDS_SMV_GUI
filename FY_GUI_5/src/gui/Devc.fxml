@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DevcController">
    <children>
-      <Label layoutX="45.0" layoutY="36.0" text="DEVC">
+      <Label layoutX="45.0" layoutY="36.0" onMouseClicked="#openDevcDesc" text="DEVC">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>

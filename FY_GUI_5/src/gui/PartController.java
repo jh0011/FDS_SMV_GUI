@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class PartController implements Initializable{
@@ -35,7 +36,7 @@ public class PartController implements Initializable{
 	@FXML TextField surfIdText; //string
 	@FXML TextField specIdText; //string
 	@FXML TextField propIdText; //string
-	@FXML TextField qtyPartText; //string
+	@FXML ComboBox quantitiesCombo;
 	@FXML ComboBox staticCombo; //boolean
 	@FXML ComboBox masslessCombo; //boolean
 	@FXML TextField sampleText; //integer
@@ -54,6 +55,7 @@ public class PartController implements Initializable{
 	
 	static String staticSelection = "";
 	static String masslessSelection = "";
+	static String quantitiesSelection = "";
 	
 	static int mainPartId = 1;
 	static int mainBndfId = 1;
@@ -71,6 +73,11 @@ public class PartController implements Initializable{
 		
 		ObservableList<String> masslessList = FXCollections.observableArrayList("", "TRUE", "FALSE");
 		masslessCombo.setItems(masslessList);
+		
+		ObservableList<String> quantitiesList = FXCollections.observableArrayList("", "PARTICLE AGE", "PARTICLE DIAMETER", 
+				"PARTICLE TEMPERATURE", "PARTICLE MASS", "PARTICLE PHASE", "PARTICLE VELOCITY", "PARTICLE WEIGHING FACTOR", "PARTICLE U", 
+				"PARTICLE V", "PARTICLE W", "PARTICLE X", "PARTICLE Y", "PARTICLE Z");
+		quantitiesCombo.setItems(quantitiesList);
 		
 	}
 	
@@ -215,6 +222,42 @@ public class PartController implements Initializable{
 		
 		showInfoBndf();
 	}
+
+	/**
+	 * Description of PART namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openPartDesc(MouseEvent event) {
+    	String content = "The PART namelist can be used to define the properties of different types of Lagrangian particles.There are"
+    			+ "3 types of particles - massless tracers, liquid droplets and everything else.\n\n"
+    			+ "ID: To identify the PART line.\n\n"
+    			+ "Surf_ID: To specify a surface ID.\n\n"
+    			+ "Spec_ID: To specify a species ID.\n\n"
+    			+ "Prop_ID: To specify a Prop ID.\n\n"
+    			+ "Quantities: The parameter QUANTITIES on the PART line is an array of character strings indicating which scalar quantities "
+    			+ "should be used to color particles and droplets in Smokeview.\n\n"
+    			+ "Static: STATIC is a logical parameter whose default is FALSE that indicates if the particles are stationary.\n\n"
+    			+ "Massless: For massless tracers, set Massless as TRUE.\n\n"
+    			+ "Sampling Factor: If Massless is TRUE, the Sampling Factor is set to 1 unless otherwise stated.\n\n"
+    			+ "Diameter: The median volumetric diameter of the particle should be filled in cases where the droplets evaporate.";
+    	String namelist = "PART";
+    	Values.openDesc(namelist, content);
+    }
+    
+    /**
+	 * Description of BNDF namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openBndfDesc(MouseEvent event) {
+		String content = "The BNDF (boundary file) namelist group parameters allows you to record surface quantities at all solid obstructions.\n\n"
+				+ "Quantity: For certain output quantities, additional parameters need to be specified via the PROP namelist "
+				+ "group. In such cases, add the character string, PROP_ID, to the BNDF line to tell FDS where to find the "
+				+ "necessary extra information.";
+		String namelist = "BNDF";
+		Values.openDesc(namelist, content);
+    }
 	
 	@FXML
 	public void staticSelect(ActionEvent event) {
@@ -226,6 +269,12 @@ public class PartController implements Initializable{
 	public void masslessSelect(ActionEvent event) {
 		masslessSelection = masslessCombo.getSelectionModel().getSelectedItem().toString();
 		masslessCombo.setValue(masslessSelection);
+    }
+	
+	@FXML
+	public void quantitiesSelect(ActionEvent event) {
+		quantitiesSelection = quantitiesCombo.getSelectionModel().getSelectedItem().toString();
+		quantitiesCombo.setValue(quantitiesSelection);
     }
 	
 	/**
@@ -339,7 +388,7 @@ public class PartController implements Initializable{
 	public void storeValuesPart() throws SQLException{ //store PART values into the database
 		String mainPartIdString = Integer.toString(mainPartId);
 		String sqlPart = "INSERT INTO part VALUES('" + mainPartIdString + "', '" + surfIdText.getText() + "', '" 
-				+ specIdText.getText() + "', '" + propIdText.getText() + "', '" + qtyPartText.getText() + "', '"
+				+ specIdText.getText() + "', '" + propIdText.getText() + "', '" + quantitiesSelection + "', '"
 				+ staticSelection + "', '" + masslessSelection + "', '" + sampleText.getText() +
 				"', '" + diameterText.getText() + "', '" + idText.getText() + "');";
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -376,7 +425,8 @@ public class PartController implements Initializable{
 			surfIdText.setText(rs.getString(2));
 			specIdText.setText(rs.getString(3));
 			propIdText.setText(rs.getString(4));
-			qtyPartText.setText(rs.getString(5));
+			quantitiesSelection = rs.getString(5);
+			quantitiesCombo.setValue(quantitiesSelection);
 			staticSelection = rs.getString(6);
 			staticCombo.setValue(staticSelection);
 			masslessSelection = rs.getString(7);

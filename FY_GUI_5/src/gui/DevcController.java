@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class DevcController implements Initializable{
@@ -236,6 +237,26 @@ public class DevcController implements Initializable{
 			Values.printConfirmationMessage("SLCF", false);
 			//System.out.println("Unable to add new SLCF line");
 		}
+    }
+	
+	/**
+	 * Description of DEVC namelist
+	 * @param event Open the description label
+	 */
+	@FXML
+    public void openDevcDesc(MouseEvent event) {
+		String content = "The DEVC namelist can be used to define a device. \n\n"
+				+ "ID: To identify the DEVC line.\n\n"
+				+ "Prop_ID: To specify a Prop ID.\n\n"
+				+ "Spec_ID: To identify a species ID.\n\n"
+				+ "XYZ: FDS uses these coordinates to determine in which gas or wall cell the device is located. 3 real values which are comma-separated.\n\n"
+				+ "IOR: The parameter IOR (Index of Orientation) is required for any device that is placed on the surface of a solid. "
+				+ "The values +/-1 or +/-2 or +/-3 indicate the direction that the device “points.” For example, IOR=-1 means that the "
+				+ "device is mounted on a wall that faces in the negative x direction.\n\n"
+				+ "XB: The origin point of a mesh is defined by the first, third and fifth values of the real number "
+				+ "sextuplet, XB, and the opposite corner is defined by the second, fourth and sixth values. There should be 6 comma-separated values.";
+		String namelist = "DEVC";
+		Values.openDesc(namelist, content);
     }
 
     @FXML

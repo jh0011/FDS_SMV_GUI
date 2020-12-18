@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PartController">
    <children>
-      <Label layoutX="45.0" layoutY="36.0" text="PART">
+      <Label layoutX="45.0" layoutY="36.0" onMouseClicked="#openPartDesc" text="PART">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -70,7 +70,6 @@
             <Font name="Leelawadee UI" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="qtyPartText" layoutX="192.0" layoutY="326.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
       <Label layoutX="107.0" layoutY="211.0" text="Spec_ID" textFill="WHITE">
          <font>
             <Font name="Leelawadee UI" size="18.0" />
@@ -101,7 +100,7 @@
          </image>
       </ImageView>
       <Separator layoutX="75.0" layoutY="381.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="437.0" text="BNDF">
+      <Label layoutX="45.0" layoutY="437.0" onMouseClicked="#openBndfDesc" text="BNDF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -133,5 +132,6 @@
       </Button>
       <ComboBox fx:id="masslessCombo" layoutX="555.0" layoutY="158.0" onAction="#masslessSelect" prefHeight="25.0" prefWidth="162.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
       <ComboBox fx:id="staticCombo" layoutX="556.0" layoutY="106.0" onAction="#staticSelect" prefHeight="25.0" prefWidth="162.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
+      <ComboBox fx:id="quantitiesCombo" layoutX="192.0" layoutY="326.0" onAction="#quantitiesSelect" prefHeight="25.0" prefWidth="162.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="6" />
    </children>
 </AnchorPane>

@@ -223,6 +223,21 @@ public class EditorController implements Initializable{
     		if (countNumLines("trnx") > 1) {
     			printValuesTrnx();
     		}
+    		if (countNumLines("bndf") > 1) {
+    			printValuesBndf();
+    		}
+    		if (countNumLines("catf") > 1) {
+    			printValuesCatf();
+    		}
+    		if (countNumLines("prof") > 1) {
+    			printValuesProf();
+    		}
+    		if (countNumLines("ramp") > 1) {
+    			printValuesRamp();
+    		}
+    		if (countNumLines("clip") > 1) {
+    			printValuesClip();
+    		}
     		editorText.appendText("&TAIL /");
     	}
     	tempEditorString = editorText.getText();
@@ -1075,6 +1090,136 @@ public class EditorController implements Initializable{
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
     	}
+    }
+    
+    public void printValuesBndf() throws SQLException { //bndf
+    	//get the number of BNDF lines
+    	String sqlBndf = "SELECT mainID FROM trnx GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlBndf);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each BNDF line
+	    	String QUANTITY = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlBndf = "SELECT * FROM bndf WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlBndf);
+	        	while (rs.next()) {
+	        		QUANTITY = rs.getString(2);
+	        	}
+	        	editorText.appendText("&BNDF" + "\n");
+	        	appendToEditorString("ID", QUANTITY);
+	        	editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesCatf() throws SQLException { //catf
+    	String sqlCatf = "SELECT * FROM catf";
+    	String OTHER_FILES = "";
+		ResultSet rs = getStatement().executeQuery(sqlCatf);
+		while (rs.next()) {
+			OTHER_FILES = rs.getString(1);
+		}
+		String[] files = OTHER_FILES.split("\\n");
+		String concat_OTHER_FILES = "";
+		for (int i=0; i<files.length; i++) {
+			if (files.length == 1){ //if only 1 file
+				concat_OTHER_FILES = "'" + files[i] + "'";
+			}
+			else if (i == 0){ //for the first file
+				concat_OTHER_FILES = "'" + files[i] + "', ";
+			}
+			else if (i <= files.length - 2){ //until the second last file
+				concat_OTHER_FILES = concat_OTHER_FILES + "'" + files[i] + "', ";
+			}
+			else{ //for the last file
+				concat_OTHER_FILES = concat_OTHER_FILES + "'" + files[i] + "'";
+			}
+		}
+		editorText.appendText("&CATF" + "\n");
+		appendToEditorNumber("OTHER_FILES", concat_OTHER_FILES);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesProf() throws SQLException { //prof
+    	String sqlProf = "SELECT * FROM prof";
+    	String ID = "";
+    	String XYZ = "";
+    	String QUANTITY = "";
+    	String IOR = "";
+		ResultSet rs = getStatement().executeQuery(sqlProf);
+		while (rs.next()) {
+			ID = rs.getString(1);
+			XYZ = rs.getString(2);
+			QUANTITY = rs.getString(3);
+			IOR = rs.getString(4);
+		}
+		editorText.appendText("&PROF" + "\n");
+		appendToEditorString("ID", ID);
+		appendToEditorNumber("XYZ", XYZ);
+		appendToEditorString("QUANTITY", QUANTITY);
+		appendToEditorNumber("IOR", IOR);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesRamp() throws SQLException { //ramp
+    	//get the number of RAMP lines
+    	String sqlRamp = "SELECT mainID FROM ramp GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlRamp);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each RAMP line
+	    	String FRACTION = "";
+	    	String TIME = "";
+	    	String ID = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlRamp = "SELECT * FROM ramp WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlRamp);
+	        	while (rs.next()) {
+	        		FRACTION = rs.getString(2);
+	        		TIME = rs.getString(3);
+	        		ID = rs.getString(4);
+	        	}
+	        	editorText.appendText("&RAMP" + "\n");
+	        	appendToEditorNumber("F", FRACTION);
+	        	appendToEditorNumber("T", TIME);
+	        	appendToEditorString("ID", ID);
+	        	editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesClip() throws SQLException { //clip
+    	String sqlClip = "SELECT * FROM clip";
+    	String MAXIMUM_DENSITY = "";
+    	String MAXIMUM_TEMPERATURE = "";
+    	String MINIMUM_DENSITY = "";
+    	String MINIMUM_TEMPERATURE = "";
+		ResultSet rs = getStatement().executeQuery(sqlClip);
+		while (rs.next()) {
+			MAXIMUM_DENSITY = rs.getString(1);
+			MAXIMUM_TEMPERATURE = rs.getString(2);
+			MINIMUM_DENSITY = rs.getString(3);
+			MINIMUM_TEMPERATURE = rs.getString(4);
+		}
+		editorText.appendText("&CLIP" + "\n");
+		appendToEditorNumber("MAXIMUM_DENSITY", MAXIMUM_DENSITY);
+		appendToEditorNumber("MAXIMUM_TEMPERATURE", MAXIMUM_TEMPERATURE);
+		appendToEditorNumber("MINIMUM_DENSITY", MINIMUM_DENSITY);
+		appendToEditorNumber("MINIMUM_TEMPERATURE", MINIMUM_TEMPERATURE);
+		editorText.appendText("/" + "\n");
     }
     
     public void appendToEditorString(String paramName, String value) { //add single quotes for string

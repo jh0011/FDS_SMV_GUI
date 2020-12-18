@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class PropController implements Initializable{
@@ -217,6 +218,40 @@ public class PropController implements Initializable{
 		
 		showInfoSpec();
 	}
+	
+	/**
+	 * Description of PROP namelist
+	 * @param event Open the description label
+	 */
+	@FXML
+    public void openPropDesc(MouseEvent event) {
+		String content = "The PROP namelist can be used to list the properties of a device, which can be referenced to by other namelists.\n\n"
+				+ "ID: To identify the PROP line.\n\n"
+				+ "Part_ID: To specify the particle ID.\n\n"
+				+ "Smokeview_ID: The name of a drawing of a sprinkler to include in the Smokeview animation.\n\n"
+				+ "Offset: Radius (m) of a sphere surrounding the sprinkler where the water droplets are initially placed in the simulation.\n\n"
+				+ "Pdpa_integrate: PDPA (Phase Doppler Particle Analysis). A logical parameter for choosing between time integrated or "
+				+ "instantaneous values. Set to TRUE by default.\n\n"
+				+ "Operating Pressure: The gauge pressure at the sprinkler, in units of bar.\n\n"
+				+ "Particles per second: It is the number of droplets inserted every second per active sprinkler or nozzle.\n\n"
+				+ "Particle velocity: Initial droplet velocity.";
+		String namelist = "PROP";
+		Values.openDesc(namelist, content);
+    }
+
+	/**
+	 * Description of SPEC namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openSpecDesc(MouseEvent event) {
+    	String content = "The SPEC namelist is used to define gas species. This input group is used to define "
+    			+ "both primitive gas species and lumped species.\n\n"
+    			+ "ID: To identify the SPEC line.\n\n"
+    			+ "Background: If a species is to be used as the background species, Background should be set to TRUE.";
+    	String namelist = "SPEC";
+    	Values.openDesc(namelist, content);
+    }
 	
 	@FXML
 	public void backgroundSelect(ActionEvent event) {
