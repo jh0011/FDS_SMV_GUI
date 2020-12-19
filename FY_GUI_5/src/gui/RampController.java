@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class RampController implements Initializable{
@@ -261,6 +262,33 @@ public class RampController implements Initializable{
 
     }
     
+    /**
+	 * Description of RAMP namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openRampDesc(MouseEvent event) {
+    	String content = "The RAMP namelist allows you to specify a function with one independent variable (such as time) and one dependent variable (such as velocity).\n\n"
+    			+ "Fraction: F indicates the fraction of the heat release rate, wall temperature, velocity, mass fraction, etc., to apply.";
+    	String namelist = "RAMP";
+		Values.openDesc(namelist, content);
+    }
+    
+    /**
+	 * Description of CTRL namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openCtrlDesc(MouseEvent event) {
+    	String content = "The CTRL (advanced control functions) namelist can be used to define the more complicated behaviors. \n\n"
+    			+ "Latch: If this logical value is set to TRUE the control function will only change state once. The default "
+    			+ "value is TRUE.\n\n"
+    			+ "Input_ID: A list of DEVC or CTRL IDs that are the inputs to the control function.\n\n"
+    			+ "Function_type: The type of control function.";
+    	String namelist = "CTRL";
+		Values.openDesc(namelist, content);
+    }
+
     @FXML
     public void latchSelect(ActionEvent event) {
     	latchSelection = latchCombo.getSelectionModel().getSelectedItem().toString();

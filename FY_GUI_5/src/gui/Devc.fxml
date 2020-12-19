@@ -132,7 +132,7 @@
       <TextField fx:id="pbxText" layoutX="190.0" layoutY="454.0" prefHeight="15.0" prefWidth="96.0" promptText="Optional" />
       <ComboBox fx:id="vectorCombo" layoutX="553.0" layoutY="561.0" onAction="#vectorSelect" prefHeight="25.0" prefWidth="189.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
       <Separator layoutX="76.0" layoutY="330.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="374.0" text="SLCF">
+      <Label layoutX="45.0" layoutY="374.0" onMouseClicked="#openSlcfDesc" text="SLCF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>

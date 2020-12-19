@@ -248,7 +248,7 @@ public class DevcController implements Initializable{
 		String content = "The DEVC namelist can be used to define a device. \n\n"
 				+ "ID: To identify the DEVC line.\n\n"
 				+ "Prop_ID: To specify a Prop ID.\n\n"
-				+ "Spec_ID: To identify a species ID.\n\n"
+				+ "Spec_ID: To specify a species ID.\n\n"
 				+ "XYZ: FDS uses these coordinates to determine in which gas or wall cell the device is located. 3 real values which are comma-separated.\n\n"
 				+ "IOR: The parameter IOR (Index of Orientation) is required for any device that is placed on the surface of a solid. "
 				+ "The values +/-1 or +/-2 or +/-3 indicate the direction that the device “points.” For example, IOR=-1 means that the "
@@ -256,6 +256,25 @@ public class DevcController implements Initializable{
 				+ "XB: The origin point of a mesh is defined by the first, third and fifth values of the real number "
 				+ "sextuplet, XB, and the opposite corner is defined by the second, fourth and sixth values. There should be 6 comma-separated values.";
 		String namelist = "DEVC";
+		Values.openDesc(namelist, content);
+    }
+	
+	/**
+	 * Description of SLCF namelist
+	 * @param event Open the description label
+	 */
+	@FXML
+    public void openSlcfDesc(MouseEvent event) {
+		String content = "The SLCF (slice file) namelist allows you to record various gas phase quantities at more than a single point.\n\n"
+				+ "PBX: Controls planes perpendicular to the X-axis. For example, x=5.3\n\n"
+				+ "PBY: Controls planes perpendicular to the Y-axis. For example, y=5.3\n\n"
+				+ "PBZ: Controls planes perpendicular to the Z-axis. For example, z=5.3\n\n"
+				+ "Cell_centered: Normally, FDS averages slice file data at cell corners. For example, gas temperatures are computed at "
+				+ "cell centers, but they are linearly interpolated to cell corners and output to a file that is read by Smokeview. "
+				+ "To prevent this from happening, set Cell_centered to TRUE. \n\n"
+				+ "Spec_ID: To identify a species ID.\n\n"
+				+ "Vector: If Cell_centered is set to TRUE and is combined with Vector=TRUE then the staggered velocity components will be displayed.";
+		String namelist = "SLCF";
 		Values.openDesc(namelist, content);
     }
 

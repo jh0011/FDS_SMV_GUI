@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class SurfController implements Initializable{
@@ -235,6 +236,44 @@ public class SurfController implements Initializable{
 			Values.printConfirmationMessage("VENT", false);
     		//System.out.println("Unable to add new VENT line");
     	}
+    }
+    
+    /**
+	 * Description of SURF namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openSurfDesc(MouseEvent event) {
+    	String content = "The SURF namelist defines the structure of all solid surfaces or openings within or bounding the flow domain. \n\n"
+    			+ "Tmp_front: Sometimes it is convenient to specify a fixed temperature boundary condition, in which case set Tmp_front "
+    			+ "to be the surface temperature in units of degree Celsius.\n\n"
+    			+ "Backing: The expression BACKING='INSULATED' prevents any heat loss from the back side of the material."
+    			+ "If the wall is assumed to back up to the room on the other side of the wall and you want FDS to calculate "
+    			+ "the heat transfer through the wall into the space behind the wall, the attribute BACKING='EXPOSED' should be used."
+    			+ "If the wall is assumed to always back up to the ambient, then the attribute BACKING='VOID' should be set.\n\n"
+    			+ "Default: If a particular SURF line is to be applied as the default boundary condition, set Default to TRUE.\n\n"
+    			+ "Geometry: many objects, like cables, pipes, and ducts, are not flat. Even though these objects have to "
+    			+ "be represented in FDS as boxes, you can still perform the internal heat transfer calculation as if the object were really cylindrical or spherical.\n\n"
+    			+ "Color: If you define the COLOR by name, it is important that you type the name exactly as it is listed in the color tables.\n\n"
+    			+ "HRRPUA: A specified fire is basically modeled as the ejection of gaseous fuel from a solid surface or vent. This is "
+    			+ "essentially a burner, with a specified Heat Release Rate Per Unit Area, HRRPUA, in units of kW/m2.";
+    	String namelist = "SURF";
+		Values.openDesc(namelist, content);
+    }
+    
+    /**
+	 * Description of VENT namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openVentDesc(MouseEvent event) {
+    	String content = "The VENT namelist is used to prescribe planes adjacent to obstructions or external walls.\n\n"
+    			+ "Surf_ID: To specify the surface ID.\n\n"
+    			+ "XB: the sextuplet XB denoting a plane abutting a solid surface. Two of the six coordinates "
+    			+ "must be the same, denoting a plane as opposed to a solid.\n\n"
+    			+ "MB: An easy way to specify an entire external wall is to replace XB with MB (mesh boundary).";
+    	String namelist = "VENT";
+		Values.openDesc(namelist, content);
     }
     
     @FXML

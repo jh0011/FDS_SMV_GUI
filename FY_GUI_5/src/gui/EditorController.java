@@ -238,6 +238,21 @@ public class EditorController implements Initializable{
     		if (countNumLines("clip") > 1) {
     			printValuesClip();
     		}
+    		if (countNumLines("comb") > 1) {
+    			printValuesComb();
+    		}
+    		if (countNumLines("dump") > 1) {
+    			printValuesDump();
+    		}
+    		if (countNumLines("wind") > 1) {
+    			printValuesWind();
+    		}
+    		if (countNumLines("tabl") > 1) {
+    			printValuesTabl();
+    		}
+    		if (countNumLines("zone") > 1) {
+    			printValuesZone();
+    		}
     		editorText.appendText("&TAIL /");
     	}
     	tempEditorString = editorText.getText();
@@ -1094,7 +1109,7 @@ public class EditorController implements Initializable{
     
     public void printValuesBndf() throws SQLException { //bndf
     	//get the number of BNDF lines
-    	String sqlBndf = "SELECT mainID FROM trnx GROUP BY mainID";
+    	String sqlBndf = "SELECT mainID FROM bndf GROUP BY mainID";
     	ResultSet rs = getStatement().executeQuery(sqlBndf);
     	String mainID = "";
     	while (rs.next()) {
@@ -1220,6 +1235,120 @@ public class EditorController implements Initializable{
 		appendToEditorNumber("MINIMUM_DENSITY", MINIMUM_DENSITY);
 		appendToEditorNumber("MINIMUM_TEMPERATURE", MINIMUM_TEMPERATURE);
 		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesComb() throws SQLException { //comb
+    	String sqlComb = "SELECT * FROM comb";
+    	String FIXED_MIX_TIME = "";
+    	String EXTINCTION_MODEL = "";
+		ResultSet rs = getStatement().executeQuery(sqlComb);
+		while (rs.next()) {
+			FIXED_MIX_TIME = rs.getString(1);
+			EXTINCTION_MODEL = rs.getString(2);
+		}
+		editorText.appendText("&COMB" + "\n");
+		appendToEditorNumber("FIXED_MIX_TIME", FIXED_MIX_TIME);
+		appendToEditorString("EXTINCTION_MODEL", EXTINCTION_MODEL);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesDump() throws SQLException { //dump
+    	String sqlDump = "SELECT * FROM dump";
+    	String MASS_FILE = "";
+    	String SMOKE3D = "";
+    	String NFRAMES = "";
+    	String DT_DEVC = "";
+		ResultSet rs = getStatement().executeQuery(sqlDump);
+		while (rs.next()) {
+			MASS_FILE = rs.getString(1);
+			SMOKE3D = rs.getString(2);
+			NFRAMES = rs.getString(3);
+			DT_DEVC = rs.getString(4);
+		}
+		editorText.appendText("&DUMP" + "\n");
+		appendToEditorBoolean("MASS_FILE", MASS_FILE);
+		appendToEditorBoolean("SMOKE3D", SMOKE3D);
+		appendToEditorNumber("NFRAMES", NFRAMES);
+		appendToEditorNumber("DT_DEVC", DT_DEVC);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesWind() throws SQLException { //wind
+    	String sqlWind = "SELECT * FROM wind";
+    	String Z_0 = "";
+    	String DIRECTION = "";
+    	String L = "";
+    	String SPEED = "";
+		ResultSet rs = getStatement().executeQuery(sqlWind);
+		while (rs.next()) {
+			Z_0 = rs.getString(1);
+			DIRECTION = rs.getString(2);
+			L = rs.getString(3);
+			SPEED = rs.getString(4);
+		}
+		editorText.appendText("&WIND" + "\n");
+		appendToEditorNumber("Z_0", Z_0);
+		appendToEditorNumber("DIRECTION", DIRECTION);
+		appendToEditorNumber("L", L);
+		appendToEditorNumber("SPEED", SPEED);
+		editorText.appendText("/" + "\n");
+    }
+    
+    public void printValuesTabl() throws SQLException { //tabl
+    	//get the number of TABL lines
+    	String sqlTabl = "SELECT mainID FROM tabl GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlTabl);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each TABL line
+	    	String ID = "";
+	    	String TABLE_DATA = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlTabl = "SELECT * FROM tabl WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlTabl);
+	        	while (rs.next()) {
+	        		ID = rs.getString(2);
+	        		TABLE_DATA = rs.getString(3);
+	        	}
+	        	editorText.appendText("&TABL" + "\n");
+	        	appendToEditorString("ID", ID);
+	        	appendToEditorNumber("TABLE_DATA", TABLE_DATA);
+	        	editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
+    }
+    
+    public void printValuesZone() throws SQLException {//zone
+    	//get the number of ZONE lines
+    	String sqlZone = "SELECT mainID FROM zone GROUP BY mainID";
+    	ResultSet rs = getStatement().executeQuery(sqlZone);
+    	String mainID = "";
+    	while (rs.next()) {
+    		mainID = rs.getString(1);
+    	}
+    	
+    	try {
+	    	//print each ZONE line
+	    	String XYZ = "";
+	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
+	    		sqlZone = "SELECT * FROM zone WHERE mainID='" + i + "';";
+	        	rs = getStatement().executeQuery(sqlZone);
+	        	while (rs.next()) {
+	        		XYZ = rs.getString(2);
+	        	}
+	        	editorText.appendText("&ZONE" + "\n");
+	        	appendToEditorNumber("XYZ", XYZ);
+	        	editorText.appendText("/" + "\n");
+	    	}
+    	} catch(Exception e) {
+    		System.out.println("Nothing to print");
+    	}
     }
     
     public void appendToEditorString(String paramName, String value) { //add single quotes for string

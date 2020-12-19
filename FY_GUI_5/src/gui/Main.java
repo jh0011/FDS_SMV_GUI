@@ -20,7 +20,7 @@ public class Main extends Application {
 			Values.initValues();
 			Parent root;
 			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Part.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Devc.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");

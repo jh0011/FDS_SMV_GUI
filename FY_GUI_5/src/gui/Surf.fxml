@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SurfController">
    <children>
-      <Label layoutX="45.0" layoutY="36.0" text="SURF">
+      <Label layoutX="45.0" layoutY="36.0" onMouseClicked="#openSurfDesc" text="SURF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -114,7 +114,7 @@
          </font>
       </Button>
       <Separator layoutX="76.0" layoutY="396.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="440.0" text="VENT">
+      <Label layoutX="45.0" layoutY="440.0" onMouseClicked="#openVentDesc" text="VENT">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
