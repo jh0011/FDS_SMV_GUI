@@ -288,6 +288,26 @@ public class RampController implements Initializable{
     	String namelist = "CTRL";
 		Values.openDesc(namelist, content);
     }
+    
+    /**
+	 * Description of REAC namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openReacDesc(MouseEvent event) {
+    	String content = "The REAC namelist can be used to specify parameters about a reaction. If you are modeling a fire, you should "
+    			+ "specify the fuel and basic stoichiometry using a REAC line. \n\n"
+    			+ "Fuel: A character string that identifies fuel species for the reaction. When using simple chemistry, "
+    			+ "specifying FUEL will cause FDS to use the built-in thermophysical properties for that species "
+    			+ "when computing quantities such as specific heat or viscosity.\n\n"
+    			+ "Soot yield: The fraction of fuel mass converted into smoke particulate. Note that this parameter is "
+    			+ "only appropriate when the simple chemistry model is applied.\n\n"
+    			+ "Auto ignition temperature: To prevent spurious re-ignition from happening, you can set the "
+    			+ "AUTO_IGNITION_TEMPERATURE on the REAC line or the COMB line, in °C, below which combustion "
+    			+ "will not occur.";
+    	String namelist = "REAC";
+		Values.openDesc(namelist, content);
+    }
 
     @FXML
     public void latchSelect(ActionEvent event) {

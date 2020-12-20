@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class DumpController implements Initializable{
@@ -186,6 +187,23 @@ public class DumpController implements Initializable{
 			Values.printConfirmationMessage("MATL", false);
     		//System.out.println("Unable to add new MATL line");
     	}
+    }
+    
+    /**
+	 * Description of DUMP namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openDumpDesc(MouseEvent event) {
+    	String content = "The DUMP namelist parameters control the rate at which output files are written, and various other "
+    			+ "global parameters associated with output files. \n\n"
+    			+ "Dt_devc: Device data.\n\n"
+    			+ "Mass_file: If TRUE, produce an output file listing the total masses of all gas species as a function of "
+    			+ "time. It is FALSE by default because the calculation of all gas species in all mesh cells is timeconsuming.\n\n"
+    			+ "Nframes: Number of output dumps per calculation. The default is 1000.\n\n"
+    			+ "Smoke_3D: If FALSE, do not produce an animation of the smoke and fire. It is TRUE by default.";
+    	String namelist = "DUMP";
+		Values.openDesc(namelist, content);
     }
     
     @FXML

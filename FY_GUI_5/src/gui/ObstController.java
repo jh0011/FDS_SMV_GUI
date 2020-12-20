@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ObstController implements Initializable{
@@ -192,6 +193,58 @@ public class ObstController implements Initializable{
 			Values.printConfirmationMessage("OBST", false);
     		//System.out.println("Unable to add new OBST line");
     	}
+    }
+    
+    /**
+	 * Description of OBST namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openObstDesc(MouseEvent event) {
+    	String content = "The OBST namelist is used to define obstructions. The entire geometry of the model "
+    			+ "is made up entirely of rectangular solids, each one introduced on a single line in the input file. \n\n"
+    			+ "XB: This solid is defined by two points (x1,y1,z1) and (x2,y2,z2) that are entered in terms of the real sextuplet.\n\n"
+    			+ "Surf_ID: The boundary conditions for the obstruction can be specified with the parameter Surf_ID, which "
+    			+ "designates which SURF line to apply at the surface of the obstruction.\n\n"
+    			+ "Bulk density: This parameter is used to determine the combustible mass of the solid object in units of kg/m3.\n\n"
+    			+ "Color: To set the colour of the obstruction.";
+    	String namelist = "OBST";
+		Values.openDesc(namelist, content);
+    }
+    
+    /**
+	 * Description of MISC namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openMiscDesc(MouseEvent event) {
+    	String content = "The MISC namelist group of input parameters that do not fall into any one category. They "
+    			+ "are typically global in extent, like the ambient temperature. \n\n"
+    			+ "GVEC: By default, gravity points in the negative z direction, or more simply, downward. However, to change the "
+    			+ "direction of gravity to model a sloping roof or tunnel, for example, specify the gravity vector with a triplet of numbers in units of m/s2.\n\n"
+    			+ "Tmpa: Ambient temperature, the temperature of everything at the start of the simulation. The default is "
+    			+ "20 degree Celsius.\n\n"
+    			+ "Noise: FDS initializes the flow field with a very small amount of “noise” to prevent the development of a perfectly "
+    			+ "symmetric flow when the boundary and initial conditions are perfectly symmetric. To turn this off, set Noise to FALSE.\n\n"
+    			+ "Humidity: Humidity is the relative humidity of water vapor in units of %. It is 40 % by default.\n\n"
+    			+ "Y_CO2_infty: Ambient mass fraction of carbon dioxide. Default for dry air is 0.000595.\n\n"
+    			+ "Freeze_velocity: For certain types of diagnostic tests, it is useful to turn off the velocity field and exercise some other aspect "
+    			+ "of the model, like radiation or particle transport. To do this, set Freeze_velocity to TRUE";
+    	String namelist = "MISC";
+		Values.openDesc(namelist, content);
+    }
+
+    /**
+	 * Description of RADI namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openRadiDesc(MouseEvent event) {
+    	String content = "The RADI namelist contains parameters related to the radiation solver. \n\n"
+    			+ "Radiation: It is possible to turn off the Radiation Transport Equation solver (saving roughly 20 % in CPU time) by adding the statement "
+    			+ "RADIATION=.FALSE.";
+    	String namelist = "RADI";
+		Values.openDesc(namelist, content);
     }
     
     @FXML

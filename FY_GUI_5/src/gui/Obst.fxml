@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ObstController">
    <children>
-      <Label layoutX="45.0" layoutY="36.0" text="OBST">
+      <Label layoutX="45.0" layoutY="36.0" onMouseClicked="#openObstDesc" text="OBST">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -78,7 +78,7 @@
       </Label>
       <TextField layoutX="190.0" layoutY="113.0" prefHeight="25.0" prefWidth="147.0" promptText="Optional" fx:id="xbText" />
       <Separator layoutX="76.0" layoutY="220.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="255.0" text="MISC">
+      <Label layoutX="45.0" layoutY="255.0" onMouseClicked="#openMiscDesc" text="MISC">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -129,7 +129,7 @@
       </Label>
       <TextField fx:id="gvecText" layoutX="190.0" layoutY="329.0" prefHeight="25.0" prefWidth="147.0" promptText="Optional" />
       <Separator layoutX="76.0" layoutY="483.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="518.0" text="RADI">
+      <Label layoutX="45.0" layoutY="518.0" onMouseClicked="#openRadiDesc" text="RADI">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>

@@ -122,7 +122,7 @@
       </Label>
       <ComboBox fx:id="functionCombo" layoutX="560.0" layoutY="379.0" onAction="#functionSelect" prefHeight="25.0" prefWidth="189.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="7" />
       <Separator layoutX="76.0" layoutY="473.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="514.0" text="REAC">
+      <Label layoutX="45.0" layoutY="514.0" onMouseClicked="#openReacDesc" text="REAC">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>

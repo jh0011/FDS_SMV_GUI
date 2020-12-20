@@ -1065,7 +1065,7 @@ public class EditorController implements Initializable{
 		appendToEditorBoolean("NOISE", NOISE);
 		appendToEditorBoolean("FREEZE_VELOCITY", FREEZE_VELOCITY);
 		appendToEditorNumber("HUMIDITY", HUMIDITY);
-		appendToEditorNumber("Y_CO2_INFNTY", Y_CO2_INFNTY);
+		appendToEditorNumber("Y_CO2_INFTY", Y_CO2_INFNTY);
 		appendToEditorNumber("TMPA", TMPA);
 		appendToEditorNumber("GVEC", GVEC);
 		editorText.appendText("/" + "\n");
