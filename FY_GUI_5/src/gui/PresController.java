@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class PresController implements Initializable{
@@ -185,6 +186,37 @@ public class PresController implements Initializable{
 			Values.printConfirmationMessage("TABL", false);
     		//System.out.println("Unable to add new TABL line");
     	}
+    }
+    
+    /**
+	 * Description of PRES namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openPresDesc(MouseEvent event) {
+    	String content = "The PRES namelist is used to change the defualt values to get the solution of the Poisson equation for pressure."
+    			+ "The default Poisson solver in FDS is based on the package of linear algebra routines called CrayFishpak.\n\n"
+    			+ "Fishpak_BC: If you want to implement true periodic boundaries for a single mesh case, set the appropriate FISHPAK_BC value to zero\n\n"
+    			+ "Solver: FFT --> Default Poisson solver. UGLMAT --> the unknown values of the pressure live only in gas-phase "
+    			+ "cells, allowing for the normal components of velocity at a solid surface to be computed exactly. GLMAT --> the "
+    			+ "pressure is solved in both solid and gas cells using an immersed boundary method for flow obstructions.";
+    	String namelist = "PRES";
+		Values.openDesc(namelist, content);
+    }
+    
+    /**
+	 * Description of COMB namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openCombDesc(MouseEvent event) {
+    	String content = "The COMB (combustion) namelist contains parameters that pertain to any and all reactions. \n\n"
+    			+ "Fixed_mix_time: The mixing time is a function of the the level of turbulence in the neighborhood of the point of interest.\n\n"
+    			+ "Extinction_model: Extinction 1 --> The default in Simple Very Large Eddy Simulation (SVLES) mode. Only the cell temperature "
+    			+ "and oxygen concentration are considered because detailed thermophysical gas species properties are not invoked. Extinction 2 --> "
+    			+ "is used in all other modes.";
+    	String namelist = "COMB";
+		Values.openDesc(namelist, content);
     }
 
     @FXML

@@ -206,6 +206,24 @@ public class DumpController implements Initializable{
 		Values.openDesc(namelist, content);
     }
     
+    /**
+	 * Description of MATL namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openMatlDesc(MouseEvent event) {
+    	String content = "The MATL namelist is used to define the properties of the materials that make up boundary solid surfaces.\n\n"
+    			+ "Conductivity: For any solid material, specify its thermal CONDUCTIVITY (W/(m.K)), DENSITY (kg/m3), SPECIFIC_HEAT (kJ/(kg.K))\n\n"
+    			+ "Density: For any solid material, specify its thermal CONDUCTIVITY (W/(m.K)), DENSITY (kg/m3), SPECIFIC_HEAT (kJ/(kg.K))\n\n"
+    			+ "Specific_heat: For any solid material, specify its thermal CONDUCTIVITY (W/(m.K)), DENSITY (kg/m3), SPECIFIC_HEAT (kJ/(kg.K))\n\n"
+    			+ "Heat of reaction: The amount of energy consumed, per unit mass of reactant that is converted into reaction products, in units of kJ/kg.\n\n"
+    			+ "Reference tmp: It is the temperature at which the mass fraction of the material decreases at its maximum rate within the context of "
+    			+ "a thermogravimetric analysis (TGA) or similar experimental apparatus.\n\n"
+    			+ "N_reactions: Number of reactions.";
+    	String namelist = "MATL";
+		Values.openDesc(namelist, content);
+    }
+    
     @FXML
     public void massSelect(ActionEvent event) {
     	massSelection = massCombo.getSelectionModel().getSelectedItem().toString();

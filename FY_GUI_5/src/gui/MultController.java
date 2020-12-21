@@ -20,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class MultController implements Initializable{
@@ -172,6 +173,41 @@ public class MultController implements Initializable{
 			Values.printConfirmationMessage("MULT", false);
     		//System.out.println("Unable to add new MULT line");
     	}
+    }
+    
+    /**
+	 * Description of MULT namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openMultDesc(MouseEvent event) {
+    	String content = "The MULT (multiplier) namelist can be used if a particular set of objects repeats itself in a regular pattern. "
+    			+ "Note that the MULTiplication functionality works for MESH, OBST, HOLE, VENT, and INIT lines.\n\n"
+    			+ "DX: Spacing in the x direction.\n\n"
+    			+ "DY: Spacing in the y direction.\n\n"
+    			+ "DZ: Spacing in the z direction.\n\n"
+    			+ "I_Upper: Upper array bound, x direction.\n\n"
+    			+ "J_Upper: Upper array bound, y direction.\n\n"
+    			+ "K_Upper: Upper array bound, z direction.";
+    	String namelist = "MULT";
+		Values.openDesc(namelist, content);
+    }
+    
+    /**
+	 * Description of WIND namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openWindDesc(MouseEvent event) {
+    	String content = "The WIND namelist can be used to describe the atmosphere. \n\n"
+    			+ "Speed: Speed of the wind.\n\n"
+    			+ "L: L is the Obukhov length, used in the Monin-Obukhov similarity theory. It characterizes the thermal stability of the "
+    			+ "atmosphere. When L is negative, the atmosphere is unstably stratified; when positive, the atmosphere is stably stratified.\n\n"
+    			+ "Z_0: The type of landscape, based on Table 18.2.\n\n"
+    			+ "Direction: The wind DIRECTION follows the usual meteorological convention - a northerly wind has direction of 0 degrees and blows "
+    			+ "from north to south, or in the negative y direction in the FDS coordinate system.";
+    	String namelist = "WIND";
+		Values.openDesc(namelist, content);
     }
     
     /**
