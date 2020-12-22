@@ -88,7 +88,7 @@
       </Label>
       <ComboBox fx:id="modelCombo" layoutX="507.0" layoutY="270.0" onAction="#modelSelect" prefHeight="25.0" prefWidth="153.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="3" />
       <Separator layoutX="76.0" layoutY="316.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="348.0" text="TABL">
+      <Label layoutX="45.0" layoutY="348.0" onMouseClicked="#openTablDesc" text="TABL">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -120,7 +120,7 @@
          </font>
       </Button>
       <Separator layoutX="76.0" layoutY="460.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="492.0" text="CLIP">
+      <Label layoutX="45.0" layoutY="492.0" onMouseClicked="#openClipDesc" text="CLIP">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>

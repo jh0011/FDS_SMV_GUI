@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class HvacController implements Initializable{
@@ -141,6 +142,60 @@ public class HvacController implements Initializable{
     	}catch(Exception e) {
 			Values.showError();
 		}
+    }
+    
+    /**
+	 * Description of HVAC namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openHvacDesc(MouseEvent event) {
+    	String content = "The HVAC (heating, ventilation and air-conditioner) namelist invokes the HVAC solver. An HVAC "
+    			+ "network is defined by providing inputs for the ducts; duct nodes; and any fans, dampers, filters, or heating "
+    			+ "and coiling coils present in the system. \n\n"
+    			+ "Devc_ID: It is the ID of a DEVC for a damper, fan, or aircoil in the duct.\n\n"
+    			+ "Fan_ID: It is the ID of a fan located in the duct.\n\n"
+    			+ "Type_ID: It is a character string that indicates the type of component that the namelist group is defining. "
+    			+ "TYPE_ID can be DUCT, NODE, FAN, FILTER, AIRCOIL, or LEAK.\n\n"
+    			+ "Roughness: It is the absolute roughness in m of the duct that is used to compute the friction factor for the duct. "
+    			+ "If ROUGHNESS is not set, the HVAC solver will not compute the friction factor and the wall friction will "
+    			+ "be zero.\n\n"
+    			+ "Length: It is the length of the duct in units of m. Note that LENGTH is not computed automatically as the difference "
+    			+ "between the XYZ of the duct’s endpoints.\n\n"
+    			+ "Area: It is the cross sectional area of the duct in units of m2.";
+    	String namelist = "HVAC";
+		Values.openDesc(namelist, content);
+    }
+    
+    /**
+	 * Description of HOLE namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openHoleDesc(MouseEvent event) {
+    	String content = "The HOLE namelist defines parameters that carve a hole out of an existing obstruction or set of obstructions. \n\n"
+    			+ "Mesh_ID: To identify the mesh ID.\n\n"
+    			+ "Devc_ID: To allow a hole to be controlled with either the CTRL or DEVC namelist groups, you will need to add the "
+    			+ "CTRL_ID or DEVC_ID parameter respectively.\n\n"
+    			+ "XB: Any solid mesh cells within the volume specfied are removed. XB consists of 6 values, comma-separated.\n\n"
+    			+ "Mult_ID: To identify the multiplier ID.\n\n"
+    			+ "Ctrl_ID: To allow a hole to be controlled with either the CTRL or DEVC namelist groups, you will need to add the "
+    			+ "CTRL_ID or DEVC_ID parameter respectively.";
+    	String namelist = "HOLE";
+		Values.openDesc(namelist, content);
+    }
+
+    /**
+	 * Description of ISOF namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openIsofDesc(MouseEvent event) {
+    	String content = "The ISOF (isosurface file) namelist creates three-dimensional animated contours of gas phase "
+    			+ "scalar quantities. For example, a 300 degrees Celsius temperature isosurface is a 3-D surface on which the gas temperature "
+    			+ "is 300 degrees Celsius.";
+    	String namelist = "ISOF";
+		Values.openDesc(namelist, content);
     }
     
     @FXML

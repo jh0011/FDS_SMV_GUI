@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.HvacController">
    <children>
-      <Label layoutX="45.0" layoutY="36.0" text="HVAC">
+      <Label layoutX="45.0" layoutY="36.0" onMouseClicked="#openHvacDesc" text="HVAC">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -91,7 +91,7 @@
       </Label>
       <ComboBox fx:id="typeCombo" layoutX="190.0" layoutY="242.0" onAction="#typeSelect" prefHeight="25.0" prefWidth="153.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="7" />
       <Separator layoutX="76.0" layoutY="286.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="312.0" text="HOLE">
+      <Label layoutX="45.0" layoutY="312.0" onMouseClicked="#openHoleDesc" text="HOLE">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -136,7 +136,7 @@
       </Label>
       <TextField layoutX="190.0" layoutY="458.0" prefHeight="25.0" prefWidth="153.0" promptText="Optional" fx:id="xbText" />
       <Separator layoutX="76.0" layoutY="489.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="505.0" text="ISOF">
+      <Label layoutX="45.0" layoutY="505.0" onMouseClicked="#openIsofDesc" text="ISOF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>

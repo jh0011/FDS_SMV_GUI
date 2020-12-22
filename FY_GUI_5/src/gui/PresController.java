@@ -218,6 +218,41 @@ public class PresController implements Initializable{
     	String namelist = "COMB";
 		Values.openDesc(namelist, content);
     }
+    
+    /**
+	 * Description of TABL namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openTablDesc(MouseEvent event) {
+    	String content = "The TABL namelist can be used to provide information about the spherical distribution of the spray pattern for a specified solid angle.\n\n"
+    			+ "Table_data: Specify 6 values - Lat1,Lat2,Lon1,Lon2,Velo,Frac.\n"
+    			+ "LAT1 and LAT2 are the bounds of the solid angle measured in degrees from the south pole (0 is the south pole and 90 is the "
+    			+ "equator, 180 is the north pole). \n"
+    			+ "LON1 and LON2 are the bounds of the solid angle (also in degrees), where 0 "
+    			+ "(or 360) is aligned with the -x axis and 90 is aligned with the -y axis. \n"
+    			+ "VELO is the velocity (m/s) of the droplets at their point of insertion. \n"
+    			+ "FRAC the fraction of the total flow rate of liquid that should emerge from that particular solid angle.";
+    	String namelist = "TABL";
+		Values.openDesc(namelist, content);
+    }
+    
+    /**
+	 * Description of CLIP namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openClipDesc(MouseEvent event) {
+    	String content = "The CLIP namelist can be used to set temperature and density bounds. For typical fire scenarios, you need not set these values, but "
+    			+ "if you anticipate relatively low or high values in an unusual case, take a look at the calculation results to "
+    			+ "determine if a change in the bounds is needed. \n\n"
+    			+ "Max. density: Maximum density.\n\n"
+    			+ "Min. density: Minimum density.\n\n"
+    			+ "Max. temperature: Maximum temperature.\n\n"
+    			+ "Min. temperature: Minimum temperature.";
+    	String namelist = "CLIP";
+		Values.openDesc(namelist, content);
+    }
 
     @FXML
     public void solverSelect(ActionEvent event) {
