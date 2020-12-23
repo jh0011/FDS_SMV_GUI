@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class MoveController implements Initializable{
@@ -142,6 +143,55 @@ public class MoveController implements Initializable{
     	}catch(Exception e) {
 			Values.showError();
 		}
+    }
+    
+    /**
+	 * Description of MOVE namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openMoveDesc(MouseEvent event) {
+    	String content = "The MOVE namelist can be used to rotate and/or translate various objects within an FDS simulation. \n\n"
+    			+ "Rotation_angle: The angle of rotation about the axis.\n\n"
+    			+ "Axis: The direction vectore from the origin point.\n\n"
+    			+ "X0: X-coordinate of the origin point of the axis.\n\n"
+    			+ "Y0: Y-coordinate of the origin point of the axis.\n\n"
+    			+ "Z0: Z-coordinate of the origin point of the axis.";
+    	String namelist = "MOVE";
+		Values.openDesc(namelist, content);
+    }
+
+    /**
+	 * Description of PROF namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openProfDesc(MouseEvent event) {
+    	String content = "The PROF (profile output) namelist can be used to record the properties of the solid in depth at discrete intervals of time."
+    			+ "FDS uses a fine one-dimensional grid at each boundary cell to calculate the heat conduction and reactions "
+    			+ "within a solid. The solid can be a wall cell or a Lagrangian particle. \n\n"
+    			+ "Quantity: The physical quantity to monitor.\n\n"
+    			+ "XYZ: Triplet of coordinates, comma-separated.\n\n"
+    			+ "IOR: The parameter IOR (Index of Orientation) is required for any device that is placed on the surface of a solid."
+    			+ " The values +/-1 or +/-2 or +/-3 indicate the direction that the device “points.” For example, IOR=-1 means that the"
+    			+ " device is mounted on a wall that faces in the negative x direction.";
+    	String namelist = "PROF";
+		Values.openDesc(namelist, content);
+    }
+
+    /**
+	 * Description of RADF namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openRadfDesc(MouseEvent event) {
+    	String content = "The RADF (radiation output file) namelist can be used to save data within rectangular blocks of cells. \n\n"
+    			+ "I_Step: Number of cells to skip in the X-direction.\n\n"
+    			+ "J_Step: Number of cells to skip in the Y-direction.\n\n"
+    			+ "K_Step: Number of cells to skip in the Z-direction.\n\n"
+    			+ "XB: A sextuplet of numbers, comma-separated.";
+    	String namelist = "RADF";
+		Values.openDesc(namelist, content);
     }
     
     @FXML

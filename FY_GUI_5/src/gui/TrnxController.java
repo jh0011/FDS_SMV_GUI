@@ -20,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class TrnxController implements Initializable{
@@ -202,6 +203,38 @@ public class TrnxController implements Initializable{
 			Values.printConfirmationMessage("ZONE", false);
     		//System.out.println("Unable to add new ZONE line");
     	}
+    }
+    
+    /**
+	 * Description of TRNX namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openTrnxDesc(MouseEvent event) {
+    	String content = "The TRNX (mesh stretching) namelist can be used to create non-uniform cells. By default the mesh cells that fill the "
+    			+ "computational domain are uniform in size. However, it is possible to specify that the cells be non-uniform in one or two "
+    			+ "of the three coordinate directions. \n\n"
+    			+ "CC: Computational Coordinate should be between 0 and 1.5, inclusive.\n\n"
+    			+ "Mesh_number: If you want the transformation to be applied to all meshes, set MESH_NUMBER to 0.\n\n"
+    			+ "PC: Physical Coordinate should be between 0 and 1.5, inclusive.";
+    	String namelist = "TRNX";
+		Values.openDesc(namelist, content);
+    }
+
+    /**
+	 * Description of ZONE namelist
+	 * @param event Open the description label
+	 */
+    @FXML
+    public void openZoneDesc(MouseEvent event) {
+    	String content = "A pressure zone can be any region within the computational domain that is separated from the rest of the "
+    			+ "domain, or the exterior, by solid obstructions. There is currently no algorithm within FDS to identify these "
+    			+ "zones based solely on your specified obstructions. Consequently, it is necessary that you identify these zones "
+    			+ "explicitly in the input file. \n\n"
+    			+ "XYZ: It specifies a single point that is within a sealed compartment, and it is "
+    			+ "not embedded within a solid obstruction.";
+    	String namelist = "ZONE";
+		Values.openDesc(namelist, content);
     }
     
     /**

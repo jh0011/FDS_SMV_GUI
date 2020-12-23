@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MoveController">
    <children>
-      <Label layoutX="45.0" layoutY="36.0" text="MOVE">
+      <Label layoutX="45.0" layoutY="36.0" onMouseClicked="#openMoveDesc" text="MOVE">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -85,7 +85,7 @@
       </Label>
       <TextField fx:id="zText" layoutX="507.0" layoutY="196.0" prefHeight="25.0" prefWidth="96.0" promptText="Optional" />
       <Separator layoutX="76.0" layoutY="238.0" prefHeight="27.0" prefWidth="705.0" />
-      <Label layoutX="45.0" layoutY="270.0" text="PROF">
+      <Label layoutX="45.0" layoutY="270.0" onMouseClicked="#openProfDesc" text="PROF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
@@ -123,7 +123,7 @@
          </font>
       </Label>
       <ComboBox fx:id="iorCombo" layoutX="507.0" layoutY="363.0" onAction="#iorSelect" prefHeight="25.0" prefWidth="153.0" promptText="Select one (optional)" style="-fx-background-color: ffffff;" visibleRowCount="7" />
-      <Label layoutX="45.0" layoutY="438.0" text="RADF">
+      <Label layoutX="45.0" layoutY="438.0" onMouseClicked="#openRadfDesc" text="RADF">
          <font>
             <Font name="Bestina" size="34.0" />
          </font>
