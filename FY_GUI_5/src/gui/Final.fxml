@@ -9,10 +9,9 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="gui.FinalController">
+<AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FinalController">
    <children>
-      <Button fx:id="finalBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToEditor" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
+      <Button fx:id="runBtn" layoutX="620.0" layoutY="640.0" mnemonicParsing="false" onAction="#runFDS" prefHeight="37.0" prefWidth="114.0" style="-fx-background-color: #EC6400;" text="Run in FDS" wrapText="true">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
@@ -51,5 +50,10 @@
             <Font size="17.0" />
          </font>
       </Label>
+      <Button fx:id="finalBackBtn" layoutX="518.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToEditor" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

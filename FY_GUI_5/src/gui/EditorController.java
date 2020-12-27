@@ -35,6 +35,8 @@ public class EditorController implements Initializable{
 	static String CHID = "";
 	static FileWriter fw;
 	static BufferedWriter bw = null;
+	static File fileDirectory;
+	//static File fileDirectory = new File("C:\\Users\\dell\\Desktop\\couch_modified_try");
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -98,6 +100,7 @@ public class EditorController implements Initializable{
     	File selectedDirectory = directoryChooser.showDialog(null);
     	//System.out.println(selectedDirectory.getAbsolutePath());
     	File outputFile = new File(selectedDirectory + "\\" + CHID + ".fds");
+    	fileDirectory = selectedDirectory;
     	boolean isFileCreated = false;
     	if (!outputFile.exists()){
     		isFileCreated = outputFile.createNewFile();
@@ -140,7 +143,6 @@ public class EditorController implements Initializable{
     	//proceed to the final page
     	goToFinal(event);
     }
-    
     
     
     public void showFile() throws SQLException {
