@@ -8,6 +8,7 @@ import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -29,6 +30,9 @@ import javafx.stage.Stage;
 public class FinalController implements Initializable{
 	
 	@FXML Button exitBtn;
+	static int numOfFiles = 0;
+	static ArrayList<String> listOfFiles = new ArrayList<String>();
+	static ArrayList<String> listOfDirectories = new ArrayList<String>();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -73,9 +77,13 @@ public class FinalController implements Initializable{
 			runAlert.setHeaderText(null);
 			Optional<ButtonType> userOption = runAlert.showAndWait();
 			if (userOption.get() == ButtonType.OK){
-				// Update batch file (single run)
-		    	updateBatch();
+				// Update batch files
+				updateRunPythonBatch();
+				updateRunFDSBatch();
+				
+				//update python script
 		    	updatePythonScript();
+		    	
 		    	//Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
 		    	Process p = Runtime.getRuntime().exec("cmd /c start fdsinit.bat");
 			}
@@ -84,24 +92,65 @@ public class FinalController implements Initializable{
     		System.out.println("Something went wrong when opening the CMDfds shell. Ensure that NIST FDS-SMV simulator is installed.");
     	}
 		
-    	
+    }
+
+    
+    public void updateRunPythonBatch() {
+    	try {
+	    	//update the runPython batch file
+	    	FileWriter fw2;
+	    	BufferedWriter bw2 = null;
+	    	File outputFile2 = new File("runPython.bat");
+	    	fw2 = new FileWriter(outputFile2);
+	    	bw2 = new BufferedWriter(fw2);
+	    	
+	    	Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
+			System.out.println("ENTERED HERE 2");
+			bw2.write("cd " + EditorController.fileDirectory + "\n"); //cd to the initial .fds file directory
+			System.out.println("ENTERED HERE 3");
+			bw2.write("C:\\Python27\\python " + path + "\\parFDS.py\n"); //execute the python script
+			//bw2.write("call " + path + "\\runFDS.bat\n");
+			bw2.close();
+			
+			//run the runPython.bat
+			Process p = Runtime.getRuntime().exec("cmd /c start " + path + "\\runPython.bat && exit");
+			Thread.sleep(10000); //sleep for 10s to allow the runPython.bat to execute
+    	}catch(Exception e) {
+    		System.out.println("Error while updating runPython.bat");
+    	}
     }
     
-    public void updateBatch() throws IOException {
-    	//update the batch file
-    	FileWriter fw;
-    	BufferedWriter bw = null;
-    	File outputFile = new File("runFDS.bat");
-    	
-    	fw = new FileWriter(outputFile);
-		bw = new BufferedWriter(fw);
-		Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
-		bw.write("cd " + EditorController.fileDirectory + "\n");
-		//bw.write("C:\\Python27\\python " + path + "\\parFDS.py");
-		bw.write("fds_local " + EditorController.CHID + ".fds\n");
-		bw.close();
-		
+    public void updateRunFDSBatch() {
+    	try {
+	    	//update the runFDS batch file
+	    	FileWriter fw;
+	    	BufferedWriter bw = null;
+	    	File outputFile = new File("runFDS.bat");
+	    	fw = new FileWriter(outputFile);
+			bw = new BufferedWriter(fw);
+			
+			Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
+			//bw.write("call " + path + "\\runPython.bat\n"); //run the runPython.bat file
+			System.out.println("ENTERED HERE 4");
+			
+			traverse(EditorController.fileDirectory.getPath() + "\\input_files");
+			for (int i=0; i<listOfDirectories.size(); i++) {
+				if (listOfDirectories.size() == listOfFiles.size()) {
+					System.out.println("ENTERED HERE");
+					bw.write("cd " + listOfDirectories.get(i) + "\n"); //cd to the case_X directory
+					bw.write("fds_local " + listOfFiles.get(i) + "\n"); //run FDS with the case_X.fds file
+				}
+				else {
+					//YET TO IMPLEMENT
+				}
+			}
+			//bw.write("fds_local " + EditorController.CHID + ".fds\n");
+			bw.close();
+    	} catch(Exception e) {
+    		System.out.println("Error while updating runFDS.bat");
+    	}
     }
+
     
     public void updatePythonScript() throws IOException {
     	//update parFDS.py
@@ -117,8 +166,10 @@ public class FinalController implements Initializable{
 		fw = new FileWriter(pythonScript);
 		String pythonFileDirectory = getDirectoryFormat(EditorController.fileDirectory);
 		
-		String oldContent = "input_file = 'C:\\\\Users\\\\dell\\\\Desktop\\\\couch_modified_try\\\\couch_modified.fds'";
-		String newContent = "input_file = '" + pythonFileDirectory + "\\\\" + EditorController.CHID + ".fds'";
+		String oldContent = "input_file = 'input_file'";
+		String input_file = pythonFileDirectory + "\\\\" + EditorController.CHID + ".fds";
+		String newContent = "input_file = '" + input_file + "'";
+		//String newContent = "input_file = '" + pythonFileDirectory + "\\\\" + EditorController.CHID + ".fds'";
 		if (fileContents.contains(oldContent)) {
 			fileContents = fileContents.replace(oldContent, newContent);
 		}
@@ -140,8 +191,10 @@ public class FinalController implements Initializable{
     	
 		fw2 = new FileWriter(pythonScript2);
 		
-		String oldContent2 = "with open('C:\\\\Users\\\\dell\\\\Desktop\\\\couch_modified_try\\\\couch_modified.fds', 'r') as f:";
-		String newContent2 = "with open('" + pythonFileDirectory + "\\\\" + EditorController.CHID + ".fds', 'r') as f:";
+		String oldContent2 = "with open('input_file', 'r') as f:";
+		String input_file2 = pythonFileDirectory + "\\\\" + EditorController.CHID + ".fds";
+		//String newContent2 = "with open('" + pythonFileDirectory + "\\\\" + EditorController.CHID + ".fds', 'r') as f:";
+		String newContent2 = "with open('" + input_file2 + "', 'r') as f:";
 		if (fileContents2.contains(oldContent2)) {
 			fileContents2 = fileContents2.replace(oldContent2, newContent2);
 		}
@@ -170,6 +223,28 @@ public class FinalController implements Initializable{
 		return pythonFileDirectory;
     }
     
+    public void traverse(String path) {
+    	try {
+	    	File root = new File(path);
+	    	File[] files = root.listFiles();
+	    	for (File f : files) {
+	    		if (f.isDirectory()) {
+	    			traverse(f.getAbsolutePath());
+					System.out.println("Dir: " + f.getAbsoluteFile());
+					listOfDirectories.add(f.getAbsoluteFile().toString()); //update the list of directories to traverse
+	    		}
+	    		else {
+	    			if (f.getAbsoluteFile().toString().contains(".fds")) {
+	    				listOfFiles.add(f.getAbsoluteFile().toString()); //update the list of directories to traverse 
+	    				System.out.println("File: " + f.getAbsoluteFile());
+	    			}
+	    		}
+	    	}
+    	}catch (Exception e){
+    		System.out.println("Error while traversing for input files.");
+    	}
+    }
+    
     
     //exit
     
@@ -187,5 +262,11 @@ public class FinalController implements Initializable{
     //--> cd to the directory
     //--> Execute the python script (parFDS.py)
     //--> Iterate through each sub-folder and execute fds_local command
+    
+    
+    //update runPython file
+    //run runPython.bat
+    //update runFDS file
+    //run runFDS.bat
 
 }
