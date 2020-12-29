@@ -106,4 +106,4 @@ if __name__ == '__main__':
 		main(input_file, **kwargs)
 		# plotter(parameters, plotted_val = 'HRR',  **kwargs)
 	except:
-		print("")
+		print("Caught")

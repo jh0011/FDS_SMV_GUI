@@ -32,12 +32,12 @@ public class EditorController implements Initializable{
 	@FXML TextArea editorText;
 	static String tempEditorString = "";
 	static String path = "";
-	//static String CHID = "";
-	static String CHID = "couch3";
+	static String CHID = "";
+	//static String CHID = "couch3";
 	static FileWriter fw;
 	static BufferedWriter bw = null;
-	//static File fileDirectory;
-	static File fileDirectory = new File("C:\\Users\\dell\\Desktop\\couch_modified_try");
+	static File fileDirectory;
+	//static File fileDirectory = new File("C:\\Users\\dell\\Desktop\\couch_modified_try");
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -120,6 +120,9 @@ public class EditorController implements Initializable{
     			bw = new BufferedWriter(fw);
     			bw.write(editorText.getText());
     			bw.close();
+    			
+    			//proceed to the final page
+    	    	goToFinal(event);
         	}
 		}
     	else { //confirmation to overwrite the existing file
@@ -138,11 +141,13 @@ public class EditorController implements Initializable{
 	    		bw = new BufferedWriter(fw);
 	    		bw.write(editorText.getText());
 	    		bw.close();
+	    		
+	    		//proceed to the final page
+	        	goToFinal(event);
 			}
 		}
     	
-    	//proceed to the final page
-    	goToFinal(event);
+    	
     }
     
     
