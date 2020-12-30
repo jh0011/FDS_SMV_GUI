@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,7 +38,10 @@ public class FinalController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		//set the python scripts to the default value
+		resetPythonScripts();
+		//delete previous batch files
+		deleteBatchFiles();
 		
 	}
 	
@@ -85,7 +89,6 @@ public class FinalController implements Initializable{
 				//update python script
 		    	updatePythonScript();
 		    	
-		    	
 		    	Process p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K \""
 		    			+ "fdsinit.bat && cd " + path + "\\batch-files && runFDS.bat\"");
 			}
@@ -93,13 +96,80 @@ public class FinalController implements Initializable{
     	catch(Exception e) {
     		System.out.println("Something went wrong when opening the CMDfds shell. Ensure that NIST FDS-SMV simulator is installed.");
     	}
-		
+    }
+    
+    public void resetPythonScripts() {
+    	try {
+			//reset parFDS.py
+			//read the file parFDS-default.py 
+			//write the values into parFDS.py
+	    	File pythonScript = new File(path + "\\python-scripts\\parFDS-default.py");
+	    	File pythonScriptPar = new File(path + "\\python-scripts\\parFDS.py");
+	    	Scanner sc = new Scanner(pythonScript);
+	    	StringBuffer buffer = new StringBuffer();
+	    	while (sc.hasNextLine()) {
+	    		buffer.append(sc.nextLine()+System.lineSeparator());
+	    	}
+	    	String fileContents = buffer.toString();
+	    	sc.close();
+	    	
+	    	FileWriter fw;
+			fw = new FileWriter(pythonScriptPar);
+			fw.append(fileContents);
+			fw.close();
+			
+			//reset helper_functions.py
+			//read the file helper_functions-default.py 
+			//write the values into helper_functions.py
+			File pythonScript2 = new File(path + "\\python-scripts\\helper_functions-default.py");
+			File pythonScript2Helper = new File(path + "\\python-scripts\\helper_functions.py");
+	    	Scanner sc2 = new Scanner(pythonScript2);
+	    	StringBuffer buffer2 = new StringBuffer();
+	    	while (sc2.hasNextLine()) {
+	    		buffer2.append(sc2.nextLine()+System.lineSeparator());
+	    	}
+	    	String fileContents2 = buffer2.toString();
+	    	sc2.close();
+	    	
+	    	FileWriter fw2;
+			fw2 = new FileWriter(pythonScript2Helper);
+			fw2.append(fileContents2);
+			fw2.close();
+			
+		}catch(Exception e) {
+			System.out.println("Error while setting default values of the python scripts.");
+		}
     }
 
+    public void deleteBatchFiles() {
+    	try {
+	    	String batchDirectory = path + "\\batch-files";
+	    	File root = new File(batchDirectory);
+	    	File[] files = root.listFiles();
+	    	for (File f : files) {
+	    		if (!(f.getAbsoluteFile().toString().contains("runFDS.bat") || f.getAbsoluteFile().toString().contains("runPython.bat"))) {
+	    			Files.deleteIfExists(f.toPath());
+	    		}
+	    	}
+	    	String fileContents = "";
+	    	FileWriter fw;
+	    	File runFDS = new File(path + "\\batch-files\\runFDS.bat");
+			fw = new FileWriter(runFDS);
+			fw.append(fileContents);
+			fw.close();
+			
+			FileWriter fw2;
+	    	File runPython = new File(path + "\\batch-files\\runPython.bat");
+			fw2 = new FileWriter(runPython);
+			fw2.append(fileContents);
+			fw2.close();
+    	}catch(Exception e) {
+    		System.out.println("Error while deleting the batch files.");
+    	}
+    }
     
     public void updateRunPythonBatch() {
     	try {
-    		
 	    	//update the runPython batch file
 	    	FileWriter fw2;
 	    	BufferedWriter bw2 = null;
@@ -179,7 +249,6 @@ public class FinalController implements Initializable{
     	//update parFDS.py
     	FileWriter fw;
     	File pythonScript = new File(path + "\\python-scripts\\parFDS.py");
-    	System.out.println("Python script directory: " + pythonScript.getAbsolutePath());
     	Scanner sc = new Scanner(pythonScript);
     	StringBuffer buffer = new StringBuffer();
     	while (sc.hasNextLine()) {
@@ -266,9 +335,6 @@ public class FinalController implements Initializable{
     		System.out.println("Error while traversing for input files.");
     	}
     }
-    
-    
-    
     
     //update runPython file
     //run runPython.bat
