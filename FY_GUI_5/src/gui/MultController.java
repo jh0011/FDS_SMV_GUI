@@ -88,7 +88,7 @@ public class MultController implements Initializable{
 	 * @throws SQLException
 	 */
     @FXML
-    public  void goToDump(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
+    public void goToDump(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
     	doChecking();
     	
     	try {
@@ -118,7 +118,7 @@ public class MultController implements Initializable{
 	 * @throws SQLException
 	 */
     @FXML
-    public  void goToPres(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
+    public void goToPres(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
     	doChecking();
     	
     	try {

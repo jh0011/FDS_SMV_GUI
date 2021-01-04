@@ -48,8 +48,4 @@ public class IntroController implements Initializable{
 		mainWindow.show();
 	}
 	
-	
-
-	
-
 }

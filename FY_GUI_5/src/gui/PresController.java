@@ -47,7 +47,7 @@ public class PresController implements Initializable{
     //clip
     @FXML TextField maxDenText; //float (+)
     @FXML TextField maxTempText; //float (+ / -)
-    @FXML  TextField minDenText; //float (+)
+    @FXML TextField minDenText; //float (+)
     @FXML TextField minTempText; //float (+ / -)
 
     @FXML Button addTablBtn;

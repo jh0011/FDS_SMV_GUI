@@ -91,7 +91,7 @@ def plotter(parameters, plotted_val = 'HRR',  **kwargs):
 
 if __name__ == '__main__':
 	try:
-		input_file = 'C:\\Users\\dell\\Desktop\\couch_4\\.fds'
+		input_file = 'C:\\Users\\dell\\Desktop\\trial1\\couch2.fds'
 		kwargs = {'test_name' : 'StepBoxDan', 
 				  'base_path' : 'input_files', 
 				  'funct' : fds_calculation,
@@ -106,4 +106,4 @@ if __name__ == '__main__':
 		main(input_file, **kwargs)
 		# plotter(parameters, plotted_val = 'HRR',  **kwargs)
 	except:
-		print("Caught")
+		print("")

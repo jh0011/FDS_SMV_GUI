@@ -42,7 +42,7 @@ public class TimeController implements Initializable{
 	@FXML Button timeNextBtn;
 	@FXML Button cancelBtn;
 	
-	boolean checkFloat;;
+	boolean checkFloat;
 	boolean checkEndTime;
 	boolean isCorrectFormat;
 	

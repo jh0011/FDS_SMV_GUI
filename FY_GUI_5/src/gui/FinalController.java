@@ -42,7 +42,6 @@ public class FinalController implements Initializable{
 		resetPythonScripts();
 		//delete previous batch files
 		deleteBatchFiles();
-		
 	}
 	
 	@FXML
