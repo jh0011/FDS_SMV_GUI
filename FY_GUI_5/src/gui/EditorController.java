@@ -32,8 +32,8 @@ public class EditorController implements Initializable{
 	@FXML TextArea editorText;
 	static String tempEditorString = "";
 	static String path = "";
-	static String CHID = "";
-	//static String CHID = "couch3";
+	//static String CHID = "";
+	static String CHID = "default1";
 	static FileWriter fw;
 	static BufferedWriter bw = null;
 	static File fileDirectory;

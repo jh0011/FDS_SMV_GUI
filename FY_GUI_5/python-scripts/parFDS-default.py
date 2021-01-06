@@ -60,10 +60,10 @@ def main(input_file, **kwargs):
 	#types = [type(x) for x in paths]
 	#print type(kwargs['funct']), types
 	#pool_outputs = pool.map(kwargs['funct'], paths)
-	pool_outputs = pool.map(fds_calculation, paths)
+	#pool_outputs = pool.map(fds_calculation, paths)
 
 	pool.close()
-	return pool_outputs
+	#return pool_outputs
 
 def plotter(parameters, plotted_val = 'HRR',  **kwargs):
 	"""
@@ -90,20 +90,19 @@ def plotter(parameters, plotted_val = 'HRR',  **kwargs):
 			plt.savefig(key + ' ' + str(results[0]) + '.png', dpi = 300)
 
 if __name__ == '__main__':
-	try:
-		input_file = 'input_file'
-		kwargs = {'test_name' : 'StepBoxDan', 
-				  'base_path' : 'input_files', 
-				  'funct' : fds_calculation,
-				  'multiproc' : True, 
-				  'pool_size' : 1}
 	
-		calling_dir = os.getcwd()
-		
-		if os.path.exists(os.path.join(calling_dir, kwargs['base_path'])):
-			shutil.rmtree(os.path.join(calling_dir, kwargs['base_path']))
+	input_file = 'input_file'
+	kwargs = {'test_name' : 'StepBoxDan', 
+			  'base_path' : 'input_files', 
+			  'funct' : fds_calculation,
+			  'multiproc' : True, 
+			  'pool_size' : 1}
+
+	calling_dir = os.getcwd()
 	
-		main(input_file, **kwargs)
-		# plotter(parameters, plotted_val = 'HRR',  **kwargs)
-	except:
-		print("")
+	if os.path.exists(os.path.join(calling_dir, kwargs['base_path'])):
+		shutil.rmtree(os.path.join(calling_dir, kwargs['base_path']))
+
+	main(input_file, **kwargs)
+	# plotter(parameters, plotted_val = 'HRR',  **kwargs)
+	
