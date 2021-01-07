@@ -321,28 +321,9 @@ public class PartController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkIntegerValues(TextField tempField){
-		try{ 
-			String stringVal = tempField.getText();
-			int intVal = Integer.parseInt(stringVal);
-			if (intVal <= 0){ //if it is not a positive integer
-				Alert partAlert = new Alert(Alert.AlertType.INFORMATION);
-				partAlert.setTitle("Invalid integer value");
-				partAlert.setContentText("Sampling factor should be a positive integer. Please check again.");
-				partAlert.setHeaderText(null);
-				partAlert.show();
-				return false;
-			}
-			tempField.setText(stringVal);
-			return true;
-		}
-		catch(Exception e){ //if it is not integer
-			Alert partAlert = new Alert(Alert.AlertType.INFORMATION);
-			partAlert.setTitle("Invalid integer value");
-			partAlert.setContentText("Sampling factor should be an integer. Please check again.");
-			partAlert.setHeaderText(null);
-			partAlert.show();
-			return false;
-		}
+		String param = "Sampling factor";
+    	return Values.checkPosIntValues(param, tempField);
+		
 	}
 	
 	/**
@@ -351,29 +332,8 @@ public class PartController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkFloatValues(TextField tempField){
-		try{
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive value
-				Alert partAlert = new Alert(Alert.AlertType.INFORMATION);
-				partAlert.setTitle("Invalid value");
-				partAlert.setContentText("Diameter should be a positive value. Please check again.");
-				partAlert.setHeaderText(null);
-				partAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch(Exception e){ //if it is not a float
-			Alert partAlert = new Alert(Alert.AlertType.INFORMATION);
-			partAlert.setTitle("Invalid value");
-			partAlert.setContentText("Diameter should be a numerical value. Please check again.");
-			partAlert.setHeaderText(null);
-			partAlert.show();
-			return false;
-		}
-		
+		String param = "Diameter";
+    	return Values.checkPosFloatValues(param, tempField);
 	}
 	
 	/**

@@ -91,7 +91,7 @@ def plotter(parameters, plotted_val = 'HRR',  **kwargs):
 
 if __name__ == '__main__':
 	
-	input_file = 'C:\\Users\\dell\\Desktop\\couch_4\\example_input_file.fds'
+	input_file = 'input_file'
 	kwargs = {'test_name' : 'StepBoxDan', 
 			  'base_path' : 'input_files', 
 			  'funct' : fds_calculation,

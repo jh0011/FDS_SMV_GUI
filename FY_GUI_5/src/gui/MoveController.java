@@ -260,28 +260,9 @@ public class MoveController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if float is positive
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive float
-				Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
-				moveAlert.setTitle("Invalid value");
-				moveAlert.setContentText("X0, Y0 and Z0 should be positive values. Please check again.");
-				moveAlert.setHeaderText(null);
-				moveAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
-			moveAlert.setTitle("Invalid value");
-			moveAlert.setContentText("X0, Y0 and Z0 should be numerical values. Please check again.");
-			moveAlert.setHeaderText(null);
-			moveAlert.show();
-			return false;
-		}
+    	String param = "X0, Y0 and Z0";
+    	return Values.checkPosFloatValues(param, tempField);
+    	
     }
     
     /**
@@ -384,85 +365,19 @@ public class MoveController implements Initializable{
      * @return Boolean on whether the check was successful
      */
     public boolean checkXyzFormat(TextField tempField) { //check if 3 positive float values
-    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
-			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
-			moveAlert.setTitle("Incorrect XYZ format");
-			moveAlert.setContentText("There should not be any whitespaces.");
-			moveAlert.setHeaderText(null);
-			moveAlert.show();
-			return false;
-		}
-		
-		String[] xyzValues = tempField.getText().split(",");
-		String concatXyz = "";
-		if (xyzValues.length != 3){ //check if xyz is the correct length
-			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
-			moveAlert.setTitle("Incorrect XYZ format");
-			moveAlert.setContentText("There should be 3 real values, comma-separated.");
-			moveAlert.setHeaderText(null);
-			moveAlert.show();
-			return false;
-		}
-		
-		try{
-			for (int i=0; i<3; i++){
-				float xyzFloat = Float.valueOf(xyzValues[i]);
-				if (xyzFloat < 0){ //check if xyz is negative or zero
-					Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
-					moveAlert.setTitle("Incorrect XYZ format");
-					moveAlert.setContentText("The XYZ values should be positive real values.");
-					moveAlert.setHeaderText(null);
-					moveAlert.show();
-					return false;
-				}
-				if (i==0 || i==1){ //concatenate to format the xyz string
-					concatXyz = concatXyz + Float.toString(xyzFloat) + ",";
-				}
-				else{
-					concatXyz = concatXyz + Float.toString(xyzFloat);
-				}
-			}
-			tempField.setText(concatXyz);
-			return true;
-		}
-		catch(Exception e){ //check if xyz is a number
-			Alert moveAlert = new Alert(Alert.AlertType.INFORMATION);
-			moveAlert.setTitle("Incorrect Axis format");
-			moveAlert.setContentText("There should be 3 real values.");
-			moveAlert.setHeaderText(null);
-			moveAlert.show();
-			e.printStackTrace();
-			return false;
-		}
+    	return Values.checkXyzFormat(tempField);
     }
+    
+    
     /**
 	 * Check if the integer is a positive value 
 	 * @param tempField TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
-    	try{ 
-			String stringVal = tempField.getText();
-			int intVal = Integer.parseInt(stringVal);
-			if (intVal <= 0){ //if it is not a positive integer
-				Alert radfAlert = new Alert(Alert.AlertType.INFORMATION);
-				radfAlert.setTitle("Invalid integer value");
-				radfAlert.setContentText("I_Step, J_Step and K_Step should be positive integers. Please check again.");
-				radfAlert.setHeaderText(null);
-				radfAlert.show();
-				return false;
-			}
-			tempField.setText(stringVal);
-			return true;
-		}
-		catch(Exception e){ //if it is not integer
-			Alert radfAlert = new Alert(Alert.AlertType.INFORMATION);
-			radfAlert.setTitle("Invalid integer value");
-			radfAlert.setContentText("I_Step, J_Step and K_Step should be integers. Please check again.");
-			radfAlert.setHeaderText(null);
-			radfAlert.show();
-			return false;
-		}
+    	String param = "I_Step, J_Step and K_Step";
+    	return Values.checkPosIntValues(param, tempField);
+    	
     }
     
     /**
@@ -474,57 +389,7 @@ public class MoveController implements Initializable{
      * @return Boolean on whether the check was successful
      */
     public boolean checkXbFormat(TextField tempField) { //check the XB format
-    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
-			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
-			initAlert.setTitle("Incorrect XB format");
-			initAlert.setContentText("There should not be any whitespaces.");
-			initAlert.setHeaderText(null);
-			initAlert.show();
-			return false;
-		}
-		String[] xbValues = tempField.getText().split(",");
-		String concatXB = "";
-		
-		if (xbValues.length != 6){
-			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
-			initAlert.setTitle("Incorrect XB format");
-			initAlert.setContentText("There should be 6 real values.");
-			initAlert.setHeaderText(null);
-			initAlert.show();
-			return false;
-		}
-		
-		for (int i=0; i<6; i++){ 
-			try{
-				float floatVal = Float.valueOf(xbValues[i]);
-				if (floatVal < 0) { //check if the float is negative
-					Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
-					initAlert.setTitle("Invalid XB value");
-					initAlert.setContentText("The values should not have negative numbers. Please check again.");
-					initAlert.setHeaderText(null);
-					initAlert.show();
-					return false;
-				}
-				if (i==5){
-					concatXB = concatXB + Float.toString(floatVal);
-				}
-				else{
-					concatXB = concatXB + Float.toString(floatVal) + ","; //convert to string
-				}
-			}
-			catch(Exception e){//check if each value is real
-			
-				Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
-				initAlert.setTitle("Incorrect XB format");
-				initAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
-						+ "values, comma-separated. Please check again.");
-				initAlert.setHeaderText(null);
-				initAlert.show();
-				return false;
-			}
-		}
-		tempField.setText(concatXB);
-		return true;
+    	return Values.checkXbFormat(tempField);
     }
 
     /**

@@ -223,29 +223,9 @@ public class TimeController implements Initializable{
 	 * @returnBoolean on whether the check was successful
 	 */
 	public boolean checkTimeFloat(TextField tempField){
-		try{
-			String value = tempField.getText();
-			float timeFloat = Float.valueOf(value);
-			if (timeFloat < 0){ //check negative float values
-				Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
-				timeAlert.setTitle("Invalid time value");
-				timeAlert.setContentText("The time values should not have negative numbers. Please check again.");
-				timeAlert.setHeaderText(null);
-				timeAlert.show();
-				return false;
-			}
-			else{
-				tempField.setText(Float.toString(timeFloat));
-				return true;
-			}
-		}catch(Exception e){ //check if values are numerical
-			Alert timeAlert = new Alert(Alert.AlertType.INFORMATION);
-			timeAlert.setTitle("Invalid time value");
-			timeAlert.setContentText("The time values should be numerical. Please check again.");
-			timeAlert.setHeaderText(null);
-			timeAlert.show();
-			return false;
-		}
+		String param = "The time values";
+    	return Values.checkPosFloatValues(param, tempField);
+		
 	}
 	
 	/**

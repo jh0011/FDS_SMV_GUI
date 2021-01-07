@@ -302,28 +302,9 @@ public class PropController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkFloatValues(TextField tempField){
-		try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive float
-				Alert propAlert = new Alert(Alert.AlertType.INFORMATION);
-				propAlert.setTitle("Invalid value");
-				propAlert.setContentText("Offset, pressure and particle velocity should be positive values. Please check again.");
-				propAlert.setHeaderText(null);
-				propAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert propAlert = new Alert(Alert.AlertType.INFORMATION);
-			propAlert.setTitle("Invalid value");
-			propAlert.setContentText("Offset, pressure and particle velocity should be numerical values. Please check again.");
-			propAlert.setHeaderText(null);
-			propAlert.show();
-			return false;
-		}
+		String param = "Offset, pressure and particle velocity";
+    	return Values.checkPosFloatValues(param, tempField);
+		
 	}
 	
 	/**
@@ -332,28 +313,9 @@ public class PropController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkIntegerValues(TextField tempField) {
-		try{ 
-			String stringVal = tempField.getText();
-			int intVal = Integer.parseInt(stringVal);
-			if (intVal <= 0){ //if it is not a positive integer
-				Alert propAlert = new Alert(Alert.AlertType.INFORMATION);
-				propAlert.setTitle("Invalid integer value");
-				propAlert.setContentText("Particles per second should be a positive integer. Please check again.");
-				propAlert.setHeaderText(null);
-				propAlert.show();
-				return false;
-			}
-			tempField.setText(stringVal);
-			return true;
-		}
-		catch(Exception e){ //if it is not integer
-			Alert propAlert = new Alert(Alert.AlertType.INFORMATION);
-			propAlert.setTitle("Invalid integer value");
-			propAlert.setContentText("Particles per second should be an integer. Please check again.");
-			propAlert.setHeaderText(null);
-			propAlert.show();
-			return false;
-		}
+		String param = "Particles per second";
+    	return Values.checkPosIntValues(param, tempField);
+		
 	}
 	
 	/**

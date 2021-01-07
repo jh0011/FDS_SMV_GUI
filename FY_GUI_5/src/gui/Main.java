@@ -21,7 +21,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		
 		try {
-			Values.initValues();
 			Parent root;
 			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
 			root = FXMLLoader.load(getClass().getResource("Editor.fxml")); //For testing a certain page
@@ -31,41 +30,6 @@ public class Main extends Application {
 			primaryStage.show();
 			initDB();
 			
-			
-//			Runtime.getRuntime().exec("cmd /c start cmd.exe /K "
-//					+ "\"cd C:\\Users\\dell\\Desktop\\ && "
-//					+ "C:\\Python27\\python C:\\Users\\dell\\Desktop\\parFDS_standalone.py\"");
-			
-			
-//			String cmdfdsShell = "\"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\FDS6\\CMDfds.lnk\"";
-//			String cmdfdsShell = "\"C:\\Program Files\\firemodels\\FDS6\\bin\\fdsinit.bat\"";
-//			String setDir = "cd C:\\Users\\dell\\Desktop\\couch_modified_try";
-//			String fdsRun = "fds_local couch_modified.fds";
-//			String command = "cmd /c start cmd.exe /K "
-//					+ cmdfdsShell;
-			
-			
-			//String command = "cmd /c start " + "\"" + cmdfdsShell + " && " + setDir + " && " + fdsRun + "\"";
-			//String command = "cmd /c start " + "\"" + cmdfdsShell + "\"";
-			//String command = "cmd /c start cd C:\\Users\\dell\\Desktop\\couch_modified_try\\ && C:\\Python27\\python C:\\Users\\dell\\Desktop\\parFDS_standalone.py";
-			//Process p = Runtime.getRuntime().exec(command);
-			
-//			p.waitFor();
-//		    BufferedReader bri = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//		    BufferedReader bre = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-//            String line;
-//	        while ((line = bri.readLine()) != null) {
-//	        	System.out.println(line);
-//	        }
-//	        bri.close();
-//	        while ((line = bre.readLine()) != null) {
-//	            System.out.println(line);
-//	        }
-//	        //bre.close();
-//	        //p.waitFor();
-//	        System.out.println("Done.");
-//
-//		    //p.destroy();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -272,28 +272,8 @@ public class TrnxController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
-    	try{ 
-			String stringVal = tempField.getText();
-			int intVal = Integer.parseInt(stringVal);
-			if (intVal <= 0){ //if it is not a positive integer
-				Alert trnxAlert = new Alert(Alert.AlertType.INFORMATION);
-				trnxAlert.setTitle("Invalid integer value");
-				trnxAlert.setContentText("Mesh_number should be a positive integer. Please check again.");
-				trnxAlert.setHeaderText(null);
-				trnxAlert.show();
-				return false;
-			}
-			tempField.setText(stringVal);
-			return true;
-		}
-		catch(Exception e){ //if it is not integer
-			Alert trnxAlert = new Alert(Alert.AlertType.INFORMATION);
-			trnxAlert.setTitle("Invalid integer value");
-			trnxAlert.setContentText("Mesh_number should be an integer. Please check again.");
-			trnxAlert.setHeaderText(null);
-			trnxAlert.show();
-			return false;
-		}
+    	String param = "Mesh_number";
+    	return Values.checkPosIntValues(param, tempField);
     }
     
     /**
@@ -302,28 +282,8 @@ public class TrnxController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkPosFloatValues(TextField tempField) { //check if float is positive
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive float
-				Alert trnxAlert = new Alert(Alert.AlertType.INFORMATION);
-				trnxAlert.setTitle("Invalid value");
-				trnxAlert.setContentText("CC and PC should be positive values. Please check again.");
-				trnxAlert.setHeaderText(null);
-				trnxAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert trnxAlert = new Alert(Alert.AlertType.INFORMATION);
-			trnxAlert.setTitle("Invalid value");
-			trnxAlert.setContentText("CC and PC should be numerical values. Please check again.");
-			trnxAlert.setHeaderText(null);
-			trnxAlert.show();
-			return false;
-		}
+    	String param = "CC and PC";
+    	return Values.checkPosFloatValues(param, tempField);
     }
     
     /**
@@ -335,56 +295,7 @@ public class TrnxController implements Initializable{
      * @return Boolean on whether the check was successful
      */
     public boolean checkXyzFormat(TextField tempField) { //check if xyz is correct
-    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
-			Alert zoneAlert = new Alert(Alert.AlertType.INFORMATION);
-			zoneAlert.setTitle("Incorrect XYZ format");
-			zoneAlert.setContentText("There should not be any whitespaces.");
-			zoneAlert.setHeaderText(null);
-			zoneAlert.show();
-			return false;
-		}
-		
-		String[] xyzValues = tempField.getText().split(",");
-		String concatXyz = "";
-		if (xyzValues.length != 3){ //check if XYZ is the correct length
-			Alert zoneAlert = new Alert(Alert.AlertType.INFORMATION);
-			zoneAlert.setTitle("Incorrect XYZ format");
-			zoneAlert.setContentText("There should be 3 real values, comma-separated.");
-			zoneAlert.setHeaderText(null);
-			zoneAlert.show();
-			return false;
-		}
-		
-		try{
-			for (int i=0; i<3; i++){
-				float xyzFloat = Float.valueOf(xyzValues[i]);
-				if (xyzFloat < 0){ //check if xyz is negative or zero
-					Alert zoneAlert = new Alert(Alert.AlertType.INFORMATION);
-					zoneAlert.setTitle("Incorrect XYZ format");
-					zoneAlert.setContentText("The XYZ values should be positive real values.");
-					zoneAlert.setHeaderText(null);
-					zoneAlert.show();
-					return false;
-				}
-				if (i==0 || i==1){ //concatenate to format the xyz string
-					concatXyz = concatXyz + Float.toString(xyzFloat) + ",";
-				}
-				else{
-					concatXyz = concatXyz + Float.toString(xyzFloat);
-				}
-			}
-			tempField.setText(concatXyz);
-			return true;
-		}
-		catch(Exception e){ //check if xyz is a number
-			Alert miscAlert = new Alert(Alert.AlertType.INFORMATION);
-			miscAlert.setTitle("Incorrect XYZ format");
-			miscAlert.setContentText("There should be 3 real values.");
-			miscAlert.setHeaderText(null);
-			miscAlert.show();
-			e.printStackTrace();
-			return false;
-		}
+    	return Values.checkXyzFormat(tempField);
     }
     
     /**

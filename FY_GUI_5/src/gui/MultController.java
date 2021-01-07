@@ -265,28 +265,9 @@ public class MultController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkPosIntValues(TextField tempField) { //check if integer is positive value
-    	try{ 
-			String stringVal = tempField.getText();
-			int intVal = Integer.parseInt(stringVal);
-			if (intVal <= 0){ //if it is not a positive integer
-				Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
-				multAlert.setTitle("Invalid integer value");
-				multAlert.setContentText("I_upper, J_upper and K_upper should be positive integers. Please check again.");
-				multAlert.setHeaderText(null);
-				multAlert.show();
-				return false;
-			}
-			tempField.setText(stringVal);
-			return true;
-		}
-		catch(Exception e){ //if it is not integer
-			Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
-			multAlert.setTitle("Invalid integer value");
-			multAlert.setContentText("I_upper, J_upper and K_upper should be integers. Please check again.");
-			multAlert.setHeaderText(null);
-			multAlert.show();
-			return false;
-		}
+    	String param = "I_upper, J_upper and K_upper";
+    	return Values.checkPosIntValues(param, tempField);
+    	
     }
     
     /**
@@ -295,28 +276,9 @@ public class MultController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkPosFloatValues(TextField tempField) { //check if float is positive value
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive float
-				Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
-				multAlert.setTitle("Invalid value");
-				multAlert.setContentText("DX, DY, DZ, Speed and Z_0 should be positive values. Please check again.");
-				multAlert.setHeaderText(null);
-				multAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert multAlert = new Alert(Alert.AlertType.INFORMATION);
-			multAlert.setTitle("Invalid value");
-			multAlert.setContentText("DX, DY, DZ, Speed and Z_0 should be numerical values. Please check again.");
-			multAlert.setHeaderText(null);
-			multAlert.show();
-			return false;
-		}
+    	String param = "DX, DY, DZ, Speed and Z_0";
+    	return Values.checkPosFloatValues(param, tempField);
+    	
     }
     
     /**

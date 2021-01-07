@@ -284,28 +284,8 @@ public class DumpController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkPosIntValues(TextField tempField) { //check if integer is positive
-    	try{ 
-			String stringVal = tempField.getText();
-			int intVal = Integer.parseInt(stringVal);
-			if (intVal <= 0){ //if it is not a positive integer
-				Alert dumpAlert = new Alert(Alert.AlertType.INFORMATION);
-				dumpAlert.setTitle("Invalid integer value");
-				dumpAlert.setContentText("Nframes and N_reactions should be positive integers. Please check again.");
-				dumpAlert.setHeaderText(null);
-				dumpAlert.show();
-				return false;
-			}
-			tempField.setText(stringVal);
-			return true;
-		}
-		catch(Exception e){ //if it is not integer
-			Alert dumpAlert = new Alert(Alert.AlertType.INFORMATION);
-			dumpAlert.setTitle("Invalid integer value");
-			dumpAlert.setContentText("Nframes and N_reactions should be integers. Please check again.");
-			dumpAlert.setHeaderText(null);
-			dumpAlert.show();
-			return false;
-		}
+    	String param = "Nframes and N_reactions";
+    	return Values.checkPosIntValues(param, tempField);
     }
     
     /**
@@ -314,28 +294,8 @@ public class DumpController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkPosFloatValues(TextField tempField) { //check if float is positive
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive float
-				Alert dumpAlert = new Alert(Alert.AlertType.INFORMATION);
-				dumpAlert.setTitle("Invalid value");
-				dumpAlert.setContentText("Dt_devc, Specific_heat, heat of reaction, reference tmp., density and conductivity should be positive values. Please check again.");
-				dumpAlert.setHeaderText(null);
-				dumpAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert dumpAlert = new Alert(Alert.AlertType.INFORMATION);
-			dumpAlert.setTitle("Invalid value");
-			dumpAlert.setContentText("Dt_devc, Specific_heat, heat of reaction, reference tmp., density and conductivity should be numerical values. Please check again.");
-			dumpAlert.setHeaderText(null);
-			dumpAlert.show();
-			return false;
-		}
+    	String param = "Dt_devc, Specific_heat, heat of reaction, reference tmp., density and conductivity";
+    	return Values.checkPosFloatValues(param, tempField);
     }
     
     /**

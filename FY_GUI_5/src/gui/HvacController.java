@@ -251,28 +251,9 @@ public class HvacController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive float
-				Alert hvacAlert = new Alert(Alert.AlertType.INFORMATION);
-				hvacAlert.setTitle("Invalid value");
-				hvacAlert.setContentText("Roughness, length and area should be positive values. Please check again.");
-				hvacAlert.setHeaderText(null);
-				hvacAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert hvacAlert = new Alert(Alert.AlertType.INFORMATION);
-			hvacAlert.setTitle("Invalid value");
-			hvacAlert.setContentText("Roughness, length and area should be numerical values. Please check again.");
-			hvacAlert.setHeaderText(null);
-			hvacAlert.show();
-			return false;
-		}
+    	String param = "Roughness, length and area";
+    	return Values.checkPosFloatValues(param, tempField);
+    	
     }
     
     /**
@@ -284,57 +265,7 @@ public class HvacController implements Initializable{
      * @return Boolean on whether the check was successful
      */
     public boolean checkXbFormat(TextField tempField) { //check the XB format
-    	if (tempField.getText().contains(" ")){ //check if there are any white spaces
-			Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
-			holeAlert.setTitle("Incorrect XB format");
-			holeAlert.setContentText("There should not be any whitespaces.");
-			holeAlert.setHeaderText(null);
-			holeAlert.show();
-			return false;
-		}
-		String[] xbValues = tempField.getText().split(",");
-		String concatXB = "";
-		
-		if (xbValues.length != 6){
-			Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
-			holeAlert.setTitle("Incorrect XB format");
-			holeAlert.setContentText("There should be 6 real values.");
-			holeAlert.setHeaderText(null);
-			holeAlert.show();
-			return false;
-		}
-		
-		for (int i=0; i<6; i++){ 
-			try{
-				float floatVal = Float.valueOf(xbValues[i]);
-				if (floatVal < 0) { //check if the float is negative
-					Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
-					holeAlert.setTitle("Invalid XB value");
-					holeAlert.setContentText("The values should not have negative numbers. Please check again.");
-					holeAlert.setHeaderText(null);
-					holeAlert.show();
-					return false;
-				}
-				if (i==5){
-					concatXB = concatXB + Float.toString(floatVal);
-				}
-				else{
-					concatXB = concatXB + Float.toString(floatVal) + ","; //convert to string
-				}
-			}
-			catch(Exception e){//check if each value is real
-			
-				Alert holeAlert = new Alert(Alert.AlertType.INFORMATION);
-				holeAlert.setTitle("Incorrect XB format");
-				holeAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
-						+ "values, comma-separated. Please check again.");
-				holeAlert.setHeaderText(null);
-				holeAlert.show();
-				return false;
-			}
-		}
-		tempField.setText(concatXB);
-		return true;
+    	return Values.checkXbFormat(tempField);
     }
     
     /**
@@ -343,20 +274,8 @@ public class HvacController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkFloatValues(TextField tempField) { //check if value is a float
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert miscAlert = new Alert(Alert.AlertType.INFORMATION);
-			miscAlert.setTitle("Invalid value");
-			miscAlert.setContentText("Value(1), Value(2) and Value(3) should be numerical values. Please check again.");
-			miscAlert.setHeaderText(null);
-			miscAlert.show();
-			return false;
-		}
+    	String param = "Value(1), Value(2) and Value(3)";
+    	return Values.checkFloatValues(param, tempField);
     }
     
     /**

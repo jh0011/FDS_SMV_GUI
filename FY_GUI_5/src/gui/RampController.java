@@ -358,28 +358,9 @@ public class RampController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if float is positive
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive float
-				Alert rampAlert = new Alert(Alert.AlertType.INFORMATION);
-				rampAlert.setTitle("Invalid value");
-				rampAlert.setContentText("Time and soot yield should be positive values. Please check again.");
-				rampAlert.setHeaderText(null);
-				rampAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert rampAlert = new Alert(Alert.AlertType.INFORMATION);
-			rampAlert.setTitle("Invalid value");
-			rampAlert.setContentText("Time and soot yield should be numerical values. Please check again.");
-			rampAlert.setHeaderText(null);
-			rampAlert.show();
-			return false;
-		}
+    	String param = "Time and soot yield";
+    	return Values.checkPosFloatValues(param, tempField);
+    	
     }
     
     /**
@@ -388,20 +369,9 @@ public class RampController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkFloatValues(TextField tempField) { //check if the value is a float
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert surfAlert = new Alert(Alert.AlertType.INFORMATION);
-			surfAlert.setTitle("Invalid value");
-			surfAlert.setContentText("Fraction and auto ignition temperature should be numerical values. Please check again.");
-			surfAlert.setHeaderText(null);
-			surfAlert.show();
-			return false;
-		}
+    	String param = "Fraction and auto ignition temperature";
+    	return Values.checkFloatValues(param, tempField);
+    	
     }
     
     /**

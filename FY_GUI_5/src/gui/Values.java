@@ -20,106 +20,9 @@ import java.sql.Statement;
 
 public class Values {
 	
-	//Store all the values that the user has initialised
-	//ALl are static variables.
-	
-	protected static final int ARRAY = 14;
-	protected static final String PATH = "C:\\Users\\dell\\Desktop\\";
-	protected static String[] paramName = new String[ARRAY];
-	protected static String[][] allStrings = new String[ARRAY][2];
-	protected static FileWriter fw;
-	protected static BufferedWriter bw = null;
-	
-	protected static ArrayList<String> parameters;
-	
-	//HEAD 
-	protected static String CHID = ""; //0
-	protected static String TITLE = ""; //1
-	
-	//TIME
-	protected static String T_END = ""; //2
-	protected static String T_BEGIN = "";
-	protected static String DT = ""; //4
-	
-	
-	//INIT
-	protected static String PART_ID= ""; //5
-	protected static String SPEC_ID = ""; 
-	protected static String N_PARTICLES= "";
-	protected static String N_PARTICLES_PER_CELL= ""; 
-	protected static String MASS_FRACTION = "";
-	protected static String MASS_PER_TIME= "";
-	protected static String MASS_PER_VOLUME= "";
-	protected static String XB = ""; //12
-		
-	//CATF
-	protected static String OTHER_FILES = ""; //13
-	protected static String concatFiles = ""; //formatted already
-	
-	
-	
-	
-	protected static void initValues(){
-		
-		//HEAD
-		allStrings[0][0] = CHID;
-		allStrings[0][1] = "HEAD";
-		paramName[0] = "CHID";
-		allStrings[1][0] = TITLE;
-		allStrings[1][1] = "HEAD";
-		paramName[1] = "TITLE";
-		
-		//TIME
-		allStrings[2][0] = T_END;
-		allStrings[2][1] = "TIME";
-		paramName[2] = "T_END";
-		allStrings[3][0] = T_BEGIN;
-		allStrings[3][1] = "TIME";
-		paramName[3] = "T_BEGIN";
-		allStrings[4][0] = DT;
-		allStrings[4][1] = "TIME";
-		paramName[4] = "DT";
-		
-		//INIT
-		allStrings[5][0] = PART_ID;
-		allStrings[5][1] = "INIT";
-		paramName[5] = "PART_ID";
-		allStrings[6][0] = SPEC_ID;
-		allStrings[6][1] = "INIT";
-		paramName[6] = "SPEC_ID";
-		allStrings[7][0] = N_PARTICLES;
-		allStrings[7][1] = "INIT";
-		paramName[7] = "N_PARTICLES";
-		allStrings[8][0] = N_PARTICLES_PER_CELL;
-		allStrings[8][1] = "INIT";
-		paramName[8] = "N_PARTICLES_PER_CELL";
-		allStrings[9][0] = MASS_FRACTION;
-		allStrings[9][1] = "INIT";
-		paramName[9] = "MASS_FRACTION";
-		allStrings[10][0] = MASS_PER_TIME;
-		allStrings[10][1] = "INIT";
-		paramName[10] = "MASS_PER_TIME";
-		allStrings[11][0] = MASS_PER_VOLUME;
-		allStrings[11][1] = "INIT";
-		paramName[11] = "MASS_PER_VOLUME";
-		allStrings[12][0] = XB;
-		allStrings[12][1] = "INIT";
-		paramName[12] = "XB";
-		
-		
-		//CATF
-		allStrings[13][0] = OTHER_FILES;
-		allStrings[13][1] = "CATF";
-		paramName[13] = "OTHER_FILES";
-		
-		
-		
-	}
+	protected static String concatFiles = "";
 	
 	protected static void cancelForm() throws SQLException{
-//		for (int i=0; i<ARRAY; i++){
-//			allStrings[i][0] = "";
-//		}
 		
 		//delete the table
 		String sqlHead = "DELETE FROM head;";
@@ -245,109 +148,304 @@ public class Values {
 	public static void showError() {
 		Alert chidAlert = new Alert(Alert.AlertType.INFORMATION);
 		chidAlert.setTitle("Unable to proceed");
-		chidAlert.setContentText("Check that there are no invalid characters in the inputs.");
+		chidAlert.setContentText("Please check that there are no invalid characters in the inputs.");
 		chidAlert.setHeaderText(null);
 		chidAlert.show();
 	}
 	
-	protected static void printFile() throws IOException{
-		try{
-			File outputFile = new File(PATH + allStrings[0][0] + ".fds");
-			if (!outputFile.exists()){
-				outputFile.createNewFile();
-			}
-			fw = new FileWriter(outputFile);
-			bw = new BufferedWriter(fw);
-		} catch(Exception e){
-			System.out.println("Error creating the file");
-		}
-		int headCount = 0;
-		int timeCount = 0;
-		int catfCount = 0;
-		for (int i=0; i<ARRAY; i++){
-			for (int j=0; j<2; j++){
-				if (allStrings[i][j].equals("")){
-					break;
-				}
-				else if (allStrings[i][1].equals("HEAD")){
-					headCount++;
-					if (headCount==1){
-						bw.write("&" + allStrings[i][1]);
-						printFileValues(0, 1); //Pass in the index values
-					}
-					
-				}
-				else if (allStrings[i][1].equals("TIME")){
-					timeCount++;
-					if (timeCount == 1){
-						bw.write("&" + allStrings[i][1]);
-						printFileValues(2, 4); //Pass in the index values
-					}
-				}
-				else if(allStrings[i][1].equals("CATF")){
-					catfCount++;
-					if (catfCount == 1){
-						bw.write("&" + allStrings[i][1]);
-						printFileValues(13, 13); //Pass in the index values
-					}
-				}
-			}
-		}
-		bw.write("&TAIL /");
-		bw.close();
+	protected static void displayErrorMsg(String title, String error) {
+		Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
+		initAlert.setTitle(title);
+		initAlert.setContentText(error);
+		initAlert.setHeaderText(null);
+		initAlert.show();
 	}
 	
-	protected static void printFileValues(int startIndex, int endIndex) throws IOException{
-		for (int i=startIndex; i<endIndex + 1; i++){
-			if (!allStrings[i][0].equals("")){
-				if (isNumber(allStrings[i][0])){
-					//System.out.println("PRINTING NUMBER");
-					bw.newLine();
-					bw.write("\t" + paramName[i] + "=" + allStrings[i][0]);
+	
+	/**
+     * Check the XB format: <br>
+     * - No white spaces <br>
+     * - 6 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
+	protected static boolean checkXbFormat(TextField tempField) {
+		String title = "";
+		String error = "";
+		if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			title = "Incorrect XB format";
+			error = "There should not be any whitespaces.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+		String[] xbValues = tempField.getText().split(",");
+		String concatXB = "";
+		
+		if (xbValues.length != 6){
+			title = "Incorrect XB format";
+			error = "There should be 6 real values.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+		
+		for (int i=0; i<6; i++){ 
+			try{
+				float floatVal = Float.valueOf(xbValues[i]);
+				if (floatVal < 0) { //check if the float is negative
+					title = "Invalid XB value";
+					error = "The values should not have negative numbers. Please check again.";
+					displayErrorMsg(title, error);
+					return false;
 				}
-				else if (isBoolean(allStrings[i][0])){
-					//System.out.println("PRINTING BOOLEAN");
-					bw.newLine();
-					bw.write("\t" + paramName[i] + "=" + "." + allStrings[i][0].toUpperCase() + ". ");
+				if (i==5){
+					concatXB = concatXB + Float.toString(floatVal);
 				}
 				else{
-					//System.out.println("PRINTING STRING");
-					bw.newLine();
-					bw.write("\t" + paramName[i] + "='" + allStrings[i][0] + "' ");
+					concatXB = concatXB + Float.toString(floatVal) + ","; //convert to string
 				}
-				
+			}
+			catch(Exception e){//check if each value is real
+				title = "Incorrect XB format";
+				error = "The XB value is not in the correct format. There should be 6 real "
+						+ "values, comma-separated. Please check again.";
+				displayErrorMsg(title, error);
+				return false;
 			}
 		}
-		bw.write(" /");
-		bw.newLine();
+		tempField.setText(concatXB);
+		return true;
 	}
 	
-	protected static boolean isNumber(String value){
-		try{
-			Float.valueOf(value);
-			return true;
-		}catch(Exception e){
+	
+	/**
+     * Check the XYZ format: <br>
+     * - No white spaces <br>
+     * - 3 values <br>
+     * - Positive float 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
+	protected static boolean checkXyzFormat(TextField tempField) {
+		String title = "";
+		String error = "";
+		if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			title = "Incorrect XYZ format";
+			error = "There should not be any whitespaces.";
+			displayErrorMsg(title, error);
 			return false;
 		}
-	}
-	
-	protected static boolean isInteger(String value){
-		try{
-			int intValue = Integer.parseInt(value);
-			return true;
-		}catch(Exception e){
-			return false;
-		}
-	}
-	
-	protected static boolean isBoolean(String value){
-		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")){
-			return true;
-		}
-		return false;
-	}
-	
-	protected static void checkPositiveFloatValue(TextField tempField) {
 		
+		String[] xyzValues = tempField.getText().split(",");
+		String concatXYZ = "";
+		if (xyzValues.length != 3){ //check if xyz is the correct length
+			title = "Incorrect XYZ format";
+			error = "There should be 3 positive real values, comma-separated.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+		
+		try{
+			for (int i=0; i<3; i++){
+				float xyzFloat = Float.valueOf(xyzValues[i]);
+				if (xyzFloat < 0){ //check if xyz is negative or zero
+					title = "Incorrect XYZ format";
+					error = "The XYZ values should be positive real values.";
+					displayErrorMsg(title, error);
+					return false;
+				}
+				if (i==0 || i==1){ //concatenate to format the xyz string
+					concatXYZ = concatXYZ + Float.toString(xyzFloat) + ",";
+				}
+				else{
+					concatXYZ = concatXYZ + Float.toString(xyzFloat);
+				}
+			}
+			tempField.setText(concatXYZ);
+			return true;
+		}
+		catch(Exception e){ //check if xyz is a number
+			title = "Incorrect XYZ format";
+			error = "There should be 3 positive real values.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+	}
+	
+	/**
+	 * Check the IJK format and if it is filled 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
+	protected static boolean checkIJKformat(TextField valueTF) {
+		String title = "";
+		String error = "";
+		if (valueTF.getText().contains(" ")){ //check if there are any white spaces
+			title = "Incorrect IJK format";
+			error = "There should not be any whitespaces.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+		
+		String[] ijkValues = valueTF.getText().split(",");
+		String concatIJK = "";
+		if (ijkValues.length != 3){ //check if ijk is the correct length
+			title = "Incorrect IJK format";
+			error = "There should be 3 integer values, comma-separated.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+		
+		try{
+			for (int i=0; i<3; i++){
+				int ijkInt = Integer.parseInt(ijkValues[i]);
+				if (ijkInt <= 0){ //check if ijk is negative or zero
+					title = "Incorrect IJK format";
+					error = "The IJK values should be more than zero.";
+					displayErrorMsg(title, error);
+					return false;
+				}
+				if (i==0 || i==1){ //concatenate to format the ijk string
+					concatIJK = concatIJK + String.valueOf(ijkInt) + ",";
+				}
+				else{
+					concatIJK = concatIJK + String.valueOf(ijkInt);
+				}
+			}
+			valueTF.setText(concatIJK);
+			return true;
+		}
+		catch(Exception e){ //check if ijk is an integer
+			title = "Incorrect IJK format";
+			error = "There should be 3 integer values.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+	}
+	
+	/**
+     * Check the Gvec format: <br>
+     * - No white spaces <br>
+     * - 3 values <br>
+     * - Integers 
+     * @param tempField TextField for user input
+     * @return Boolean on whether the check was successful
+     */
+	protected static boolean checkGvecFormat(TextField tempField) {
+		String title = "";
+		String error = "";
+		if (tempField.getText().contains(" ")){ //check if there are any white spaces
+			title = "Incorrect Gvec format";
+			error = "There should not be any whitespaces.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+		
+		String[] gvecValues = tempField.getText().split(",");
+		String concatGvec = "";
+		if (gvecValues.length != 3){ //check if gvec is the correct length
+			title = "Incorrect Gvec format";
+			error = "There should be 3 real values, comma-separated.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+		
+		try{
+			for (int i=0; i<3; i++){
+				float gvecFloat = Float.valueOf(gvecValues[i]);
+				if (i==0 || i==1){ //concatenate to format the xyz string
+					concatGvec = concatGvec + Float.toString(gvecFloat) + ",";
+				}
+				else{
+					concatGvec = concatGvec + Float.toString(gvecFloat);
+				}
+			}
+			tempField.setText(concatGvec);
+			return true;
+		}
+		catch(Exception e){ //check if xyz is a number
+			title = "Incorrect Gvec format";
+			error = "There should be 3 real values.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+	}
+	
+	/**
+	 * Check if the float is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
+	protected static boolean checkPosFloatValues(String param, TextField tempField) {
+		String title = "";
+		String error = "";
+		try {
+			String stringVal = tempField.getText();
+			float floatVal = Float.valueOf(stringVal);
+			if (floatVal < 0){ //if it is not a positive float
+				title = "Invalid float value(s)";
+				error = param + " should not be negative value(s). Please check again.";
+				displayErrorMsg(title, error);
+				return false;
+			}
+			tempField.setText(Float.toString(floatVal));
+			return true;
+		}
+		catch (Exception e) { //if it is not a float
+			title = "Invalid float value(s)";
+			error = param + " should be numerical value(s). Please check again.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+	}
+	
+	/**
+	 * Check if the integer is a positive value 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
+	protected static boolean checkPosIntValues(String param, TextField tempField) {
+		String title = "";
+		String error = "";
+		try{ 
+			String stringVal = tempField.getText();
+			int intVal = Integer.parseInt(stringVal);
+			if (intVal <= 0){ //if it is not a positive integer
+				title = "Invalid integer value(s)";
+				error = param + " should be positive integer(s). Please check again.";
+				displayErrorMsg(title, error);
+				return false;
+			}
+			tempField.setText(stringVal);
+			return true;
+		}
+		catch(Exception e){ //if it is not integer
+			title = "Invalid integer value(s)";
+			error = param + " should be integer(s). Please check again.";
+			displayErrorMsg(title, error);
+			return false;
+		}
+	}
+	
+	/**
+	 * Check if the value is a float 
+	 * @param tempField TextField for user input
+	 * @return Boolean on whether the check was successful
+	 */
+	protected static boolean checkFloatValues(String param, TextField tempField) {
+		String title = "";
+		String error = "";
+		try {
+			String stringVal = tempField.getText();
+			float floatVal = Float.valueOf(stringVal);
+			tempField.setText(Float.toString(floatVal));
+			return true;
+		}
+		catch (Exception e) { //if it is not a float
+			title = "Invalid float value(s)";
+			error = param + " should be numerical values. Please check again.";
+			displayErrorMsg(title, error);
+			return false;
+		}
 	}
 }

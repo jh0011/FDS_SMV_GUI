@@ -333,57 +333,7 @@ public class DevcController implements Initializable{
      * @return Boolean on whether the check was successful
      */
     public boolean checkXbFormat(TextField tempField) { //check the XB format
-		if (tempField.getText().contains(" ")){ //check if there are any white spaces
-			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
-			initAlert.setTitle("Incorrect XB format");
-			initAlert.setContentText("There should not be any whitespaces.");
-			initAlert.setHeaderText(null);
-			initAlert.show();
-			return false;
-		}
-		String[] xbValues = tempField.getText().split(",");
-		String concatXB = "";
-		
-		if (xbValues.length != 6){
-			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
-			initAlert.setTitle("Incorrect XB format");
-			initAlert.setContentText("There should be 6 real values.");
-			initAlert.setHeaderText(null);
-			initAlert.show();
-			return false;
-		}
-		
-		for (int i=0; i<6; i++){ 
-			try{
-				float floatVal = Float.valueOf(xbValues[i]);
-				if (floatVal < 0) { //check if the float is negative
-					Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
-					initAlert.setTitle("Invalid XB value");
-					initAlert.setContentText("The values should not have negative numbers. Please check again.");
-					initAlert.setHeaderText(null);
-					initAlert.show();
-					return false;
-				}
-				if (i==5){
-					concatXB = concatXB + Float.toString(floatVal);
-				}
-				else{
-					concatXB = concatXB + Float.toString(floatVal) + ","; //convert to string
-				}
-			}
-			catch(Exception e){//check if each value is real
-			
-				Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
-				initAlert.setTitle("Incorrect XB format");
-				initAlert.setContentText("The XB value is not in the correct format. There should be 6 real "
-						+ "values, comma-separated. Please check again.");
-				initAlert.setHeaderText(null);
-				initAlert.show();
-				return false;
-			}
-		}
-		tempField.setText(concatXB);
-		return true;
+    	return Values.checkXbFormat(tempField);
 	}
 	
     /**
@@ -395,56 +345,7 @@ public class DevcController implements Initializable{
      * @return Boolean on whether the check was successful
      */
     public boolean checkXyzFormat(TextField tempField) {
-		if (tempField.getText().contains(" ")){ //check if there are any white spaces
-			Alert devcAlert = new Alert(Alert.AlertType.INFORMATION);
-			devcAlert.setTitle("Incorrect XYZ format");
-			devcAlert.setContentText("There should not be any whitespaces.");
-			devcAlert.setHeaderText(null);
-			devcAlert.show();
-			return false;
-		}
-		
-		String[] xyzValues = tempField.getText().split(",");
-		String concatXYZ = "";
-		if (xyzValues.length != 3){ //check if ijk is the correct length
-			Alert devcAlert = new Alert(Alert.AlertType.INFORMATION);
-			devcAlert.setTitle("Incorrect XYZ format");
-			devcAlert.setContentText("There should be 3 positive real values, comma-separated.");
-			devcAlert.setHeaderText(null);
-			devcAlert.show();
-			return false;
-		}
-		
-		try{
-			for (int i=0; i<3; i++){
-				float xyzFloat = Float.valueOf(xyzValues[i]);
-				if (xyzFloat < 0){ //check if xyz is negative or zero
-					Alert devcAlert = new Alert(Alert.AlertType.INFORMATION);
-					devcAlert.setTitle("Incorrect XYZ format");
-					devcAlert.setContentText("The XYZ values should be positive real values.");
-					devcAlert.setHeaderText(null);
-					devcAlert.show();
-					return false;
-				}
-				if (i==0 || i==1){ //concatenate to format the xyz string
-					concatXYZ = concatXYZ + Float.toString(xyzFloat) + ",";
-				}
-				else{
-					concatXYZ = concatXYZ + Float.toString(xyzFloat);
-				}
-			}
-			tempField.setText(concatXYZ);
-			return true;
-		}
-		catch(Exception e){ //check if xyz is a number
-			Alert devcAlert = new Alert(Alert.AlertType.INFORMATION);
-			devcAlert.setTitle("Incorrect xyz format");
-			devcAlert.setContentText("There should be 3 positive real values.");
-			devcAlert.setHeaderText(null);
-			devcAlert.show();
-			e.printStackTrace();
-			return false;
-		}
+    	return Values.checkXyzFormat(tempField);
 	}
 	
     /**
@@ -453,28 +354,8 @@ public class DevcController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkFloatValues(TextField tempField) {
-		try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal < 0){ //if it is not a positive float
-				Alert slcfAlert = new Alert(Alert.AlertType.INFORMATION);
-				slcfAlert.setTitle("Invalid value");
-				slcfAlert.setContentText("PBX, PBY and PBZ should not be negative values. Please check again.");
-				slcfAlert.setHeaderText(null);
-				slcfAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert slcfAlert = new Alert(Alert.AlertType.INFORMATION);
-			slcfAlert.setTitle("Invalid value");
-			slcfAlert.setContentText("PBX, PBY and PBZ should be numerical values. Please check again.");
-			slcfAlert.setHeaderText(null);
-			slcfAlert.show();
-			return false;
-		}
+    	String param = "PBX, PBY and PBZ";
+    	return Values.checkPosFloatValues(param, tempField);
 	}
 	
     /**

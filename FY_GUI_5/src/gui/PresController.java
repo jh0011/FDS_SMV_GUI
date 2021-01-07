@@ -380,28 +380,8 @@ public class PresController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkFloatPosValues(TextField tempField) { //check if the float is positive
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			if (floatVal <= 0){ //if it is not a positive float
-				Alert combAlert = new Alert(Alert.AlertType.INFORMATION);
-				combAlert.setTitle("Invalid value");
-				combAlert.setContentText("Fixed_mix_time, Max. density and Min. density should be positive values. Please check again.");
-				combAlert.setHeaderText(null);
-				combAlert.show();
-				return false;
-			}
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert combAlert = new Alert(Alert.AlertType.INFORMATION);
-			combAlert.setTitle("Invalid value");
-			combAlert.setContentText("Fixed_mix_time, Max. density and Min. density should be numerical values. Please check again.");
-			combAlert.setHeaderText(null);
-			combAlert.show();
-			return false;
-		}
+    	String param = "Fixed_mix_time, Max. density and Min. density";
+    	return Values.checkPosFloatValues(param, tempField);
     }
     
     /**
@@ -489,20 +469,8 @@ public class PresController implements Initializable{
 	 * @return Boolean on whether the check was successful
 	 */
     public boolean checkFloatValues(TextField tempField) { //check if value is a float
-    	try {
-			String stringVal = tempField.getText();
-			float floatVal = Float.valueOf(stringVal);
-			tempField.setText(Float.toString(floatVal));
-			return true;
-		}
-		catch (Exception e) { //if it is not a float
-			Alert clipAlert = new Alert(Alert.AlertType.INFORMATION);
-			clipAlert.setTitle("Invalid value");
-			clipAlert.setContentText("Max. temp and Min. temp should be a numerical value. Please check again.");
-			clipAlert.setHeaderText(null);
-			clipAlert.show();
-			return false;
-		}
+    	String param = "Max. temp and Min. temp";
+    	return Values.checkFloatValues(param, tempField);
     }
     
     /**
