@@ -177,6 +177,7 @@ public class SurfController implements Initializable{
     public void newSurfLine(ActionEvent event) throws SQLException { //ADD NEW SURF LINE
     	doCheckingSurf();
     	
+    	
     	if(checkFloatPos && checkFloat && checkMatl) {
     		//store the values
     		storeValuesSurf();

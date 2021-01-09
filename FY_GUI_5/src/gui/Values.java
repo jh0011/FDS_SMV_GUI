@@ -153,13 +153,14 @@ public class Values {
 		chidAlert.show();
 	}
 	
-	protected static void displayErrorMsg(String title, String error) {
+	public static void displayErrorMsg(String title, String error) {
 		Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 		initAlert.setTitle(title);
 		initAlert.setContentText(error);
 		initAlert.setHeaderText(null);
 		initAlert.show();
 	}
+	
 	
 	
 	/**
@@ -170,7 +171,7 @@ public class Values {
      * @param tempField TextField for user input
      * @return Boolean on whether the check was successful
      */
-	protected static boolean checkXbFormat(TextField tempField) {
+	public static boolean checkXbFormat(TextField tempField) {
 		String title = "";
 		String error = "";
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
@@ -226,7 +227,7 @@ public class Values {
      * @param tempField TextField for user input
      * @return Boolean on whether the check was successful
      */
-	protected static boolean checkXyzFormat(TextField tempField) {
+	public static boolean checkXyzFormat(TextField tempField) {
 		String title = "";
 		String error = "";
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
@@ -277,7 +278,7 @@ public class Values {
 	 * @param tempField TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
-	protected static boolean checkIJKformat(TextField valueTF) {
+	public static boolean checkIJKformat(TextField valueTF) {
 		String title = "";
 		String error = "";
 		if (valueTF.getText().contains(" ")){ //check if there are any white spaces
@@ -331,7 +332,7 @@ public class Values {
      * @param tempField TextField for user input
      * @return Boolean on whether the check was successful
      */
-	protected static boolean checkGvecFormat(TextField tempField) {
+	public static boolean checkGvecFormat(TextField tempField) {
 		String title = "";
 		String error = "";
 		if (tempField.getText().contains(" ")){ //check if there are any white spaces
@@ -376,7 +377,7 @@ public class Values {
 	 * @param tempField TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
-	protected static boolean checkPosFloatValues(String param, TextField tempField) {
+	public static boolean checkPosFloatValues(String param, TextField tempField) {
 		String title = "";
 		String error = "";
 		try {
@@ -404,7 +405,7 @@ public class Values {
 	 * @param tempField TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
-	protected static boolean checkPosIntValues(String param, TextField tempField) {
+	public static boolean checkPosIntValues(String param, TextField tempField) {
 		String title = "";
 		String error = "";
 		try{ 
@@ -432,7 +433,7 @@ public class Values {
 	 * @param tempField TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
-	protected static boolean checkFloatValues(String param, TextField tempField) {
+	public static boolean checkFloatValues(String param, TextField tempField) {
 		String title = "";
 		String error = "";
 		try {

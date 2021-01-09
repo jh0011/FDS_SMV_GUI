@@ -200,6 +200,7 @@ public class DevcController implements Initializable{
 			Values.printConfirmationMessage("DEVC", false);
 			//System.out.println("Unable to add new DEVC line");
 		}
+		
 	}
 	
 	/**
@@ -237,6 +238,7 @@ public class DevcController implements Initializable{
 			Values.printConfirmationMessage("SLCF", false);
 			//System.out.println("Unable to add new SLCF line");
 		}
+		
     }
 	
 	/**
@@ -289,6 +291,7 @@ public class DevcController implements Initializable{
     	centeredSelection = centeredCombo.getSelectionModel().getSelectedItem().toString();
     	centeredCombo.setValue(centeredSelection);
     }
+    
     
     /**
 	 * Call the checking methods for the different namelists

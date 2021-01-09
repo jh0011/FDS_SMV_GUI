@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
@@ -156,114 +157,174 @@ public class EditorController implements Initializable{
     		editorText.setText(tempEditorString);
     	}
     	else {
-    		if (countNumLines("head") > 1) {
+    		if (checkIfFilled("head")) {
     			printValuesHead();
     		}
-    		if (countNumLines("mesh") > 1) {
+    		if (checkIfFilled("mesh")) {
     			printValuesMesh();
     		}
-    		if (countNumLines("time") > 1) {
+    		if (checkIfFilled("time")) {
     			printValuesTime();
     		}
-    		if (countNumLines("init") > 1) {
+    		if (checkIfFilled("init")) {
     			printValuesInit();
     		}
-    		if (countNumLines("surf") > 1) {
+    		if (checkIfFilled("surf")) {
     			printValuesSurf();
     		}
-    		if (countNumLines("reac") > 1) {
+    		if (checkIfFilled("reac")) {
     			printValuesReac();
     		}
-    		if (countNumLines("vent") > 1) {
+    		if (checkIfFilled("vent")) {
     			printValuesVent();
     		}
-    		if (countNumLines("part") > 1) {
+    		if (checkIfFilled("part")) {
     			printValuesPart();
     		}
-    		if (countNumLines("slcf") > 1) {
+    		if (checkIfFilled("slcf")) {
     			printValuesSlcf();
     		}
-    		if (countNumLines("matl") > 1) {
+    		if (checkIfFilled("matl")) {
     			printValuesMatl();
     		}
-    		if (countNumLines("obst") > 1) {
+    		if (checkIfFilled("obst")) {
     			printValuesObst();
     		}
-    		if (countNumLines("spec") > 1) {
+    		if (checkIfFilled("spec")) {
     			printValuesSpec();
     		}
-    		if (countNumLines("devc") > 1) {
+    		if (checkIfFilled("devc")) {
     			printValuesDevc();
     		}
-    		if (countNumLines("ctrl") > 1) {
+    		if (checkIfFilled("ctrl")) {
     			printValuesCtrl();
     		}
-    		if (countNumLines("prop") > 1) {
+    		if (checkIfFilled("prop")) {
     			printValuesProp();
     		}
-    		if (countNumLines("radi") > 1) {
+    		if (checkIfFilled("radi")) {
     			printValuesRadi();
     		}
-    		if (countNumLines("radf") > 1) {
+    		if (checkIfFilled("radf")) {
     			printValuesRadf();
     		}
-    		if (countNumLines("mult") > 1) {
+    		if (checkIfFilled("mult")) {
     			printValuesMult();
     		}
-    		if (countNumLines("pres") > 1) {
+    		if (checkIfFilled("pres")) {
     			printValuesPres();
     		}
-    		if (countNumLines("move") > 1) {
+    		if (checkIfFilled("move")) {
     			printValuesMove();
     		}
-    		if (countNumLines("isof") > 1) {
+    		if (checkIfFilled("isof")) {
     			printValuesIsof();
     		}
-    		if (countNumLines("hvac") > 1) {
+    		if (checkIfFilled("hvac")) {
     			printValuesHvac();
     		}
-    		if (countNumLines("hole") > 1) {
+    		if (checkIfFilled("hole")) {
     			printValuesHole();
     		}
-    		if (countNumLines("misc") > 1) {
+    		if (checkIfFilled("misc")) {
     			printValuesMisc();
     		}
-    		if (countNumLines("trnx") > 1) {
+    		if (checkIfFilled("trnx")) {
     			printValuesTrnx();
     		}
-    		if (countNumLines("bndf") > 1) {
+    		if (checkIfFilled("bndf")) {
     			printValuesBndf();
     		}
-    		if (countNumLines("catf") > 1) {
+    		if (checkIfFilled("catf")) {
     			printValuesCatf();
     		}
-    		if (countNumLines("prof") > 1) {
+    		if (checkIfFilled("prof")) {
     			printValuesProf();
     		}
-    		if (countNumLines("ramp") > 1) {
+    		if (checkIfFilled("ramp")) {
     			printValuesRamp();
     		}
-    		if (countNumLines("clip") > 1) {
+    		if (checkIfFilled("clip")) {
     			printValuesClip();
     		}
-    		if (countNumLines("comb") > 1) {
+    		if (checkIfFilled("comb")) {
     			printValuesComb();
     		}
-    		if (countNumLines("dump") > 1) {
+    		if (checkIfFilled("dump")) {
     			printValuesDump();
     		}
-    		if (countNumLines("wind") > 1) {
+    		if (checkIfFilled("wind")) {
     			printValuesWind();
     		}
-    		if (countNumLines("tabl") > 1) {
+    		if (checkIfFilled("tabl")) {
     			printValuesTabl();
     		}
-    		if (countNumLines("zone") > 1) {
+    		if (checkIfFilled("zone")) {
     			printValuesZone();
     		}
     		editorText.appendText("&TAIL /");
     	}
     	tempEditorString = editorText.getText();
+    }
+    
+    public boolean checkIfFilled(String tableName) throws SQLException {
+    	String sqlQuery = "SELECT * FROM " + tableName;
+		ResultSet rs = getStatement().executeQuery(sqlQuery);
+    	ResultSetMetaData metaData = rs.getMetaData();
+    	int count = metaData.getColumnCount();
+    	String columnNames[] = new String[count];
+    	String columnValues[] = new String[count];
+    	for (int i=0; i<count; i++) {
+    		columnNames[i] = metaData.getColumnLabel(i + 1);
+    	}
+    	
+    	if (!columnNames[0].equals("mainID")) {
+    		while (rs.next()) {
+        		for (int i=0; i<count; i++) {
+            		columnValues[i] = rs.getString(i + 1);
+            	}
+        	}
+    		
+    		return checkIfRowFilled(columnNames, columnValues);
+    	}
+    	else {
+    		String sqlString = "SELECT * FROM " + tableName + " GROUP BY mainID"; //Check for each mainID
+        	ResultSet rs2 = getStatement().executeQuery(sqlString);
+        	String mainID = "";
+        	while (rs2.next()) {
+        		mainID = rs2.getString(1);
+        	}
+        	for (int i=1; i <= Integer.parseInt(mainID); i++) {
+        		sqlString = "SELECT * FROM " + tableName + " WHERE mainID='" + i + "';";
+        		rs2 = getStatement().executeQuery(sqlString);
+        		while (rs2.next()) {
+        			for (int j=0; j<count; j++) {
+                		columnValues[j] = rs2.getString(j + 1);
+                	}
+        		}
+        		if (checkIfRowFilled(columnNames, columnValues)) {
+        			return true;
+        		}
+        	}
+        	
+    		return false;
+    	}
+    	
+    	
+    }
+    
+    public boolean checkIfRowFilled(String[] columnNames, String[] columnValues){
+    	int count = columnNames.length;
+    	
+		//check if the row is filled
+		for (int i=0; i<count; i++) {
+			if (!columnNames[i].equals("mainID")) {
+				if (!columnValues[i].equals("")) {
+	    			return true;
+	    		}
+			}
+    	}
+		return false;
     }
     
     public int countNumLines(String tableName) throws SQLException {
@@ -301,19 +362,21 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each MESH line
-	    	String IJK = "";
-	    	String XB = "";
+	    	String meshArray[] = new String[2];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlMesh = "SELECT * FROM mesh WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlMesh);
 	        	while (rs.next()) {
-	        		IJK = rs.getString(2);
-	        		XB = rs.getString(3);
+	        		meshArray[0] = rs.getString(2);
+	        		meshArray[1] = rs.getString(3);
 	        	}
-	        	editorText.appendText("&MESH" + "\n");
-	        	appendToEditorNumber("IJK", IJK);
-	        	appendToEditorNumber("XB", XB);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(meshArray)) {
+	        		editorText.appendText("&MESH" + "\n");
+		        	appendToEditorNumber("IJK", meshArray[0]);
+		        	appendToEditorNumber("XB", meshArray[1]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -349,40 +412,35 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each INIT line
-	    	String ID = "";
-	    	String PART_ID = "";
-	    	String SPEC_ID = "";
-	    	String N_PARTICLES = "";
-	    	String N_PARTICLES_PER_CELL = "";
-	    	String MASS_PER_TIME = "";
-	    	String MASS_PER_VOLUME = "";
-	    	String MASS_FRACTION = "";
-	    	String XB = "";
+	    	String initArray[] = new String[9];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlInit = "SELECT * FROM init WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlInit);
 	        	while (rs.next()) {
-	        		ID = rs.getString(2);
-	        		PART_ID = rs.getString(3);
-	        		SPEC_ID = rs.getString(4);
-	        		N_PARTICLES = rs.getString(5);
-	        		N_PARTICLES_PER_CELL = rs.getString(6);
-	        		MASS_PER_TIME = rs.getString(7);
-	        		MASS_PER_VOLUME = rs.getString(8);
-	        		MASS_FRACTION = rs.getString(9);
-	        		XB = rs.getString(10);
+	        		initArray[0] = rs.getString(2);
+	        		initArray[1] = rs.getString(3);
+	        		initArray[2] = rs.getString(4);
+	        		initArray[3] = rs.getString(5);
+	        		initArray[4] = rs.getString(6);
+	        		initArray[5] = rs.getString(7);
+	        		initArray[6] = rs.getString(8);
+	        		initArray[7] = rs.getString(9);
+	        		initArray[8] = rs.getString(10);
 	        	}
-	        	editorText.appendText("&INIT" + "\n");
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorString("PART_ID", PART_ID);
-	        	appendToEditorString("SPEC_ID", SPEC_ID);
-	        	appendToEditorNumber("N_PARTICLES", N_PARTICLES);
-	        	appendToEditorNumber("N_PARTICLES_PER_CELL", N_PARTICLES_PER_CELL);
-	        	appendToEditorNumber("MASS_PER_TIME", MASS_PER_TIME);
-	        	appendToEditorNumber("MASS_PER_VOLUME", MASS_PER_VOLUME);
-	        	appendToEditorNumber("MASS_FRACTION", MASS_FRACTION);
-	        	appendToEditorNumber("XB", XB);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(initArray)) {
+	        		editorText.appendText("&INIT" + "\n");
+		        	appendToEditorString("ID", initArray[0]);
+		        	appendToEditorString("PART_ID", initArray[1]);
+		        	appendToEditorString("SPEC_ID", initArray[2]);
+		        	appendToEditorNumber("N_PARTICLES", initArray[3]);
+		        	appendToEditorNumber("N_PARTICLES_PER_CELL", initArray[4]);
+		        	appendToEditorNumber("MASS_PER_TIME", initArray[5]);
+		        	appendToEditorNumber("MASS_PER_VOLUME", initArray[6]);
+		        	appendToEditorNumber("MASS_FRACTION", initArray[7]);
+		        	appendToEditorNumber("XB", initArray[8]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -400,43 +458,37 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each SURF line
-	    	String ID = "";
-	    	String PART_ID = "";
-	    	String MATL_ID = "";
-	    	String VEL = "";
-	    	String TMP_FRONT = "";
-	    	String BACKING = "";
-	    	String DEFAULT = "";
-	    	String GEOMETRY = "";
-	    	String COLOR = "";
-	    	String HRRPUA = "";
+	    	String surfArray[] = new String[10];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlSurf = "SELECT * FROM surf WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlSurf);
 	        	while (rs.next()) {
-	        		ID = rs.getString(2);
-	        		PART_ID = rs.getString(3);
-	        		MATL_ID = rs.getString(4);
-	        		VEL = rs.getString(5);
-	        		TMP_FRONT = rs.getString(6);
-	        		BACKING = rs.getString(7);
-	        		DEFAULT = rs.getString(8);
-	        		GEOMETRY = rs.getString(9);
-	        		COLOR = rs.getString(10);
-	        		HRRPUA = rs.getString(11);
+	        		surfArray[0] = rs.getString(2);
+	        		surfArray[1] = rs.getString(3);
+	        		surfArray[2] = rs.getString(4);
+	        		surfArray[3] = rs.getString(5);
+	        		surfArray[4] = rs.getString(6);
+	        		surfArray[5] = rs.getString(7);
+	        		surfArray[6] = rs.getString(8);
+	        		surfArray[7] = rs.getString(9);
+	        		surfArray[8] = rs.getString(10);
+	        		surfArray[9] = rs.getString(11);
 	        	}
-	        	editorText.appendText("&SURF" + "\n");
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorString("PART_ID", PART_ID);
-	        	appendToEditorString("MATL_ID", MATL_ID);
-	        	appendToEditorNumber("VEL", VEL);
-	        	appendToEditorNumber("TMP_FRONT", TMP_FRONT);
-	        	appendToEditorString("BACKING", BACKING);
-	        	appendToEditorBoolean("DEFAULT", DEFAULT);
-	        	appendToEditorString("GEOMETRY", GEOMETRY);
-	        	appendToEditorString("COLOR", COLOR);
-	        	appendToEditorNumber("HRRPUA", HRRPUA);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(surfArray)) {
+	        		editorText.appendText("&SURF" + "\n");
+		        	appendToEditorString("ID", surfArray[0]);
+		        	appendToEditorString("PART_ID", surfArray[1]);
+		        	appendToEditorString("MATL_ID", surfArray[2]);
+		        	appendToEditorNumber("VEL", surfArray[3]);
+		        	appendToEditorNumber("TMP_FRONT", surfArray[4]);
+		        	appendToEditorString("BACKING", surfArray[5]);
+		        	appendToEditorBoolean("DEFAULT", surfArray[6]);
+		        	appendToEditorString("GEOMETRY", surfArray[7]);
+		        	appendToEditorString("COLOR", surfArray[8]);
+		        	appendToEditorNumber("HRRPUA", surfArray[9]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -454,22 +506,23 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each REAC line
-	    	String AUTO_IGNITION_TEMPERATURE = "";
-	    	String SOOT_YIELD = "";
-	    	String FUEL = "";
+	    	String reacArray[] = new String[3];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlReac = "SELECT * FROM reac WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlReac);
 	        	while (rs.next()) {
-	        		AUTO_IGNITION_TEMPERATURE = rs.getString(2);
-	        		SOOT_YIELD = rs.getString(3);
-	        		FUEL = rs.getString(4);
+	        		reacArray[0] = rs.getString(2);
+	        		reacArray[1] = rs.getString(3);
+	        		reacArray[2] = rs.getString(4);
 	        	}
-	        	editorText.appendText("&REAC" + "\n");
-	        	appendToEditorNumber("AUTO_IGNITION_TEMPERATURE", AUTO_IGNITION_TEMPERATURE);
-	        	appendToEditorNumber("SOOT_YIELD", SOOT_YIELD);
-	        	appendToEditorString("FUEL", FUEL);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(reacArray)) {
+	        		editorText.appendText("&REAC" + "\n");
+		        	appendToEditorNumber("AUTO_IGNITION_TEMPERATURE", reacArray[0]);
+		        	appendToEditorNumber("SOOT_YIELD", reacArray[1]);
+		        	appendToEditorString("FUEL", reacArray[2]);
+		        	editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -487,22 +540,23 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each VENT line
-	    	String XB = "";
-	    	String SURF_ID = "";
-	    	String MB = "";
+	    	String ventArray[] = new String[3];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlVent = "SELECT * FROM vent WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlVent);
 	        	while (rs.next()) {
-	        		XB = rs.getString(2);
-	        		SURF_ID = rs.getString(3);
-	        		MB = rs.getString(4);
+	        		ventArray[0] = rs.getString(2);
+	        		ventArray[1] = rs.getString(3);
+	        		ventArray[2] = rs.getString(4);
 	        	}
-	        	editorText.appendText("&VENT" + "\n");
-	        	appendToEditorNumber("XB", XB);
-	        	appendToEditorString("SURF_ID", SURF_ID);
-	        	appendToEditorString("MB", MB);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(ventArray)) {
+	        		editorText.appendText("&VENT" + "\n");
+		        	appendToEditorNumber("XB", ventArray[0]);
+		        	appendToEditorString("SURF_ID", ventArray[1]);
+		        	appendToEditorString("MB", ventArray[2]);
+		        	editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -520,40 +574,35 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each PART line
-	    	String SURF_ID = "";
-	    	String SPEC_ID = "";
-	    	String PROP_ID = "";
-	    	String QUANTITIES = "";
-	    	String STATIC = "";
-	    	String MASSLESS = "";
-	    	String SAMPLING_FACTOR = "";
-	    	String DIAMETER = "";
-	    	String ID = "";
+	    	String partArray[] = new String[9];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlPart = "SELECT * FROM part WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlPart);
 	        	while (rs.next()) {
-	        		SURF_ID = rs.getString(2);
-	        		SPEC_ID = rs.getString(3);
-	        		PROP_ID = rs.getString(4);
-	        		QUANTITIES = rs.getString(5);
-	        		STATIC = rs.getString(6);
-	        		MASSLESS = rs.getString(7);
-	        		SAMPLING_FACTOR = rs.getString(8);
-	        		DIAMETER = rs.getString(9);
-	        		ID = rs.getString(10);
+	        		partArray[0] = rs.getString(2);
+	        		partArray[1] = rs.getString(3);
+	        		partArray[2] = rs.getString(4);
+	        		partArray[3] = rs.getString(5);
+	        		partArray[4] = rs.getString(6);
+	        		partArray[5] = rs.getString(7);
+	        		partArray[6] = rs.getString(8);
+	        		partArray[7] = rs.getString(9);
+	        		partArray[8] = rs.getString(10);
 	        	}
-	        	editorText.appendText("&PART" + "\n");
-	        	appendToEditorString("SURF_ID", SURF_ID);
-	        	appendToEditorString("SPEC_ID", SPEC_ID);
-	        	appendToEditorString("PROP_ID", PROP_ID);
-	        	appendToEditorString("QUANTITIES", QUANTITIES);
-	        	appendToEditorBoolean("STATIC", STATIC);
-	        	appendToEditorBoolean("MASSLESS", MASSLESS);
-	        	appendToEditorNumber("SAMPLING_FACTOR", SAMPLING_FACTOR);
-	        	appendToEditorNumber("DIAMETER", DIAMETER);
-	        	appendToEditorString("ID", ID);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(partArray)) {
+	        		editorText.appendText("&PART" + "\n");
+		        	appendToEditorString("SURF_ID", partArray[0]);
+		        	appendToEditorString("SPEC_ID", partArray[1]);
+		        	appendToEditorString("PROP_ID", partArray[2]);
+		        	appendToEditorString("QUANTITIES", partArray[3]);
+		        	appendToEditorBoolean("STATIC", partArray[4]);
+		        	appendToEditorBoolean("MASSLESS", partArray[5]);
+		        	appendToEditorNumber("SAMPLING_FACTOR", partArray[6]);
+		        	appendToEditorNumber("DIAMETER", partArray[7]);
+		        	appendToEditorString("ID", partArray[8]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -571,34 +620,31 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each SLCF line
-	    	String QUANTITY = "";
-	    	String SPEC_ID = "";
-	    	String PBY = "";
-	    	String PBZ = "";
-	    	String PBX = "";
-	    	String VECTOR = "";
-	    	String CELL_CENTERED = "";
+	    	String slcfArray[] = new String[7];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlSlcf = "SELECT * FROM slcf WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlSlcf);
 	        	while (rs.next()) {
-	        		QUANTITY = rs.getString(2);
-	        		SPEC_ID = rs.getString(3);
-	        		PBY = rs.getString(4);
-	        		PBZ = rs.getString(5);
-	        		PBX = rs.getString(6);
-	        		VECTOR = rs.getString(7);
-	        		CELL_CENTERED = rs.getString(8);
+	        		slcfArray[0] = rs.getString(2);
+	        		slcfArray[1] = rs.getString(3);
+	        		slcfArray[2] = rs.getString(4);
+	        		slcfArray[3] = rs.getString(5);
+	        		slcfArray[4] = rs.getString(6);
+	        		slcfArray[5] = rs.getString(7);
+	        		slcfArray[6] = rs.getString(8);
 	        	}
-	        	editorText.appendText("&SLCF" + "\n");
-	        	appendToEditorString("QUANTITY", QUANTITY);
-	        	appendToEditorString("SPEC_ID", SPEC_ID);
-	        	appendToEditorNumber("PBY", PBY);
-	        	appendToEditorNumber("PBZ", PBZ);
-	        	appendToEditorNumber("PBX", PBX);
-	        	appendToEditorBoolean("VECTOR", VECTOR);
-	        	appendToEditorBoolean("CELL_CENTERED", CELL_CENTERED);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(slcfArray)) {
+	        		editorText.appendText("&SLCF" + "\n");
+		        	appendToEditorString("QUANTITY", slcfArray[0]);
+		        	appendToEditorString("SPEC_ID", slcfArray[1]);
+		        	appendToEditorNumber("PBY", slcfArray[2]);
+		        	appendToEditorNumber("PBZ", slcfArray[3]);
+		        	appendToEditorNumber("PBX", slcfArray[4]);
+		        	appendToEditorBoolean("VECTOR", slcfArray[5]);
+		        	appendToEditorBoolean("CELL_CENTERED", slcfArray[6]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -616,37 +662,33 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each MATL line
-	    	String SPECIFIC_HEAT = "";
-	    	String HEAT_OF_REACTION = "";
-	    	String SPEC_ID = "";
-	    	String ID = "";
-	    	String REFERENCE_TEMPERATURE = "";
-	    	String N_REACTIONS = "";
-	    	String DENSITY = "";
-	    	String CONDUCTIVITY = "";
+	    	String matlArray[] = new String[8];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlMatl = "SELECT * FROM matl WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlMatl);
 	        	while (rs.next()) {
-	        		SPECIFIC_HEAT = rs.getString(2);
-	        		HEAT_OF_REACTION = rs.getString(3);
-	        		SPEC_ID = rs.getString(4);
-	        		ID = rs.getString(5);
-	        		REFERENCE_TEMPERATURE = rs.getString(6);
-	        		N_REACTIONS = rs.getString(7);
-	        		DENSITY = rs.getString(8);
-	        		CONDUCTIVITY = rs.getString(9);
+	        		matlArray[0] = rs.getString(2);
+	        		matlArray[1] = rs.getString(3);
+	        		matlArray[2] = rs.getString(4);
+	        		matlArray[3] = rs.getString(5);
+	        		matlArray[4] = rs.getString(6);
+	        		matlArray[5] = rs.getString(7);
+	        		matlArray[6] = rs.getString(8);
+	        		matlArray[7] = rs.getString(9);
 	        	}
-	        	editorText.appendText("&MATL" + "\n");
-	        	appendToEditorNumber("SPECIFIC_HEAT", SPECIFIC_HEAT);
-	        	appendToEditorNumber("HEAT_OF_REACTION", HEAT_OF_REACTION);
-	        	appendToEditorString("SPEC_ID", SPEC_ID);
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorNumber("REFERENCE_TEMPERATURE", REFERENCE_TEMPERATURE);
-	        	appendToEditorNumber("N_REACTIONS", N_REACTIONS);
-	        	appendToEditorNumber("DENSITY", DENSITY);
-	        	appendToEditorNumber("CONDUCTIVITY", CONDUCTIVITY);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(matlArray)) {
+	        		editorText.appendText("&MATL" + "\n");
+		        	appendToEditorNumber("SPECIFIC_HEAT", matlArray[0]);
+		        	appendToEditorNumber("HEAT_OF_REACTION", matlArray[1]);
+		        	appendToEditorString("SPEC_ID", matlArray[2]);
+		        	appendToEditorString("ID", matlArray[3]);
+		        	appendToEditorNumber("REFERENCE_TEMPERATURE", matlArray[4]);
+		        	appendToEditorNumber("N_REACTIONS", matlArray[5]);
+		        	appendToEditorNumber("DENSITY", matlArray[6]);
+		        	appendToEditorNumber("CONDUCTIVITY", matlArray[7]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -664,25 +706,25 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each OBST line
-	    	String BULK_DENSITY = "";
-	    	String COLOR = "";
-	    	String SURF_ID = "";
-	    	String XB = "";
+	    	String obstArray[] = new String[4];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlObst = "SELECT * FROM obst WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlObst);
 	        	while (rs.next()) {
-	        		BULK_DENSITY = rs.getString(2);
-	        		COLOR = rs.getString(3);
-	        		SURF_ID = rs.getString(4);
-	        		XB = rs.getString(5);
+	        		obstArray[0] = rs.getString(2);
+	        		obstArray[1] = rs.getString(3);
+	        		obstArray[2] = rs.getString(4);
+	        		obstArray[3] = rs.getString(5);
 	        	}
-	        	editorText.appendText("&OBST" + "\n");
-	        	appendToEditorNumber("BULK_DENSITY", BULK_DENSITY);
-	        	appendToEditorString("COLOR", COLOR);
-	        	appendToEditorString("SURF_ID", SURF_ID);
-	        	appendToEditorNumber("XB", XB);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(obstArray)) {
+	        		editorText.appendText("&OBST" + "\n");
+		        	appendToEditorNumber("BULK_DENSITY", obstArray[0]);
+		        	appendToEditorString("COLOR", obstArray[1]);
+		        	appendToEditorString("SURF_ID", obstArray[2]);
+		        	appendToEditorNumber("XB", obstArray[3]);
+		        	editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -700,19 +742,21 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each SPEC line
-	    	String ID = "";
-	    	String BACKGROUND = "";
+	    	String specArray[] = new String[2];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlSpec = "SELECT * FROM spec WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlSpec);
 	        	while (rs.next()) {
-	        		ID = rs.getString(2);
-	        		BACKGROUND = rs.getString(3);
+	        		specArray[0] = rs.getString(2);
+	        		specArray[1] = rs.getString(3);
 	        	}
-	        	editorText.appendText("&SPEC" + "\n");
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorBoolean("BACKGROUND", BACKGROUND);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(specArray)) {
+	        		editorText.appendText("&SPEC" + "\n");
+		        	appendToEditorString("ID", specArray[0]);
+		        	appendToEditorBoolean("BACKGROUND", specArray[1]);
+		        	editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -730,34 +774,31 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each DEVC line
-	    	String ID = "";
-	    	String PROP_ID = "";
-	    	String SPEC_ID = "";
-	    	String XYZ = "";
-	    	String QUANTITY = "";
-	    	String IOR = "";
-	    	String XB = "";
+	    	String devcArray[] = new String[7];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlDevc = "SELECT * FROM devc WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlDevc);
 	        	while (rs.next()) {
-	        		ID = rs.getString(2);
-	        		PROP_ID = rs.getString(3);
-	        		SPEC_ID = rs.getString(4);
-	        		XYZ = rs.getString(5);
-	        		QUANTITY = rs.getString(6);
-	        		IOR = rs.getString(7);
-	        		XB = rs.getString(8);
+	        		devcArray[0] = rs.getString(2);
+	        		devcArray[1] = rs.getString(3);
+	        		devcArray[2] = rs.getString(4);
+	        		devcArray[3] = rs.getString(5);
+	        		devcArray[4] = rs.getString(6);
+	        		devcArray[5] = rs.getString(7);
+	        		devcArray[6] = rs.getString(8);
 	        	}
-	        	editorText.appendText("&DEVC" + "\n");
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorString("PROP_ID", PROP_ID);
-	        	appendToEditorString("SPEC_ID", SPEC_ID);
-	        	appendToEditorNumber("XYZ", XYZ);
-	        	appendToEditorString("QUANTITY", QUANTITY);
-	        	appendToEditorNumber("IOR", IOR);
-	        	appendToEditorNumber("XB", XB);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(devcArray)) {
+	        		editorText.appendText("&DEVC" + "\n");
+		        	appendToEditorString("ID", devcArray[0]);
+		        	appendToEditorString("PROP_ID", devcArray[1]);
+		        	appendToEditorString("SPEC_ID", devcArray[2]);
+		        	appendToEditorNumber("XYZ", devcArray[3]);
+		        	appendToEditorString("QUANTITY", devcArray[4]);
+		        	appendToEditorNumber("IOR", devcArray[5]);
+		        	appendToEditorNumber("XB", devcArray[6]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -775,28 +816,27 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each CTRL line
-	    	String INPUT_ID = "";
-	    	String RAMP_ID = "";
-	    	String ID = "";
-	    	String LATCH = "";
-	    	String FUNCTION_TYPE = "";
+	    	String ctrlArray[] = new String[5];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlCtrl = "SELECT * FROM ctrl WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlCtrl);
 	        	while (rs.next()) {
-	        		INPUT_ID = rs.getString(2);
-	        		RAMP_ID = rs.getString(3);
-	        		ID = rs.getString(4);
-	        		LATCH = rs.getString(5);
-	        		FUNCTION_TYPE = rs.getString(6);
+	        		ctrlArray[0] = rs.getString(2);
+	        		ctrlArray[1] = rs.getString(3);
+	        		ctrlArray[2] = rs.getString(4);
+	        		ctrlArray[3] = rs.getString(5);
+	        		ctrlArray[4] = rs.getString(6);
 	        	}
-	        	editorText.appendText("&CTRL" + "\n");
-	        	appendToEditorString("INPUT_ID", INPUT_ID);
-	        	appendToEditorString("RAMP_ID", RAMP_ID);
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorBoolean("LATCH", LATCH);
-	        	appendToEditorString("FUNCTION_TYPE", FUNCTION_TYPE);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(ctrlArray)) {
+	        		editorText.appendText("&CTRL" + "\n");
+		        	appendToEditorString("INPUT_ID", ctrlArray[0]);
+		        	appendToEditorString("RAMP_ID", ctrlArray[1]);
+		        	appendToEditorString("ID", ctrlArray[2]);
+		        	appendToEditorBoolean("LATCH", ctrlArray[3]);
+		        	appendToEditorString("FUNCTION_TYPE", ctrlArray[4]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -814,43 +854,37 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each PROP line
-	    	String ID = "";
-	    	String PART_ID = "";
-	    	String QUANTITY = "";
-	    	String SMOKEVIEW_ID = "";
-	    	String OFFSET = "";
-	    	String PDPA_INTEGRATE = "";
-	    	String PDPA_NORMALIZE = "";
-	    	String OPERATING_PRESSURE = "";
-	    	String PARTICLES_PER_SECOND = "";
-	    	String PARTICLE_VELOCITY = "";
+	    	String propArray[] = new String[10];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlSurf = "SELECT * FROM prop WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlSurf);
 	        	while (rs.next()) {
-	        		ID = rs.getString(2);
-	        		PART_ID = rs.getString(3);
-	        		QUANTITY = rs.getString(4);
-	        		SMOKEVIEW_ID = rs.getString(5);
-	        		OFFSET = rs.getString(6);
-	        		PDPA_INTEGRATE = rs.getString(7);
-	        		PDPA_NORMALIZE = rs.getString(8);
-	        		OPERATING_PRESSURE = rs.getString(9);
-	        		PARTICLES_PER_SECOND = rs.getString(10);
-	        		PARTICLE_VELOCITY = rs.getString(11);
+	        		propArray[0] = rs.getString(2);
+	        		propArray[1] = rs.getString(3);
+	        		propArray[2] = rs.getString(4);
+	        		propArray[3] = rs.getString(5);
+	        		propArray[4] = rs.getString(6);
+	        		propArray[5] = rs.getString(7);
+	        		propArray[6] = rs.getString(8);
+	        		propArray[7] = rs.getString(9);
+	        		propArray[8] = rs.getString(10);
+	        		propArray[9] = rs.getString(11);
 	        	}
-	        	editorText.appendText("&PROP" + "\n");
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorString("PART_ID", PART_ID);
-	        	appendToEditorString("QUANTITY", QUANTITY);
-	        	appendToEditorString("SMOKEVIEW_ID", SMOKEVIEW_ID);
-	        	appendToEditorNumber("OFFSET", OFFSET);
-	        	appendToEditorBoolean("PDPA_INTEGRATE", PDPA_INTEGRATE);
-	        	appendToEditorBoolean("PDPA_NORMALIZE", PDPA_NORMALIZE);
-	        	appendToEditorNumber("OPERATING_PRESSURE", OPERATING_PRESSURE);
-	        	appendToEditorNumber("PARTICLES_PER_SECOND", PARTICLES_PER_SECOND);
-	        	appendToEditorNumber("PARTICLE_VELOCITY", PARTICLE_VELOCITY);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(propArray)) {
+	        		editorText.appendText("&PROP" + "\n");
+		        	appendToEditorString("ID", propArray[0]);
+		        	appendToEditorString("PART_ID", propArray[1]);
+		        	appendToEditorString("QUANTITY", propArray[2]);
+		        	appendToEditorString("SMOKEVIEW_ID", propArray[3]);
+		        	appendToEditorNumber("OFFSET", propArray[4]);
+		        	appendToEditorBoolean("PDPA_INTEGRATE", propArray[5]);
+		        	appendToEditorBoolean("PDPA_NORMALIZE", propArray[6]);
+		        	appendToEditorNumber("OPERATING_PRESSURE", propArray[7]);
+		        	appendToEditorNumber("PARTICLES_PER_SECOND", propArray[8]);
+		        	appendToEditorNumber("PARTICLE_VELOCITY", propArray[9]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -901,34 +935,31 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each MULT line
-	    	String ID = "";
-	    	String I_UPPER = "";
-	    	String J_UPPER = "";
-	    	String K_UPPER = "";
-	    	String DX = "";
-	    	String DY = "";
-	    	String DZ = "";
+	    	String multArray[] = new String[7];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlMult = "SELECT * FROM mult WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlMult);
 	        	while (rs.next()) {
-	        		ID = rs.getString(2);
-	        		I_UPPER = rs.getString(3);
-	        		J_UPPER = rs.getString(4);
-	        		K_UPPER = rs.getString(5);
-	        		DX = rs.getString(6);
-	        		DY = rs.getString(7);
-	        		DZ = rs.getString(8);
+	        		multArray[0] = rs.getString(2);
+	        		multArray[1] = rs.getString(3);
+	        		multArray[2] = rs.getString(4);
+	        		multArray[3] = rs.getString(5);
+	        		multArray[4] = rs.getString(6);
+	        		multArray[5] = rs.getString(7);
+	        		multArray[6] = rs.getString(8);
 	        	}
-	        	editorText.appendText("&MULT" + "\n");
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorNumber("I_UPPER", I_UPPER);
-	        	appendToEditorNumber("J_UPPER", J_UPPER);
-	        	appendToEditorNumber("K_UPPER", K_UPPER);
-	        	appendToEditorNumber("DX", DX);
-	        	appendToEditorNumber("DY", DY);
-	        	appendToEditorNumber("DZ", DZ);
-	    		editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(multArray)) {
+	        		editorText.appendText("&MULT" + "\n");
+		        	appendToEditorString("ID", multArray[0]);
+		        	appendToEditorNumber("I_UPPER", multArray[1]);
+		        	appendToEditorNumber("J_UPPER", multArray[2]);
+		        	appendToEditorNumber("K_UPPER", multArray[3]);
+		        	appendToEditorNumber("DX", multArray[4]);
+		        	appendToEditorNumber("DY", multArray[5]);
+		        	appendToEditorNumber("DZ", multArray[6]);
+		    		editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -1090,25 +1121,25 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each TRNX line
-	    	String ID = "";
-	    	String MESH_NUMBER = "";
-	    	String CC = "";
-	    	String PC = "";
+	    	String trnxArray[] = new String[4];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlTrnx = "SELECT * FROM trnx WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlTrnx);
 	        	while (rs.next()) {
-	        		ID = rs.getString(2);
-	        		MESH_NUMBER = rs.getString(3);
-	        		CC = rs.getString(4);
-	        		PC = rs.getString(5);
+	        		trnxArray[0] = rs.getString(2);
+	        		trnxArray[1] = rs.getString(3);
+	        		trnxArray[2] = rs.getString(4);
+	        		trnxArray[3] = rs.getString(5);
 	        	}
-	        	editorText.appendText("&TRNX" + "\n");
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorNumber("MESH_NUMBER", MESH_NUMBER);
-	        	appendToEditorNumber("CC", CC);
-	        	appendToEditorNumber("PC", PC);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(trnxArray)) {
+	        		editorText.appendText("&TRNX" + "\n");
+		        	appendToEditorString("ID", trnxArray[0]);
+		        	appendToEditorNumber("MESH_NUMBER", trnxArray[1]);
+		        	appendToEditorNumber("CC", trnxArray[2]);
+		        	appendToEditorNumber("PC", trnxArray[3]);
+		        	editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -1126,16 +1157,19 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each BNDF line
-	    	String QUANTITY = "";
+	    	String bndfArray[] = new String[1];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlBndf = "SELECT * FROM bndf WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlBndf);
 	        	while (rs.next()) {
-	        		QUANTITY = rs.getString(2);
+	        		bndfArray[0] = rs.getString(2);
 	        	}
-	        	editorText.appendText("&BNDF" + "\n");
-	        	appendToEditorString("ID", QUANTITY);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(bndfArray)) {
+	        		editorText.appendText("&BNDF" + "\n");
+		        	appendToEditorString("ID", bndfArray[0]);
+		        	editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -1202,22 +1236,22 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each RAMP line
-	    	String FRACTION = "";
-	    	String TIME = "";
-	    	String ID = "";
+	    	String rampArray[] = new String[3];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlRamp = "SELECT * FROM ramp WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlRamp);
 	        	while (rs.next()) {
-	        		FRACTION = rs.getString(2);
-	        		TIME = rs.getString(3);
-	        		ID = rs.getString(4);
+	        		rampArray[0] = rs.getString(2);
+	        		rampArray[1] = rs.getString(3);
+	        		rampArray[2] = rs.getString(4);
 	        	}
-	        	editorText.appendText("&RAMP" + "\n");
-	        	appendToEditorNumber("F", FRACTION);
-	        	appendToEditorNumber("T", TIME);
-	        	appendToEditorString("ID", ID);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(rampArray)) {
+	        		editorText.appendText("&RAMP" + "\n");
+		        	appendToEditorNumber("F", rampArray[0]);
+		        	appendToEditorNumber("T", rampArray[1]);
+		        	appendToEditorString("ID", rampArray[2]);
+		        	editorText.appendText("/" + "\n");
+	        	}
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -1313,19 +1347,20 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each TABL line
-	    	String ID = "";
-	    	String TABLE_DATA = "";
+	    	String tablArray[] = new String[2];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlTabl = "SELECT * FROM tabl WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlTabl);
 	        	while (rs.next()) {
-	        		ID = rs.getString(2);
-	        		TABLE_DATA = rs.getString(3);
+	        		tablArray[0] = rs.getString(2);
+	        		tablArray[1] = rs.getString(3);
 	        	}
-	        	editorText.appendText("&TABL" + "\n");
-	        	appendToEditorString("ID", ID);
-	        	appendToEditorNumber("TABLE_DATA", TABLE_DATA);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(tablArray)) {
+	        		editorText.appendText("&TABL" + "\n");
+		        	appendToEditorString("ID", tablArray[0]);
+		        	appendToEditorNumber("TABLE_DATA", tablArray[1]);
+		        	editorText.appendText("/" + "\n");
+	        	}
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
@@ -1343,20 +1378,33 @@ public class EditorController implements Initializable{
     	
     	try {
 	    	//print each ZONE line
-	    	String XYZ = "";
+	    	String zoneArray[] = new String[1];
 	    	for (int i=1; i<=Integer.parseInt(mainID); i++) {
 	    		sqlZone = "SELECT * FROM zone WHERE mainID='" + i + "';";
 	        	rs = getStatement().executeQuery(sqlZone);
+	        	
 	        	while (rs.next()) {
-	        		XYZ = rs.getString(2);
+	        		zoneArray[0] = rs.getString(2);
 	        	}
-	        	editorText.appendText("&ZONE" + "\n");
-	        	appendToEditorNumber("XYZ", XYZ);
-	        	editorText.appendText("/" + "\n");
+	        	if (isArrayFilled(zoneArray)) {
+	        		editorText.appendText("&ZONE" + "\n");
+		        	appendToEditorNumber("XYZ", zoneArray[0]);
+		        	editorText.appendText("/" + "\n");
+	        	}
+	        	
 	    	}
     	} catch(Exception e) {
     		System.out.println("Nothing to print");
     	}
+    }
+    
+    public boolean isArrayFilled(String[] tempArray) {
+    	for (int i=0; i<tempArray.length; i++) {
+    		if (!tempArray[i].equals("")) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
     
     public void appendToEditorString(String paramName, String value) { //add single quotes for string

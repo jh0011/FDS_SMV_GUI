@@ -103,6 +103,7 @@ public class TrnxController implements Initializable{
 	    		mainWindow.show();
 	    	}
     	}catch(Exception e) {
+    		e.printStackTrace();
 			Values.showError();
 		}
     }
@@ -133,6 +134,7 @@ public class TrnxController implements Initializable{
 	    		mainWindow.show();
 	    	}
     	}catch(Exception e) {
+    		e.printStackTrace();
 			Values.showError();
 		}
     }

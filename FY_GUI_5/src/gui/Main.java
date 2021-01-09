@@ -23,7 +23,7 @@ public class Main extends Application {
 		try {
 			Parent root;
 			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Editor.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Trnx.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FDS-SMV GUI");
@@ -84,7 +84,7 @@ public class Main extends Application {
 			String initInit = "INSERT INTO init(mainID, idText, partIdText, specIdText, npartText, "
 					+ "npartCellText, massTimeText, massVolText, massFracText, xbText) "
 					+ "VALUES ('1', '', '', '', '', '', '', '', '', '')";
-			String initMesh = "INSERT INTO mesh (mainID, ijkText, xbText) VALUES ('', '', '');";
+			String initMesh = "INSERT INTO mesh (mainID, ijkText, xbText) VALUES ('1', '', '');";
 			String initPart = "INSERT INTO part (mainID, SURF_ID, SPEC_ID, PROP_ID, QUANTITIES, STATIC" + 
 					", MASSLESS, SAMPLING_FACTOR, DIAMETER, ID) VALUES ('1', '', '', '', '', '', '', '', '', '');";
 			String initBndf = "INSERT INTO bndf (mainID, QUANTITY) VALUES ('1', '');";
