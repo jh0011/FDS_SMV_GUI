@@ -22,6 +22,12 @@ public class Values {
 	
 	protected static String concatFiles = "";
 	
+	/**
+	 * This function is called to delete the values from all the tables.
+	 * This function is called when the desktop application first starts and when 
+	 * users cancel the creation of the .fds file.
+	 * @throws SQLException
+	 */
 	protected static void cancelForm() throws SQLException{
 		
 		//delete the table
@@ -102,6 +108,10 @@ public class Values {
 		statement.executeUpdate(sqlZone);
 	}
 	
+	/**
+	 * This function gets the user's confirmation before deleting the .fds file.
+	 * @return Boolean value to decide if the .fds file creation should be deleted or not.
+	 */
 	protected static boolean cancelWarning(){
 		Alert cancelAlert = new Alert(Alert.AlertType.CONFIRMATION);
 		cancelAlert.setTitle("Cancel");
@@ -116,6 +126,11 @@ public class Values {
 		}
 	}
 	
+	/**
+	 * This function provides a confirmation to the user on whether or not a new field line has been added. 
+	 * @param namelist The name of the Namelist
+	 * @param isSuccess Boolean to know if a new line can be added.
+	 */
 	public static void printConfirmationMessage(String namelist, boolean isSuccess) {
 		if (isSuccess) {
 			Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -133,6 +148,11 @@ public class Values {
 		}
 	}
 	
+	/**
+	 * This function is used to open the description box for each Namelist's heading.
+	 * @param namelist The name of the Namelist.
+	 * @param content The content of the description for that Namelist.
+	 */
 	public static void openDesc(String namelist, String content) {
 		Alert headAlert = new Alert(Alert.AlertType.INFORMATION);
 		headAlert.setTitle(namelist + " namelist");
@@ -145,6 +165,9 @@ public class Values {
 		headAlert.show();
 	}
 	
+	/**
+	 * Error message when an exception is thrown which prevents the page from proceeding.
+	 */
 	public static void showError() {
 		Alert chidAlert = new Alert(Alert.AlertType.INFORMATION);
 		chidAlert.setTitle("Unable to proceed");
@@ -153,6 +176,11 @@ public class Values {
 		chidAlert.show();
 	}
 	
+	/**
+	 * Display the error message during the input validation process.
+	 * @param title The title of the error message box.
+	 * @param error The actual error to be displayed.
+	 */
 	public static void displayErrorMsg(String title, String error) {
 		Alert initAlert = new Alert(Alert.AlertType.INFORMATION);
 		initAlert.setTitle(title);

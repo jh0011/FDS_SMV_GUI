@@ -51,6 +51,12 @@ public class EditorController implements Initializable{
 		}
 	}
 	
+	/**
+	 * When the Cancel button is clicked to cancel creation of .fds file
+	 * @param event Cancel button is clicked
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	@FXML
     public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
 		if (Values.cancelWarning()){
@@ -65,6 +71,12 @@ public class EditorController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (TRNX) + input validation
+	 * @param event Back button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     @FXML
     public void goToTrnx(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
     	//store the updated text area
@@ -81,6 +93,12 @@ public class EditorController implements Initializable{
 		mainWindow.show();
     }
     
+    /**
+	 * Go to the next page (Final) + input validation
+	 * @param event Next button is clicked
+	 * @throws IOException
+	 * @throws SQLException
+	 */
     public void goToFinal(ActionEvent event) throws IOException { //NEXT SCENE
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Final.fxml"));
 		Parent root = loader.load();
@@ -92,6 +110,14 @@ public class EditorController implements Initializable{
 		mainWindow.show();
     }
     
+    /**
+     * This function handles the saving of the file to the user's system.
+     * If the file already exists in the directory, the user has the option of overwriting it or choosing a different directory.
+     * If the file does not exist in the directory, the user will be able to save the file.
+     * A confirmation message is displayed after the file is saved.
+     * @param event The "Save" button is clicked.
+     * @throws IOException
+     */
     @FXML
     public void saveFile(ActionEvent event) throws IOException { //save to the file system
     	//store the updated text area
@@ -151,7 +177,10 @@ public class EditorController implements Initializable{
     	
     }
     
-    
+    /**
+     * Print the values into the in-app editor.
+     * @throws SQLException
+     */
     public void showFile() throws SQLException {
     	if (!tempEditorString.equals("")) {
     		editorText.setText(tempEditorString);
@@ -267,6 +296,12 @@ public class EditorController implements Initializable{
     	tempEditorString = editorText.getText();
     }
     
+    /**
+     * Check if the table is filled.
+     * @param tableName The name of the table in the database.
+     * @return Boolean on whether it is filled.
+     * @throws SQLException
+     */
     public boolean checkIfFilled(String tableName) throws SQLException {
     	String sqlQuery = "SELECT * FROM " + tableName;
 		ResultSet rs = getStatement().executeQuery(sqlQuery);
@@ -313,6 +348,12 @@ public class EditorController implements Initializable{
     	
     }
     
+    /**
+     * Check if a particular row in the table is filled.
+     * @param columnNames An array of the column names.
+     * @param columnValues An array of te corresponding column values.
+     * @return Boolean to check if the row is filled.
+     */
     public boolean checkIfRowFilled(String[] columnNames, String[] columnValues){
     	int count = columnNames.length;
     	
@@ -327,16 +368,26 @@ public class EditorController implements Initializable{
 		return false;
     }
     
-    public int countNumLines(String tableName) throws SQLException {
-    	String sql = "SELECT COUNT(*) FROM " + tableName + ";";
-    	ResultSet rs = getStatement().executeQuery(sql);
-    	int count = 0;
-    	while (rs.next()) {
-    		count = rs.getInt(1);
-    	}
-    	return count;
-    }
+//    /**
+//     * To count the number of lines in the table
+//     * @param tableName
+//     * @return
+//     * @throws SQLException
+//     */
+//    public int countNumLines(String tableName) throws SQLException {
+//    	String sql = "SELECT COUNT(*) FROM " + tableName + ";";
+//    	ResultSet rs = getStatement().executeQuery(sql);
+//    	int count = 0;
+//    	while (rs.next()) {
+//    		count = rs.getInt(1);
+//    	}
+//    	return count;
+//    }
     
+    /**
+     * Print the values for the HEAD namelist.
+     * @throws SQLException
+     */
     public void printValuesHead() throws SQLException { //head
     	String sqlHead = "SELECT * FROM head";
     	String TITLE = "";
@@ -351,6 +402,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the MESH namelist.
+     * @throws SQLException
+     */
     public void printValuesMesh() throws SQLException { //mesh
     	//get the number of MESH lines
     	String sqlMesh = "SELECT mainID FROM mesh GROUP BY mainID";
@@ -383,6 +438,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the TIME namelist.
+     * @throws SQLException
+     */
     public void printValuesTime() throws SQLException { //time
     	String sqlTime = "SELECT * FROM time";
     	String endTime = "";
@@ -401,6 +460,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the INIT namelist.
+     * @throws SQLException
+     */
     public void printValuesInit() throws SQLException {
     	//get the number of INIT lines
     	String sqlInit = "SELECT mainID FROM init GROUP BY mainID";
@@ -447,6 +510,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the SURF namelist.
+     * @throws SQLException
+     */
     public void printValuesSurf() throws SQLException { //surf
     	//get the number of SURF lines
     	String sqlSurf = "SELECT mainID FROM surf GROUP BY mainID";
@@ -495,6 +562,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the REAC namelist.
+     * @throws SQLException
+     */
     public void printValuesReac() throws SQLException { //reac
     	//get the number of REAC lines
     	String sqlReac = "SELECT mainID FROM reac GROUP BY mainID";
@@ -529,6 +600,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the VENT namelist.
+     * @throws SQLException
+     */
     public void printValuesVent() throws SQLException{ //vent
     	//get the number of VENT lines
     	String sqlVent = "SELECT mainID FROM vent GROUP BY mainID";
@@ -563,6 +638,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the PART namelist.
+     * @throws SQLException
+     */
     public void printValuesPart() throws SQLException{ //part
     	//get the number of PART lines
     	String sqlPart = "SELECT mainID FROM part GROUP BY mainID";
@@ -609,6 +688,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the SLCF namelist.
+     * @throws SQLException
+     */
     public void printValuesSlcf() throws SQLException { //slcf
     	//get the number of SLCF lines
     	String sqlSlcf = "SELECT mainID FROM slcf GROUP BY mainID";
@@ -651,6 +734,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the MATL namelist.
+     * @throws SQLException
+     */
     public void printValuesMatl() throws SQLException {
     	//get the number of MATL lines
     	String sqlMatl = "SELECT mainID FROM matl GROUP BY mainID";
@@ -695,6 +782,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the OBST namelist.
+     * @throws SQLException
+     */
     public void printValuesObst() throws SQLException { //obst
     	//get the number of OBST lines
     	String sqlObst = "SELECT mainID FROM obst GROUP BY mainID";
@@ -731,6 +822,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the SPEC namelist.
+     * @throws SQLException
+     */
     public void printValuesSpec() throws SQLException { //spec
     	//get the number of SPEC lines
     	String sqlSpec = "SELECT mainID FROM spec GROUP BY mainID";
@@ -763,6 +858,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the DEVC namelist.
+     * @throws SQLException
+     */
     public void printValuesDevc() throws SQLException { //devc
     	//get the number of DEVC lines
     	String sqlDevc = "SELECT mainID FROM devc GROUP BY mainID";
@@ -805,6 +904,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the CTRL namelist.
+     * @throws SQLException
+     */
     public void printValuesCtrl() throws SQLException { //ctrl
     	//get the number of CTRL lines
     	String sqlCtrl = "SELECT mainID FROM ctrl GROUP BY mainID";
@@ -843,6 +946,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the PROP namelist.
+     * @throws SQLException
+     */
     public void printValuesProp() throws SQLException { //prop
     	//get the number of PROP lines
     	String sqlSurf = "SELECT mainID FROM prop GROUP BY mainID";
@@ -891,6 +998,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the RADI namelist.
+     * @throws SQLException
+     */
     public void printValuesRadi() throws SQLException { //radi
     	String sqlRadi = "SELECT * FROM radi";
     	String RADIATION = "";
@@ -903,6 +1014,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the RADF namelist.
+     * @throws SQLException
+     */
     public void printValuesRadf() throws SQLException { //radf
     	String sqlRadf = "SELECT * FROM radf";
     	String I_STEP = "";
@@ -924,6 +1039,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the MULT namelist.
+     * @throws SQLException
+     */
     public void printValuesMult() throws SQLException { //mult
     	//get the number of MULT lines
     	String sqlMult = "SELECT mainID FROM mult GROUP BY mainID";
@@ -966,6 +1085,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the PRES namelist.
+     * @throws SQLException
+     */
     public void printValuesPres() throws SQLException { //pres
     	String sqlPres = "SELECT * FROM pres";
     	String FISHPAK_BC = "";
@@ -981,6 +1104,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the MOVE namelist.
+     * @throws SQLException
+     */
     public void printValuesMove() throws SQLException { //move
     	String sqlMove = "SELECT * FROM move";
     	String ID = "";
@@ -1008,6 +1135,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the ISOF namelist.
+     * @throws SQLException
+     */
     public void printValuesIsof() throws SQLException { //isof
     	String sqlIsof = "SELECT * FROM isof";
     	String QUANTITY = "";
@@ -1029,6 +1160,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the HVAC namelist.
+     * @throws SQLException
+     */
     public void printValuesHvac() throws SQLException { //hvac
     	String sqlHvac = "SELECT * FROM hvac";
     	String ID = "";
@@ -1059,6 +1194,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the HOLE namelist.
+     * @throws SQLException
+     */
     public void printValuesHole() throws SQLException { //hole
     	String sqlHole = "SELECT * FROM hole";
     	String MESH_ID = "";
@@ -1083,6 +1222,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the MISC namelist.
+     * @throws SQLException
+     */
     public void printValuesMisc() throws SQLException { //misc
     	String sqlMisc = "SELECT * FROM misc";
     	String NOISE = "";
@@ -1110,6 +1253,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the TRNX namelist.
+     * @throws SQLException
+     */
     public void printValuesTrnx() throws SQLException { //trnx
     	//get the number of TRNX lines
     	String sqlTrnx = "SELECT mainID FROM trnx GROUP BY mainID";
@@ -1146,6 +1293,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the BNDF namelist.
+     * @throws SQLException
+     */
     public void printValuesBndf() throws SQLException { //bndf
     	//get the number of BNDF lines
     	String sqlBndf = "SELECT mainID FROM bndf GROUP BY mainID";
@@ -1176,6 +1327,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the CATF namelist.
+     * @throws SQLException
+     */
     public void printValuesCatf() throws SQLException { //catf
     	String sqlCatf = "SELECT * FROM catf";
     	String OTHER_FILES = "";
@@ -1204,6 +1359,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the PROF namelist.
+     * @throws SQLException
+     */
     public void printValuesProf() throws SQLException { //prof
     	String sqlProf = "SELECT * FROM prof";
     	String ID = "";
@@ -1225,6 +1384,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the RAMP namelist.
+     * @throws SQLException
+     */
     public void printValuesRamp() throws SQLException { //ramp
     	//get the number of RAMP lines
     	String sqlRamp = "SELECT mainID FROM ramp GROUP BY mainID";
@@ -1258,6 +1421,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the CLIP namelist.
+     * @throws SQLException
+     */
     public void printValuesClip() throws SQLException { //clip
     	String sqlClip = "SELECT * FROM clip";
     	String MAXIMUM_DENSITY = "";
@@ -1279,6 +1446,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the COMB namelist.
+     * @throws SQLException
+     */
     public void printValuesComb() throws SQLException { //comb
     	String sqlComb = "SELECT * FROM comb";
     	String FIXED_MIX_TIME = "";
@@ -1294,6 +1465,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the DUMP namelist.
+     * @throws SQLException
+     */
     public void printValuesDump() throws SQLException { //dump
     	String sqlDump = "SELECT * FROM dump";
     	String MASS_FILE = "";
@@ -1315,6 +1490,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the WIND namelist.
+     * @throws SQLException
+     */
     public void printValuesWind() throws SQLException { //wind
     	String sqlWind = "SELECT * FROM wind";
     	String Z_0 = "";
@@ -1336,6 +1515,10 @@ public class EditorController implements Initializable{
 		editorText.appendText("/" + "\n");
     }
     
+    /**
+     * Print the values for the TABL namelist.
+     * @throws SQLException
+     */
     public void printValuesTabl() throws SQLException { //tabl
     	//get the number of TABL lines
     	String sqlTabl = "SELECT mainID FROM tabl GROUP BY mainID";
@@ -1367,6 +1550,10 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Print the values for the ZONE namelist.
+     * @throws SQLException
+     */
     public void printValuesZone() throws SQLException {//zone
     	//get the number of ZONE lines
     	String sqlZone = "SELECT mainID FROM zone GROUP BY mainID";
@@ -1398,6 +1585,13 @@ public class EditorController implements Initializable{
     	}
     }
     
+    /**
+     * Check if the array is filled. This function is called before appending values to the editor.
+     * If it returns false, nothing will be written for that particular namelist.
+     * If it return true, the namelist parameters will be filled in.
+     * @param tempArray The array to be checked.
+     * @return Boolean on whether the array is filled.
+     */
     public boolean isArrayFilled(String[] tempArray) {
     	for (int i=0; i<tempArray.length; i++) {
     		if (!tempArray[i].equals("")) {
@@ -1407,25 +1601,40 @@ public class EditorController implements Initializable{
     	return false;
     }
     
+    /**
+     * The format for the printing of a String value. It requires single quotes around its value.
+     * @param paramName The parameter name.
+     * @param value The value for that parameter.
+     */
     public void appendToEditorString(String paramName, String value) { //add single quotes for string
     	if (!value.equals("")) {
     		editorText.appendText("\t" + paramName + "='" + value + "'" + "\n");
     	}
     }
     
+    /**
+     * The format for the printing of a numeric value. No symbols / special characters required for numeric values.
+     * @param paramName The parameter name.
+     * @param value The value for that parameter.
+     */
     public void appendToEditorNumber(String paramName, String value) { //no single quotes for numerical values
     	if (!value.equals("")) {
     		editorText.appendText("\t" + paramName + "=" + value + "\n");
     	}
     }
     
+    /**
+     * The format for the printing of a Boolean value. It requires the full stop punctuation around its value.
+     * @param paramName The parameter name.
+     * @param value The value for that parameter.
+     */
     public void appendToEditorBoolean(String paramName, String value) { //.. for logical values
     	if (!value.equals("")) {
     		editorText.appendText("\t" + paramName + "=." + value + "." + "\n");
     	}
     }
     
-    public Statement getStatement() throws SQLException {
+    private Statement getStatement() throws SQLException {
     	ConnectionClass connectionClass = new ConnectionClass();
     	Connection connection = connectionClass.getConnection();
     	Statement statement = connection.createStatement();

@@ -40,42 +40,10 @@ public class Main extends Application {
 		try {
 			ConnectionClass connectionClass = new ConnectionClass();
 			Connection connection = connectionClass.getConnection();
+			
 			//delete the table
-			String sqlHead = "DELETE FROM head;";
-			String sqlTime = "DELETE FROM time;";
-			String sqlCatf = "DELETE FROM catf;";
-			String sqlInit = "DELETE FROM init;";
-			String sqlMesh = "DELETE FROM mesh;";
-			String sqlPart = "DELETE FROM part;";
-			String sqlBndf = "DELETE FROM bndf;";
-			String sqlProp = "DELETE FROM prop;";
-			String sqlSpec = "DELETE FROM spec;";
-			String sqlDevc = "DELETE FROM devc;";
-			String sqlSlcf = "DELETE FROM slcf;";
-			String sqlSurf = "DELETE FROM surf;";
-			String sqlVent = "DELETE FROM vent;";
-			String sqlRamp = "DELETE FROM ramp;";
-			String sqlCtrl = "DELETE FROM ctrl;";
-			String sqlReac = "DELETE FROM reac;";
-			String sqlObst = "DELETE FROM obst;";
-			String sqlMisc = "DELETE FROM misc;";
-			String sqlRadi = "DELETE FROM radi;";
-			String sqlDump = "DELETE FROM dump;";
-			String sqlMatl = "DELETE FROM matl;";
-			String sqlMult = "DELETE FROM mult;";
-			String sqlWind = "DELETE FROM wind;";
-			String sqlPres = "DELETE FROM pres;";
-			String sqlComb = "DELETE FROM comb;";
-			String sqlTabl = "DELETE FROM tabl;";
-			String sqlClip = "DELETE FROM clip;";
-			String sqlHvac = "DELETE FROM hvac;";
-			String sqlHole = "DELETE FROM hole;";
-			String sqlIsof = "DELETE FROM isof;";
-			String sqlMove = "DELETE FROM move;";
-			String sqlProf = "DELETE FROM prof;";
-			String sqlRadf = "DELETE FROM radf;";
-			String sqlTrnx = "DELETE FROM trnx;";
-			String sqlZone = "DELETE FROM zone;";
+			Values.cancelForm();
+			
 			
 			//insert an empty row
 			String initHead = "INSERT INTO head(CHID, TITLE) VALUES ('', '');";
@@ -122,41 +90,6 @@ public class Main extends Application {
 			
 			Statement statement;
 			statement = connection.createStatement();
-			statement.executeUpdate(sqlHead);
-			statement.executeUpdate(sqlTime);
-			statement.executeUpdate(sqlCatf);
-			statement.executeUpdate(sqlInit);
-			statement.executeUpdate(sqlMesh);
-			statement.executeUpdate(sqlPart);
-			statement.executeUpdate(sqlBndf);
-			statement.executeUpdate(sqlProp);
-			statement.executeUpdate(sqlSpec);
-			statement.executeUpdate(sqlDevc);
-			statement.executeUpdate(sqlSlcf);
-			statement.executeUpdate(sqlSurf);
-			statement.executeUpdate(sqlVent);
-			statement.executeUpdate(sqlRamp);
-			statement.executeUpdate(sqlCtrl);
-			statement.executeUpdate(sqlReac);
-			statement.executeUpdate(sqlObst);
-			statement.executeUpdate(sqlMisc);
-			statement.executeUpdate(sqlRadi);
-			statement.executeUpdate(sqlDump);
-			statement.executeUpdate(sqlMatl);
-			statement.executeUpdate(sqlMult);
-			statement.executeUpdate(sqlWind);
-			statement.executeUpdate(sqlPres);
-			statement.executeUpdate(sqlComb);
-			statement.executeUpdate(sqlTabl);
-			statement.executeUpdate(sqlClip);
-			statement.executeUpdate(sqlHvac);
-			statement.executeUpdate(sqlHole);
-			statement.executeUpdate(sqlIsof);
-			statement.executeUpdate(sqlMove);
-			statement.executeUpdate(sqlProf);
-			statement.executeUpdate(sqlRadf);
-			statement.executeUpdate(sqlTrnx);
-			statement.executeUpdate(sqlZone);
 			
 			statement.executeUpdate(initHead);
 			statement.executeUpdate(initTime);
