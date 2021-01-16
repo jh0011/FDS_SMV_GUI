@@ -16,7 +16,6 @@ Download MySQL Workbench: https://dev.mysql.com/downloads/workbench/
 
 # Before running
 ## MySQL Connection
-~~Before running the program, we need to change the PATH static final int in Values.java. This is the directory in which the .fds file would be created in. The path should be written in this format: "C:\\\Users\\\dell\\\Desktop\\\\".~~
 
 The connection to the database on localhost would also need to be established. These are the setup steps.
 
@@ -40,6 +39,9 @@ Database name: fds_db
 ## Importing the project into Eclipse
 
 ## Running the generated .fds input file
+
+## VM Arguments
+--module-path "C:\Users\dell\Documents\javaFX\javafx-sdk-15.0.1\lib" --add-modules javafx.controls,javafx.fxml
 
 # Features
 - Each Namelist mentioned in the FDS user guide would have a .fxml and a Controller class to handle the user input for the multiple parameters.
