@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2020 at 08:35 AM
+-- Generation Time: Jan 16, 2021 at 05:23 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -33,13 +33,6 @@ CREATE TABLE `bndf` (
   `QUANTITY` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `bndf`
---
-
-INSERT INTO `bndf` (`mainID`, `QUANTITY`) VALUES
-(1, '');
-
 -- --------------------------------------------------------
 
 --
@@ -49,13 +42,6 @@ INSERT INTO `bndf` (`mainID`, `QUANTITY`) VALUES
 CREATE TABLE `catf` (
   `OTHER_FILES` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `catf`
---
-
-INSERT INTO `catf` (`OTHER_FILES`) VALUES
-('');
 
 -- --------------------------------------------------------
 
@@ -70,13 +56,6 @@ CREATE TABLE `clip` (
   `MINIMUM_TEMPERATURE` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `clip`
---
-
-INSERT INTO `clip` (`MAXIMUM_DENSITY`, `MAXIMUM_TEMPERATURE`, `MINIMUM_DENSITY`, `MINIMUM_TEMPERATURE`) VALUES
-('', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -87,13 +66,6 @@ CREATE TABLE `comb` (
   `FIXED_MIX_TIME` varchar(100) NOT NULL,
   `EXTINCTION_MODEL` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `comb`
---
-
-INSERT INTO `comb` (`FIXED_MIX_TIME`, `EXTINCTION_MODEL`) VALUES
-('', '');
 
 -- --------------------------------------------------------
 
@@ -109,13 +81,6 @@ CREATE TABLE `ctrl` (
   `LATCH` varchar(100) NOT NULL,
   `FUNCTION_TYPE` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ctrl`
---
-
-INSERT INTO `ctrl` (`mainID`, `INPUT_ID`, `RAMP_ID`, `ID`, `LATCH`, `FUNCTION_TYPE`) VALUES
-(1, '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -134,13 +99,6 @@ CREATE TABLE `devc` (
   `XB` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `devc`
---
-
-INSERT INTO `devc` (`mainID`, `ID`, `PROP_ID`, `SPEC_ID`, `XYZ`, `QUANTITY`, `IOR`, `XB`) VALUES
-(1, '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -154,13 +112,6 @@ CREATE TABLE `dump` (
   `DT_DEVC` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `dump`
---
-
-INSERT INTO `dump` (`MASS_FILE`, `SMOKE_3D`, `NFRAMES`, `DT_DEVC`) VALUES
-('', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -171,13 +122,6 @@ CREATE TABLE `head` (
   `CHID` varchar(100) NOT NULL,
   `TITLE` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `head`
---
-
-INSERT INTO `head` (`CHID`, `TITLE`) VALUES
-('', '');
 
 -- --------------------------------------------------------
 
@@ -192,13 +136,6 @@ CREATE TABLE `hole` (
   `CTRL_ID` varchar(100) NOT NULL,
   `XB` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hole`
---
-
-INSERT INTO `hole` (`MESH_ID`, `MULT_ID`, `DEVC_ID`, `CTRL_ID`, `XB`) VALUES
-('', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -215,13 +152,6 @@ CREATE TABLE `hvac` (
   `AREA` varchar(100) NOT NULL,
   `TYPE_ID` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hvac`
---
-
-INSERT INTO `hvac` (`ID`, `ROUGHNESS`, `DEVC_ID`, `LENGTH`, `FAN_ID`, `AREA`, `TYPE_ID`) VALUES
-('', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -242,13 +172,6 @@ CREATE TABLE `init` (
   `xbText` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `init`
---
-
-INSERT INTO `init` (`mainID`, `idText`, `partIdText`, `specIdText`, `npartText`, `npartCellText`, `massTimeText`, `massVolText`, `massFracText`, `xbText`) VALUES
-(1, '', '', '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -261,13 +184,6 @@ CREATE TABLE `isof` (
   `VALUE_2` varchar(100) NOT NULL,
   `VALUE_3` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `isof`
---
-
-INSERT INTO `isof` (`QUANTITY`, `VALUE_1`, `VALUE_2`, `VALUE_3`) VALUES
-('', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -287,13 +203,6 @@ CREATE TABLE `matl` (
   `CONDUCTIVITY` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `matl`
---
-
-INSERT INTO `matl` (`mainID`, `SPECIFIC_HEAT`, `HEAT_OF_REACTION`, `SPEC_ID`, `ID`, `REFERENCE_TEMPERATURE`, `N_REACTIONS`, `DENSITY`, `CONDUCTIVITY`) VALUES
-(1, '', '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -305,13 +214,6 @@ CREATE TABLE `mesh` (
   `ijkText` varchar(100) NOT NULL,
   `xbText` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `mesh`
---
-
-INSERT INTO `mesh` (`mainID`, `ijkText`, `xbText`) VALUES
-('', '', '');
 
 -- --------------------------------------------------------
 
@@ -328,13 +230,6 @@ CREATE TABLE `misc` (
   `GVEC` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `misc`
---
-
-INSERT INTO `misc` (`NOISE`, `FREEZE_VELOCITY`, `HUMIDITY`, `Y_CO2_INFNTY`, `TMPA`, `GVEC`) VALUES
-('', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -349,13 +244,6 @@ CREATE TABLE `move` (
   `ROTATION_ANGLE` varchar(100) NOT NULL,
   `AXIS` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `move`
---
-
-INSERT INTO `move` (`ID`, `X0`, `Y0`, `Z0`, `ROTATION_ANGLE`, `AXIS`) VALUES
-('', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -374,13 +262,6 @@ CREATE TABLE `mult` (
   `DZ` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `mult`
---
-
-INSERT INTO `mult` (`mainID`, `ID`, `I_UPPER`, `J_UPPER`, `K_UPPER`, `DX`, `DY`, `DZ`) VALUES
-(1, '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -394,13 +275,6 @@ CREATE TABLE `obst` (
   `SURF_ID` varchar(100) NOT NULL,
   `XB` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `obst`
---
-
-INSERT INTO `obst` (`mainID`, `BULK_DENSITY`, `COLOR`, `SURF_ID`, `XB`) VALUES
-(1, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -421,13 +295,6 @@ CREATE TABLE `part` (
   `ID` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `part`
---
-
-INSERT INTO `part` (`mainID`, `SURF_ID`, `SPEC_ID`, `PROP_ID`, `QUANTITIES`, `STATIC`, `MASSLESS`, `SAMPLING_FACTOR`, `DIAMETER`, `ID`) VALUES
-(1, '', '', '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -438,13 +305,6 @@ CREATE TABLE `pres` (
   `FISHPAK_BC` varchar(100) NOT NULL,
   `SOLVER` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pres`
---
-
-INSERT INTO `pres` (`FISHPAK_BC`, `SOLVER`) VALUES
-('', '');
 
 -- --------------------------------------------------------
 
@@ -458,13 +318,6 @@ CREATE TABLE `prof` (
   `QUANTITY` varchar(100) NOT NULL,
   `IOR` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `prof`
---
-
-INSERT INTO `prof` (`ID`, `XYZ`, `QUANTITY`, `IOR`) VALUES
-('', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -486,13 +339,6 @@ CREATE TABLE `prop` (
   `PARTICLE_VELOCITY` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `prop`
---
-
-INSERT INTO `prop` (`mainID`, `ID`, `PART_ID`, `QUANTITY`, `SMOKEVIEW_ID`, `OFFSET`, `PDPA_INTEGRATE`, `PDPA_NORMALIZE`, `OPERATING_PRESSURE`, `PARTICLES_PER_SECOND`, `PARTICLE_VELOCITY`) VALUES
-(1, '', '', '', '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -506,13 +352,6 @@ CREATE TABLE `radf` (
   `XB` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `radf`
---
-
-INSERT INTO `radf` (`I_STEP`, `J_STEP`, `K_STEP`, `XB`) VALUES
-('', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -522,13 +361,6 @@ INSERT INTO `radf` (`I_STEP`, `J_STEP`, `K_STEP`, `XB`) VALUES
 CREATE TABLE `radi` (
   `RADIATION` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `radi`
---
-
-INSERT INTO `radi` (`RADIATION`) VALUES
-('');
 
 -- --------------------------------------------------------
 
@@ -543,13 +375,6 @@ CREATE TABLE `ramp` (
   `ID` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `ramp`
---
-
-INSERT INTO `ramp` (`mainID`, `FRACTION`, `TIME`, `ID`) VALUES
-(1, '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -562,13 +387,6 @@ CREATE TABLE `reac` (
   `SOOT_YIELD` varchar(100) NOT NULL,
   `FUEL` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `reac`
---
-
-INSERT INTO `reac` (`mainID`, `AUTO_IGNITION_TEMPERATURE`, `SOOT_YIELD`, `FUEL`) VALUES
-(1, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -587,13 +405,6 @@ CREATE TABLE `slcf` (
   `CELL_CENTERED` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `slcf`
---
-
-INSERT INTO `slcf` (`mainID`, `QUANTITY`, `SPEC_ID`, `PBY`, `PBZ`, `PBX`, `VECTOR`, `CELL_CENTERED`) VALUES
-(1, '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -605,13 +416,6 @@ CREATE TABLE `spec` (
   `ID` varchar(100) NOT NULL,
   `BACKGROUND` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `spec`
---
-
-INSERT INTO `spec` (`mainID`, `ID`, `BACKGROUND`) VALUES
-(1, '', '');
 
 -- --------------------------------------------------------
 
@@ -633,13 +437,6 @@ CREATE TABLE `surf` (
   `HRRPUA` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `surf`
---
-
-INSERT INTO `surf` (`mainID`, `ID`, `PART_ID`, `MATL_ID`, `VEL`, `TMP_FRONT`, `BACKING`, `DEFAULT_SURF`, `GEOMETRY`, `COLOR`, `HRRPUA`) VALUES
-(1, '', '', '', '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -652,13 +449,6 @@ CREATE TABLE `tabl` (
   `TABLE_DATA` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tabl`
---
-
-INSERT INTO `tabl` (`mainID`, `ID`, `TABLE_DATA`) VALUES
-(1, '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -670,13 +460,6 @@ CREATE TABLE `time` (
   `StartTime` varchar(100) NOT NULL,
   `DT` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `time`
---
-
-INSERT INTO `time` (`EndTime`, `StartTime`, `DT`) VALUES
-('', '', '');
 
 -- --------------------------------------------------------
 
@@ -692,13 +475,6 @@ CREATE TABLE `trnx` (
   `PC` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `trnx`
---
-
-INSERT INTO `trnx` (`mainID`, `ID`, `MESH_NUMBER`, `CC`, `PC`) VALUES
-(1, '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -711,13 +487,6 @@ CREATE TABLE `vent` (
   `SURF_ID` varchar(100) NOT NULL,
   `MB` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `vent`
---
-
-INSERT INTO `vent` (`mainID`, `XB`, `SURF_ID`, `MB`) VALUES
-(1, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -732,13 +501,6 @@ CREATE TABLE `wind` (
   `SPEED` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `wind`
---
-
-INSERT INTO `wind` (`Z_0`, `DIRECTION`, `L`, `SPEED`) VALUES
-('', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -749,13 +511,6 @@ CREATE TABLE `zone` (
   `mainID` int(3) NOT NULL,
   `XYZ` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `zone`
---
-
-INSERT INTO `zone` (`mainID`, `XYZ`) VALUES
-(1, '');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

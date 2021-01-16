@@ -30,7 +30,7 @@ public class Values {
 	 */
 	protected static void cancelForm() throws SQLException{
 		
-		//delete the table
+		//delete the values in the tables
 		String sqlHead = "DELETE FROM head;";
 		String sqlTime = "DELETE FROM time;";
 		String sqlCatf = "DELETE FROM catf;";

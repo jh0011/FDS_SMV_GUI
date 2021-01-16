@@ -41,7 +41,7 @@ public class Main extends Application {
 			ConnectionClass connectionClass = new ConnectionClass();
 			Connection connection = connectionClass.getConnection();
 			
-			//delete the table
+			//delete the values in the table
 			Values.cancelForm();
 			
 			
