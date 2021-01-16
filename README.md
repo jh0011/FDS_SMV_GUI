@@ -41,7 +41,7 @@ Database name: fds_db
 ## Running the generated .fds input file
 
 ## VM Arguments
---module-path "C:\Users\dell\Documents\javaFX\javafx-sdk-15.0.1\lib" --add-modules javafx.controls,javafx.fxml
+--module-path "<project_path>\FDS_SMV_GUI\FY_GUI_5\lib\javafx-sdk-15.0.1\lib" --add-modules javafx.controls,javafx.fxml
 
 # Features
 - Each Namelist mentioned in the FDS user guide would have a .fxml and a Controller class to handle the user input for the multiple parameters.
