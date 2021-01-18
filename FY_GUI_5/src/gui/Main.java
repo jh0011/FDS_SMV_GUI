@@ -1,11 +1,7 @@
 package gui;
 	
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import connectivity.ConnectionClass;
@@ -22,8 +18,8 @@ public class Main extends Application {
 		
 		try {
 			Parent root;
-			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			//root = FXMLLoader.load(getClass().getResource("Trnx.fxml")); //For testing a certain page
+			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			root = FXMLLoader.load(getClass().getResource("Trnx.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FdsWare");

@@ -221,12 +221,12 @@ public class Values {
 		for (int i=0; i<6; i++){ 
 			try{
 				float floatVal = Float.valueOf(xbValues[i]);
-				if (floatVal < 0) { //check if the float is negative
-					title = "Invalid XB value";
-					error = "The values should not have negative numbers. Please check again.";
-					displayErrorMsg(title, error);
-					return false;
-				}
+//				if (floatVal < 0) { //check if the float is negative
+//					title = "Invalid XB value";
+//					error = "The values should not have negative numbers. Please check again.";
+//					displayErrorMsg(title, error);
+//					return false;
+//				}
 				if (i==5){
 					concatXB = concatXB + Float.toString(floatVal);
 				}
@@ -277,12 +277,12 @@ public class Values {
 		try{
 			for (int i=0; i<3; i++){
 				float xyzFloat = Float.valueOf(xyzValues[i]);
-				if (xyzFloat < 0){ //check if xyz is negative or zero
-					title = "Incorrect XYZ format";
-					error = "The XYZ values should be positive real values.";
-					displayErrorMsg(title, error);
-					return false;
-				}
+//				if (xyzFloat < 0){ //check if xyz is negative or zero
+//					title = "Incorrect XYZ format";
+//					error = "The XYZ values should be positive real values.";
+//					displayErrorMsg(title, error);
+//					return false;
+//				}
 				if (i==0 || i==1){ //concatenate to format the xyz string
 					concatXYZ = concatXYZ + Float.toString(xyzFloat) + ",";
 				}

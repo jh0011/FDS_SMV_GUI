@@ -18,12 +18,7 @@
             <ColorAdjust />
          </effect>
       </TextArea>
-      <Button fx:id="cancelBtn" layoutX="550.0" layoutY="640.0" mnemonicParsing="false" onAction="#cancelOption" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #bd2900;" text="Cancel">
-         <font>
-            <Font name="Leelawadee UI Bold" size="16.0" />
-         </font>
-      </Button>
-      <Button fx:id="editorBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToTrnx" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
+      <Button fx:id="cancelBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#cancelOption" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #bd2900;" text="Cancel">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>

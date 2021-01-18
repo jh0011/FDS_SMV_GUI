@@ -24,8 +24,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class FinalController implements Initializable{
@@ -295,7 +293,7 @@ public class FinalController implements Initializable{
     public void runRunPythonBatch() {
     	//run the runPython.bat
 		try {
-			Process p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"" + path + "\\batch-files\\runPython.bat && exit\"");
+			Process p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"" + path + "\\batch-files\\runPython.bat\""); // && exit
 			Thread.sleep(20000); //sleep for 20s to allow the runPython.bat to execute
 		} catch (Exception e) {
 			System.out.println("Error while running runPython.bat");

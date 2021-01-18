@@ -71,27 +71,27 @@ public class EditorController implements Initializable{
 		}
     }
 
-	/**
-	 * Go to the previous page (TRNX) + input validation
-	 * @param event Back button is clicked
-	 * @throws IOException
-	 * @throws SQLException
-	 */
-    @FXML
-    public void goToTrnx(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
-    	//store the updated text area
-    	tempEditorString = editorText.getText();
-    	
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Trnx.fxml"));
-		Parent root = loader.load();
-		
-		TrnxController trnxCont = loader.getController(); //Get the next page's controller
-		trnxCont.showInfo(); //Set the values of the page 
-		Scene trnxScene = new Scene(root);
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-		mainWindow.setScene(trnxScene);
-		mainWindow.show();
-    }
+//	/**
+//	 * Go to the previous page (TRNX) + input validation
+//	 * @param event Back button is clicked
+//	 * @throws IOException
+//	 * @throws SQLException
+//	 */
+//    @FXML
+//    public void goToTrnx(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
+//    	//store the updated text area
+//    	tempEditorString = editorText.getText();
+//    	
+//    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Trnx.fxml"));
+//		Parent root = loader.load();
+//		
+//		TrnxController trnxCont = loader.getController(); //Get the next page's controller
+//		trnxCont.showInfo(); //Set the values of the page 
+//		Scene trnxScene = new Scene(root);
+//		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+//		mainWindow.setScene(trnxScene);
+//		mainWindow.show();
+//    }
     
     /**
 	 * Go to the next page (Final) + input validation
