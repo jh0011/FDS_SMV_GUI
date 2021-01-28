@@ -172,7 +172,7 @@ public class MoveTests {
 	public void testXyz4() { //check 3 values with negative value
 		TextField xyzText = new TextField("1,-2,3");
 		boolean checkXyzText = moveTest.checkXyzFormat(xyzText);
-		assertFalse(checkXyzText);
+		assertTrue(checkXyzText);
 	}
 	
 	@Test
@@ -284,7 +284,7 @@ public class MoveTests {
 	public void testXb5() { //check 6 values with negatives for XB
 		TextField xbText = new TextField("1,2,3,-4,5,6");
 		boolean checkXbText = moveTest.checkXbFormat(xbText);
-		assertFalse(checkXbText);
+		assertTrue(checkXbText);
 	}
 	
 	@Test

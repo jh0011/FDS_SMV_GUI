@@ -116,7 +116,7 @@ public class TrnxTests {
 	public void testXyz4() { //check 3 values with negative value
 		TextField xyzText = new TextField("1,-2,3");
 		boolean checkXyzText = trnxTest.checkXyzFormat(xyzText);
-		assertFalse(checkXyzText);
+		assertTrue(checkXyzText);
 	}
 	
 	@Test

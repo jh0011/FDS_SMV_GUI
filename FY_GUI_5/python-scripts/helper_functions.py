@@ -1,6 +1,8 @@
 import os, itertools, shutil, re, string, sys
 import numpy as np
 
+global_file_value = 0
+
 def dict_product(dicts):
 	"""
 	dict_product(dicts)
@@ -79,9 +81,8 @@ def build_input_files(filename, base_path = 'input_files', out = sys.stdout):
     #with open(filename, 'r') as f:
     #    txt = f.read()
     
-    param_dict, txt, IOoutput = FDSa_parser(txt, file_name, out)
+    param_dict, txt, IOoutput = FDSa_parser(txt, file_name, out) #Get a dict of the values
     formatted_trials, logfile, IOoutput = eval_parsed_FDS(param_dict, out)
-        
     for i, value_set in enumerate(formatted_trials):
         tmp_txt = txt
         # make a directory
@@ -168,14 +169,89 @@ def FDSa_parser(txt, filename, IOoutput=sys.stdout):
     #    read_data = f.read()
         
     regex_find = re.findall('\{*[0-9a-zA-Z_:,.\s]*\}', txt)
-    
+
     params = []
     params_raw = []
+
+    params_string = [] #params_raw for LIST
+    params_string_split = [] #params for LIST
+    params_replace = []
     
     for param in regex_find:
-        params_raw.append(param.strip('{}'))
-        params.append(param.strip('{}').split('SWEEP'))
+        if 'LIST' not in param:
+            params_raw.append(param.strip('{}'))
+            params.append(param.strip('{}').split('SWEEP'))
+        else:
+            params_replace.append(param)
+            params_string.append(param.strip('{}'))
+            params_string_split.append(param.strip('{}').split('LIST'))
+
+
+    # Updates the txt for SWEEP option
+    txt1, param_dict = updating_txt(txt, params, params_raw)
+
+    # Updates the txt for the LIST section
+    txt2 = txt
+    for x in range(len(params_replace)):
+        temp_txt = txt2
+        temp_list_1 = params_replace[x].split("LIST")
+        to_replace = temp_list_1[0].replace(" ", "") + "}"
+        txt2 = temp_txt.replace(params_replace[x], to_replace)
     
+    
+    IOoutput.write('-'*10 + 'ParFDS input file interpreter' + '-'*10 + '\n')
+    IOoutput.write('the following are the keys and values'+ '\n')
+    IOoutput.write('seen in ' + filename + '\n')
+
+
+
+    # For the list of values in string
+    param_strings_dict = {}
+    param_format_list = []
+
+    # Creates a list of Key and Value, alternatively
+    # param_format_list is the name of the list 
+    for param in params_string:
+        temp_list = param.split('LIST')
+        for word in temp_list:
+            param_format_list.append(word.replace(" ", ""))
+
+    # Converts the above list into a dictionary
+    # list[even number] is the Key
+    # list[odd number] is the Value
+    # param_strings_dict is the name of the dictionary
+    value = ""
+    for x in range(len(param_format_list)):
+        if x % 2 == 0:
+            key = param_format_list[x]
+        else:
+            value = param_format_list[x]
+        param_strings_dict[key] = value
+
+    
+    
+    # Append both dictionaries to the list
+    # list[0] = Dictionary for numeric values
+    # list[1] = Dictionary for the string values
+    newlist = []
+    newlist.append(param_dict)
+    newlist.append(param_strings_dict)
+
+    # If both SWEEP and LIST are present, throw an error and exit from execution.
+    if (len(param_dict) > 0 and len(param_strings_dict) > 0):
+        sys.exit('Either SWEEP (for numeric values) or LIST (for string values) should be used for an input file. Not both simultaneously.')     
+    
+    # If SWEEP option is chosen, return txt1
+    if (len(param_dict) > 0):
+        return newlist, txt1, IOoutput
+    # If LIST option is chosen, return txt2
+    else:
+        return newlist, txt2, IOoutput
+
+
+
+def updating_txt(txt, params, params_raw):
+    # for the list of numeric values
     params = [item.strip() for sublist in params for item in sublist]
     
     # if length of params is non-even that means I can assume a title parameter
@@ -190,68 +266,137 @@ def FDSa_parser(txt, filename, IOoutput=sys.stdout):
     else:
         param_dict = dict(zip(params[::2], params[1::2]))
         param_list = params[::2]
-        param_name_dict = dict(zip(param_list, params_raw))
-    
+        param_name_dict = dict(zip(param_list, params_raw)) #{'WALL_TEMP': 'WALL_TEMP SWEEP 200, 400, 4'}
     # dealing with the `:` and `.` issue in the FDS file due to 
     # key value restrictions in python 
     for key, value in param_name_dict.iteritems():
         txt = string.replace(txt, value, key)
-
-    IOoutput.write('-'*10 + 'ParFDS input file interpreter' + '-'*10 + '\n')
-    IOoutput.write('the following are the keys and values'+ '\n')
-    IOoutput.write('seen in ' + filename + '\n')
     
-    return param_dict, txt, IOoutput
+    return txt, param_dict
 
-def eval_parsed_FDS(param_dict, IOoutput = sys.stdout):       
+def eval_parsed_FDS(input_list, IOoutput = sys.stdout):
+  
     """
     eval_parsed_FDS(param_dict, IOoutput = sys.stdout) 
 
     takes the dictionary that is returned by FDSa_parser and actually evaluates 
     it to create python readable arrays that can be broken up for the parametric studies.
     """
+    param_dict = input_list[0]
+    param_dict_2 = input_list[1]
+
+
+    if (len(param_dict) > 0 and len(param_dict_2) > 0):
+        sys.exit('Either SWEEP (for numeric values) or LIST (for string values) should be used for an input file. Not both simultaneously.')
+
     permutations = 1
-    for key, value in param_dict.iteritems():
-        value_str = 'np.linspace(' + value.replace("'", "") +')'
-        param_dict[key] = eval(value_str, {"__builtins__":None}, 
-                              {"np": np,"np.linspace":np.linspace,"np.logspace":np.logspace})
-        value_split = value.split(',')
-        
-        assert float(value_split[2]) >= 1, "the number of steps is not an integer: %r" % float(value_split[2].strip())
-        
-        permutations *= int(value_split[2])
-        
-        IOoutput.write(key + ' varied between ' + str(value_split[0]) +\
-            ' and ' + str(value_split[1]) + ' in ' + str(value_split[2]) + ' step(s)' + '\n')
-    
-    IOoutput.write('-'*10 + ' '*10 + '-'*10 + ' '*10 + '-'*10 + '\n') 
-    IOoutput.write('for a total of ' + str(permutations) + ' trials' + '\n')
-    
-    trials = dict_product(param_dict)
-
-    logfile = 'There are a total of ' + str(permutations) + ' trials \n'
-    newline = '\n' # for the newlines
     formatted_trials = []
-    
-    base = 26
-    for i, v in enumerate(trials):
-        case_temp = 'case ' + int2base(i, base) + ': '
-        logfile += case_temp
-        IOoutput.write(case_temp,)
-        for key, val in v.iteritems():
-            kv_temp = key + ' ' + str(round(val, 2)) + ' '
-            logfile += kv_temp + ' '
-            IOoutput.write(kv_temp,)
-        IOoutput.write(newline)
-        logfile += newline
-        formatted_trials.append({key : value for key, value in v.items() })
+    if (len(param_dict) > 0):
+        for key, value in param_dict.iteritems():
+            
+            value_str = 'np.linspace(' + value.replace("'", "") +')'
+            
+            param_dict[key] = eval(value_str, {"__builtins__":None}, 
+                                {"np": np,"np.linspace":np.linspace,"np.logspace":np.logspace})
+            value_split = value.split(',')
+            
+            assert float(value_split[2]) >= 1, "the number of steps is not an integer: %r" % float(value_split[2].strip())
+            
+            permutations *= int(value_split[2])
+            
+            IOoutput.write(key + ' varied between ' + str(value_split[0]) +\
+                ' and ' + str(value_split[1]) + ' in ' + str(value_split[2]) + ' step(s)' + '\n')
+                
+        
+        IOoutput.write('-'*10 + ' '*10 + '-'*10 + ' '*10 + '-'*10 + '\n') 
+        IOoutput.write('for a total of ' + str(permutations) + ' trials' + '\n')
+        
+        trials = dict_product(param_dict)
 
-    
+        logfile = 'There are a total of ' + str(permutations) + ' trials \n'
+        newline = '\n' # for the newlines
+        
+        
+        base = 26
+        for i, v in enumerate(trials):
+            case_temp = 'case ' + int2base(i, base) + ': '
+            logfile += case_temp
+            IOoutput.write(case_temp,)
+            for key, val in v.iteritems():
+                kv_temp = key + ' ' + str(round(val, 2)) + ' '
+                logfile += kv_temp + ' '
+                IOoutput.write(kv_temp,)
+            IOoutput.write(newline)
+            logfile += newline
+            formatted_trials.append({key : value for key, value in v.items() })
+
     """
     >>> important_dict = {'x':1, 'y':2, 'z':3}
     >>> name_replacer = {'x':'a', 'y':'b', 'z':'c'}
     >>> {name_replacer[key] : value for key, value in important_dict.items() }
     {'a': 1, 'b': 2, 'c': 3}
     """    
+
+    if (len(param_dict_2) > 0):
+        # Call another function 
+        # Return permutations and param dict
+        formatted_trials_2,logfile = parse_Values(param_dict_2, permutations)
+        IOoutput.write(logfile)
+        #return formatted_trials, logfile, IOoutput
+
+        for x in range(len(formatted_trials_2)):
+            formatted_trials.append(formatted_trials_2[x])
+
     # IOoutput.getvalue().strip()
     return formatted_trials, logfile, IOoutput
+    
+
+def parse_Values(param_dict, permutations):
+    formatted_list = []
+    len_value_list = 0
+    base = 26
+    for key, value in param_dict.iteritems():
+        value = value.replace(" ", "")
+        value_list = value.split(',')
+        len_value_list = len(value_list)
+        param_dict[key] = value_list
+        permutations *= len_value_list # find the number of permutations
+    
+    
+    logfile = ""
+    # Each list contains the possible values the input variable can take
+    # param_list is a list of those lists
+    param_list = [] 
+    for key,value in param_dict.iteritems():
+        param_list.append(param_dict[key])
+    
+    # A tuple of all possible combinations of the input (1 from each input variable) is created
+    # temp_list is the list of those tuples
+    temp_list = param_list[0]
+    for x in range(len(param_list) - 1):
+        temp_list = itertools.product(temp_list, param_list[x + 1])
+    
+    # Each list within temp_list is converted into a proper list (in terms of formatting)
+    # list_of_lists is a list of those proper lists
+    list_of_lists = []
+    for x in temp_list:
+        temp_x = str(x).replace("(", "").replace(")", "").replace(" ", "").replace("'", "")
+        list_of_lists.append(temp_x.split(",")) 
+    
+    # Each input variable is assigned to a value from the list.
+    # 1 full iteration is stored as a dictionary
+    # formatted_list is a list of all those dictionaries
+    count = 0
+    for x in list_of_lists:
+        temp_dict = {}
+        for i in range(len(x)):
+            temp_dict[param_dict.keys()[i]] = x[i]
+        formatted_list.append(temp_dict)
+        
+        case_temp = 'case ' + int2base(count, base) + ': '
+        logfile += case_temp
+        case_values = str(temp_dict).replace("{", "").replace("}", "").replace("\"", "")
+        logfile += case_values + '\n'
+
+        count += 1
+    return formatted_list, logfile # list of dictionaries

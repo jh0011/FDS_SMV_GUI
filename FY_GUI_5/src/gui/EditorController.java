@@ -156,7 +156,7 @@ public class EditorController implements Initializable{
 			Alert trnxAlert = new Alert(Alert.AlertType.CONFIRMATION);
 			trnxAlert.setTitle("File already exists");
 			trnxAlert.setContentText("File with the same name already exists in directory: " + selectedDirectory + 
-					"\nClick on OK to overwrite the existing file. Click on Cancel to choose another directory or rename the CHID parameter.");
+					"\nClick on OK to overwrite the existing file. Click on Cancel to choose another directory.");
 			trnxAlert.setHeaderText(null);
 			ImageView icon = new ImageView("Fire2.jpg");
 			icon.setFitHeight(48);

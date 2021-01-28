@@ -46,7 +46,7 @@ public class SurfTests {
 	public void testXb5() { //check 6 values with negatives for XB
 		TextField xbText = new TextField("1,2,3,-4,5,6");
 		boolean checkXbText = surfTest.checkXbFormat(xbText);
-		assertFalse(checkXbText);
+		assertTrue(checkXbText);
 	}
 	
 	@Test
