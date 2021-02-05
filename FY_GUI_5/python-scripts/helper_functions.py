@@ -76,7 +76,7 @@ def build_input_files(filename, base_path = 'input_files', out = sys.stdout):
     # I'm doing this because I need it later
     file_path, file_name = os.path.split(filename)
     
-    with open('input_file', 'r') as f:
+    with open('C:\\Users\\dell\\Desktop\\test3\\default1.fds', 'r') as f:
         txt = f.read()
     #with open(filename, 'r') as f:
     #    txt = f.read()
@@ -239,6 +239,7 @@ def FDSa_parser(txt, filename, IOoutput=sys.stdout):
 
     # If both SWEEP and LIST are present, throw an error and exit from execution.
     if (len(param_dict) > 0 and len(param_strings_dict) > 0):
+        print('ENTERED HERE')
         sys.exit('Either SWEEP (for numeric values) or LIST (for string values) should be used for an input file. Not both simultaneously.')     
     
     # If SWEEP option is chosen, return txt1

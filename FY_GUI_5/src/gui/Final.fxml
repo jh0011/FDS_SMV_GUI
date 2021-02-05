@@ -11,12 +11,12 @@
 
 <AnchorPane prefHeight="710.0" prefWidth="870.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FinalController">
    <children>
-      <Button fx:id="runBtn" layoutX="620.0" layoutY="640.0" mnemonicParsing="false" onAction="#runFDS" prefHeight="37.0" prefWidth="114.0" style="-fx-background-color: #EC6400;" text="Run in FDS" wrapText="true">
+      <Button fx:id="runBtn" layoutX="293.0" layoutY="433.0" mnemonicParsing="false" onAction="#runFDS" prefHeight="73.0" prefWidth="114.0" style="-fx-background-color: #EC6400;" text="Run in FDS" wrapText="true">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="exitBtn" layoutX="750.0" layoutY="640.0" mnemonicParsing="false" onAction="#exitApp" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #bd2900;" text="Exit">
+      <Button fx:id="exitBtn" layoutX="461.0" layoutY="433.0" mnemonicParsing="false" onAction="#exitApp" prefHeight="73.0" prefWidth="114.0" style="-fx-background-color: #bd2900;" text="Exit">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
@@ -40,20 +40,30 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label layoutX="45.0" layoutY="160.0" prefHeight="102.0" prefWidth="447.0" text="Thank you for using this GUI to create the .fds input file for the FDS. " textFill="WHITE" wrapText="true">
+      <Label layoutX="45.0" layoutY="122.0" prefHeight="102.0" prefWidth="447.0" text="Thank you for using this GUI to create the .fds input file for the FDS. " textFill="WHITE" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="45.0" layoutY="274.0" prefHeight="102.0" prefWidth="447.0" text="Click on &quot;Exit&quot; to close the application." textFill="WHITE" wrapText="true">
+      <Label layoutX="45.0" layoutY="205.0" prefHeight="102.0" prefWidth="447.0" text="Click on &quot;Run in FDS&quot; to run the input file in FDS. Click on &quot;Exit&quot; to close the application." textFill="WHITE" wrapText="true">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Button fx:id="finalBackBtn" layoutX="518.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToEditor" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
+      <Button fx:id="finalBackBtn" layoutX="601.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToEditor" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>
       </Button>
+      <Button fx:id="plotBtn" layoutX="714.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToGraph" prefHeight="37.0" prefWidth="114.0" style="-fx-background-color: #EC6400;" text="Plot Graph">
+         <font>
+            <Font name="Leelawadee UI Bold" size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="45.0" layoutY="290.0" prefHeight="102.0" prefWidth="447.0" text="After running in FDS succesfully, click on &quot;Plot Graph&quot; to compare the results." textFill="WHITE" wrapText="true">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

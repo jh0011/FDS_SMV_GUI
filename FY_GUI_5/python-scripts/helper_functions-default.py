@@ -239,6 +239,7 @@ def FDSa_parser(txt, filename, IOoutput=sys.stdout):
 
     # If both SWEEP and LIST are present, throw an error and exit from execution.
     if (len(param_dict) > 0 and len(param_strings_dict) > 0):
+        print('ENTERED HERE')
         sys.exit('Either SWEEP (for numeric values) or LIST (for string values) should be used for an input file. Not both simultaneously.')     
     
     # If SWEEP option is chosen, return txt1

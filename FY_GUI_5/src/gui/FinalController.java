@@ -84,6 +84,18 @@ public class FinalController implements Initializable{
     }
     
     @FXML
+    public void goToGraph(ActionEvent event) throws IOException { //NEXT SCENE
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Graph.fxml"));
+		Parent root = loader.load();
+		
+		GraphController graphCont = loader.getController(); //Get the next page's controller
+		Scene graphScene = new Scene(root);
+		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
+		mainWindow.setScene(graphScene);
+		mainWindow.show();
+    }
+    
+    @FXML
     public void runFDS(ActionEvent event) throws SQLException, IOException {
     	try {
 	    	Alert runAlert = new Alert(Alert.AlertType.CONFIRMATION);
