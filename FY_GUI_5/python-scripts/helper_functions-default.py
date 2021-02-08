@@ -292,7 +292,20 @@ def eval_parsed_FDS(input_list, IOoutput = sys.stdout):
 
     permutations = 1
     formatted_trials = []
-    if (len(param_dict) > 0):
+    logfile = ''
+
+    if (len(param_dict_2) > 0):
+        # Call another function 
+        # Return permutations and param dict
+        formatted_trials_2,logfile = parse_Values(param_dict_2, permutations)
+        IOoutput.write(logfile)
+        #return formatted_trials, logfile, IOoutput
+
+        for x in range(len(formatted_trials_2)):
+            formatted_trials.append(formatted_trials_2[x])
+
+
+    elif (len(param_dict) >= 0):
         for key, value in param_dict.iteritems():
             
             value_str = 'np.linspace(' + value.replace("'", "") +')'
@@ -338,15 +351,7 @@ def eval_parsed_FDS(input_list, IOoutput = sys.stdout):
     {'a': 1, 'b': 2, 'c': 3}
     """    
 
-    if (len(param_dict_2) > 0):
-        # Call another function 
-        # Return permutations and param dict
-        formatted_trials_2,logfile = parse_Values(param_dict_2, permutations)
-        IOoutput.write(logfile)
-        #return formatted_trials, logfile, IOoutput
-
-        for x in range(len(formatted_trials_2)):
-            formatted_trials.append(formatted_trials_2[x])
+    
 
     # IOoutput.getvalue().strip()
     return formatted_trials, logfile, IOoutput

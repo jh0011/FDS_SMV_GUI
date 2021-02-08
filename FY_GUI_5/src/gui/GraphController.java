@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
@@ -30,10 +31,11 @@ import javafx.stage.Stage;
 
 public class GraphController implements Initializable{
 	
-	@FXML private LineChart<?, ?> hrrpuvLine;
     @FXML private CategoryAxis x;
     @FXML private NumberAxis y;
     @FXML private Button exitBtn;
+    
+    @FXML private StackedAreaChart<Number, Number> hrrStacked;
     
     private static ArrayList<Double> timeStepList = new ArrayList<Double>();
     private static ArrayList<Double> hrrpuvList = new ArrayList<Double>();
@@ -42,8 +44,14 @@ public class GraphController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		timeStepList.clear();
+		hrrpuvList.clear();
+		seriesList.clear();
+		
 		findCSVfiles();
 		plotGraph();
+		
+		//trialPlot();
 	}
 	
 	@FXML
@@ -89,13 +97,11 @@ public class GraphController implements Initializable{
 					break;
 				}
 			}
-			
+			String seriesName = csvPath.substring(csvPath.length() - 6);
 			
 			BufferedReader reader = new BufferedReader(new FileReader(csvFilePath)); //CHANGE THE FILE NAME //csvPath + "\\pressure_boundary_hrr.csv"
 			String line = "";
 			int skipCounter = 0;
-			timeStepList.clear();
-			hrrpuvList.clear();
 			while ((line = reader.readLine()) != null){  
 				skipCounter++;
 				if (skipCounter > 2) {
@@ -107,29 +113,53 @@ public class GraphController implements Initializable{
 			reader.close();
 			XYChart.Series series = new XYChart.Series();
 			System.out.println("New series here");
-			plotGraphValues(series);
+			plotGraphValues(series, seriesName);
 		} catch (IOException e) {
 			System.out.println("Error while finding the _hrr CSV file. Not able to find the file. Not able to read the file.");
 		}
 	}
 	
-	public void plotGraphValues(Series series) {
-		//XYChart.Series series = new XYChart.Series();
+	public void plotGraphValues(Series series, String seriesName) {
+		series.setName(seriesName);
 		for (int i=0; i<timeStepList.size(); i++) {
-			series.getData().add(new XYChart.Data(Double.toString(timeStepList.get(i)), hrrpuvList.get(i).floatValue()));
+			series.getData().add(new XYChart.Data(timeStepList.get(i).floatValue(), hrrpuvList.get(i).floatValue()));
 		}
 		
 		seriesList.add(series);
 	}
 	
 	public void plotGraph() {
-		System.out.println("Plotting the actual graph");
 		Series[] seriesFinalList = new Series[seriesList.size()];
 		for (int i=0; i<seriesList.size(); i++) {
 			seriesFinalList[i] = seriesList.get(i);
 		}
+		hrrStacked.getData().clear();
+		hrrStacked.getData().addAll(seriesFinalList);
+	}
+	
+	public void trialPlot() {
 		
-		hrrpuvLine.getData().addAll(seriesFinalList);
+        
+		hrrStacked.getData().clear();
+		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+		series.setName("Series 1");
+		series.getData().add(new XYChart.Data(1, 1));
+		series.getData().add(new XYChart.Data(3, 3));
+		series.getData().add(new XYChart.Data(5, 35));
+		series.getData().add(new XYChart.Data(7, 7));
+		series.getData().add(new XYChart.Data(9, 9));
+		
+		
+		XYChart.Series<Number, Number> series2 = new XYChart.Series<Number, Number>();
+		series2.setName("Series 2");
+		series2.getData().add(new XYChart.Data(2.2, 10));
+		series2.getData().add(new XYChart.Data(3, 30));
+		series2.getData().add(new XYChart.Data(5, 25));
+		series2.getData().add(new XYChart.Data(7, 33));
+		series2.getData().add(new XYChart.Data(9, 29));
+		
+		
+		hrrStacked.getData().addAll(series, series2);
 	}
 	
 	//For each input file
