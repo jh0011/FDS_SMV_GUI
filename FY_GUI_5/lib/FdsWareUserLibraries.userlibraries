@@ -16,5 +16,6 @@
         <archive path="C:/Users/dell/Documents/JavaLibrary/testfx-core-4.0.16-alpha.jar"/>
         <archive path="C:/Users/dell/Documents/JavaLibrary/testfx-junit-4.0.15-alpha.jar"/>
         <archive path="C:/Users/dell/Documents/JDBC Connector/mysql-connector-java-8.0.22.jar"/>
+        <archive path="C:/Users/dell/Documents/java_itext/itextpdf-5.4.0.jar"/>
     </library>
 </eclipse-userlibraries>

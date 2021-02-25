@@ -430,7 +430,7 @@ public class FinalController implements Initializable{
 	    		}
 	    		else {
 	    			if (f.getAbsoluteFile().toString().contains(".fds")) {
-	    				listOfFiles.add(f.getAbsoluteFile().toString()); //update the list of directories to traverse 
+	    				listOfFiles.add(f.getAbsoluteFile().toString()); //update the list of files to read
 	    			}
 	    		}
 	    	}
