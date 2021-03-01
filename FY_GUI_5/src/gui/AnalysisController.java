@@ -8,6 +8,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -29,6 +31,8 @@ public class AnalysisController implements Initializable{
 	
 	@FXML private Button finalBackBtn;
     @FXML private Button exitBtn;
+    private static Path path = FileSystems.getDefault().getPath("").toAbsolutePath(); //FdsWare's path
+    private static String filename = "";
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -89,7 +93,7 @@ public class AnalysisController implements Initializable{
 			trnxAlert.show();
     	}
     }
-    
+  
     public double round2dp(double value) {
     	return Math.round(value * 100.0) / 100.0;
     }
@@ -111,7 +115,7 @@ public class AnalysisController implements Initializable{
     			formattedMeanHrr += round2dp(GraphController.meanHrrList.get(i)) + ", ";
     		}
     	}
-    	System.out.println("Formatted mean hrr list: " + formattedMeanHrr);
+    	//System.out.println("Formatted mean hrr list: " + formattedMeanHrr);
     	return formattedMeanHrr;
     }
     
@@ -122,7 +126,7 @@ public class AnalysisController implements Initializable{
     			minMeanHrr = GraphController.meanHrrList.get(i);
     		}
     	}
-    	System.out.println("MIN MEAN HRR: " + minMeanHrr);
+    	//System.out.println("MIN MEAN HRR: " + minMeanHrr);
     	return round2dp(minMeanHrr);
     }
     
@@ -151,7 +155,7 @@ public class AnalysisController implements Initializable{
     }
     
     public void writeToPdf() {
-    	String FILE_NAME = EditorController.fileDirectory.getPath() + "\\FdsWare.pdf"; //EditorController.fileDirectory.getPath();
+    	String FILE_NAME = EditorController.fileDirectory.getPath() + "\\FdsWare.pdf"; 
         Document document = new Document();
         try {
             PdfWriter.getInstance(document, new FileOutputStream(new File(FILE_NAME)));
@@ -171,9 +175,9 @@ public class AnalysisController implements Initializable{
     }
     
     public void pdfHeader(Document document) throws DocumentException, MalformedURLException, IOException {
-    	Font f = new Font(Font.FontFamily.TIMES_ROMAN);
-        f.setStyle(Font.BOLD);
-        f.setSize(14);
+    	Font f = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD, BaseColor.ORANGE);
+//        f.setStyle(Font.BOLD);
+//        f.setSize(14);
         
         String para1 = "FdsWare Analysis\n\n";
     	Paragraph p = new Paragraph(para1, f);
@@ -181,7 +185,7 @@ public class AnalysisController implements Initializable{
         document.add(p);
         
         
-        Image image = Image.getInstance(EditorController.fileDirectory.getPath() + "\\Snapshot.png"); //EditorController.fileDirectory.getPath();
+        Image image = Image.getInstance(EditorController.fileDirectory.getPath() + "\\Graph-Snapshot.png");
         image.scalePercent(40f);
         image.setAlignment(Element.ALIGN_CENTER);
         document.add(image);
@@ -197,14 +201,16 @@ public class AnalysisController implements Initializable{
         
     	String para1 = "\n\nFdsWare is a tool which can be used to generate .fds input file for the NIST FDS-SMV simulator tool. FdsWare is also"
     			+ " able to take into account multiple runs with a single input file, by using the required syntax, such as SWEEP or LIST. "
-    			+ "Doing of multiple runs is built upon another tool's functionality, the ParFDS tool.\n";
+    			+ "Doing multiple runs is built upon the FDS-SMV's third-party tool, ParFDS.\n";
     	Paragraph p = new Paragraph(para1, f);
     	
-    	String para2 = "After analysis of all the test cases generated, the mean HRR of the case(s) are " + formatMeanHRR() + " respectively.\n\n";
-    	Paragraph p2 = new Paragraph(para2, f);
+    	String para3 = "After analysis of all the test cases generated, the mean HRR of the case(s) are " + formatMeanHRR() + " respectively.\n\n";
+    	Paragraph p3 = new Paragraph(para3, f);
+    	
+    	
     	
         document.add(p);
-        document.add(p2);
+        document.add(p3);
     }
     
     public void pdfMinimum(Document document) throws DocumentException {
@@ -219,11 +225,24 @@ public class AnalysisController implements Initializable{
         String para1 = "Lowest mean Heat Release Rate (HRR)";
         Paragraph p1 = new Paragraph(para1, f);
         
-        String para2 = "Case: case_" + getCaseName(getMinIndex()).toLowerCase() + ".fds" + "\nValue: " + compareMeanHrr();
+        filename = "case_" + getCaseName(getMinIndex()).toLowerCase() + ".fds";
+        String para2 = "Case: " + filename + "\nValue: " + compareMeanHrr() + 
+        		"\nDirectory: " + EditorController.fileDirectory.getPath() + "\\input_files\\" + filename;
         Paragraph p2 = new Paragraph(para2, f2);
+        
+        String para3 = "\nFor the analysis of the spread of fire, the optimum test case would be the one with the lowest mean HRR values. "
+    			+ "The mean HRR values are calculated by taking the sum of the HRR at each time value and dividing it across the"
+    			+ " number of time steps.\n\n";
+        String para4 = "\n\nThank you for using FdsWare to generate the .fds input file(s). \nGitHub repository: https://github.com/jh0011/FDS_SMV_GUI\n"
+        		+ "FdsWare website: https://fds-gui-download.herokuapp.com/";
+        Paragraph p3 = new Paragraph(para3, f2);
+        Paragraph p4 = new Paragraph(para4, f);
+        p4.setAlignment(Element.ALIGN_CENTER);
         
         document.add(p1);
         document.add(p2);
+        document.add(p3);
+        document.add(p4);
     }
     
     public void pdfCaseFile(Document document) throws DocumentException {
@@ -235,8 +254,10 @@ public class AnalysisController implements Initializable{
         f2.setStyle(Font.NORMAL);
         f2.setSize(11);
         
-        String para1 = "Case_a.fds";
+        String para1 = filename;
         Paragraph p1 = new Paragraph(para1, f);
+        
+        File caseFile = new File(EditorController.fileDirectory.getPath() + "\\input_files\\" + filename);
         
         document.add(p1);
     }

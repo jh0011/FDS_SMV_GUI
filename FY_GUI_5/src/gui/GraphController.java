@@ -2,7 +2,6 @@ package gui;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -21,12 +20,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.StackedAreaChart;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -36,23 +32,18 @@ import javafx.stage.Stage;
 
 public class GraphController implements Initializable{
 	
-    //@FXML private CategoryAxis x;
-    //@FXML private NumberAxis y;
     @FXML private Button exitBtn;
     
-    @FXML private StackedAreaChart<Number, Number> hrrStacked;
+    @FXML private AreaChart<Number, Number> hrrStacked;
     
     private static ArrayList<Double> timeStepList = new ArrayList<Double>();
     private static ArrayList<Double> hrrpuvList = new ArrayList<Double>();
     private static ArrayList<Series> seriesList = new ArrayList<Series>();
     public static ArrayList<Double> meanHrrList = new ArrayList<Double>();
     
-    private static boolean isTakingSnapshot = false;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		System.out.println("INITIALISING GRAPHCONTROLLER");
 		timeStepList.clear();
 		hrrpuvList.clear();
 		seriesList.clear();
@@ -104,12 +95,17 @@ public class GraphController implements Initializable{
     }
 	
 	public void findCSVfiles() {
-		for (int i=0; i<FinalController.listOfDirectories.size(); i++) {
+		int numDirectories = FinalController.listOfDirectories.size();
+		
+		
+		for (int i=0; i<numDirectories; i++) {
 			readCSVfiles(FinalController.listOfDirectories.get(i));
 		}
 	}
 	
 	public void readCSVfiles(String csvPath) {
+		timeStepList.clear();
+		hrrpuvList.clear();
 		String csvFilePath = "";
 		try {
 			File root = new File(csvPath);
@@ -122,7 +118,7 @@ public class GraphController implements Initializable{
 			}
 			String seriesName = csvPath.substring(csvPath.length() - 6);
 			
-			BufferedReader reader = new BufferedReader(new FileReader(csvFilePath)); //CHANGE THE FILE NAME //csvPath + "\\pressure_boundary_hrr.csv"
+			BufferedReader reader = new BufferedReader(new FileReader(csvFilePath)); 
 			String line = "";
 			int skipCounter = 0;
 			while ((line = reader.readLine()) != null){  
@@ -134,7 +130,7 @@ public class GraphController implements Initializable{
 				}
 			}
 			reader.close();
-			XYChart.Series series = new XYChart.Series();
+			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 			plotGraphValues(series, seriesName);
 		} catch (IOException e) {
 			System.out.println("Error while finding the _hrr CSV file. Not able to find the file. Not able to read the file.");
@@ -142,6 +138,7 @@ public class GraphController implements Initializable{
 	}
 	
 	public void plotGraphValues(Series series, String seriesName) {
+		series.getData().clear();
 		series.setName(seriesName);
 		for (int i=0; i<timeStepList.size(); i++) {
 			series.getData().add(new XYChart.Data(timeStepList.get(i).floatValue(), hrrpuvList.get(i).floatValue()));
@@ -167,33 +164,30 @@ public class GraphController implements Initializable{
 			totalHrr += hrrpuvList.get(i);
 		}
 		double timeDiff = timeStepList.get(timeStepList.size() - 1) - timeStepList.get(0);
-		meanHrr = totalHrr / timeDiff;
-		//System.out.println("MEAN HRR: " + meanHrr);
+		double numTimeSteps = timeStepList.size();
+		meanHrr = totalHrr / numTimeSteps;
 		meanHrrList.add(meanHrr);
 	}
 	
 	public void takeSnapshot() throws IOException {
-		isTakingSnapshot = true; //Set the variable to true so that the initialize() functions won't execute again
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Graph.fxml"));
 		Parent root = loader.load();
-		//GraphController graphCont = loader.getController(); //Get the next page's controller
 		Scene graphScene = new Scene(root);
 		
     	WritableImage writableImage = new WritableImage(870, 710);
     	graphScene.snapshot(writableImage);
     	
-    	File file = new File(EditorController.fileDirectory.getPath() + "\\Snapshot.png"); //EditorController.fileDirectory.getPath() --> .fds workspace
+    	File file = new File(EditorController.fileDirectory.getPath() + "\\Graph-Snapshot.png"); 
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
-            System.out.println("Snapshot saved: " + file.getAbsolutePath());
-            isTakingSnapshot = false;
+            //System.out.println("Snapshot saved: " + file.getAbsolutePath());
         } catch (IOException ex) {
             System.out.println("Error while taking a snapshot of the graph");
         }
     }
 	
 	public void trialPlot() {
-		hrrStacked.getData().clear();
+		ArrayList<Series> seriesArrayList = new ArrayList<Series>();
 		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 		series.setName("Series 1");
 		series.getData().add(new XYChart.Data(1, 1));
@@ -201,22 +195,31 @@ public class GraphController implements Initializable{
 		series.getData().add(new XYChart.Data(5, 35));
 		series.getData().add(new XYChart.Data(7, 7));
 		series.getData().add(new XYChart.Data(9, 9));
+		seriesArrayList.add(series);
 		
-//		XYChart.Series<Number, Number> series2 = new XYChart.Series<Number, Number>();
-//		series2.setName("Series 2");
-//		series2.getData().add(new XYChart.Data(2.2, 10));
-//		series2.getData().add(new XYChart.Data(3, 30));
-//		series2.getData().add(new XYChart.Data(5, 25));
-//		series2.getData().add(new XYChart.Data(7, 33));
-//		series2.getData().add(new XYChart.Data(9, 29));
+		XYChart.Series<Number, Number> series2 = new XYChart.Series<Number, Number>();
+		series2.setName("Series 1");
+		series2.getData().add(new XYChart.Data(2.2, 10));
+		series2.getData().add(new XYChart.Data(3, 30));
+		series2.getData().add(new XYChart.Data(5, 25));
+		series2.getData().add(new XYChart.Data(7, 33));
+		series2.getData().add(new XYChart.Data(9, 29));
+		seriesArrayList.add(series2);
+		
+		Series[] seriesFinalList = new Series[seriesArrayList.size()];
+		for (int i=0; i<seriesArrayList.size(); i++) {
+			seriesFinalList[i] = seriesArrayList.get(i);
+			System.out.println(seriesArrayList.get(i).getData());
+		}
+		hrrStacked.getData().clear();
+		hrrStacked.getData().addAll(seriesFinalList);
 		
 		
-		hrrStacked.getData().addAll(series);
-		for(XYChart.Data data : series.getData()) {
-			System.out.println(series.getData());
-			//System.out.println(hrrStacked.getXAxis().toNumericValue(hrrStacked.getXAxis().getValueForDisplay(1)));
-			System.out.println((Number)data.getYValue());
-		}	
+//		for(XYChart.Data data : series.getData()) {
+//			System.out.println(series.getData());
+//			//System.out.println(hrrStacked.getXAxis().toNumericValue(hrrStacked.getXAxis().getValueForDisplay(1)));
+//			System.out.println((Number)data.getYValue());
+//		}	
 	}
 	
 	//For each input file

@@ -91,7 +91,7 @@ def plotter(parameters, plotted_val = 'HRR',  **kwargs):
 			plt.savefig(key + ' ' + str(results[0]) + '.png', dpi = 300)
 
 if __name__ == '__main__':
-	input_file = 'C:\\Users\\dell\\Desktop\\test2\\default1.fds'
+	input_file = 'input_file'
 	kwargs = {'test_name' : 'StepBoxDan', 
 			'base_path' : 'input_files', 
 			'funct' : fds_calculation,
