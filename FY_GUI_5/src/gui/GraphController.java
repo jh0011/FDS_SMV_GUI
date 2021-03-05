@@ -20,8 +20,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
@@ -39,6 +39,7 @@ public class GraphController implements Initializable{
     private static ArrayList<Double> timeStepList = new ArrayList<Double>();
     private static ArrayList<Double> hrrpuvList = new ArrayList<Double>();
     private static ArrayList<Series> seriesList = new ArrayList<Series>();
+    private static int caseNum = -1;
     public static ArrayList<Double> meanHrrList = new ArrayList<Double>();
     
 
@@ -48,6 +49,7 @@ public class GraphController implements Initializable{
 		hrrpuvList.clear();
 		seriesList.clear();
 		meanHrrList.clear();
+		caseNum = -1;
 		
 		findCSVfiles();
 		plotGraph();
@@ -74,7 +76,6 @@ public class GraphController implements Initializable{
     public void goToFinal(ActionEvent event) throws IOException { //PREVIOUS SCENE
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Final.fxml"));
 		Parent root = loader.load();
-		FinalController finalCont = loader.getController(); //Get the next page's controller
 		Scene finalScene = new Scene(root);
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 		mainWindow.setScene(finalScene);
@@ -87,23 +88,33 @@ public class GraphController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Analysis.fxml"));
 		Parent root = loader.load();
 		
-		AnalysisController analysisCont = loader.getController(); //Get the next page's controller
 		Scene analysisScene = new Scene(root);
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 		mainWindow.setScene(analysisScene);
 		mainWindow.show();
     }
 	
+	/**
+	 * This function will update the listOfDirectories ArrayList to find the directories of the 
+	 * _hrr.csv files that are generated after each .fds file is run in the FDS-SMV simulator.
+	 */
 	public void findCSVfiles() {
 		int numDirectories = FinalController.listOfDirectories.size();
 		
-		
 		for (int i=0; i<numDirectories; i++) {
+			caseNum++;
 			readCSVfiles(FinalController.listOfDirectories.get(i));
 		}
 	}
 	
+	/**
+	 * This function reads the actual _hrr.csv file. The first column of the .csv file contains the time steps 
+	 * while the second column of the .csv file contains the HRR values. The values from these columns are stored 
+	 * in timeStepList and hrrpuvList respectively.
+	 * @param csvPath The directory in which the _hrr.csv file is stored in.
+	 */
 	public void readCSVfiles(String csvPath) {
+		// clear the 2 arraylists, as all the series use the same arraylists
 		timeStepList.clear();
 		hrrpuvList.clear();
 		String csvFilePath = "";
@@ -116,7 +127,7 @@ public class GraphController implements Initializable{
 					break;
 				}
 			}
-			String seriesName = csvPath.substring(csvPath.length() - 6);
+			String seriesName = "case_" + getCaseName(caseNum).toLowerCase();
 			
 			BufferedReader reader = new BufferedReader(new FileReader(csvFilePath)); 
 			String line = "";
@@ -137,16 +148,25 @@ public class GraphController implements Initializable{
 		}
 	}
 	
+	/**
+	 * This function is used to declare the values for the Series, based on the values from timeStepList and hrrpuvList. 
+	 * Each Series is added to seriesList, and ArrayList of Series.
+	 * @param series A new Series is created for each test case.
+	 * @param seriesName The unique name given to each Series.
+	 */
 	public void plotGraphValues(Series series, String seriesName) {
 		series.getData().clear();
 		series.setName(seriesName);
 		for (int i=0; i<timeStepList.size(); i++) {
 			series.getData().add(new XYChart.Data(timeStepList.get(i).floatValue(), hrrpuvList.get(i).floatValue()));
 		}
-		getMeanHrr();
+		setMeanHrr();
 		seriesList.add(series);
 	}
 	
+	/**
+	 * This function is used to plot the graph based on all the Series.
+	 */
 	public void plotGraph() {
 		Series[] seriesFinalList = new Series[seriesList.size()];
 		for (int i=0; i<seriesList.size(); i++) {
@@ -156,7 +176,11 @@ public class GraphController implements Initializable{
 		hrrStacked.getData().addAll(seriesFinalList);
 	}
 	
-	public void getMeanHrr() {
+	/**
+	 * This function is used to calculate the mean HRR values for each Series. The mean value is stored in meanHrrList,
+	 * an ArrayList of double values.
+	 */
+	public void setMeanHrr() {
 		double totalHrr = 0;
 		double meanHrr = 0;
 		int i = 0;
@@ -169,15 +193,24 @@ public class GraphController implements Initializable{
 		meanHrrList.add(meanHrr);
 	}
 	
+	/**
+	 * This function is used to take a snapshot of the Scene. The snapshot is saved as a .png file in the same directory as the .fds file 
+	 * that the user originally saved the file in.
+	 * @throws IOException
+	 */
 	public void takeSnapshot() throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Graph.fxml"));
 		Parent root = loader.load();
 		Scene graphScene = new Scene(root);
 		
-    	WritableImage writableImage = new WritableImage(870, 710);
+		SnapshotParameters param = new SnapshotParameters();
+	    param.setDepthBuffer(true);
+    	WritableImage writableImage = new WritableImage(870, 710); 
+    	//hrrStacked.snapshot(param, writableImage);
     	graphScene.snapshot(writableImage);
     	
     	File file = new File(EditorController.fileDirectory.getPath() + "\\Graph-Snapshot.png"); 
+    	
         try {
             ImageIO.write(SwingFXUtils.fromFXImage(writableImage, null), "png", file);
             //System.out.println("Snapshot saved: " + file.getAbsolutePath());
@@ -185,6 +218,41 @@ public class GraphController implements Initializable{
             System.out.println("Error while taking a snapshot of the graph");
         }
     }
+	
+	/**
+     * This function is used to convert the index to an alphabet. For example, 0 is a, 1 is 2 etc.
+     * @param i The index value.
+     * @return The alphabet.
+     */
+    public String getCaseName(int i) {
+    	int quot = i/26;
+        int rem = i%26;
+        char letter = (char)((int)'A' + rem);
+        if( quot == 0 ) {
+            return ""+letter;
+        } 
+        else {
+            return getCaseName(quot-1) + letter;
+        }
+    }
+	
+//	public ImageView createScaledView(Node node, int scale) {
+//        final Bounds bounds = node.getLayoutBounds();
+//
+//        final WritableImage image = new WritableImage(
+//            (int) Math.round(bounds.getWidth() * scale),
+//            (int) Math.round(bounds.getHeight() * scale));
+//        
+//
+//        final SnapshotParameters spa = new SnapshotParameters();
+//        spa.setTransform(javafx.scene.transform.Transform.scale(scale, scale));
+//
+//        final ImageView view = new ImageView(node.snapshot(spa, image));
+//        view.setFitWidth(bounds.getWidth());
+//        view.setFitHeight(bounds.getHeight());
+//        
+//        return view;
+//    }
 	
 	public void trialPlot() {
 		ArrayList<Series> seriesArrayList = new ArrayList<Series>();

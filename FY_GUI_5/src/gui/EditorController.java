@@ -70,28 +70,6 @@ public class EditorController implements Initializable{
 			mainWindow.show();
 		}
     }
-
-//	/**
-//	 * Go to the previous page (TRNX) + input validation
-//	 * @param event Back button is clicked
-//	 * @throws IOException
-//	 * @throws SQLException
-//	 */
-//    @FXML
-//    public void goToTrnx(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
-//    	//store the updated text area
-//    	tempEditorString = editorText.getText();
-//    	
-//    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Trnx.fxml"));
-//		Parent root = loader.load();
-//		
-//		TrnxController trnxCont = loader.getController(); //Get the next page's controller
-//		trnxCont.showInfo(); //Set the values of the page 
-//		Scene trnxScene = new Scene(root);
-//		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-//		mainWindow.setScene(trnxScene);
-//		mainWindow.show();
-//    }
     
     /**
 	 * Go to the next page (Final) + input validation
@@ -119,62 +97,65 @@ public class EditorController implements Initializable{
      * @throws IOException
      */
     @FXML
-    public void saveFile(ActionEvent event) throws IOException { //save to the file system
-    	//store the updated text area
-    	tempEditorString = editorText.getText();
-    	
-    	DirectoryChooser directoryChooser = new DirectoryChooser();
-    	directoryChooser.setTitle("Save FDS input file");
-    	File selectedDirectory = directoryChooser.showDialog(null);
-    	//System.out.println(selectedDirectory.getAbsolutePath());
-    	File outputFile = new File(selectedDirectory + "\\" + CHID + ".fds");
-    	fileDirectory = selectedDirectory;
-    	boolean isFileCreated = false;
-    	if (!outputFile.exists()){
-    		isFileCreated = outputFile.createNewFile();
-    		if (isFileCreated) { //confirmation message for CREATION of the file
-        		Alert trnxAlert = new Alert(Alert.AlertType.INFORMATION);
-    			trnxAlert.setTitle("Successful file creation");
-    			trnxAlert.setContentText("File has been created in directory: " + selectedDirectory);
-    			trnxAlert.setHeaderText(null);
-    			ImageView icon = new ImageView("Fire2.jpg");
-    			icon.setFitHeight(48);
-    	        icon.setFitWidth(48);
-    	        trnxAlert.getDialogPane().setGraphic(icon);
-    			trnxAlert.show();
-    			
-    			fw = new FileWriter(outputFile);
-    			bw = new BufferedWriter(fw);
-    			bw.write(editorText.getText());
-    			bw.close();
-    			
-    			//proceed to the final page
-    	    	goToFinal(event);
-        	}
-		}
-    	else { //confirmation to overwrite the existing file
-			Alert trnxAlert = new Alert(Alert.AlertType.CONFIRMATION);
-			trnxAlert.setTitle("File already exists");
-			trnxAlert.setContentText("File with the same name already exists in directory: " + selectedDirectory + 
-					"\nClick on OK to overwrite the existing file. Click on Cancel to choose another directory.");
-			trnxAlert.setHeaderText(null);
-			ImageView icon = new ImageView("Fire2.jpg");
-			icon.setFitHeight(48);
-	        icon.setFitWidth(48);
-	        trnxAlert.getDialogPane().setGraphic(icon);
-	        Optional<ButtonType> userOption = trnxAlert.showAndWait();
-	        if (userOption.get() == ButtonType.OK){
-	        	fw = new FileWriter(outputFile);
-	    		bw = new BufferedWriter(fw);
-	    		bw.write(editorText.getText());
-	    		bw.close();
-	    		
-	    		//proceed to the final page
-	        	goToFinal(event);
+    public void saveFile(ActionEvent event) { //save to the file system
+    	try { 
+	    	//store the updated text area
+	    	tempEditorString = editorText.getText();
+	    	
+	    	DirectoryChooser directoryChooser = new DirectoryChooser();
+	    	directoryChooser.setTitle("Save FDS input file");
+	    	File selectedDirectory = directoryChooser.showDialog(null);
+	    	//System.out.println(selectedDirectory.getAbsolutePath());
+	    	File outputFile = new File(selectedDirectory + "\\" + CHID + ".fds");
+	    	fileDirectory = selectedDirectory;
+	    	boolean isFileCreated = false;
+	    	if (!outputFile.exists()){
+	    		isFileCreated = outputFile.createNewFile();
+	    		if (isFileCreated) { //confirmation message for CREATION of the file
+	        		Alert trnxAlert = new Alert(Alert.AlertType.INFORMATION);
+	    			trnxAlert.setTitle("Successful file creation");
+	    			trnxAlert.setContentText("File has been created in directory: " + selectedDirectory);
+	    			trnxAlert.setHeaderText(null);
+	    			ImageView icon = new ImageView("Fire2.jpg");
+	    			icon.setFitHeight(48);
+	    	        icon.setFitWidth(48);
+	    	        trnxAlert.getDialogPane().setGraphic(icon);
+	    			trnxAlert.show();
+	    			
+	    			fw = new FileWriter(outputFile);
+	    			bw = new BufferedWriter(fw);
+	    			bw.write(editorText.getText());
+	    			bw.close();
+	    			
+	    			//proceed to the final page
+	    	    	goToFinal(event);
+	        	}
 			}
-		}
-    	
-    	
+	    	else { //confirmation to overwrite the existing file
+				Alert trnxAlert = new Alert(Alert.AlertType.CONFIRMATION);
+				trnxAlert.setTitle("File already exists");
+				trnxAlert.setContentText("File with the same name already exists in directory: " + selectedDirectory + 
+						"\nClick on OK to overwrite the existing file. Click on Cancel to choose another directory.");
+				trnxAlert.setHeaderText(null);
+				ImageView icon = new ImageView("Fire2.jpg");
+				icon.setFitHeight(48);
+		        icon.setFitWidth(48);
+		        trnxAlert.getDialogPane().setGraphic(icon);
+		        Optional<ButtonType> userOption = trnxAlert.showAndWait();
+		        if (userOption.get() == ButtonType.OK){
+		        	fw = new FileWriter(outputFile);
+		    		bw = new BufferedWriter(fw);
+		    		bw.write(editorText.getText());
+		    		bw.close();
+		    		
+		    		//proceed to the final page
+		        	goToFinal(event);
+				}
+			}
+    	}
+    	catch(IOException e) {
+    		System.out.println("Unable to save the .fds file to the file system.");
+    	}
     }
     
     /**
@@ -367,22 +348,6 @@ public class EditorController implements Initializable{
     	}
 		return false;
     }
-    
-//    /**
-//     * To count the number of lines in the table
-//     * @param tableName
-//     * @return
-//     * @throws SQLException
-//     */
-//    public int countNumLines(String tableName) throws SQLException {
-//    	String sql = "SELECT COUNT(*) FROM " + tableName + ";";
-//    	ResultSet rs = getStatement().executeQuery(sql);
-//    	int count = 0;
-//    	while (rs.next()) {
-//    		count = rs.getInt(1);
-//    	}
-//    	return count;
-//    }
     
     /**
      * Print the values for the HEAD namelist.
@@ -1640,6 +1605,4 @@ public class EditorController implements Initializable{
     	Statement statement = connection.createStatement();
     	return statement;
     }
-    
-
 }

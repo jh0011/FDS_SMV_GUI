@@ -8,8 +8,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -31,7 +29,7 @@ public class AnalysisController implements Initializable{
 	
 	@FXML private Button finalBackBtn;
     @FXML private Button exitBtn;
-    private static Path path = FileSystems.getDefault().getPath("").toAbsolutePath(); //FdsWare's path
+    //private static Path path = FileSystems.getDefault().getPath("").toAbsolutePath(); //FdsWare's path
     private static String filename = "";
 
 	@Override
@@ -55,7 +53,7 @@ public class AnalysisController implements Initializable{
     }
 
     @FXML
-    public void goToFinal(ActionEvent event) throws IOException { //PREVIOUS SCENE
+    public void goToGraph(ActionEvent event) throws IOException { //PREVIOUS SCENE
     	
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Graph.fxml"));
 		Parent root = loader.load();
@@ -66,6 +64,11 @@ public class AnalysisController implements Initializable{
 		mainWindow.show();
     }
     
+    /**
+     * This function is used to download the analysis report (FdsWare.pdf). The report is saved in the same directory as the .fds file 
+	 * that the user originally saved the file in.
+     * @param event The "Download" button is clicked.
+     */
     @FXML
     public void downloadReport(ActionEvent event) {
     	writeToPdf();
@@ -93,11 +96,21 @@ public class AnalysisController implements Initializable{
 			trnxAlert.show();
     	}
     }
-  
+    
+    /**
+     * This function is used to round a value to 2 decimal places.
+     * @param value The double value that needs to be rounded to 2 decimal places.
+     * @return The rounded off value.
+     */
     public double round2dp(double value) {
     	return Math.round(value * 100.0) / 100.0;
     }
     
+    /**
+     * This function is used to format all the mean HRR values comma-separated within square brackets. The meanHrrList is referenced 
+     * from GraphController.java.
+     * @return The formatted string.
+     */
     public String formatMeanHRR() {
     	String formattedMeanHrr = "";
     	int hrrListSize = GraphController.meanHrrList.size();
@@ -119,6 +132,10 @@ public class AnalysisController implements Initializable{
     	return formattedMeanHrr;
     }
     
+    /**
+     * This function is used to find the minimum mean HRR value.
+     * @return The minimum mean HRR, rounded off to 2 dp.
+     */
     public double compareMeanHrr() {
     	double minMeanHrr = GraphController.meanHrrList.get(0);
     	for (int i=0; i<GraphController.meanHrrList.size(); i++) {
@@ -130,6 +147,10 @@ public class AnalysisController implements Initializable{
     	return round2dp(minMeanHrr);
     }
     
+    /**
+     * Within the meanHrrList, this function is used to get the index of the minimum mean HRR value.
+     * @return The index of the ArrayList.
+     */
     public int getMinIndex() {
     	double minMeanHrr = GraphController.meanHrrList.get(0);
     	int z = 0;
@@ -142,6 +163,11 @@ public class AnalysisController implements Initializable{
     	return z;
     }
     
+    /**
+     * This function is used to convert the index to an alphabet. For example, 0 is a, 1 is 2 etc.
+     * @param i The index value.
+     * @return The alphabet.
+     */
     public String getCaseName(int i) {
     	int quot = i/26;
         int rem = i%26;
@@ -154,6 +180,9 @@ public class AnalysisController implements Initializable{
         }
     }
     
+    /**
+     * This function writes to the FdsWare.pdf analysis report.
+     */
     public void writeToPdf() {
     	String FILE_NAME = EditorController.fileDirectory.getPath() + "\\FdsWare.pdf"; 
         Document document = new Document();
@@ -167,17 +196,21 @@ public class AnalysisController implements Initializable{
             document.newPage();
             
             document.close();
-            System.out.println("Done");
         } 
         catch (Exception e) {
             e.printStackTrace();
         } 
     }
     
+    /**
+     * This function writes the header into the pdf.
+     * @param document The FdsWare.pdf
+     * @throws DocumentException
+     * @throws MalformedURLException
+     * @throws IOException
+     */
     public void pdfHeader(Document document) throws DocumentException, MalformedURLException, IOException {
     	Font f = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD, BaseColor.ORANGE);
-//        f.setStyle(Font.BOLD);
-//        f.setSize(14);
         
         String para1 = "FdsWare Analysis\n\n";
     	Paragraph p = new Paragraph(para1, f);
@@ -194,6 +227,11 @@ public class AnalysisController implements Initializable{
         //document.add(new Paragraph("This is my paragraph 3", f));
     }
     
+    /**
+     * This function writes the intro into the pdf.
+     * @param document The FdsWare.pdf
+     * @throws DocumentException
+     */
     public void pdfIntro(Document document) throws DocumentException {
     	Font f = new Font(Font.FontFamily.TIMES_ROMAN);
         f.setStyle(Font.NORMAL);
@@ -207,12 +245,15 @@ public class AnalysisController implements Initializable{
     	String para3 = "After analysis of all the test cases generated, the mean HRR of the case(s) are " + formatMeanHRR() + " respectively.\n\n";
     	Paragraph p3 = new Paragraph(para3, f);
     	
-    	
-    	
         document.add(p);
         document.add(p3);
     }
     
+    /**
+     * This function writes the minimum value + ending into the pdf.
+     * @param document The FdsWare.pdf
+     * @throws DocumentException
+     */
     public void pdfMinimum(Document document) throws DocumentException {
     	Font f = new Font(Font.FontFamily.TIMES_ROMAN);
         f.setStyle(Font.BOLD);
@@ -245,20 +286,25 @@ public class AnalysisController implements Initializable{
         document.add(p4);
     }
     
-    public void pdfCaseFile(Document document) throws DocumentException {
-    	Font f = new Font(Font.FontFamily.TIMES_ROMAN);
-        f.setStyle(Font.BOLD);
-        f.setSize(11);
-        
-        Font f2 = new Font(Font.FontFamily.TIMES_ROMAN);
-        f2.setStyle(Font.NORMAL);
-        f2.setSize(11);
-        
-        String para1 = filename;
-        Paragraph p1 = new Paragraph(para1, f);
-        
-        File caseFile = new File(EditorController.fileDirectory.getPath() + "\\input_files\\" + filename);
-        
-        document.add(p1);
-    }
+//    /**
+//     * 
+//     * @param document The FdsWare.pdf
+//     * @throws DocumentException
+//     */
+//    public void pdfCaseFile(Document document) throws DocumentException {
+//    	Font f = new Font(Font.FontFamily.TIMES_ROMAN);
+//        f.setStyle(Font.BOLD);
+//        f.setSize(11);
+//        
+//        Font f2 = new Font(Font.FontFamily.TIMES_ROMAN);
+//        f2.setStyle(Font.NORMAL);
+//        f2.setSize(11);
+//        
+//        String para1 = filename;
+//        Paragraph p1 = new Paragraph(para1, f);
+//        
+//        File caseFile = new File(EditorController.fileDirectory.getPath() + "\\input_files\\" + filename);
+//        
+//        document.add(p1);
+//    }
 }

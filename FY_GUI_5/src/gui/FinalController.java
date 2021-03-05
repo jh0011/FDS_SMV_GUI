@@ -1,11 +1,9 @@
 package gui;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -75,8 +73,6 @@ public class FinalController implements Initializable{
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Editor.fxml"));
 		Parent root = loader.load();
 		
-		EditorController editorCont = loader.getController(); //Get the next page's controller
-		//editorCont.showInfo(); //Set the values of the page 
 		Scene editorScene = new Scene(root);
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 		mainWindow.setScene(editorScene);
@@ -88,7 +84,6 @@ public class FinalController implements Initializable{
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Graph.fxml"));
 		Parent root = loader.load();
 		
-		GraphController graphCont = loader.getController(); //Get the next page's controller
 		Scene graphScene = new Scene(root);
 		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
 		mainWindow.setScene(graphScene);
@@ -344,7 +339,7 @@ public class FinalController implements Initializable{
 					bw.write("call \"" + path + "\\batch-files\\" + batchFileName + ".bat\"" + "\n"); 
 				}
 				else {
-					//YET TO IMPLEMENT
+					System.out.println("The Python script for multiple runs probably did not execute correctly. Try to Run in FDS again.");
 				}
 			}
 			bw.close();
@@ -381,7 +376,7 @@ public class FinalController implements Initializable{
 					bw.close();
 	    		}
 	    		else {
-	    			//YET TO IMPLEMENT
+	    			System.out.println("The Python script for multiple runs probably did not execute correctly. Try to Run in FDS again.");
 	    		}
 	    	}
     	} catch(Exception e) {

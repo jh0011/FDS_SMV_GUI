@@ -30,7 +30,7 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Button fx:id="finalBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToFinal" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
+      <Button fx:id="finalBackBtn" layoutX="650.0" layoutY="640.0" mnemonicParsing="false" onAction="#goToGraph" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #EC6400;" text="Back">
          <font>
             <Font name="Leelawadee UI Bold" size="16.0" />
          </font>

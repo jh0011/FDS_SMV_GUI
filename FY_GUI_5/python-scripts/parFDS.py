@@ -103,4 +103,6 @@ if __name__ == '__main__':
 	if os.path.exists(os.path.join(calling_dir, kwargs['base_path'])):
 		shutil.rmtree(os.path.join(calling_dir, kwargs['base_path']))
 	main(input_file, **kwargs)
+	print("\n\nPlease wait for a few more seconds for the .fds input file(s) to be used by the FDS simulator.")
+	print("\nAnother command prompt will appear, to call the FDS simulator to use the input file.")
 	# plotter(parameters, plotted_val = 'HRR',  **kwargs)
