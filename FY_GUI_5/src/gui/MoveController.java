@@ -24,11 +24,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Move.fxml
+ * 
+ */
 public class MoveController implements Initializable{
-	/**
-	 * Controller class for Move.fxml
-	 * @author 
-	 */
 	
 	//move
 	@FXML TextField idText; //string
@@ -68,8 +68,8 @@ public class MoveController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws SQLException If database access error
+	 * @throws IOException If page cannot be displayed
 	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
@@ -88,8 +88,8 @@ public class MoveController implements Initializable{
 	/**
 	 * Go to the previous page (HVAC) + input validation
 	 * @param event Back button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToHvac(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
@@ -118,8 +118,8 @@ public class MoveController implements Initializable{
     /**
 	 * Go to the next page (TRNX) + input validation
 	 * @param event Next button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToTrnx(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
@@ -394,7 +394,7 @@ public class MoveController implements Initializable{
 
     /**
 	 * Store the values into the database after input validation
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesMove();
@@ -428,7 +428,7 @@ public class MoveController implements Initializable{
 	
     /**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoMove();

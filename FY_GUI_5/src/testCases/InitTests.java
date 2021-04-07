@@ -9,6 +9,9 @@ import gui.InitController;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextField;
 
+/**
+ * Test cases for the InitController
+ */
 public class InitTests {
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	JFXPanel fxPanel = new JFXPanel();

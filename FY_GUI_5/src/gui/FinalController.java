@@ -26,6 +26,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Final.fxml
+ * 
+ */
 public class FinalController implements Initializable{
 	
 	/**
@@ -54,6 +58,11 @@ public class FinalController implements Initializable{
 		deleteBatchFiles();
 	}
 	
+	/**
+	 * When the Exit button is clicked to exit the app
+	 * @param event Exit button is clicked
+	 * @throws SQLException If database access error
+	 */
 	@FXML
     public void exitApp(ActionEvent event) throws SQLException {
 		Alert cancelAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -68,6 +77,11 @@ public class FinalController implements Initializable{
 		}
     }
 
+	/**
+	 * Go to the previous page (Editor)
+	 * @param event Back button is clicked
+	 * @throws IOException If page cannot be displayed
+	 */
     @FXML
     public void goToEditor(ActionEvent event) throws IOException { //PREVIOUS SCENE
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Editor.fxml"));
@@ -79,6 +93,11 @@ public class FinalController implements Initializable{
 		mainWindow.show();
     }
     
+    /**
+     * Go to the next page (Graph)
+     * @param event Next button is clicked.
+     * @throws IOException If page cannot be displayed
+     */
     @FXML
     public void goToGraph(ActionEvent event) throws IOException { //NEXT SCENE
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Graph.fxml"));
@@ -90,6 +109,12 @@ public class FinalController implements Initializable{
 		mainWindow.show();
     }
     
+    /**
+     * The .fds file(s) are used as input files for the FDS-SMV.
+     * @param event The "Run in FDS" button is clicked.
+     * @throws SQLException If database access error
+     * @throws IOException If page cannot be displayed 
+     */
     @FXML
     public void runFDS(ActionEvent event) throws SQLException, IOException {
     	try {
@@ -303,7 +328,7 @@ public class FinalController implements Initializable{
     	//run the runPython.bat
 		try {
 			Process p = Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"" + path + "\\batch-files\\runPython.bat\""); // && exit
-			Thread.sleep(20000); //sleep for 20s to allow the runPython.bat to execute
+			Thread.sleep(25000); //sleep for 25s to allow the runPython.bat to execute
 		} catch (Exception e) {
 			System.out.println("Error while running runPython.bat");
 		}  

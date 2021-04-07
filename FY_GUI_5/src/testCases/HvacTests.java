@@ -9,6 +9,9 @@ import gui.HvacController;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextField;
 
+/**
+ * Test cases for the HvacController
+ */
 public class HvacTests {
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	JFXPanel fxPanel = new JFXPanel();

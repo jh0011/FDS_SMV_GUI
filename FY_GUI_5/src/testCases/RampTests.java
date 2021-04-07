@@ -9,6 +9,9 @@ import gui.RampController;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextField;
 
+/**
+ * Test cases for the RampController
+ */
 public class RampTests {
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	JFXPanel fxPanel = new JFXPanel();

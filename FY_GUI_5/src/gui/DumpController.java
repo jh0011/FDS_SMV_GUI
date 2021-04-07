@@ -25,11 +25,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Dump.fxml
+ * 
+ */
 public class DumpController implements Initializable{
-	/**
-	 * Controller class for Dump.fxml
-	 * @author 
-	 */
+	
 	
 	//dump
 	@FXML ComboBox massCombo;
@@ -74,8 +75,8 @@ public class DumpController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws SQLException If database access error
+	 * @throws IOException If cannot display the page
 	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
@@ -94,8 +95,8 @@ public class DumpController implements Initializable{
 	/**
 	 * Go to the previous page (OBST) + input validation
 	 * @param event Back button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If cannot display the page
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToObst(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
@@ -125,8 +126,8 @@ public class DumpController implements Initializable{
     /**
 	 * Go to the next page (MULT) + input validation
 	 * @param event Next button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If cannot display the page
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToMult(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
@@ -155,8 +156,7 @@ public class DumpController implements Initializable{
     /**
 	 * Add a new line for MATL namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void newMatlLine(ActionEvent event) throws SQLException { //ADD NEW MATL LINE
@@ -223,12 +223,20 @@ public class DumpController implements Initializable{
 		Values.openDesc(namelist, content);
     }
     
+    /**
+	 * Set the value chosen for mass_file
+	 * @param event A value is chosen for mass_file
+	 */
     @FXML
     public void massSelect(ActionEvent event) {
     	massSelection = massCombo.getSelectionModel().getSelectedItem().toString();
     	massCombo.setValue(massSelection);
     }
 
+    /**
+	 * Set the value chosen for smoke_3D
+	 * @param event A value is chosen for smoke_3D
+	 */
     @FXML
     public void smokeSelect(ActionEvent event) {
     	smokeSelection = smokeCombo.getSelectionModel().getSelectedItem().toString();
@@ -243,6 +251,9 @@ public class DumpController implements Initializable{
     	doCheckingMatl();
     }
     
+    /**
+     * Checking for the DUMP name list
+     */
     public void doCheckingDump() {
     	checkIntPos = true;
     	checkFloatPos = true;
@@ -254,6 +265,9 @@ public class DumpController implements Initializable{
     	}
     }
     
+    /**
+     * Checking for the MATL name list
+     */
     public void doCheckingMatl() {
     	checkIntPosMatl = true;
     	checkFloatPosMatl = true;
@@ -299,13 +313,17 @@ public class DumpController implements Initializable{
     
     /**
 	 * Store the values into the database after input validation
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesDump();
     	storeValuesMatl();
     }
 
+    /**
+     * Store the DUMP line and its values into the database
+     * @throws SQLException If database access error
+     */
     public void storeValuesDump() throws SQLException{ //store DUMP values into the database
     	String sqlDump = "INSERT INTO dump VALUES ('" + massSelection + "', '" + smokeSelection + "', '" + framesText.getText() + "', '" + dtDevcText.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -314,6 +332,10 @@ public class DumpController implements Initializable{
 		statement.executeUpdate(sqlDump);
     }
     
+    /**
+     * Store the MATL line and its values into the database
+     * @throws SQLException If database access error
+     */
     public void storeValuesMatl() throws SQLException{ //store MATL values into the database
     	String mainMatlIdString = Integer.toString(mainMatlId);
     	String sqlMatl = "INSERT INTO matl VALUES ('" + mainMatlIdString + "', '" + specificText.getText() + "', '" + reactionText.getText() + "', '" + specIdText.getText() + "', '" +
@@ -326,7 +348,7 @@ public class DumpController implements Initializable{
     
     /**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoDump();

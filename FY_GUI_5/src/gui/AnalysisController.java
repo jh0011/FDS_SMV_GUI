@@ -25,11 +25,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Analysis.fxml
+ */
 public class AnalysisController implements Initializable{
 	
 	@FXML private Button finalBackBtn;
     @FXML private Button exitBtn;
-    //private static Path path = FileSystems.getDefault().getPath("").toAbsolutePath(); //FdsWare's path
     private static String filename = "";
 
 	@Override
@@ -37,7 +39,11 @@ public class AnalysisController implements Initializable{
 		// TODO Auto-generated method stub
 		
 	}
-	
+	/**
+	 * When the Exit button is clicked to exit the app
+	 * @param event Exit button is clicked
+	 * @throws SQLException If database access error
+	 */
 	@FXML
     public void exitApp(ActionEvent event) throws SQLException { //EXIT
 		Alert cancelAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -52,6 +58,11 @@ public class AnalysisController implements Initializable{
 		}
     }
 
+	/**
+     * Go to the previous page (Graph)
+     * @param event Back button is clicked.
+     * @throws IOException If page cannot be displayed
+     */
     @FXML
     public void goToGraph(ActionEvent event) throws IOException { //PREVIOUS SCENE
     	
@@ -205,11 +216,10 @@ public class AnalysisController implements Initializable{
     /**
      * This function writes the header into the pdf.
      * @param document The FdsWare.pdf
-     * @throws DocumentException
-     * @throws MalformedURLException
-     * @throws IOException
+     * @throws DocumentException If pdf document cannot be opened.
+     * @throws IOException If file cannot be opened
      */
-    public void pdfHeader(Document document) throws DocumentException, MalformedURLException, IOException {
+    public void pdfHeader(Document document) throws DocumentException, IOException {
     	Font f = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD, BaseColor.ORANGE);
         
         String para1 = "FdsWare Analysis\n\n";
@@ -222,15 +232,12 @@ public class AnalysisController implements Initializable{
         image.scalePercent(40f);
         image.setAlignment(Element.ALIGN_CENTER);
         document.add(image);
-        //document.add(Image.getInstance("C:\\Users\\dell\\Desktop\\test2\\snapshot.png"));
-        
-        //document.add(new Paragraph("This is my paragraph 3", f));
     }
     
     /**
      * This function writes the intro into the pdf.
      * @param document The FdsWare.pdf
-     * @throws DocumentException
+     * @throws DocumentException If pdf document cannot be opened.
      */
     public void pdfIntro(Document document) throws DocumentException {
     	Font f = new Font(Font.FontFamily.TIMES_ROMAN);
@@ -252,7 +259,7 @@ public class AnalysisController implements Initializable{
     /**
      * This function writes the minimum value + ending into the pdf.
      * @param document The FdsWare.pdf
-     * @throws DocumentException
+     * @throws DocumentException If pdf document cannot be opened.
      */
     public void pdfMinimum(Document document) throws DocumentException {
     	Font f = new Font(Font.FontFamily.TIMES_ROMAN);
@@ -286,25 +293,4 @@ public class AnalysisController implements Initializable{
         document.add(p4);
     }
     
-//    /**
-//     * 
-//     * @param document The FdsWare.pdf
-//     * @throws DocumentException
-//     */
-//    public void pdfCaseFile(Document document) throws DocumentException {
-//    	Font f = new Font(Font.FontFamily.TIMES_ROMAN);
-//        f.setStyle(Font.BOLD);
-//        f.setSize(11);
-//        
-//        Font f2 = new Font(Font.FontFamily.TIMES_ROMAN);
-//        f2.setStyle(Font.NORMAL);
-//        f2.setSize(11);
-//        
-//        String para1 = filename;
-//        Paragraph p1 = new Paragraph(para1, f);
-//        
-//        File caseFile = new File(EditorController.fileDirectory.getPath() + "\\input_files\\" + filename);
-//        
-//        document.add(p1);
-//    }
 }

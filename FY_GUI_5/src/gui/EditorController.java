@@ -28,17 +28,19 @@ import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Editor.fxml
+ * 
+ */
 public class EditorController implements Initializable{
 	
 	@FXML TextArea editorText;
 	static String tempEditorString = "";
 	static String path = "";
-	//static String CHID = "";
 	static String CHID = "default1";
 	static FileWriter fw;
 	static BufferedWriter bw = null;
 	static File fileDirectory;
-	//static File fileDirectory = new File("C:\\Users\\dell\\Desktop\\couch_modified_try");
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -54,8 +56,8 @@ public class EditorController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws SQLException If database access error If database access error
+	 * @throws IOException If page cannot be displayed
 	 */
 	@FXML
     public void cancelOption(ActionEvent event) throws IOException, SQLException { //CANCEL
@@ -74,8 +76,7 @@ public class EditorController implements Initializable{
     /**
 	 * Go to the next page (Final) + input validation
 	 * @param event Next button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
 	 */
     public void goToFinal(ActionEvent event) throws IOException { //NEXT SCENE
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Final.fxml"));
@@ -94,7 +95,6 @@ public class EditorController implements Initializable{
      * If the file does not exist in the directory, the user will be able to save the file.
      * A confirmation message is displayed after the file is saved.
      * @param event The "Save" button is clicked.
-     * @throws IOException
      */
     @FXML
     public void saveFile(ActionEvent event) { //save to the file system
@@ -160,7 +160,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values into the in-app editor.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void showFile() throws SQLException {
     	if (!tempEditorString.equals("")) {
@@ -281,7 +281,7 @@ public class EditorController implements Initializable{
      * Check if the table is filled.
      * @param tableName The name of the table in the database.
      * @return Boolean on whether it is filled.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public boolean checkIfFilled(String tableName) throws SQLException {
     	String sqlQuery = "SELECT * FROM " + tableName;
@@ -351,7 +351,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the HEAD namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesHead() throws SQLException { //head
     	String sqlHead = "SELECT * FROM head";
@@ -369,7 +369,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the MESH namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesMesh() throws SQLException { //mesh
     	//get the number of MESH lines
@@ -405,7 +405,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the TIME namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesTime() throws SQLException { //time
     	String sqlTime = "SELECT * FROM time";
@@ -427,7 +427,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the INIT namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesInit() throws SQLException {
     	//get the number of INIT lines
@@ -477,7 +477,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the SURF namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesSurf() throws SQLException { //surf
     	//get the number of SURF lines
@@ -529,7 +529,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the REAC namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesReac() throws SQLException { //reac
     	//get the number of REAC lines
@@ -567,7 +567,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the VENT namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesVent() throws SQLException{ //vent
     	//get the number of VENT lines
@@ -605,7 +605,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the PART namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesPart() throws SQLException{ //part
     	//get the number of PART lines
@@ -655,7 +655,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the SLCF namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesSlcf() throws SQLException { //slcf
     	//get the number of SLCF lines
@@ -701,7 +701,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the MATL namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesMatl() throws SQLException {
     	//get the number of MATL lines
@@ -749,7 +749,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the OBST namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesObst() throws SQLException { //obst
     	//get the number of OBST lines
@@ -789,7 +789,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the SPEC namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesSpec() throws SQLException { //spec
     	//get the number of SPEC lines
@@ -825,7 +825,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the DEVC namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesDevc() throws SQLException { //devc
     	//get the number of DEVC lines
@@ -871,7 +871,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the CTRL namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesCtrl() throws SQLException { //ctrl
     	//get the number of CTRL lines
@@ -913,7 +913,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the PROP namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesProp() throws SQLException { //prop
     	//get the number of PROP lines
@@ -965,7 +965,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the RADI namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesRadi() throws SQLException { //radi
     	String sqlRadi = "SELECT * FROM radi";
@@ -981,7 +981,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the RADF namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesRadf() throws SQLException { //radf
     	String sqlRadf = "SELECT * FROM radf";
@@ -1006,7 +1006,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the MULT namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesMult() throws SQLException { //mult
     	//get the number of MULT lines
@@ -1052,7 +1052,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the PRES namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesPres() throws SQLException { //pres
     	String sqlPres = "SELECT * FROM pres";
@@ -1071,7 +1071,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the MOVE namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesMove() throws SQLException { //move
     	String sqlMove = "SELECT * FROM move";
@@ -1102,7 +1102,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the ISOF namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesIsof() throws SQLException { //isof
     	String sqlIsof = "SELECT * FROM isof";
@@ -1127,7 +1127,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the HVAC namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesHvac() throws SQLException { //hvac
     	String sqlHvac = "SELECT * FROM hvac";
@@ -1161,7 +1161,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the HOLE namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesHole() throws SQLException { //hole
     	String sqlHole = "SELECT * FROM hole";
@@ -1189,7 +1189,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the MISC namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesMisc() throws SQLException { //misc
     	String sqlMisc = "SELECT * FROM misc";
@@ -1220,7 +1220,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the TRNX namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesTrnx() throws SQLException { //trnx
     	//get the number of TRNX lines
@@ -1260,7 +1260,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the BNDF namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesBndf() throws SQLException { //bndf
     	//get the number of BNDF lines
@@ -1294,7 +1294,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the CATF namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesCatf() throws SQLException { //catf
     	String sqlCatf = "SELECT * FROM catf";
@@ -1326,7 +1326,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the PROF namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesProf() throws SQLException { //prof
     	String sqlProf = "SELECT * FROM prof";
@@ -1351,7 +1351,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the RAMP namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesRamp() throws SQLException { //ramp
     	//get the number of RAMP lines
@@ -1388,7 +1388,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the CLIP namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesClip() throws SQLException { //clip
     	String sqlClip = "SELECT * FROM clip";
@@ -1413,7 +1413,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the COMB namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesComb() throws SQLException { //comb
     	String sqlComb = "SELECT * FROM comb";
@@ -1432,7 +1432,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the DUMP namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesDump() throws SQLException { //dump
     	String sqlDump = "SELECT * FROM dump";
@@ -1457,7 +1457,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the WIND namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesWind() throws SQLException { //wind
     	String sqlWind = "SELECT * FROM wind";
@@ -1482,7 +1482,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the TABL namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesTabl() throws SQLException { //tabl
     	//get the number of TABL lines
@@ -1517,7 +1517,7 @@ public class EditorController implements Initializable{
     
     /**
      * Print the values for the ZONE namelist.
-     * @throws SQLException
+     * @throws SQLException If database access error
      */
     public void printValuesZone() throws SQLException {//zone
     	//get the number of ZONE lines

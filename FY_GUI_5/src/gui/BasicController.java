@@ -33,11 +33,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-
+/**
+ * Controller class for Basic.fxml
+ */
 public class BasicController implements Initializable{
 	/**
 	 * Controller class for Basic.fxml
-	 * @author 
+	 * 
 	 */
 	//head
 	@FXML Button basicNextBtn;
@@ -53,7 +55,6 @@ public class BasicController implements Initializable{
 	protected String title;
 	
 	static boolean isShowingHead = false;
-	Popup popup = new Popup();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -63,8 +64,8 @@ public class BasicController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws SQLException If database access error
+	 * @throws IOException If page cannot be displayed
 	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
@@ -83,8 +84,7 @@ public class BasicController implements Initializable{
 	/**
 	 * Go to the previous page (INTRO) + input validation
 	 * @param event Back button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
 	 */
 	@FXML
 	public void goToIntro(ActionEvent event) throws IOException{ //PREVIOUS SCENE
@@ -113,8 +113,8 @@ public class BasicController implements Initializable{
 	/**
 	 * Go to the next page (TIME) + input validation
 	 * @param event Next button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void goToTime(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
@@ -148,19 +148,6 @@ public class BasicController implements Initializable{
 	 */
 	@FXML
 	public void openHeadDesc(MouseEvent event) {
-//		System.out.println("HEAD CLICKED");
-//		Popup popup = new Popup();
-//		Label label = new Label("This is a Popupppppppg pfp lpdo  psmd  pksdpf oksdp osdkfd ifji sokls fjfe sjiaid efyroks ijcdn iejdehfb oefkdlsp"
-//				+ " psmd  pksdpf oksdp osdkfd ifji sokls fjfe sjiaid efyroks ijcdn iejdehfb oefkdlsp");
-//		
-//		popup.getContent().add(label);
-//		label.setMaxWidth(200); 
-//        label.setMaxHeight(200);
-//        label.setWrapText(true);
-//        label.setStyle(" -fx-background-color: #e65c00;"); 
-//        Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow();
-//        popup.show(mainWindow);
-//        isShowingHead = true;
 		String content = "The HEAD namelist is a required value and is used to give the job a name. \n\n"
 				+ "CHID: It is the character ID that will be used to name the .fds file. The extension \".fds\" and whitespaces should not "
 				+ "be written. \n\nTITLE: Describes the simulation.";
@@ -220,7 +207,7 @@ public class BasicController implements Initializable{
 	
 	/**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
 	public void showInfo() throws SQLException{ //String chid, String title
 		String sql = "SELECT * FROM head";

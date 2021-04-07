@@ -30,6 +30,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.WritableImage;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Graph.fxml
+ * 
+ */
 public class GraphController implements Initializable{
 	
     @FXML private Button exitBtn;
@@ -54,10 +58,14 @@ public class GraphController implements Initializable{
 		findCSVfiles();
 		plotGraph();
 		
-		//trialPlot();
 		
 	}
 	
+	/**
+	 * When the Exit button is clicked to exit the app
+	 * @param event Exit button is clicked
+	 * @throws SQLException If database access error
+	 */
 	@FXML
     public void exitApp(ActionEvent event) throws SQLException { //EXIT
 		Alert cancelAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -72,6 +80,11 @@ public class GraphController implements Initializable{
 		}
     }
 	
+	/**
+	 * Go to the previous page (Final)
+	 * @param event Back button is clicked
+	 * @throws IOException If cannot display the page
+	 */
 	@FXML
     public void goToFinal(ActionEvent event) throws IOException { //PREVIOUS SCENE
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Final.fxml"));
@@ -82,6 +95,11 @@ public class GraphController implements Initializable{
 		mainWindow.show();
     }
 	
+	/**
+     * Go to the next page (Analysis)
+     * @param event Next button is clicked.
+     * @throws IOException If cannot display the page
+     */
 	@FXML
     public void goToAnalysis(ActionEvent event) throws IOException { //NEXT SCENE
 		takeSnapshot();
@@ -196,7 +214,7 @@ public class GraphController implements Initializable{
 	/**
 	 * This function is used to take a snapshot of the Scene. The snapshot is saved as a .png file in the same directory as the .fds file 
 	 * that the user originally saved the file in.
-	 * @throws IOException
+	 * @throws IOException If cannot display the page
 	 */
 	public void takeSnapshot() throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("Graph.fxml"));
@@ -236,65 +254,5 @@ public class GraphController implements Initializable{
         }
     }
 	
-//	public ImageView createScaledView(Node node, int scale) {
-//        final Bounds bounds = node.getLayoutBounds();
-//
-//        final WritableImage image = new WritableImage(
-//            (int) Math.round(bounds.getWidth() * scale),
-//            (int) Math.round(bounds.getHeight() * scale));
-//        
-//
-//        final SnapshotParameters spa = new SnapshotParameters();
-//        spa.setTransform(javafx.scene.transform.Transform.scale(scale, scale));
-//
-//        final ImageView view = new ImageView(node.snapshot(spa, image));
-//        view.setFitWidth(bounds.getWidth());
-//        view.setFitHeight(bounds.getHeight());
-//        
-//        return view;
-//    }
-	
-	public void trialPlot() {
-		ArrayList<Series> seriesArrayList = new ArrayList<Series>();
-		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-		series.setName("Series 1");
-		series.getData().add(new XYChart.Data(1, 1));
-		series.getData().add(new XYChart.Data(3, 3));
-		series.getData().add(new XYChart.Data(5, 35));
-		series.getData().add(new XYChart.Data(7, 7));
-		series.getData().add(new XYChart.Data(9, 9));
-		seriesArrayList.add(series);
-		
-		XYChart.Series<Number, Number> series2 = new XYChart.Series<Number, Number>();
-		series2.setName("Series 1");
-		series2.getData().add(new XYChart.Data(2.2, 10));
-		series2.getData().add(new XYChart.Data(3, 30));
-		series2.getData().add(new XYChart.Data(5, 25));
-		series2.getData().add(new XYChart.Data(7, 33));
-		series2.getData().add(new XYChart.Data(9, 29));
-		seriesArrayList.add(series2);
-		
-		Series[] seriesFinalList = new Series[seriesArrayList.size()];
-		for (int i=0; i<seriesArrayList.size(); i++) {
-			seriesFinalList[i] = seriesArrayList.get(i);
-			System.out.println(seriesArrayList.get(i).getData());
-		}
-		hrrStacked.getData().clear();
-		hrrStacked.getData().addAll(seriesFinalList);
-		
-		
-//		for(XYChart.Data data : series.getData()) {
-//			System.out.println(series.getData());
-//			//System.out.println(hrrStacked.getXAxis().toNumericValue(hrrStacked.getXAxis().getValueForDisplay(1)));
-//			System.out.println((Number)data.getYValue());
-//		}	
-	}
-	
-	//For each input file
-		//Find _hrr.csv file
-		//Get time steps
-		//Get HRRPUV
-		//Plot the graph
-		//Take a snapshot of the graph before Analysis.fxml
 
 }

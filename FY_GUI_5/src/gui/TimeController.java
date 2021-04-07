@@ -23,12 +23,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-
+/**
+ * Controller class for Time.fxml
+ * 
+ */
 public class TimeController implements Initializable{
-	/**
-	 * Controller class for Time.fxml
-	 * @author 
-	 */
+	
 	
 	//time
 	@FXML TextField endTimeText;
@@ -220,7 +220,7 @@ public class TimeController implements Initializable{
 	/**
 	 * Check if the float is positive
 	 * @param tempField TextField for the time values
-	 * @returnBoolean on whether the check was successful
+	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkTimeFloat(TextField tempField){
 		String param = "The time values";

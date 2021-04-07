@@ -9,6 +9,9 @@ import gui.MultController;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextField;
 
+/**
+ * Test cases for the MultController
+ */
 public class MultTests {
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	JFXPanel fxPanel = new JFXPanel();

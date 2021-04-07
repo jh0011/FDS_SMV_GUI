@@ -76,7 +76,7 @@ def build_input_files(filename, base_path = 'input_files', out = sys.stdout):
     # I'm doing this because I need it later
     file_path, file_name = os.path.split(filename)
     
-    with open('input_file', 'r') as f:
+    with open('C:\\Users\\dell\\Desktop\\test2\\default1.fds', 'r') as f:
         txt = f.read()
     #with open(filename, 'r') as f:
     #    txt = f.read()

@@ -26,11 +26,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Prop.fxml
+ *  
+ */
 public class PropController implements Initializable{
-	/**
-	 * Controller class for Prop.fxml
-	 * @author 
-	 */
+	
 	
 	//prop
 	@FXML TextField idText; //string

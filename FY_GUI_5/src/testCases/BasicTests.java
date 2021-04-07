@@ -8,6 +8,9 @@ import org.junit.Test;
 import gui.BasicController;
 import javafx.embed.swing.JFXPanel;
 
+/**
+ * Test cases for the BasicController
+ */
 public class BasicTests {
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	JFXPanel fxPanel = new JFXPanel();

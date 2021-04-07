@@ -9,6 +9,9 @@ import gui.ObstController;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextField;
 
+/**
+ * Test cases for the ObstController
+ */
 public class ObstTests {
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	JFXPanel fxPanel = new JFXPanel();

@@ -11,15 +11,18 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-
+/**
+ * Main class
+ *  
+ */
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		
 		try {
 			Parent root;
-			//root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
-			root = FXMLLoader.load(getClass().getResource("Trnx.fxml")); //For testing a certain page
+			root = FXMLLoader.load(getClass().getResource("Intro.fxml")); //Should be the actual line
+			//root = FXMLLoader.load(getClass().getResource("Trnx.fxml")); //For testing a certain page
 			Scene introScene = new Scene(root, 870, 710);
 			primaryStage.setScene(introScene);
 			primaryStage.setTitle("FdsWare");
@@ -32,6 +35,9 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Initialise the database and all its tables.
+	 */
 	public void initDB(){
 		try {
 			ConnectionClass connectionClass = new ConnectionClass();

@@ -26,11 +26,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Pres.fxml
+ * 
+ */
 public class PresController implements Initializable{
-	/**
-	 * Controller class for Pres.fxml
-	 * @author 
-	 */
+	
 	
 	//pres
 	@FXML TextField fishpakText; //integer (+) (3)
@@ -77,7 +78,7 @@ public class PresController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 * @throws IOException
 	 */
 	@FXML
@@ -98,7 +99,7 @@ public class PresController implements Initializable{
 	 * Go to the previous page (MULT) + input validation
 	 * @param event Back button is clicked
 	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToMult(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
@@ -128,7 +129,7 @@ public class PresController implements Initializable{
 	 * Go to the next page (HVAC) + input validation
 	 * @param event Next button is clicked
 	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToHvac(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
@@ -157,8 +158,7 @@ public class PresController implements Initializable{
     /**
 	 * Add a new line for TABL namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void newTablLine(ActionEvent event) throws SQLException { //ADD NEW TABL LINE
@@ -475,7 +475,7 @@ public class PresController implements Initializable{
     
     /**
 	 * Store the values into the database after input validation
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesPres();
@@ -519,7 +519,7 @@ public class PresController implements Initializable{
     
     /**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoPres();

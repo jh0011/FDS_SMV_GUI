@@ -18,6 +18,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Handles input checking and clearing of tables
+ */
 public class Values {
 	
 	protected static String concatFiles = "";
@@ -303,7 +306,7 @@ public class Values {
 	
 	/**
 	 * Check the IJK format and if it is filled 
-	 * @param tempField TextField for user input
+	 * @param valueTF TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
 	public static boolean checkIJKformat(TextField valueTF) {

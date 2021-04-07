@@ -25,12 +25,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+/**
+ * Controller class for Devc.fxml
+ * 
+ */
 public class DevcController implements Initializable{
-	/**
-	 * Controller class for Devc.fxml
-	 * @author 
-	 */
+	
 	
 	//devc
 	@FXML TextField devcIdText; //string
@@ -84,8 +84,8 @@ public class DevcController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws SQLException If database access error
+	 * @throws IOException If cannot display the page
 	 */
 	@FXML 
 	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
@@ -104,8 +104,8 @@ public class DevcController implements Initializable{
 	/**
 	 * Go to the previous page (PROP) + input validation
 	 * @param event Back button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If cannot display the page
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void goToProp(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
@@ -135,8 +135,8 @@ public class DevcController implements Initializable{
 	/**
 	 * Go to the next page (SURF) + input validation
 	 * @param event Next button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If cannot display the page
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void goToSurf(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
@@ -162,6 +162,10 @@ public class DevcController implements Initializable{
 		}
     }
 	
+	/**
+	 * Set the value chosen for IOR
+	 * @param event A value is chosen for IOR
+	 */
 	@FXML
 	public void iorSelect(ActionEvent event) {
 		iorSelection = iorCombo.getSelectionModel().getSelectedItem().toString();
@@ -171,8 +175,8 @@ public class DevcController implements Initializable{
 	/**
 	 * Add a new line for DEVC namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If cannot display the page
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void newDevcLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW DEVC LINE
@@ -206,8 +210,7 @@ public class DevcController implements Initializable{
 	/**
 	 * Add a new line for SLCF namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void newSlcfLine(ActionEvent event) throws SQLException { //ADD NEW SLCF LINE
@@ -280,12 +283,20 @@ public class DevcController implements Initializable{
 		Values.openDesc(namelist, content);
     }
 
+	/**
+	 * Set the value chosen for vector
+	 * @param event A value is chosen for vector
+	 */
     @FXML
     public void vectorSelect(ActionEvent event) {
     	vectorSelection = vectorCombo.getSelectionModel().getSelectedItem().toString();
     	vectorCombo.setValue(vectorSelection);
     }
     
+    /**
+	 * Set the value chosen for centered
+	 * @param event A value is chosen for centered
+	 */
     @FXML
     public void centeredSelect(ActionEvent event) {
     	centeredSelection = centeredCombo.getSelectionModel().getSelectedItem().toString();
@@ -301,6 +312,9 @@ public class DevcController implements Initializable{
 		doCheckingSlcf();
 	}
     
+    /**
+     * Checking for the DEVC name list
+     */
     public void doCheckingDevc() {
     	checkXb = true;
 		checkXyz = true;
@@ -313,6 +327,9 @@ public class DevcController implements Initializable{
 		}
     }
     
+    /**
+     * Checking for the SLCF name list
+     */
     public void doCheckingSlcf() {
 		checkFloat = true;
 		
@@ -363,7 +380,7 @@ public class DevcController implements Initializable{
 	
     /**
 	 * Store the values into the database after input validation
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void storeValues() throws SQLException { //store values into the database
 		storeValuesDevc();
@@ -381,6 +398,10 @@ public class DevcController implements Initializable{
 		statement.executeUpdate(sqlDevc);
 	}
 	
+    /**
+     * Store the SLCF line and its values into the database
+     * @throws SQLException If database access error
+     */
     public void storeValuesSlcf() throws SQLException { //store SLCF values into the database
 		String mainSlcfIdString = Integer.toString(mainSlcfId);
 		String sqlSlcf = "INSERT INTO slcf VALUES('" + mainSlcfIdString + "', '" + slcfQtyText.getText() + "', '" + slcfSpecIdText.getText() + "', '" +
@@ -394,7 +415,7 @@ public class DevcController implements Initializable{
 	
     /**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoDevc();

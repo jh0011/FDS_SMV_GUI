@@ -24,11 +24,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Hvac.fxml
+ * 
+ */
 public class HvacController implements Initializable{
-	/**
-	 * Controller class for Hvac.fxml
-	 * @author 
-	 */
 	
 	//hvac
 	@FXML TextField idText; //string
@@ -67,8 +67,8 @@ public class HvacController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws SQLException If database access error
+	 * @throws IOException If page cannot be displayed
 	 */
 	@FXML
 	public void cancelOption(ActionEvent event) throws SQLException, IOException { //CANCEL
@@ -87,8 +87,8 @@ public class HvacController implements Initializable{
 	/**
 	 * Go to the previous page (PRES) + input validation
 	 * @param event Back button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToPres(ActionEvent event) throws SQLException, IOException { //PREVIOUS SCENE
@@ -117,8 +117,8 @@ public class HvacController implements Initializable{
     /**
 	 * Go to the next page (MOVE) + input validation
 	 * @param event Next button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToMove(ActionEvent event) throws SQLException, IOException { //NEXT SCENE
@@ -198,6 +198,10 @@ public class HvacController implements Initializable{
 		Values.openDesc(namelist, content);
     }
     
+    /**
+	 * Set the value chosen for type
+	 * @param event A value is chosen for type
+	 */
     @FXML
     public void typeSelect(ActionEvent event) {
     	typeSelection = typeCombo.getSelectionModel().getSelectedItem().toString();
@@ -213,6 +217,9 @@ public class HvacController implements Initializable{
     	doCheckingIsof();
     }
     
+    /**
+     * Checking for the HVAC name list
+     */
     public void doCheckingHvac() {
     	checkFloatPosHvac = true;
     	if (!roughnessText.getText().equals("")) {
@@ -226,12 +233,19 @@ public class HvacController implements Initializable{
     	}
     }
     
+    /**
+     * Checking for the HOLE name list
+     */
     public void doCheckingHole() {
     	checkXb = true;
     	if(!xbText.getText().equals("")) {
     		checkXb = checkXb && checkXbFormat(xbText);
     	}
     }
+    
+    /**
+     * Checking for the ISOF name list
+     */
     public void doCheckingIsof() {
     	checkFloat = true;
     	if(!val1Text.getText().equals("")) {
@@ -280,7 +294,7 @@ public class HvacController implements Initializable{
     
     /**
 	 * Store the values into the database after input validation
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesHvac();
@@ -288,6 +302,10 @@ public class HvacController implements Initializable{
     	storeValuesIsof();
     }
     
+    /**
+     * Store HVAC line and its values into the database
+     * @throws SQLException If database access error
+     */
     public void storeValuesHvac() throws SQLException { //store HVAC values into the database
     	String sqlHvac = "INSERT INTO hvac VALUES ('" + idText.getText() + "', '" + roughnessText.getText() + "', '" + devcIdText.getText() + "', '" +
     			lengthText.getText() + "', '" + fanIdText.getText() + "', '" + areaText.getText() + "', '" + typeSelection + "');";
@@ -297,6 +315,10 @@ public class HvacController implements Initializable{
 		statement.executeUpdate(sqlHvac);
     }
     
+    /**
+     * Store HOLE line and its values into the database
+     * @throws SQLException If database access error
+     */
     public void storeValuesHole() throws SQLException { //store HOLE values into the database
     	String sqlHole = "INSERT INTO hole VALUES ('" + meshIdText.getText() + "', '" + multIdText.getText() + "', '" + holeDevcText.getText() + "', '" + ctrlIdText.getText() + 
     			"', '" + xbText.getText() + "');";
@@ -306,6 +328,10 @@ public class HvacController implements Initializable{
 		statement.executeUpdate(sqlHole);
     }
     
+    /**
+     * Store ISOF line and its values into the database
+     * @throws SQLException If database access error
+     */
     public void storeValuesIsof() throws SQLException { //store ISOF values into the database
     	String sqlIsof = "INSERT INTO isof VALUES ('" + qtyText.getText() + "', '" + val1Text.getText() + "', '" + val2Text.getText() + "', '" + val3Text.getText() + "');";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -316,14 +342,18 @@ public class HvacController implements Initializable{
     
     /**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoHvac();
     	showInfoHole();
     	showInfoIsof();
     }
-
+    
+    /**
+     * Display the values for the HVAC name list
+     * @throws SQLException If database access error
+     */
     public void showInfoHvac() throws SQLException { //to show the info when the page is loaded
     	String sqlHvac = "SELECT * FROM hvac";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -342,6 +372,10 @@ public class HvacController implements Initializable{
 		}
     }
     
+    /**
+     * Display the values for the HOLE name list
+     * @throws SQLException If database access error
+     */
     public void showInfoHole() throws SQLException { //to show the info when the page is loaded
     	String sqlHole = "SELECT * FROM hole";
     	ConnectionClass connectionClass = new ConnectionClass();
@@ -357,6 +391,10 @@ public class HvacController implements Initializable{
 		}
     }
     
+    /**
+     * Display the values for the ISOF name list
+     * @throws SQLException If database access error
+     */
     public void showInfoIsof() throws SQLException { //to show the info when the page is loaded
     	String sqlIsof = "SELECT * FROM isof";
     	ConnectionClass connectionClass = new ConnectionClass();

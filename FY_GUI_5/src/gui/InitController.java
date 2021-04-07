@@ -27,11 +27,11 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Init.fxml
+ *  
+ */
 public class InitController implements Initializable{
-	/**
-	 * Controller class for Init.fxml
-	 * @author 
-	 */
 	
 	//init
 	@FXML TextField idText; //string
@@ -77,8 +77,8 @@ public class InitController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws SQLException If database access error
+	 * @throws IOException If page cannot be displayed
 	 */
 	@FXML 
 	public void cancelOption(ActionEvent event) throws IOException, SQLException{ //CANCEL
@@ -97,8 +97,8 @@ public class InitController implements Initializable{
 	/**
 	 * Go to the previous page (TIME) + input validation
 	 * @param event Back button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void goToTime(ActionEvent event) throws IOException, SQLException{ //PREVIOUS SCENE
@@ -127,8 +127,8 @@ public class InitController implements Initializable{
 	/**
 	 * Go to the next page (PART) + input validation
 	 * @param event Next button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void goToPart(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
@@ -157,8 +157,8 @@ public class InitController implements Initializable{
 	/**
 	 * Add a new line for INIT namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void newInitLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW INIT LINE
@@ -195,8 +195,8 @@ public class InitController implements Initializable{
 	/**
 	 * Add a new line for MESH namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws IOException If page cannot be displayed
+	 * @throws SQLException If database access error
 	 */
 	@FXML
 	public void addMeshLine(ActionEvent event) throws IOException, SQLException{ //ADD NEW MESH LINE
@@ -326,7 +326,7 @@ public class InitController implements Initializable{
 	
 	/**
 	 * Check if the integer is a positive value 
-	 * @param tempField TextField for user input
+	 * @param valueTF TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkIntValues(TextField valueTF){
@@ -358,7 +358,7 @@ public class InitController implements Initializable{
 	
 	/**
 	 * Check if the float is a positive value 
-	 * @param tempField TextField for user input
+	 * @param valueTF TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkFloatValues (TextField valueTF){
@@ -390,7 +390,7 @@ public class InitController implements Initializable{
 	
 	/**
 	 * Check XB format and if it is filled 
-	 * @param tempField TextField for user input
+	 * @param valueTF TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkMeshXB(TextField valueTF){
@@ -408,7 +408,7 @@ public class InitController implements Initializable{
 	
 	/**
 	 * Check the IJK format and if it is filled 
-	 * @param tempField TextField for user input
+	 * @param valueTF TextField for user input
 	 * @return Boolean on whether the check was successful
 	 */
 	public boolean checkIJKformat(TextField valueTF){ 
@@ -425,13 +425,17 @@ public class InitController implements Initializable{
 	
 	/**
 	 * Store the values into the database after input validation
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
 	public void storeValues() throws SQLException{ //store values into the database
 		storeValuesInit();
 		storeValuesMesh();
 	}
 	
+	/**
+	 * Store the INIT line and its values into the database
+	 * @throws SQLException If database access error
+	 */
 	public void storeValuesInit() throws SQLException{ //store INIT values into the database
 		String mainInitIdString = Integer.toString(mainInitId);
 		String sqlInit = "INSERT INTO init VALUES('" + mainInitIdString + "', '" + idText.getText() +
@@ -445,6 +449,10 @@ public class InitController implements Initializable{
 		statement.executeUpdate(sqlInit);
 	}
 	
+	/**
+	 * Store the INIT line and its values into the database
+	 * @throws SQLException If database access error
+	 */
 	public void storeValuesMesh() throws SQLException{ //store MESH values into the database
 		String mainMeshIdString = Integer.toString(mainMeshId);
 		String sqlMesh = "INSERT INTO mesh VALUES('" + mainMeshIdString + "', '" + ijkText.getText() +
@@ -457,13 +465,17 @@ public class InitController implements Initializable{
 
 	/**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
 	public void showInfo() throws SQLException { //to show the info when the page is loaded
 		showInfoInit();
 		showInfoMesh();
 	}
 	
+	/**
+	 * Display the values for the INIT name list
+	 * @throws SQLException If database access error
+	 */
 	public void showInfoInit() throws SQLException { //to show the info when the page is loaded
 		String sqlInit = "SELECT * FROM init;";
 		ConnectionClass connectionClass = new ConnectionClass();
@@ -483,6 +495,10 @@ public class InitController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Display the values for the MESH name list
+	 * @throws SQLException If database access error
+	 */
 	public void showInfoMesh() throws SQLException { //to show the info when the page is loaded
 		String sqlMesh = "SELECT * FROM mesh;";
 		ConnectionClass connectionClass = new ConnectionClass();

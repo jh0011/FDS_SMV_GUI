@@ -8,6 +8,11 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({BasicTests.class, DevcTests.class, DumpTests.class, HvacTests.class, 
 	InitTests.class, MoveTests.class, MultTests.class, ObstTests.class, PartTests.class, PresTests.class, 
 	PropTests.class, RampTests.class, SurfTests.class, TimeTests.class, TrnxTests.class})
+/**
+ * 
+ * Dummy class for the test suite
+ *
+ */
 public class AllTests {
 
 }

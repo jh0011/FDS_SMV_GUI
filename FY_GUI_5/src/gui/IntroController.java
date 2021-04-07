@@ -16,6 +16,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+
+/**
+ * Controller class for Intro.fxml
+ *  
+ */
 public class IntroController implements Initializable{
 	
 	@FXML private Button introNextBtn;
@@ -29,13 +34,6 @@ public class IntroController implements Initializable{
 	
 	@FXML
 	private void goToBasic(ActionEvent event) throws IOException, SQLException{ //NEXT SCENE
-		/*Parent introLayout = FXMLLoader.load(getClass().getResource("Basic.fxml")); //Get the next layout
-		Scene basicScene = new Scene(introLayout, 870, 710); //Pass the layout to the next scene
-		Stage mainWindow = (Stage)((Node)event.getSource()).getScene().getWindow(); //Get the parent window
-		
-		
-		mainWindow.setScene(basicScene);
-		mainWindow.show();*/
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Basic.fxml"));
 		Parent root = loader.load();

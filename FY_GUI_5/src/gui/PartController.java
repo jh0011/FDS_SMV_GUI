@@ -26,11 +26,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Part.fxml
+ * 
+ */
 public class PartController implements Initializable{
-	/**
-	 * Controller class for Part.fxml
-	 * @author 
-	 */
+	
 	
 	//part
 	@FXML TextField surfIdText; //string

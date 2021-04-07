@@ -26,11 +26,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Obst.fxml
+ * 
+ */
 public class ObstController implements Initializable{
-	/**
-	 * Controller class for Obst.fxml
-	 * @author 
-	 */
+	
 	
 	//obst
     @FXML TextField bulkText; //float (+)
@@ -82,7 +83,7 @@ public class ObstController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 * @throws IOException
 	 */
 	@FXML
@@ -103,7 +104,7 @@ public class ObstController implements Initializable{
 	 * Go to the previous page (RAMP) + input validation
 	 * @param event Back button is clicked
 	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToRamp(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
@@ -134,7 +135,7 @@ public class ObstController implements Initializable{
 	 * Go to the next page (DUMP) + input validation
 	 * @param event Next button is clicked
 	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToDump(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
@@ -163,8 +164,7 @@ public class ObstController implements Initializable{
     /**
 	 * Add a new line for OBST namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void newObstLine(ActionEvent event) throws SQLException { //ADD NEW OBST LINE
@@ -380,7 +380,7 @@ public class ObstController implements Initializable{
     
     /**
 	 * Store the values into the database after input validation
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesObst();
@@ -417,7 +417,7 @@ public class ObstController implements Initializable{
     
     /**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoObst();

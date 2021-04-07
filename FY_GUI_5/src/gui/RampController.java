@@ -26,11 +26,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for Ramp.fxml
+ * 
+ */
 public class RampController implements Initializable{
-	/**
-	 * Controller class for Ramp.fxml
-	 * @author 
-	 */
+	
 	
 	//ramp
 	@FXML TextField fractionText; //float (+ / -)
@@ -84,7 +85,7 @@ public class RampController implements Initializable{
 	/**
 	 * When the Cancel button is clicked to cancel creation of .fds file
 	 * @param event Cancel button is clicked
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 * @throws IOException
 	 */
 	@FXML
@@ -105,7 +106,7 @@ public class RampController implements Initializable{
 	 * Go to the previous page (SURF) + input validation
 	 * @param event Back button is clicked
 	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToSurf(ActionEvent event) throws IOException, SQLException { //PREVIOUS SCENE
@@ -136,7 +137,7 @@ public class RampController implements Initializable{
 	 * Go to the next page (OBST) + input validation
 	 * @param event Next button is clicked
 	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void goToObst(ActionEvent event) throws IOException, SQLException { //NEXT SCENE
@@ -165,8 +166,7 @@ public class RampController implements Initializable{
     /**
 	 * Add a new line for RAMP namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void newRampLine(ActionEvent event) throws SQLException { //ADD NEW RAMP LINE
@@ -201,8 +201,7 @@ public class RampController implements Initializable{
     /**
 	 * Add a new line for CTRL namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void newCtrlLine(ActionEvent event) throws SQLException { //ADD NEW CTRL LINE
@@ -229,8 +228,7 @@ public class RampController implements Initializable{
     /**
 	 * Add a new line for REAC namelist
 	 * @param event The add button is clicked
-	 * @throws IOException
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     @FXML
     public void newReacLine(ActionEvent event) throws SQLException { //ADD NEW REAC LINE
@@ -376,7 +374,7 @@ public class RampController implements Initializable{
     
     /**
 	 * Store the values into the database after input validation
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void storeValues() throws SQLException { //store values into the database
     	storeValuesRamp();
@@ -414,7 +412,7 @@ public class RampController implements Initializable{
     
     /**
 	 * Display the saved input values when the page is loaded
-	 * @throws SQLException
+	 * @throws SQLException If database access error
 	 */
     public void showInfo() throws SQLException { //to show the info when the page is loaded
     	showInfoRamp();

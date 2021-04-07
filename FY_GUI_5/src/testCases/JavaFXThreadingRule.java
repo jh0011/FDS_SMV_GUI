@@ -12,6 +12,9 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
+/**
+ * A JUnit rule for running tests on the JavaFX thread
+ */
 public class JavaFXThreadingRule implements TestRule {
     
     /**
